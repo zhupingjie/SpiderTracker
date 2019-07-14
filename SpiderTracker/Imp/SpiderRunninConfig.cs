@@ -113,5 +113,8 @@ namespace SpiderTracker.Imp
         /// 只读关注用户
         /// </summary>
         public int OnlyReadFocusUser { get; set; } = 0;
+
+        public string SinaUserName { get; set; } = "zhupj@foxmail.com";
+        public string SinaUserPassword { get; set; } = "wdmm643030";
     }
 }

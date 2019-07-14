@@ -49,5 +49,38 @@ namespace SpiderTracker.Imp
                 return null;
             }
         }
+
+        public static string PostHttpRequestHtmlResult(string url, string paramData)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.Timeout = 5 * 1000;
+            request.Referer= "https://passport.weibo.cn/signin/login";
+            request.ContentType= "application/x-www-form-urlencoded";
+
+
+            try
+            {
+                byte[] byteArray = Encoding.Default.GetBytes(paramData);
+                request.ContentLength = byteArray.Length;
+
+                using (Stream writeStream = request.GetRequestStream())
+                {
+                    writeStream.Write(byteArray, 0, byteArray.Length);
+                    writeStream.Close();
+                }
+
+                var response = request.GetResponse();
+                var stream = response.GetResponseStream();
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

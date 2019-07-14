@@ -376,7 +376,7 @@ namespace SpiderTracker
         }
 
         /// <summary>
-        /// 智能采集
+        /// 关注采集
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -384,17 +384,8 @@ namespace SpiderTracker
         {
             if (!SinaSpiderService.IsSpiderStarted)
             {
-                var userIds = new List<string>();
-                foreach (var item in this.lstUser.SelectedItems)
-                {
-                    var u = item.ToString();
-                    if (!userIds.Contains(u)) userIds.Add(u);
-                }
-
                 var runningConfig = GetSpiderRunningConfig();
-                runningConfig.UserIds = userIds.ToArray();
-                runningConfig.GatherType = GatherTypeEnum.SmartGather;
-
+                runningConfig.GatherType = GatherTypeEnum.FocusGather;
                 SinaSpiderService.StartSpider(runningConfig);
             }
             else

@@ -124,9 +124,9 @@ namespace SpiderTracker.Imp
                             ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
                             break;
                         }
-                    case GatherTypeEnum.SmartGather:
+                    case GatherTypeEnum.FocusGather:
                         {
-                            var readStatusImageCount = StartSmartGatherTask(runningConfig);
+                            var readStatusImageCount = StartFocusGatherTask(runningConfig);
                             ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
                             break;
                         }
@@ -375,19 +375,12 @@ namespace SpiderTracker.Imp
             return analyseStatusCount;
         }
 
-        int StartSmartGatherTask(SpiderRunningConfig runningConfig)
+        int StartFocusGatherTask(SpiderRunningConfig runningConfig)
         {
             int readImageCount = 0;
             var sinaUsers = new List<SinaUser>();
-            if (runningConfig.OnlyReadFocusUser == 1)
-            {
-                sinaUsers = Repository.GetFocusUsers(runningConfig.Name);
-            }
-            else
-            {
-                sinaUsers = Repository.GetUsers(runningConfig.UserIds);
-            }
-            foreach(var sinaUser in sinaUsers)
+            var user= GatherMyFocusUsersl(runningConfig);
+            foreach (var sinaUser in sinaUsers)
             {
                 ShowStatus($"开始采集关注用户【{sinaUser.uid}】的微博数据...");
 
@@ -445,7 +438,45 @@ namespace SpiderTracker.Imp
             }
             return readImageCount;
         }
-        
+
+        void SinaLogin(SpiderRunningConfig runningConfig)
+        {
+            var postApi = $"https://passport.weibo.cn/sso/login";
+            var paramData = $"username={runningConfig.SinaUserName}&password={runningConfig.SinaUserPassword}";
+            var html = HttpUtil.PostHttpRequestHtmlResult(postApi, paramData);
+        }
+
+        MWeiboUser[] GatherMyFocusUsersl(SpiderRunningConfig runningConfig)
+        {
+            ShowStatus($"开始登陆我的微博...", true);
+            SinaLogin(runningConfig);
+
+            ShowStatus($"开始读取我关注的用户信息...", true);
+            var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231093_-_selffollowed";
+            var html = HttpUtil.GetHttpRequestHtmlResult(getApi);
+            if (html == null)
+            {
+                ShowStatus($"获取用户信息错误!");
+                return null;
+            }
+            var result = GetWeiboFocusResult(html);
+            if (result == null || result.data == null || result.data.cards.Length < 2)
+            {
+                ShowStatus($"解析我的关注用户信息错误!");
+                return null;
+            }
+            return null;
+        }
+
+        MWeiboFocusResult GetWeiboFocusResult(string html)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html);
+
+            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboFocusResult>(doc.DocumentNode.InnerText) as MWeiboFocusResult;
+            return jsonResult;
+        }
+
         MWeiboUser GatherSinaUserByUserUrl(SpiderRunningConfig runningConfig, string userId)
         {
             ShowStatus($"开始读取用户【{userId}】的微博信息...", true);

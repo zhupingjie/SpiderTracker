@@ -19,9 +19,9 @@ namespace SpiderTracker.Imp
         MultiGather = 1,
 
         /// <summary>
-        /// 智能采集
+        /// 关注采集
         /// </summary>
-        SmartGather = 2,
+        FocusGather = 2,
 
         /// <summary>
         /// 智能分析
