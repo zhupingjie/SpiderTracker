@@ -17,6 +17,6 @@ namespace SpiderTracker.Imp.MWeiboJson
         public string profile_url { get; set; }
         public string screen_name { get; set; }
 
-        public int statuses_count { get; set; }
+        public int? statuses_count { get; set; }
     }
 }

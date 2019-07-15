@@ -9,6 +9,7 @@ using SpiderTracker.Imp.MWeiboJson;
 using System.Drawing;
 using System.Threading;
 using SpiderTracker.Imp.Model;
+using System.Collections.Specialized;
 
 namespace SpiderTracker.Imp
 {
@@ -150,37 +151,36 @@ namespace SpiderTracker.Imp
         bool SinaLogin(SpiderRunningConfig runningConfig)
         {
             var postApi = $"https://passport.weibo.cn/sso/login";
-            var paramData = $"username={runningConfig.SinaUserName}&password={runningConfig.SinaUserPassword}";
+            var paramData = $"username={runningConfig.SinaUserName}&password={runningConfig.SinaUserPassword}&savestate=1&r=https://m.weibo.cn/&ec=0&mainpageflag=1&entry=mweibo";
 
-            var html = HttpUtil.PostHttpRequestHtmlResult(postApi, paramData);
-            var result = GetWeiboLoginResult(html);
-            if (result == null || !result.success || result.data == null)
+            var cookie = HttpUtil.GetHttpRequestCookie(postApi, paramData);
+            if (!string.IsNullOrEmpty(cookie))
             {
-                ShowStatus($"登录我的微博失败:{result.msg}");
-                return false;
+                runningConfig.LoginCookie = cookie;
+                return true;
             }
-            runningConfig.LoginUid = result.data.uid;
-
-            GetSinaLoginStatus(runningConfig);
-            return true;
+            return false;
         }
 
-        MWeiboLoginResult GetWeiboLoginResult(string html)
+        void SetWeiboLoginCookieResult(string cookie)
         {
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(html);
+            //SUB=_2A25wKNB1DeRhGedG7lIS8S3PzTiIHXVT0vA9rDV6PUJbkdAKLULFkW1NUViBpBbgQBJA907ftPxat7B2us9K069Y; Path=/; Domain=.weibo.cn; Expires=Tue, 14 Jul 2020 15:47:49 GMT; HttpOnly,
+            //SUHB =0103XdpGvcqUF0; expires=Tuesday, 14-Jul-2020 15:47:49 GMT; path=/; domain=.weibo.cn,
+            //SSOLoginState =1563205669; path=/; domain=weibo.cn,ALF=1565797669; expires=Wednesday, 14-Aug-2019 15:47:49 GMT; path=/; domain=.sina.cn,
+            //login =b956ab2a781575709c4b14df65b7a16b; Path=/
 
-            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboLoginResult>(doc.DocumentNode.InnerText) as MWeiboLoginResult;
-            return jsonResult;
+            var sub = cookie.Substring(cookie.IndexOf("SUB=") + 4, cookie.IndexOf(";"));
+            cookie = cookie.Substring(cookie.IndexOf(";"));
+            var suhb = cookie.Substring(cookie.IndexOf("SUHB =") + 6, cookie.IndexOf(";"));
+            cookie = cookie.Substring(cookie.IndexOf(";"));
+            var ssologinstate = cookie.Substring(cookie.IndexOf("SSOLoginState =") + 15, cookie.IndexOf(";"));
+            cookie = cookie.Substring(cookie.IndexOf(";"));
+            var login = cookie.Substring(cookie.IndexOf("login =") + 7, cookie.IndexOf(";"));
+
+
+
         }
-
-        void GetSinaLoginStatus(SpiderRunningConfig runningConfig)
-        {
-            var postApi = $"https://m.weibo.cn/api/config";
-
-            var html = HttpUtil.GetHttpRequestHtmlResult(postApi, runningConfig);
-        }
-
+        
         int StartSpiderGatherTask(SpiderRunningConfig runninConfig)
         {
             var sinaUrlEnum = SinaUrlUtil.GetSinaUrlEnum(runninConfig.StartUrl);
@@ -411,66 +411,11 @@ namespace SpiderTracker.Imp
 
         int StartFocusGatherTask(SpiderRunningConfig runningConfig)
         {
-            int readImageCount = 0;
-            var sinaUsers = new List<SinaUser>();
             var user= GatherMyFocusUsers(runningConfig);
-            foreach (var sinaUser in sinaUsers)
-            {
-                ShowStatus($"开始采集关注用户【{sinaUser.uid}】的微博数据...");
+            ShowStatus($"总共读取到【{user.Length}】个关注用户的微博数据...");
 
-                var sinaStatuses = Repository.GetUserStatuses(sinaUser.uid);
-                var needGatherStatus = sinaStatuses.Where(c => c.retweeted == 0 && c.pics > 0 && c.getpics == 0).ToArray();
-
-                int iamgeCount = 0;
-                foreach (var sinaStatus in needGatherStatus)
-                {
-                    var statusPath = PathUtil.GetStoreImageUserStatusPath(sinaUser.groupname, sinaUser.uid, sinaStatus.bid);
-                    var cacheImageCount = PathUtil.GetUserStatusImageCount(statusPath);
-                    if (cacheImageCount == 0)
-                    {
-                        runningConfig.StartUrl = SinaUrlUtil.GetSinaUserStatusUrl(sinaStatus.bid);
-                        iamgeCount = GatherSinaStatusByStatusUrl(runningConfig);
-                        if (iamgeCount == 0)
-                        {
-                            sinaStatus.getpics = 0;
-                            sinaStatus.mayignore = 1;
-                            var success = Repository.UpdateSinaStatus(sinaStatus, new string[] { "getpics", "mayignore" });
-                            if (!success)
-                            {
-                                ShowStatus($"图集【{sinaStatus.bid}】更新错误!");
-                                continue;
-                            }
-                        }
-                        else
-                        {
-                            sinaStatus.getpics = iamgeCount;
-                            var success = Repository.UpdateSinaStatus(sinaStatus, new string[] { "getpics" });
-                            if (!success)
-                            {
-                                ShowStatus($"图集【{sinaStatus.bid}】更新错误!");
-                                continue;
-                            }
-                            readImageCount += iamgeCount;
-                        }
-
-                        if (StopSpiderWork)
-                        {
-                            ShowStatus($"中止采集用户微博数据...");
-                            break;
-                        }
-
-                        ShowStatus($"等待【{runningConfig.ReadNextStatusWaitSecond}】秒读取下一条微博数据...");
-                        Thread.Sleep(runningConfig.ReadNextStatusWaitSecond * 1000);
-                    }
-                }
-
-                if(StopSpiderWork)
-                {
-                    ShowStatus($"中止采集用户数据...");
-                    break;
-                }
-            }
-            return readImageCount;
+            runningConfig.UserIds = user.Select(c => c.id).ToArray();
+            return StartStartMultiGatherTask(runningConfig);
         }
 
         MWeiboUser[] GatherMyFocusUsers(SpiderRunningConfig runningConfig)
@@ -479,21 +424,33 @@ namespace SpiderTracker.Imp
             var login = SinaLogin(runningConfig);
             if (!login) return null;
 
-            ShowStatus($"开始读取我关注的用户信息...", true);
-            var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231093_-_selffollowed";
-            var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
-            if (html == null)
+            int page = 0;
+            var focusUsers = new List<MWeiboUser>();
+            while (++page > 0)
             {
-                ShowStatus($"读取我的关注信息错误!");
-                return null;
+                ShowStatus($"开始读取我关注的第{page}页用户信息...", true);
+                var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231093_-_selffollowed&page={page}";
+                var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
+                if (html == null)
+                {
+                    ShowStatus($"读取我关注的第{page}页用户信息错误!");
+                    return null;
+                }
+                var result = GetWeiboFocusResult(html);
+                if (result == null || result.data == null)
+                {
+                    ShowStatus($"解析我关注的第{page}页用户错误!");
+                    return null;
+                }
+                var focusUserCard = result.data.cards.FirstOrDefault(c => c.card_type == 11 && !string.IsNullOrEmpty(c.itemid));
+                if(focusUserCard == null)
+                {
+                    break;
+                }
+                var users = focusUserCard.card_group.Select(c => c.user).ToArray();
+                focusUsers.AddRange(users);
             }
-            var result = GetWeiboFocusResult(html);
-            if (result == null || result.data == null || result.data.cards.Length < 2)
-            {
-                ShowStatus($"解析我的关注用户信息错误!");
-                return null;
-            }
-            return null;
+            return focusUsers.Distinct().ToArray();
         }
 
         MWeiboFocusResult GetWeiboFocusResult(string html)

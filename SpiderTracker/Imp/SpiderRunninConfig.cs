@@ -22,6 +22,11 @@ namespace SpiderTracker.Imp
         public string LoginUid { get; set; }
 
         /// <summary>
+        /// 登陆Token
+        /// </summary>
+        public string LoginCookie { get; set; }
+
+        /// <summary>
         /// 起始地址
         /// </summary>
         public string StartUrl { get; set; }

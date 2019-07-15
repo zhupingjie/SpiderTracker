@@ -9,5 +9,6 @@ namespace SpiderTracker.Imp.MWeiboJson
     public class MWeiboLoginData
     {
         public string uid { get; set; }
+        public string st { get; set; }
     }
 }
