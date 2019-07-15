@@ -103,6 +103,8 @@
     <Compile Include="Imp\MWeiboJson\MWeiboFocusCardGroup.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboFocusData.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboFocusResult.cs" />
+    <Compile Include="Imp\MWeiboJson\MWeiboLoginData.cs" />
+    <Compile Include="Imp\MWeiboJson\MWeiboLoginResult.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboUserData.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboUserResult.cs" />
     <Compile Include="Imp\Util\HttpUtil.cs" />

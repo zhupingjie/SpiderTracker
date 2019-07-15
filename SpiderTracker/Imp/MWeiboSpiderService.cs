@@ -147,6 +147,40 @@ namespace SpiderTracker.Imp
             SpiderStoping();
         }
 
+        bool SinaLogin(SpiderRunningConfig runningConfig)
+        {
+            var postApi = $"https://passport.weibo.cn/sso/login";
+            var paramData = $"username={runningConfig.SinaUserName}&password={runningConfig.SinaUserPassword}";
+
+            var html = HttpUtil.PostHttpRequestHtmlResult(postApi, paramData);
+            var result = GetWeiboLoginResult(html);
+            if (result == null || !result.success || result.data == null)
+            {
+                ShowStatus($"登录我的微博失败:{result.msg}");
+                return false;
+            }
+            runningConfig.LoginUid = result.data.uid;
+
+            GetSinaLoginStatus(runningConfig);
+            return true;
+        }
+
+        MWeiboLoginResult GetWeiboLoginResult(string html)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html);
+
+            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboLoginResult>(doc.DocumentNode.InnerText) as MWeiboLoginResult;
+            return jsonResult;
+        }
+
+        void GetSinaLoginStatus(SpiderRunningConfig runningConfig)
+        {
+            var postApi = $"https://m.weibo.cn/api/config";
+
+            var html = HttpUtil.GetHttpRequestHtmlResult(postApi, runningConfig);
+        }
+
         int StartSpiderGatherTask(SpiderRunningConfig runninConfig)
         {
             var sinaUrlEnum = SinaUrlUtil.GetSinaUrlEnum(runninConfig.StartUrl);
@@ -379,7 +413,7 @@ namespace SpiderTracker.Imp
         {
             int readImageCount = 0;
             var sinaUsers = new List<SinaUser>();
-            var user= GatherMyFocusUsersl(runningConfig);
+            var user= GatherMyFocusUsers(runningConfig);
             foreach (var sinaUser in sinaUsers)
             {
                 ShowStatus($"开始采集关注用户【{sinaUser.uid}】的微博数据...");
@@ -439,24 +473,18 @@ namespace SpiderTracker.Imp
             return readImageCount;
         }
 
-        void SinaLogin(SpiderRunningConfig runningConfig)
-        {
-            var postApi = $"https://passport.weibo.cn/sso/login";
-            var paramData = $"username={runningConfig.SinaUserName}&password={runningConfig.SinaUserPassword}";
-            var html = HttpUtil.PostHttpRequestHtmlResult(postApi, paramData);
-        }
-
-        MWeiboUser[] GatherMyFocusUsersl(SpiderRunningConfig runningConfig)
+        MWeiboUser[] GatherMyFocusUsers(SpiderRunningConfig runningConfig)
         {
             ShowStatus($"开始登陆我的微博...", true);
-            SinaLogin(runningConfig);
+            var login = SinaLogin(runningConfig);
+            if (!login) return null;
 
             ShowStatus($"开始读取我关注的用户信息...", true);
             var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231093_-_selffollowed";
-            var html = HttpUtil.GetHttpRequestHtmlResult(getApi);
+            var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
             if (html == null)
             {
-                ShowStatus($"获取用户信息错误!");
+                ShowStatus($"读取我的关注信息错误!");
                 return null;
             }
             var result = GetWeiboFocusResult(html);
@@ -481,7 +509,7 @@ namespace SpiderTracker.Imp
         {
             ShowStatus($"开始读取用户【{userId}】的微博信息...", true);
             var getApi = $"https://m.weibo.cn/api/container/getIndex?type=uid&value={userId}&containerid=100505{userId}";
-            var html = HttpUtil.GetHttpRequestHtmlResult(getApi);
+            var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
             if (html == null)
             {
                 ShowStatus($"获取用户信息错误!");
@@ -576,7 +604,7 @@ namespace SpiderTracker.Imp
             
             ShowStatus($"开始读取用户【{user.id}】的第【{readPageIndex}】页微博数据...", true);
             var getApi = $"https://m.weibo.cn/api/container/getIndex?type=uid&value={user.id}&containerid=107603{user.id}&page={readPageIndex}";
-            var html = HttpUtil.GetHttpRequestHtmlResult(getApi);
+            var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
             if (html == null)
             {
                 ShowStatus($"获取用户微博列表错误!");
@@ -622,7 +650,7 @@ namespace SpiderTracker.Imp
         /// <param name="runningConfig"></param>
         int GatherSinaStatusByStatusUrl(SpiderRunningConfig runningConfig)
         {
-            var html = HttpUtil.GetHttpRequestHtmlResult(runningConfig.StartUrl);
+            var html = HttpUtil.GetHttpRequestHtmlResult(runningConfig.StartUrl, runningConfig);
             if (html == null)
             {
                 ShowStatus($"获取用户微博列表错误!");
@@ -810,7 +838,7 @@ namespace SpiderTracker.Imp
         /// <returns></returns>
         bool DownloadUserStatusImage(SpiderRunningConfig runningConfig, string userId, string arcId, string imgUrl, int haveReadPageCount)
         {
-            var image = HttpUtil.GetHttpRequestImageResult(imgUrl);
+            var image = HttpUtil.GetHttpRequestImageResult(imgUrl, runningConfig);
             if(image == null)
             {
                 ShowStatus($"下载第【{(haveReadPageCount + 1)}】张图片错误!");

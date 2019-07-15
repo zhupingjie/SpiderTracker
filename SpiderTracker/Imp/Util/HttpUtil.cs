@@ -11,12 +11,12 @@ namespace SpiderTracker.Imp
 {
     public class HttpUtil
     {
-
-        public static string GetHttpRequestHtmlResult(string url)
+        public static string GetHttpRequestHtmlResult(string url, SpiderRunningConfig runningConfig)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
             request.Timeout = 5 * 1000;
+            request.Headers["X-Log-Uid"] = runningConfig.LoginUid;
             try
             {
                 var response = request.GetResponse();
@@ -32,11 +32,12 @@ namespace SpiderTracker.Imp
             }
         }
 
-        public static Image GetHttpRequestImageResult(string url)
+        public static Image GetHttpRequestImageResult(string url, SpiderRunningConfig runningConfig)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
             request.Timeout = 5 * 1000;
+            request.Headers["X-Log-Uid"] = runningConfig.LoginUid;
             try
             {
                 var response = request.GetResponse();
@@ -57,7 +58,6 @@ namespace SpiderTracker.Imp
             request.Timeout = 5 * 1000;
             request.Referer= "https://passport.weibo.cn/signin/login";
             request.ContentType= "application/x-www-form-urlencoded";
-
 
             try
             {
