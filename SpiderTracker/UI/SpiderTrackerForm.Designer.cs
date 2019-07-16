@@ -125,8 +125,9 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(992, 41);
+            this.panel1.Size = new System.Drawing.Size(1323, 51);
             this.panel1.TabIndex = 0;
             // 
             // txtStartUrl
@@ -138,8 +139,9 @@
             this.txtStartUrl.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.txtStartUrl.ForeColor = System.Drawing.Color.Blue;
             this.txtStartUrl.Location = new System.Drawing.Point(0, 0);
+            this.txtStartUrl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtStartUrl.Name = "txtStartUrl";
-            this.txtStartUrl.Size = new System.Drawing.Size(838, 41);
+            this.txtStartUrl.Size = new System.Drawing.Size(1118, 51);
             this.txtStartUrl.TabIndex = 2;
             this.txtStartUrl.Text = "https://m.weibo.cn/u/1738733270";
             this.txtStartUrl.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
@@ -148,9 +150,10 @@
             // 
             this.panel4.Controls.Add(this.cbxName);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(838, 0);
+            this.panel4.Location = new System.Drawing.Point(1118, 0);
+            this.panel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(154, 41);
+            this.panel4.Size = new System.Drawing.Size(205, 51);
             this.panel4.TabIndex = 4;
             // 
             // cbxName
@@ -160,12 +163,13 @@
             this.cbxName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbxName.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cbxName.FormattingEnabled = true;
-            this.cbxName.ItemHeight = 31;
+            this.cbxName.ItemHeight = 39;
             this.cbxName.Items.AddRange(new object[] {
             ""});
             this.cbxName.Location = new System.Drawing.Point(0, 0);
+            this.cbxName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbxName.Name = "cbxName";
-            this.cbxName.Size = new System.Drawing.Size(154, 39);
+            this.cbxName.Size = new System.Drawing.Size(205, 47);
             this.cbxName.TabIndex = 3;
             this.cbxName.Text = "default";
             this.cbxName.Leave += new System.EventHandler(this.cbxName_Leave);
@@ -175,9 +179,10 @@
             this.btnLoop.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnLoop.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnLoop.ForeColor = System.Drawing.Color.White;
-            this.btnLoop.Location = new System.Drawing.Point(128, 35);
+            this.btnLoop.Location = new System.Drawing.Point(171, 44);
+            this.btnLoop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLoop.Name = "btnLoop";
-            this.btnLoop.Size = new System.Drawing.Size(111, 41);
+            this.btnLoop.Size = new System.Drawing.Size(148, 51);
             this.btnLoop.TabIndex = 11;
             this.btnLoop.Text = "循环采集";
             this.btnLoop.UseVisualStyleBackColor = false;
@@ -188,9 +193,10 @@
             this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnSearch.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnSearch.ForeColor = System.Drawing.Color.White;
-            this.btnSearch.Location = new System.Drawing.Point(9, 35);
+            this.btnSearch.Location = new System.Drawing.Point(12, 44);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(113, 41);
+            this.btnSearch.Size = new System.Drawing.Size(151, 51);
             this.btnSearch.TabIndex = 10;
             this.btnSearch.Text = "单次采集";
             this.btnSearch.UseVisualStyleBackColor = false;
@@ -201,16 +207,17 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tplStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 598);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 750);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(992, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(1323, 25);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // tplStatus
             // 
             this.tplStatus.Name = "tplStatus";
-            this.tplStatus.Size = new System.Drawing.Size(32, 17);
+            this.tplStatus.Size = new System.Drawing.Size(39, 20);
             this.tplStatus.Text = "就绪";
             // 
             // panel3
@@ -221,9 +228,10 @@
             this.panel3.Controls.Add(this.panel7);
             this.panel3.Controls.Add(this.panel6);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Location = new System.Drawing.Point(0, 41);
+            this.panel3.Location = new System.Drawing.Point(0, 51);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(219, 557);
+            this.panel3.Size = new System.Drawing.Size(291, 699);
             this.panel3.TabIndex = 7;
             // 
             // panel15
@@ -231,9 +239,10 @@
             this.panel15.Controls.Add(this.lstUser);
             this.panel15.Controls.Add(this.txtUserFilter);
             this.panel15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel15.Location = new System.Drawing.Point(0, 26);
+            this.panel15.Location = new System.Drawing.Point(0, 32);
+            this.panel15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(217, 287);
+            this.panel15.Size = new System.Drawing.Size(289, 363);
             this.panel15.TabIndex = 8;
             // 
             // lstUser
@@ -242,12 +251,12 @@
             this.lstUser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstUser.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lstUser.FormattingEnabled = true;
-            this.lstUser.ItemHeight = 19;
-            this.lstUser.Location = new System.Drawing.Point(0, 23);
+            this.lstUser.ItemHeight = 23;
+            this.lstUser.Location = new System.Drawing.Point(0, 27);
             this.lstUser.Margin = new System.Windows.Forms.Padding(0);
             this.lstUser.Name = "lstUser";
             this.lstUser.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstUser.Size = new System.Drawing.Size(217, 264);
+            this.lstUser.Size = new System.Drawing.Size(289, 336);
             this.lstUser.TabIndex = 6;
             this.lstUser.SelectedIndexChanged += new System.EventHandler(this.lstUser_SelectedIndexChanged);
             // 
@@ -259,7 +268,7 @@
             this.txtUserFilter.Location = new System.Drawing.Point(0, 0);
             this.txtUserFilter.Margin = new System.Windows.Forms.Padding(0);
             this.txtUserFilter.Name = "txtUserFilter";
-            this.txtUserFilter.Size = new System.Drawing.Size(217, 23);
+            this.txtUserFilter.Size = new System.Drawing.Size(289, 27);
             this.txtUserFilter.TabIndex = 8;
             this.txtUserFilter.TextChanged += new System.EventHandler(this.txtUserFilter_TextChanged);
             // 
@@ -268,9 +277,10 @@
             this.panel9.Controls.Add(this.lstArc);
             this.panel9.Controls.Add(this.panel8);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel9.Location = new System.Drawing.Point(0, 313);
+            this.panel9.Location = new System.Drawing.Point(0, 395);
+            this.panel9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(217, 201);
+            this.panel9.Size = new System.Drawing.Size(289, 251);
             this.panel9.TabIndex = 7;
             // 
             // lstArc
@@ -279,10 +289,11 @@
             this.lstArc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstArc.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lstArc.FormattingEnabled = true;
-            this.lstArc.ItemHeight = 19;
-            this.lstArc.Location = new System.Drawing.Point(0, 26);
+            this.lstArc.ItemHeight = 23;
+            this.lstArc.Location = new System.Drawing.Point(0, 32);
+            this.lstArc.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.lstArc.Name = "lstArc";
-            this.lstArc.Size = new System.Drawing.Size(217, 175);
+            this.lstArc.Size = new System.Drawing.Size(289, 219);
             this.lstArc.TabIndex = 12;
             this.lstArc.SelectedIndexChanged += new System.EventHandler(this.lstArc_SelectedIndexChanged);
             // 
@@ -297,17 +308,19 @@
             this.panel8.Controls.Add(this.label7);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(0, 0);
+            this.panel8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(217, 26);
+            this.panel8.Size = new System.Drawing.Size(289, 32);
             this.panel8.TabIndex = 11;
             // 
             // btnFocusStatus
             // 
             this.btnFocusStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnFocusStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnFocusStatus.Location = new System.Drawing.Point(111, 2);
+            this.btnFocusStatus.Location = new System.Drawing.Point(148, 2);
+            this.btnFocusStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnFocusStatus.Name = "btnFocusStatus";
-            this.btnFocusStatus.Size = new System.Drawing.Size(35, 20);
+            this.btnFocusStatus.Size = new System.Drawing.Size(47, 25);
             this.btnFocusStatus.TabIndex = 20;
             this.btnFocusStatus.Text = "FCS";
             this.btnFocusStatus.UseVisualStyleBackColor = false;
@@ -317,9 +330,10 @@
             // 
             this.btnOpenStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnOpenStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnOpenStatus.Location = new System.Drawing.Point(145, 2);
+            this.btnOpenStatus.Location = new System.Drawing.Point(193, 2);
+            this.btnOpenStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnOpenStatus.Name = "btnOpenStatus";
-            this.btnOpenStatus.Size = new System.Drawing.Size(35, 20);
+            this.btnOpenStatus.Size = new System.Drawing.Size(47, 25);
             this.btnOpenStatus.TabIndex = 19;
             this.btnOpenStatus.Text = "OPN";
             this.btnOpenStatus.UseVisualStyleBackColor = false;
@@ -329,9 +343,10 @@
             // 
             this.btnIgnoreStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnIgnoreStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnIgnoreStatus.Location = new System.Drawing.Point(76, 2);
+            this.btnIgnoreStatus.Location = new System.Drawing.Point(101, 2);
+            this.btnIgnoreStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnIgnoreStatus.Name = "btnIgnoreStatus";
-            this.btnIgnoreStatus.Size = new System.Drawing.Size(35, 20);
+            this.btnIgnoreStatus.Size = new System.Drawing.Size(47, 25);
             this.btnIgnoreStatus.TabIndex = 11;
             this.btnIgnoreStatus.Text = "IGN";
             this.btnIgnoreStatus.UseVisualStyleBackColor = false;
@@ -341,9 +356,10 @@
             // 
             this.btnBrowseStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnBrowseStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBrowseStatus.Location = new System.Drawing.Point(179, 2);
+            this.btnBrowseStatus.Location = new System.Drawing.Point(239, 2);
+            this.btnBrowseStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnBrowseStatus.Name = "btnBrowseStatus";
-            this.btnBrowseStatus.Size = new System.Drawing.Size(35, 20);
+            this.btnBrowseStatus.Size = new System.Drawing.Size(47, 25);
             this.btnBrowseStatus.TabIndex = 7;
             this.btnBrowseStatus.Text = "BWE";
             this.btnBrowseStatus.UseVisualStyleBackColor = false;
@@ -354,9 +370,10 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label7.Location = new System.Drawing.Point(0, 4);
+            this.label7.Location = new System.Drawing.Point(0, 5);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(68, 17);
+            this.label7.Size = new System.Drawing.Size(84, 19);
             this.label7.TabIndex = 0;
             this.label7.Text = "已缓存图集";
             // 
@@ -370,17 +387,19 @@
             this.panel7.Controls.Add(this.label5);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
+            this.panel7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(217, 26);
+            this.panel7.Size = new System.Drawing.Size(289, 32);
             this.panel7.TabIndex = 4;
             // 
             // btnFoucsUser
             // 
             this.btnFoucsUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnFoucsUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnFoucsUser.Location = new System.Drawing.Point(111, 3);
+            this.btnFoucsUser.Location = new System.Drawing.Point(148, 4);
+            this.btnFoucsUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnFoucsUser.Name = "btnFoucsUser";
-            this.btnFoucsUser.Size = new System.Drawing.Size(35, 20);
+            this.btnFoucsUser.Size = new System.Drawing.Size(47, 25);
             this.btnFoucsUser.TabIndex = 11;
             this.btnFoucsUser.Text = "FCS";
             this.btnFoucsUser.UseVisualStyleBackColor = false;
@@ -390,9 +409,10 @@
             // 
             this.btnIgnoreUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnIgnoreUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnIgnoreUser.Location = new System.Drawing.Point(77, 3);
+            this.btnIgnoreUser.Location = new System.Drawing.Point(103, 4);
+            this.btnIgnoreUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnIgnoreUser.Name = "btnIgnoreUser";
-            this.btnIgnoreUser.Size = new System.Drawing.Size(35, 20);
+            this.btnIgnoreUser.Size = new System.Drawing.Size(47, 25);
             this.btnIgnoreUser.TabIndex = 10;
             this.btnIgnoreUser.Text = "IGN";
             this.btnIgnoreUser.UseVisualStyleBackColor = false;
@@ -402,9 +422,10 @@
             // 
             this.btnFollowerUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnFollowerUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnFollowerUser.Location = new System.Drawing.Point(145, 3);
+            this.btnFollowerUser.Location = new System.Drawing.Point(193, 4);
+            this.btnFollowerUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnFollowerUser.Name = "btnFollowerUser";
-            this.btnFollowerUser.Size = new System.Drawing.Size(35, 20);
+            this.btnFollowerUser.Size = new System.Drawing.Size(47, 25);
             this.btnFollowerUser.TabIndex = 9;
             this.btnFollowerUser.Text = "FOW";
             this.btnFollowerUser.UseVisualStyleBackColor = false;
@@ -414,9 +435,10 @@
             // 
             this.btnBrowseUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnBrowseUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBrowseUser.Location = new System.Drawing.Point(179, 3);
+            this.btnBrowseUser.Location = new System.Drawing.Point(239, 4);
+            this.btnBrowseUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnBrowseUser.Name = "btnBrowseUser";
-            this.btnBrowseUser.Size = new System.Drawing.Size(35, 20);
+            this.btnBrowseUser.Size = new System.Drawing.Size(47, 25);
             this.btnBrowseUser.TabIndex = 8;
             this.btnBrowseUser.Text = "BWE";
             this.btnBrowseUser.UseVisualStyleBackColor = false;
@@ -427,9 +449,10 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(0, 4);
+            this.label5.Location = new System.Drawing.Point(0, 5);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(80, 17);
+            this.label5.Size = new System.Drawing.Size(99, 19);
             this.label5.TabIndex = 0;
             this.label5.Text = "已缓存用户集";
             this.label5.DoubleClick += new System.EventHandler(this.label5_DoubleClick);
@@ -439,17 +462,19 @@
             this.panel6.BackColor = System.Drawing.Color.LightCyan;
             this.panel6.Controls.Add(this.lblImgCount);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel6.Location = new System.Drawing.Point(0, 514);
+            this.panel6.Location = new System.Drawing.Point(0, 646);
+            this.panel6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(217, 41);
+            this.panel6.Size = new System.Drawing.Size(289, 51);
             this.panel6.TabIndex = 3;
             // 
             // lblImgCount
             // 
             this.lblImgCount.AutoSize = true;
-            this.lblImgCount.Location = new System.Drawing.Point(3, 16);
+            this.lblImgCount.Location = new System.Drawing.Point(4, 20);
+            this.lblImgCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblImgCount.Name = "lblImgCount";
-            this.lblImgCount.Size = new System.Drawing.Size(131, 12);
+            this.lblImgCount.Size = new System.Drawing.Size(166, 15);
             this.lblImgCount.TabIndex = 0;
             this.lblImgCount.Text = "【本图集共 0 张图片】";
             // 
@@ -457,9 +482,10 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(50, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(67, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(392, 523);
+            this.pictureBox1.Size = new System.Drawing.Size(529, 659);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
@@ -473,9 +499,10 @@
             this.panel10.Controls.Add(this.panel17);
             this.panel10.Controls.Add(this.panel14);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel10.Location = new System.Drawing.Point(741, 41);
+            this.panel10.Location = new System.Drawing.Point(989, 51);
+            this.panel10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(251, 557);
+            this.panel10.Size = new System.Drawing.Size(334, 699);
             this.panel10.TabIndex = 11;
             // 
             // panel5
@@ -484,9 +511,10 @@
             this.panel5.Controls.Add(this.dataGridView1);
             this.panel5.Controls.Add(this.panel16);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(0, 112);
+            this.panel5.Location = new System.Drawing.Point(0, 140);
+            this.panel5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(249, 313);
+            this.panel5.Size = new System.Drawing.Size(332, 395);
             this.panel5.TabIndex = 18;
             // 
             // dataGridView1
@@ -506,7 +534,8 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 26);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 32);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
@@ -516,7 +545,7 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(249, 287);
+            this.dataGridView1.Size = new System.Drawing.Size(332, 363);
             this.dataGridView1.TabIndex = 18;
             // 
             // panel16
@@ -526,8 +555,9 @@
             this.panel16.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel16.ForeColor = System.Drawing.Color.White;
             this.panel16.Location = new System.Drawing.Point(0, 0);
+            this.panel16.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(249, 26);
+            this.panel16.Size = new System.Drawing.Size(332, 32);
             this.panel16.TabIndex = 13;
             // 
             // label11
@@ -535,9 +565,10 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(5, 4);
+            this.label11.Location = new System.Drawing.Point(7, 5);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(80, 17);
+            this.label11.Size = new System.Drawing.Size(99, 19);
             this.label11.TabIndex = 2;
             this.label11.Text = "采集参数配置";
             // 
@@ -547,8 +578,9 @@
             this.panel17.Controls.Add(this.panel13);
             this.panel17.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel17.Location = new System.Drawing.Point(0, 0);
+            this.panel17.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel17.Name = "panel17";
-            this.panel17.Size = new System.Drawing.Size(249, 112);
+            this.panel17.Size = new System.Drawing.Size(332, 140);
             this.panel17.TabIndex = 18;
             // 
             // panel2
@@ -564,18 +596,20 @@
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 26);
+            this.panel2.Location = new System.Drawing.Point(0, 32);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(249, 86);
+            this.panel2.Size = new System.Drawing.Size(332, 108);
             this.panel2.TabIndex = 17;
             // 
             // btnAnlayse
             // 
             this.btnAnlayse.BackColor = System.Drawing.Color.White;
             this.btnAnlayse.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnAnlayse.Location = new System.Drawing.Point(185, 0);
+            this.btnAnlayse.Location = new System.Drawing.Point(248, 0);
+            this.btnAnlayse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAnlayse.Name = "btnAnlayse";
-            this.btnAnlayse.Size = new System.Drawing.Size(16, 86);
+            this.btnAnlayse.Size = new System.Drawing.Size(21, 108);
             this.btnAnlayse.TabIndex = 23;
             this.btnAnlayse.Text = "Analyse";
             this.btnAnlayse.UseVisualStyleBackColor = false;
@@ -585,9 +619,10 @@
             // 
             this.btnIgnoreConfig.BackColor = System.Drawing.Color.White;
             this.btnIgnoreConfig.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnIgnoreConfig.Location = new System.Drawing.Point(201, 0);
+            this.btnIgnoreConfig.Location = new System.Drawing.Point(269, 0);
+            this.btnIgnoreConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnIgnoreConfig.Name = "btnIgnoreConfig";
-            this.btnIgnoreConfig.Size = new System.Drawing.Size(16, 86);
+            this.btnIgnoreConfig.Size = new System.Drawing.Size(21, 108);
             this.btnIgnoreConfig.TabIndex = 22;
             this.btnIgnoreConfig.Text = "Ignore";
             this.btnIgnoreConfig.UseVisualStyleBackColor = false;
@@ -597,9 +632,10 @@
             // 
             this.btnFocusConfig.BackColor = System.Drawing.Color.White;
             this.btnFocusConfig.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnFocusConfig.Location = new System.Drawing.Point(217, 0);
+            this.btnFocusConfig.Location = new System.Drawing.Point(290, 0);
+            this.btnFocusConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnFocusConfig.Name = "btnFocusConfig";
-            this.btnFocusConfig.Size = new System.Drawing.Size(16, 86);
+            this.btnFocusConfig.Size = new System.Drawing.Size(21, 108);
             this.btnFocusConfig.TabIndex = 21;
             this.btnFocusConfig.Text = "Foucs";
             this.btnFocusConfig.UseVisualStyleBackColor = false;
@@ -609,9 +645,10 @@
             // 
             this.btnLock.BackColor = System.Drawing.Color.White;
             this.btnLock.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnLock.Location = new System.Drawing.Point(233, 0);
+            this.btnLock.Location = new System.Drawing.Point(311, 0);
+            this.btnLock.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLock.Name = "btnLock";
-            this.btnLock.Size = new System.Drawing.Size(16, 86);
+            this.btnLock.Size = new System.Drawing.Size(21, 108);
             this.btnLock.TabIndex = 20;
             this.btnLock.Text = "Lock";
             this.btnLock.UseVisualStyleBackColor = false;
@@ -621,9 +658,10 @@
             // 
             this.lblPicCount.AutoSize = true;
             this.lblPicCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblPicCount.Location = new System.Drawing.Point(107, 60);
+            this.lblPicCount.Location = new System.Drawing.Point(143, 75);
+            this.lblPicCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPicCount.Name = "lblPicCount";
-            this.lblPicCount.Size = new System.Drawing.Size(15, 17);
+            this.lblPicCount.Size = new System.Drawing.Size(18, 19);
             this.lblPicCount.TabIndex = 19;
             this.lblPicCount.Text = "0";
             // 
@@ -631,9 +669,10 @@
             // 
             this.lblArcCount.AutoSize = true;
             this.lblArcCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblArcCount.Location = new System.Drawing.Point(107, 35);
+            this.lblArcCount.Location = new System.Drawing.Point(143, 44);
+            this.lblArcCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblArcCount.Name = "lblArcCount";
-            this.lblArcCount.Size = new System.Drawing.Size(15, 17);
+            this.lblArcCount.Size = new System.Drawing.Size(18, 19);
             this.lblArcCount.TabIndex = 18;
             this.lblArcCount.Text = "0";
             // 
@@ -641,9 +680,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(18, 10);
+            this.label2.Location = new System.Drawing.Point(24, 12);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 17);
+            this.label2.Size = new System.Drawing.Size(103, 20);
             this.label2.TabIndex = 14;
             this.label2.Text = "已采集用户数:";
             // 
@@ -651,9 +691,10 @@
             // 
             this.lblUserCount.AutoSize = true;
             this.lblUserCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblUserCount.Location = new System.Drawing.Point(107, 10);
+            this.lblUserCount.Location = new System.Drawing.Point(143, 12);
+            this.lblUserCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUserCount.Name = "lblUserCount";
-            this.lblUserCount.Size = new System.Drawing.Size(15, 17);
+            this.lblUserCount.Size = new System.Drawing.Size(18, 19);
             this.lblUserCount.TabIndex = 17;
             this.lblUserCount.Text = "0";
             // 
@@ -661,9 +702,10 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(18, 35);
+            this.label3.Location = new System.Drawing.Point(24, 44);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 17);
+            this.label3.Size = new System.Drawing.Size(103, 20);
             this.label3.TabIndex = 15;
             this.label3.Text = "已采集图集数:";
             // 
@@ -671,9 +713,10 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(18, 60);
+            this.label4.Location = new System.Drawing.Point(24, 75);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(83, 17);
+            this.label4.Size = new System.Drawing.Size(103, 20);
             this.label4.TabIndex = 16;
             this.label4.Text = "已采集图片数:";
             // 
@@ -684,8 +727,9 @@
             this.panel13.Controls.Add(this.label1);
             this.panel13.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel13.Location = new System.Drawing.Point(0, 0);
+            this.panel13.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(249, 26);
+            this.panel13.Size = new System.Drawing.Size(332, 32);
             this.panel13.TabIndex = 15;
             // 
             // label1
@@ -693,9 +737,10 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(5, 5);
+            this.label1.Location = new System.Drawing.Point(7, 6);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 17);
+            this.label1.Size = new System.Drawing.Size(99, 19);
             this.label1.TabIndex = 0;
             this.label1.Text = "采集数据统计";
             // 
@@ -707,9 +752,10 @@
             this.panel14.Controls.Add(this.btnLoop);
             this.panel14.Controls.Add(this.panel11);
             this.panel14.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel14.Location = new System.Drawing.Point(0, 425);
+            this.panel14.Location = new System.Drawing.Point(0, 535);
+            this.panel14.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(249, 130);
+            this.panel14.Size = new System.Drawing.Size(332, 162);
             this.panel14.TabIndex = 16;
             // 
             // btnAutoGather
@@ -717,9 +763,10 @@
             this.btnAutoGather.BackColor = System.Drawing.Color.HotPink;
             this.btnAutoGather.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnAutoGather.ForeColor = System.Drawing.Color.White;
-            this.btnAutoGather.Location = new System.Drawing.Point(128, 82);
+            this.btnAutoGather.Location = new System.Drawing.Point(171, 102);
+            this.btnAutoGather.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAutoGather.Name = "btnAutoGather";
-            this.btnAutoGather.Size = new System.Drawing.Size(111, 41);
+            this.btnAutoGather.Size = new System.Drawing.Size(148, 51);
             this.btnAutoGather.TabIndex = 15;
             this.btnAutoGather.Text = "他的关注";
             this.btnAutoGather.UseVisualStyleBackColor = false;
@@ -730,9 +777,10 @@
             this.btnGatherFoucs.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnGatherFoucs.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnGatherFoucs.ForeColor = System.Drawing.Color.White;
-            this.btnGatherFoucs.Location = new System.Drawing.Point(9, 82);
+            this.btnGatherFoucs.Location = new System.Drawing.Point(12, 102);
+            this.btnGatherFoucs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnGatherFoucs.Name = "btnGatherFoucs";
-            this.btnGatherFoucs.Size = new System.Drawing.Size(113, 41);
+            this.btnGatherFoucs.Size = new System.Drawing.Size(151, 51);
             this.btnGatherFoucs.TabIndex = 14;
             this.btnGatherFoucs.Text = "我的关注";
             this.btnGatherFoucs.UseVisualStyleBackColor = false;
@@ -744,8 +792,9 @@
             this.panel11.Controls.Add(this.label15);
             this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel11.Location = new System.Drawing.Point(0, 0);
+            this.panel11.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(249, 26);
+            this.panel11.Size = new System.Drawing.Size(332, 32);
             this.panel11.TabIndex = 12;
             // 
             // label15
@@ -753,9 +802,10 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label15.Location = new System.Drawing.Point(4, 4);
+            this.label15.Location = new System.Drawing.Point(5, 5);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(80, 17);
+            this.label15.Size = new System.Drawing.Size(99, 19);
             this.label15.TabIndex = 0;
             this.label15.Text = "采集功能操作";
             // 
@@ -765,20 +815,21 @@
             this.lstLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstLog.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lstLog.FormattingEnabled = true;
-            this.lstLog.ItemHeight = 17;
+            this.lstLog.ItemHeight = 20;
             this.lstLog.Location = new System.Drawing.Point(0, 0);
             this.lstLog.Margin = new System.Windows.Forms.Padding(0);
             this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(492, 523);
+            this.lstLog.Size = new System.Drawing.Size(661, 656);
             this.lstLog.TabIndex = 15;
             // 
             // pnlRight
             // 
             this.pnlRight.BackColor = System.Drawing.Color.White;
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(442, 0);
+            this.pnlRight.Location = new System.Drawing.Point(596, 0);
+            this.pnlRight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(50, 523);
+            this.pnlRight.Size = new System.Drawing.Size(67, 659);
             this.pnlRight.TabIndex = 16;
             this.pnlRight.Click += new System.EventHandler(this.pnlRight_Click);
             // 
@@ -789,12 +840,13 @@
             this.tabControl1.Controls.Add(this.tbpGatherLog);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tabControl1.Location = new System.Drawing.Point(219, 67);
+            this.tabControl1.Location = new System.Drawing.Point(291, 83);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(3, 3);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(522, 531);
+            this.tabControl1.Size = new System.Drawing.Size(698, 667);
             this.tabControl1.TabIndex = 17;
             // 
             // tbpReview
@@ -806,7 +858,7 @@
             this.tbpReview.Location = new System.Drawing.Point(4, 4);
             this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
             this.tbpReview.Name = "tbpReview";
-            this.tbpReview.Size = new System.Drawing.Size(492, 523);
+            this.tbpReview.Size = new System.Drawing.Size(663, 659);
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
             // 
@@ -815,8 +867,9 @@
             this.pnlLeft.BackColor = System.Drawing.Color.White;
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeft.Location = new System.Drawing.Point(0, 0);
+            this.pnlLeft.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(50, 523);
+            this.pnlLeft.Size = new System.Drawing.Size(67, 659);
             this.pnlLeft.TabIndex = 17;
             this.pnlLeft.Click += new System.EventHandler(this.pnlLeft_Click);
             // 
@@ -827,7 +880,7 @@
             this.tbpGatherLog.Location = new System.Drawing.Point(4, 4);
             this.tbpGatherLog.Margin = new System.Windows.Forms.Padding(0);
             this.tbpGatherLog.Name = "tbpGatherLog";
-            this.tbpGatherLog.Size = new System.Drawing.Size(492, 523);
+            this.tbpGatherLog.Size = new System.Drawing.Size(661, 656);
             this.tbpGatherLog.TabIndex = 0;
             this.tbpGatherLog.Text = "运行日志";
             // 
@@ -836,9 +889,10 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(6, 4);
+            this.label10.Location = new System.Drawing.Point(8, 5);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(164, 17);
+            this.label10.Size = new System.Drawing.Size(202, 19);
             this.label10.TabIndex = 1;
             this.label10.Text = "采集运行日志 | 预览图集详情";
             // 
@@ -849,18 +903,20 @@
             this.panel12.Controls.Add(this.btnManager);
             this.panel12.Controls.Add(this.label10);
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel12.Location = new System.Drawing.Point(219, 41);
+            this.panel12.Location = new System.Drawing.Point(291, 51);
+            this.panel12.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(522, 26);
+            this.panel12.Size = new System.Drawing.Size(698, 32);
             this.panel12.TabIndex = 14;
             // 
             // btnManager
             // 
             this.btnManager.BackColor = System.Drawing.SystemColors.Control;
             this.btnManager.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnManager.Location = new System.Drawing.Point(462, 3);
+            this.btnManager.Location = new System.Drawing.Point(616, 4);
+            this.btnManager.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnManager.Name = "btnManager";
-            this.btnManager.Size = new System.Drawing.Size(57, 20);
+            this.btnManager.Size = new System.Drawing.Size(76, 25);
             this.btnManager.TabIndex = 6;
             this.btnManager.Text = "Manage";
             this.btnManager.UseVisualStyleBackColor = false;
@@ -868,9 +924,9 @@
             // 
             // SpiderTrackerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(992, 620);
+            this.ClientSize = new System.Drawing.Size(1323, 775);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel12);
             this.Controls.Add(this.panel10);
@@ -878,6 +934,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "SpiderTrackerForm";
             this.Text = "新浪微博探索者v1.0";
             this.Load += new System.EventHandler(this.SpiderTrackerForm_Load);

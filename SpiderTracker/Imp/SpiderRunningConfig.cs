@@ -19,12 +19,23 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 我的用户
         /// </summary>
+        public string LoginUser { get; set; } = "47426568@qq.com";
+        /// <summary>
+        /// 我的用户
+        /// </summary>
+        public string LoginPassword { get; set; }
+
         public string LoginUid { get; set; }
+
+        /// <summary>
+        /// 登陆Cookie
+        /// </summary>
+        public string LoginCookie { get; set; }
 
         /// <summary>
         /// 登陆Token
         /// </summary>
-        public string LoginCookie { get; set; }
+        public string LoginToken { get; set; }
 
         /// <summary>
         /// 起始地址
@@ -77,33 +88,7 @@ namespace SpiderTracker.Imp
         /// 读取图片最大尺寸
         /// </summary>
         public int ReadMaxOfImgSize { get; set; } = 5000;
-
-        /// <summary>
-        /// 分析强制更新
-        /// </summary>
-        public int AnalyseAllowUpdate { get; set; } = 0;
-
-        /// <summary>
-        /// 分析拉黑图集
-        /// </summary>
-        public int AnalyseIgnoreStatusCount { get; set; }
-
-        /// <summary>
-        /// 分析关注图集
-        /// </summary>
-        public int AnalyseFocusStatusCount { get; set; } = 0;
-
-        /// <summary>
-        /// 分析删除图集
-        /// </summary>
-        public int AnalyseDeleteUserOrStatus { get; set; } = 0;
-
-
-        /// <summary>
-        /// 分析自动采集
-        /// </summary>
-        public int AnalyseAutoGather { get; set; } = 0;
-
+        
         /// <summary>
         /// 当前读取页数
         /// </summary>
@@ -128,7 +113,17 @@ namespace SpiderTracker.Imp
         /// </summary>
         public int OnlyReadFocusUser { get; set; } = 0;
 
-        public string SinaUserName { get; set; } = "zhupj@foxmail.com";
-        public string SinaUserPassword { get; set; } = "wdmm643030";
+        /// <summary>
+        /// 关注采集用户
+        /// </summary>
+        public int ReadUserThenFocus { get; set; } = 0;
+
+        public bool MustLogin
+        {
+            get
+            {
+                return ReadUserThenFocus == 1 ? true : false;
+            }
+        }
     }
 }

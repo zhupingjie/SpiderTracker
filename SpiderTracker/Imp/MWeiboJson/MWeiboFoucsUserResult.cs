@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace SpiderTracker.Imp.MWeiboJson
 {
-    public class MWeiboLoginData
+    public class MWeiboFoucsUserResult
     {
-        public bool login { get; set; }
-        public string uid { get; set; }
-        public string st { get; set; }
+        public int ok { get; set; }
+        public int http_code { get; set; }
     }
 }

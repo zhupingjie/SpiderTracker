@@ -8,12 +8,12 @@ namespace SpiderTracker.Imp.MWeiboJson
 {
     public class MWeiboLoginResult
     {
-        public int retcode { get; set; }
+        public int ok { get; set; }
         public bool success
         {
             get
             {
-                return retcode == 20000000;
+                return ok == 1;
             }
         }
 

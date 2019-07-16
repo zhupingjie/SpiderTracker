@@ -99,6 +99,7 @@
     <Compile Include="Imp\Model\SinaUser.cs" />
     <Compile Include="Imp\Model\SQLiteDBHelper.cs" />
     <Compile Include="Imp\Model\SQLiteColumn.cs" />
+    <Compile Include="Imp\MWeiboJson\MWeiboFoucsUserResult.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboFocusCards.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboFocusData.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboFocusResult.cs" />
@@ -122,7 +123,7 @@
     <Compile Include="Imp\SpiderCacheService.cs" />
     <Compile Include="Imp\StoreConfigEnum.cs" />
     <Compile Include="Imp\Util\UserUtil.cs" />
-    <Compile Include="Imp\SpiderRunninConfig.cs" />
+    <Compile Include="Imp\SpiderRunningConfig.cs" />
     <Compile Include="Imp\SinaUrlEnum.cs" />
     <Compile Include="UI\AnalyseConfigForm.cs">
       <SubType>Form</SubType>
@@ -147,6 +148,12 @@
     </Compile>
     <Compile Include="UI\FocusConfigForm.Designer.cs">
       <DependentUpon>FocusConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SinaLoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SinaLoginForm.Designer.cs">
+      <DependentUpon>SinaLoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SpiderTrackerForm.cs">
       <SubType>Form</SubType>
@@ -173,6 +180,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FocusConfigForm.resx">
       <DependentUpon>FocusConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SinaLoginForm.resx">
+      <DependentUpon>SinaLoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SpiderTrackerForm.resx">
       <DependentUpon>SpiderTrackerForm.cs</DependentUpon>

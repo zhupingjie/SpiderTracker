@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Threading;
 using SpiderTracker.Imp.Model;
 using System.Collections.Specialized;
+using SpiderTracker.UI;
 
 namespace SpiderTracker.Imp
 {
@@ -100,6 +101,15 @@ namespace SpiderTracker.Imp
 
         public void StartSpider(SpiderRunningConfig runningConfig)
         {
+            if (runningConfig.GatherType == GatherTypeEnum.MyFocusGather || runningConfig.MustLogin)
+            {
+                var loginForm = new SinaLoginForm(runningConfig);
+                if(loginForm.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                {
+                    ShowStatus("微博登陆失败!");
+                    return;
+                }
+            }
             Task.Factory.StartNew(() =>
             {
                 if (string.IsNullOrEmpty(runningConfig.Name))
@@ -148,20 +158,7 @@ namespace SpiderTracker.Imp
             SpiderStoping();
         }
 
-        bool SinaLogin(SpiderRunningConfig runningConfig)
-        {
-            var postApi = $"https://passport.weibo.cn/sso/login";
-            var paramData = $"username={runningConfig.SinaUserName}&password={runningConfig.SinaUserPassword}&savestate=1&r=https://m.weibo.cn/&ec=0&mainpageflag=1&entry=mweibo";
-
-            var cookie = HttpUtil.GetHttpRequestCookie(postApi, paramData);
-            if (!string.IsNullOrEmpty(cookie))
-            {
-                runningConfig.LoginCookie = cookie;
-                return true;
-            }
-            return false;
-        }
-
+        
         void SetWeiboLoginCookieResult(string cookie)
         {
             //SUB=_2A25wKNB1DeRhGedG7lIS8S3PzTiIHXVT0vA9rDV6PUJbkdAKLULFkW1NUViBpBbgQBJA907ftPxat7B2us9K069Y; Path=/; Domain=.weibo.cn; Expires=Tue, 14 Jul 2020 15:47:49 GMT; HttpOnly,
@@ -221,10 +218,6 @@ namespace SpiderTracker.Imp
 
         MWeiboUser[] GatherMyFocusUsers(SpiderRunningConfig runningConfig)
         {
-            ShowStatus($"开始登陆我的微博...", true);
-            var login = SinaLogin(runningConfig);
-            if (!login) return null;
-
             int page = 0;
             var focusUsers = new List<MWeiboUser>();
             while (++page > 0)
@@ -325,6 +318,13 @@ namespace SpiderTracker.Imp
                 return 0;
             }
 
+            //TODO:微博访问频次限制无法使用
+            if(runningConfig.ReadUserThenFocus == 9)
+            {
+                FocusSinaUser(runningConfig, user);
+                ShowStatus($"已关注用户【{user.id}】.");
+            }
+
             if (runningConfig.OnlyReadUserInfo == 1)
             {
                 ShowStatus($"只采集用户数据忽略内容【{user.id}】.");
@@ -396,6 +396,35 @@ namespace SpiderTracker.Imp
                 return null;
             }
             return user;
+        }
+
+        void FocusSinaUser(SpiderRunningConfig runningConfig, MWeiboUser user)
+        {
+            ShowStatus($"开始关注用户【{user.id}】的微博信息...", true);
+            var getApi = $"https://m.weibo.cn/api/friendships/create";
+
+            var paramData = $"uid={user.id}&st={runningConfig.LoginToken}";
+            var html = HttpUtil.PostHttpRequest(getApi, paramData, runningConfig);
+            if (html == null)
+            {
+                ShowStatus($"关注用户信息错误!");
+                return;
+            }
+            var result = GetWeiboFocusUserResult(html);
+            if (result == null || result.ok != 1)
+            {
+                ShowStatus($"关注用户信息错误!");
+                return;
+            }
+        }
+
+        MWeiboFoucsUserResult GetWeiboFocusUserResult(string html)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html);
+
+            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboFoucsUserResult>(doc.DocumentNode.InnerText) as MWeiboFoucsUserResult;
+            return jsonResult;
         }
 
         /// <summary>
