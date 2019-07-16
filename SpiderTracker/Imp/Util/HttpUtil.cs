@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace SpiderTracker.Imp
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
             request.Timeout = 5 * 1000;
-            request.Headers["X-Log-Uid"] = runningConfig.LoginUid;
+            request.Headers["Cookie"] = runningConfig.LoginCookie;
             try
             {
                 var response = request.GetResponse();
@@ -50,14 +51,14 @@ namespace SpiderTracker.Imp
                 return null;
             }
         }
-
-        public static string PostHttpRequestHtmlResult(string url, string paramData)
+        
+        public static string GetHttpRequestCookie(string url, string paramData)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.Timeout = 5 * 1000;
-            request.Referer= "https://passport.weibo.cn/signin/login";
-            request.ContentType= "application/x-www-form-urlencoded";
+            request.Referer = "https://passport.weibo.cn/signin/login";
+            request.ContentType = "application/x-www-form-urlencoded";
 
             try
             {
@@ -74,7 +75,8 @@ namespace SpiderTracker.Imp
                 var stream = response.GetResponseStream();
                 using (var reader = new StreamReader(stream, Encoding.UTF8))
                 {
-                    return reader.ReadToEnd();
+                    var result = reader.ReadToEnd();
+                    return response.Headers["Set-Cookie"];
                 }
             }
             catch (Exception ex)
