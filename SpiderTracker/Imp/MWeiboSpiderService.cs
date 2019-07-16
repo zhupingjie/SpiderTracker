@@ -124,16 +124,16 @@ namespace SpiderTracker.Imp
                             ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
                             break;
                         }
-                    case GatherTypeEnum.FocusGather:
+                    case GatherTypeEnum.MyFocusGather:
                         {
-                            var readStatusImageCount = StartFocusGatherTask(runningConfig);
+                            var readStatusImageCount = StartMyFocusGatherTask(runningConfig);
                             ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
                             break;
                         }
-                    case GatherTypeEnum.SmartAnalyse:
+                    case GatherTypeEnum.HeFocusGather:
                         {
-                            var analyseStatusCount = StartSpiderAnalyseTask(runningConfig);
-                            ShowStatus($"分析完成,共更新图集【{analyseStatusCount}】个.");
+                            var readStatusImageCount = StartHeFocusGatherTask(runningConfig);
+                            ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
                             break;
                         }
                 }
@@ -208,208 +208,7 @@ namespace SpiderTracker.Imp
             return readStatusImageCount;
         }
 
-        int StartSpiderAnalyseTask(SpiderRunningConfig runningConfig)
-        {
-            bool success = false;
-            int analyseStatusCount = 0;
-            foreach (var user in runningConfig.UserIds)
-            {
-                ShowStatus($"开始分析用户【{user}】的微博采集数据...");
-                GatherSinaUserByUserUrl(runningConfig, user);
-
-                var sinaUser = Repository.GetUser(user);
-                if(sinaUser == null)
-                {
-                    ShowStatus($"用户【{sinaUser.uid}】信息采集错误!!!");
-                    continue;
-                }
-                if(sinaUser.ignore == 1)
-                {
-                    ShowStatus($"用户【{sinaUser.uid}】已拉黑.");
-                    continue;
-                }
-                var statusPaths = PathUtil.GetStoreImageUserPaths(runningConfig.Name, sinaUser.uid);
-                if (statusPaths == null)
-                {
-                    ShowStatus($"用户【{sinaUser.uid}】本地未采集任何图集.");
-                    Repository.IgnoreSinaUser(sinaUser.uid);
-
-                    ChangeUserStatus(sinaUser.uid, true);
-
-                    var userPath = PathUtil.GetStoreImageUserPath(runningConfig.Name, sinaUser.uid);
-                    if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
-                    continue;
-                }
-
-                var sinaStatuses = Repository.GetUserStatuses(sinaUser.uid);
-
-                var analyseStatus = new List<string>();
-                foreach (var statusPath in statusPaths)
-                {
-                    var status = PathUtil.GetStatusByPath(statusPath);
-
-                    //更新微博实际读取图片数量
-                    var sinaStatus = sinaStatuses.FirstOrDefault(c => c.bid == status);
-                    if (sinaStatus != null)
-                    {
-                        //未开启强制更新，存在已采集数量，则忽略
-                        if(runningConfig.AnalyseAllowUpdate == 0)
-                        {
-                            if (sinaStatus.getpics > 0) continue;
-                        }
-                        sinaStatus.getpics = PathUtil.GetUserStatusImageCount(statusPath);
-                        sinaStatus.mayfocus = sinaStatus.getpics >= runningConfig.ReadMaxOfImgSize ? 1 : 0;
-                        sinaStatus.mayignore = sinaStatus.getpics < runningConfig.ReadMinOfImgCount ? 1 : 0;
-                        success = Repository.UpdateSinaStatus(sinaStatus, new string[] { "getpics", "mayignore", "mayfocus" });
-                        if (!success)
-                        {
-                            ShowStatus($"图集【{status}】更新错误!");
-                            continue;
-                        }
-                        analyseStatusCount++;
-                    }
-                    else
-                    {
-                        ShowStatus($"开始读取图集【{status}】数据...");
-
-                        var statusUrl = SinaUrlUtil.GetSinaUserStatusUrl(status);
-                        runningConfig.StartUrl = statusUrl;
-                        runningConfig.OnlyReadUserStatus = 1;
-                        GatherSinaStatusByStatusUrl(runningConfig);
-
-                        sinaStatus = Repository.GetUserStatus(status);
-                        if (sinaStatus != null)
-                        {
-                            sinaStatuses.Add(sinaStatus);
-
-                            sinaStatus.getpics = PathUtil.GetUserStatusImageCount(statusPath);
-                            sinaStatus.mayfocus = sinaStatus.getpics >= runningConfig.ReadMaxOfImgSize ? 1 : 0;
-                            sinaStatus.mayignore = sinaStatus.getpics < runningConfig.ReadMinOfImgCount ? 1 : 0;
-                            success = Repository.UpdateSinaStatus(sinaStatus, new string[] { "getpics", "mayignore", "mayfocus" });
-                            if (!success)
-                            {
-                                ShowStatus($"图集【{status}】更新错误!");
-                                continue;
-                            }
-                            analyseStatusCount++;
-                        }
-                    }
-                    ShowStatus($"图集【{status}】更新完成(OK)");
-
-                    if (StopSpiderWork)
-                    {
-                        ShowStatus($"中止分析用户图集数据...");
-                        break;
-                    }
-                }
-
-                UserUtil.UpdateAnalyseUsers(runningConfig.Name, analyseStatus);
-
-                //更新用户实际抓取的原创微博数和转发微博数
-                sinaUser.originals = sinaStatuses.Count(c => c.retweeted == 0 && c.pics > 0 && c.getpics > 0);
-                sinaUser.retweets = sinaStatuses.Count(c => c.retweeted == 1);
-                //设置为忽略，则不再计算
-                if (sinaUser.mayignore != 2)
-                {
-                    sinaUser.mayignore = ((sinaUser.originals + sinaUser.retweets) < runningConfig.AnalyseIgnoreStatusCount ? 1 : 0);
-                }
-                //设置为忽略，则不再计算
-                if (sinaUser.mayfocus != 2)
-                {
-                    sinaUser.mayfocus = (sinaUser.originals > runningConfig.AnalyseFocusStatusCount ? 1 : 0);
-                }
-                success = Repository.UpdateSinaUser(sinaUser, new string[] { "originals", "retweets", "mayignore", "mayfocus" });
-                if (!success)
-                {
-                    ShowStatus($"用户【{sinaUser.uid}】更新错误!");
-                    continue;
-                }
-                ShowStatus($"用户【{sinaUser.uid}】更新完成(OK)");
-
-                if (StopSpiderWork)
-                {
-                    ShowStatus($"中止分析用户数据...");
-                    break;
-                }
-
-                Thread.Sleep(1000);
-            }
-            return analyseStatusCount;    
-        }
-
-        int StartSpiderAnalyseDeleteTask(SpiderRunningConfig runningConfig)
-        {
-            int analyseStatusCount = 0;
-            foreach (var user in runningConfig.UserIds)
-            {
-                ShowStatus($"开始分析用户【{user}】的微博本地数据...");
-                
-                var sinaUser = Repository.GetUser(user);
-                if (sinaUser == null)
-                {
-                    ShowStatus($"用户【{sinaUser.uid}】信息不存在.");
-                    continue;
-                }                
-                var statusPaths = PathUtil.GetStoreImageUserPaths(runningConfig.Name, sinaUser.uid);
-                if (statusPaths == null)
-                {
-                    ShowStatus($"删除未采集任何图集用户【{sinaUser.uid}】.");
-                    Repository.DeleteSinaUser(sinaUser);
-                    Repository.DeleteSinaStatus(sinaUser);
-
-                    var userPath = PathUtil.GetStoreImageUserPath(runningConfig.Name, sinaUser.uid);
-                    if(Directory.Exists(userPath)) Directory.Delete(userPath, true);
-                    continue;
-                }
-                
-                var sinaStatuses = Repository.GetUserStatuses(sinaUser.uid);
-
-                var analyseStatus = new List<string>();
-                foreach (var sinaStatus in sinaStatuses)
-                {
-                    var statusPath = PathUtil.GetStoreImageUserStatusPath(runningConfig.Name, sinaUser.uid, sinaStatus.bid);
-
-                    //更新微博实际读取图片数量
-                    var getPicCount = PathUtil.GetUserStatusImageCount(statusPath);
-                    if (getPicCount == 0)
-                    {
-                        ShowStatus($"删除未采集任何图片图集【{sinaStatus.bid}】.");
-                        Repository.DeleteSinaStatus(sinaStatus);
-                        if (Directory.Exists(statusPath)) Directory.Delete(statusPath, true);
-                        analyseStatusCount++;
-                        continue;
-                    }
-                    if (StopSpiderWork)
-                    {
-                        ShowStatus($"中止分析用户图集数据...");
-                        break;
-                    }
-                }
-
-                statusPaths = PathUtil.GetStoreImageUserPaths(runningConfig.Name, sinaUser.uid);
-                if (statusPaths == null)
-                {
-                    ShowStatus($"删除未采集任何图集用户【{sinaUser.uid}】.");
-                    Repository.DeleteSinaUser(sinaUser);
-                    Repository.DeleteSinaStatus(sinaUser);
-
-                    var userPath = PathUtil.GetStoreImageUserPath(runningConfig.Name, sinaUser.uid);
-                    if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
-                    continue;
-                }
-
-                if (StopSpiderWork)
-                {
-                    ShowStatus($"中止分析用户数据...");
-                    break;
-                }
-
-                Thread.Sleep(1000);
-            }
-            return analyseStatusCount;
-        }
-
-        int StartFocusGatherTask(SpiderRunningConfig runningConfig)
+        int StartMyFocusGatherTask(SpiderRunningConfig runningConfig)
         {
             int readImageCount = 0;
             var sinaUsers = new List<SinaUser>();
@@ -504,6 +303,92 @@ namespace SpiderTracker.Imp
             var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboFocusResult>(doc.DocumentNode.InnerText) as MWeiboFocusResult;
             return jsonResult;
         }
+
+
+        int StartHeFocusGatherTask(SpiderRunningConfig runningConfig)
+        {
+            int readImageCount = 0;
+            var sinaUsers = new List<SinaUser>();
+            var user = GatherHeFocusUsers(runningConfig);
+            foreach (var sinaUser in sinaUsers)
+            {
+                ShowStatus($"开始采集关注用户【{sinaUser.uid}】的微博数据...");
+
+                var sinaStatuses = Repository.GetUserStatuses(sinaUser.uid);
+                var needGatherStatus = sinaStatuses.Where(c => c.retweeted == 0 && c.pics > 0 && c.getpics == 0).ToArray();
+
+                int iamgeCount = 0;
+                foreach (var sinaStatus in needGatherStatus)
+                {
+                    var statusPath = PathUtil.GetStoreImageUserStatusPath(sinaUser.groupname, sinaUser.uid, sinaStatus.bid);
+                    var cacheImageCount = PathUtil.GetUserStatusImageCount(statusPath);
+                    if (cacheImageCount == 0)
+                    {
+                        runningConfig.StartUrl = SinaUrlUtil.GetSinaUserStatusUrl(sinaStatus.bid);
+                        iamgeCount = GatherSinaStatusByStatusUrl(runningConfig);
+                        if (iamgeCount == 0)
+                        {
+                            sinaStatus.getpics = 0;
+                            sinaStatus.mayignore = 1;
+                            var success = Repository.UpdateSinaStatus(sinaStatus, new string[] { "getpics", "mayignore" });
+                            if (!success)
+                            {
+                                ShowStatus($"图集【{sinaStatus.bid}】更新错误!");
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            sinaStatus.getpics = iamgeCount;
+                            var success = Repository.UpdateSinaStatus(sinaStatus, new string[] { "getpics" });
+                            if (!success)
+                            {
+                                ShowStatus($"图集【{sinaStatus.bid}】更新错误!");
+                                continue;
+                            }
+                            readImageCount += iamgeCount;
+                        }
+
+                        if (StopSpiderWork)
+                        {
+                            ShowStatus($"中止采集用户微博数据...");
+                            break;
+                        }
+
+                        ShowStatus($"等待【{runningConfig.ReadNextStatusWaitSecond}】秒读取下一条微博数据...");
+                        Thread.Sleep(runningConfig.ReadNextStatusWaitSecond * 1000);
+                    }
+                }
+
+                if (StopSpiderWork)
+                {
+                    ShowStatus($"中止采集用户数据...");
+                    break;
+                }
+            }
+            return readImageCount;
+        }
+
+        MWeiboUser[] GatherHeFocusUsers(SpiderRunningConfig runningConfig)
+        {
+            var userId = SinaUrlUtil.GetSinaUserByStartUrl(runningConfig.StartUrl);
+            ShowStatus($"开始读取{userId}关注的用户信息...", true);
+            var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231051_-_followers_-_{userId}_-_1042015%253AtagCategory_039&luicode=10000011&lfid=1076033810669779";
+            var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
+            if (html == null)
+            {
+                ShowStatus($"读取他的关注信息错误!");
+                return null;
+            }
+            var result = GetWeiboFocusResult(html);
+            if (result == null || result.data == null || result.data.cards.Length < 2)
+            {
+                ShowStatus($"解析他的关注用户信息错误!");
+                return null;
+            }
+            return null;
+        }
+
 
         MWeiboUser GatherSinaUserByUserUrl(SpiderRunningConfig runningConfig, string userId)
         {

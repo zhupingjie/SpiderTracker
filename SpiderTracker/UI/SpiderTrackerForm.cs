@@ -385,7 +385,7 @@ namespace SpiderTracker
             if (!SinaSpiderService.IsSpiderStarted)
             {
                 var runningConfig = GetSpiderRunningConfig();
-                runningConfig.GatherType = GatherTypeEnum.FocusGather;
+                runningConfig.GatherType = GatherTypeEnum.MyFocusGather;
                 SinaSpiderService.StartSpider(runningConfig);
             }
             else
@@ -412,7 +412,7 @@ namespace SpiderTracker
 
                 var runningConfig = GetSpiderRunningConfig();
                 runningConfig.UserIds = userIds.ToArray();
-                runningConfig.GatherType = GatherTypeEnum.SmartAnalyse;
+                runningConfig.GatherType = GatherTypeEnum.HeFocusGather;
 
                 SinaSpiderService.StartSpider(runningConfig);
             }

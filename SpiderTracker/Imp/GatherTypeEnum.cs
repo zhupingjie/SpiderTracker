@@ -19,13 +19,13 @@ namespace SpiderTracker.Imp
         MultiGather = 1,
 
         /// <summary>
-        /// 关注采集
+        /// 我的关注采集
         /// </summary>
-        FocusGather = 2,
+        MyFocusGather = 2,
 
         /// <summary>
-        /// 智能分析
+        /// 他的关注采集
         /// </summary>
-        SmartAnalyse = 3
+        HeFocusGather = 3
     }
 }

@@ -721,7 +721,7 @@
             this.btnAutoGather.Name = "btnAutoGather";
             this.btnAutoGather.Size = new System.Drawing.Size(111, 41);
             this.btnAutoGather.TabIndex = 15;
-            this.btnAutoGather.Text = "智能分析";
+            this.btnAutoGather.Text = "他的关注";
             this.btnAutoGather.UseVisualStyleBackColor = false;
             this.btnAutoGather.Click += new System.EventHandler(this.btnAutoGather_Click);
             // 
@@ -734,7 +734,7 @@
             this.btnGatherFoucs.Name = "btnGatherFoucs";
             this.btnGatherFoucs.Size = new System.Drawing.Size(113, 41);
             this.btnGatherFoucs.TabIndex = 14;
-            this.btnGatherFoucs.Text = "关注采集";
+            this.btnGatherFoucs.Text = "我的关注";
             this.btnGatherFoucs.UseVisualStyleBackColor = false;
             this.btnGatherFoucs.Click += new System.EventHandler(this.btnGatherFoucs_Click);
             // 
@@ -769,7 +769,7 @@
             this.lstLog.Location = new System.Drawing.Point(0, 0);
             this.lstLog.Margin = new System.Windows.Forms.Padding(0);
             this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(494, 526);
+            this.lstLog.Size = new System.Drawing.Size(492, 523);
             this.lstLog.TabIndex = 15;
             // 
             // pnlRight
@@ -827,7 +827,7 @@
             this.tbpGatherLog.Location = new System.Drawing.Point(4, 4);
             this.tbpGatherLog.Margin = new System.Windows.Forms.Padding(0);
             this.tbpGatherLog.Name = "tbpGatherLog";
-            this.tbpGatherLog.Size = new System.Drawing.Size(494, 526);
+            this.tbpGatherLog.Size = new System.Drawing.Size(492, 523);
             this.tbpGatherLog.TabIndex = 0;
             this.tbpGatherLog.Text = "运行日志";
             // 
