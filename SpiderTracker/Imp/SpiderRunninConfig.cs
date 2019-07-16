@@ -115,6 +115,10 @@ namespace SpiderTracker.Imp
         public int OnlyReadOwnerUser { get; set; } = 0;
 
         /// <summary>
+        /// 只采集用户数
+        /// </summary>
+        public int OnlyReadUserInfo { get; set; } = 0;
+        /// <summary>
         /// 只采集微博数(不下载图片)
         /// </summary>
         public int OnlyReadUserStatus { get; set; } = 0;

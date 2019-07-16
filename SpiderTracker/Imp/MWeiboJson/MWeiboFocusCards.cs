@@ -8,6 +8,7 @@ namespace SpiderTracker.Imp.MWeiboJson
 {
     public class MWeiboFocusCard
     {
+        public int card_style { get; set; }
         public int card_type { get; set; }
         public string desc1 { get; set; }
         public string desc2 { get; set; }

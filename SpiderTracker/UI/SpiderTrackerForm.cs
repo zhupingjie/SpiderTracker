@@ -159,13 +159,13 @@ namespace SpiderTracker
 
             InvokeControl(this.btnGatherFoucs, new Action(() =>
             {
-                this.btnGatherFoucs.Text = "关注采集";
+                this.btnGatherFoucs.Text = "我的关注";
                 this.btnGatherFoucs.Enabled = true;
             }));
 
             InvokeControl(this.btnAutoGather, new Action(() =>
             {
-                this.btnAutoGather.Text = "智能分析";
+                this.btnAutoGather.Text = "他的关注";
                 this.btnAutoGather.Enabled = true;
             }));
         }
@@ -867,6 +867,11 @@ namespace SpiderTracker
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
+            dr["配置项"] = "只采集用户数";
+            dr["配置值"] = "0";
+            dt.Rows.Add(dr);
+
+            dr = dt.NewRow();
             dr["配置项"] = "只采集微博数";
             dr["配置值"] = "0";
             dt.Rows.Add(dr);
@@ -880,27 +885,6 @@ namespace SpiderTracker
             dr["配置项"] = "图片最大尺寸";
             dr["配置值"] = "6000";
             dt.Rows.Add(dr);
-
-            dr = dt.NewRow();
-            dr["配置项"] = "分析强制更新";
-            dr["配置值"] = "0";
-            dt.Rows.Add(dr);
-
-            dr = dt.NewRow();
-            dr["配置项"] = "分析拉黑图集";
-            dr["配置值"] = "3";
-            dt.Rows.Add(dr);
-
-            dr = dt.NewRow();
-            dr["配置项"] = "分析关注图集";
-            dr["配置值"] = "10";
-            dt.Rows.Add(dr);
-
-            //dr = dt.NewRow();
-            //dr["配置项"] = "分析删除图集";
-            //dr["配置值"] = "0";
-            //dt.Rows.Add(dr);
-
 
             this.dataGridView1.DataSource = dt.DefaultView;
             this.dataGridView1.Columns[0].Width = 120;
@@ -981,33 +965,12 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue);
                     runningConfig.OnlyReadFocusUser = intValue;
                 }
-                else if (row.Cells["配置项"].Value.ToString() == "分析强制更新")
+                else if (row.Cells["配置项"].Value.ToString() == "只采集用户数")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     var intValue = 0;
                     int.TryParse(strValue, out intValue);
-                    runningConfig.AnalyseAllowUpdate = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "分析拉黑图集")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    runningConfig.AnalyseIgnoreStatusCount = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "分析关注图集")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    runningConfig.AnalyseFocusStatusCount = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "分析删除图集")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    runningConfig.AnalyseDeleteUserOrStatus = intValue;
+                    runningConfig.OnlyReadUserInfo = intValue;
                 }
                 else if (row.Cells["配置项"].Value.ToString() == "只采集微博数")
                 {
