@@ -101,7 +101,7 @@ namespace SpiderTracker.Imp
 
         public void StartSpider(SpiderRunningConfig runningConfig)
         {
-            if (runningConfig.GatherType == GatherTypeEnum.MyFocusGather || runningConfig.MustLogin)
+            if (runningConfig.GatherType == GatherTypeEnum.MyFocusGather)
             {
                 var loginForm = new SinaLoginForm(runningConfig);
                 if(loginForm.ShowDialog() != System.Windows.Forms.DialogResult.OK)
@@ -318,13 +318,6 @@ namespace SpiderTracker.Imp
                 return 0;
             }
 
-            //TODO:微博访问频次限制无法使用
-            if(runningConfig.ReadUserThenFocus == 9)
-            {
-                FocusSinaUser(runningConfig, user);
-                ShowStatus($"已关注用户【{user.id}】.");
-            }
-
             if (runningConfig.OnlyReadUserInfo == 1)
             {
                 ShowStatus($"只采集用户数据忽略内容【{user.id}】.");
@@ -359,16 +352,16 @@ namespace SpiderTracker.Imp
                     Thread.Sleep(runningConfig.ReadNextPageWaitSecond * 1000);
                 }
             }
-            //未读取到任何图集
-            if (readUserImageCount == 0)
-            {
-                var sinaStatuses = Repository.GetUserStatuses(user.id);
-                if (sinaStatuses.Count == 0)
-                {
-                    Repository.IgnoreSinaUser(user.id);
-                    ChangeUserStatus(user.id, true);
-                }
-            }
+            ////未读取到任何图集
+            //if (readUserImageCount == 0)
+            //{
+            //    var sinaStatuses = Repository.GetUserStatuses(user.id);
+            //    if (sinaStatuses.Count == 0)
+            //    {
+            //        Repository.IgnoreSinaUser(user.id);
+            //        ChangeUserStatus(user.id, true);
+            //    }
+            //}
             return readUserImageCount;
         }
 
@@ -677,8 +670,28 @@ namespace SpiderTracker.Imp
         /// <returns></returns>
         bool DownloadUserStatusImage(SpiderRunningConfig runningConfig, string userId, string arcId, string imgUrl, int haveReadPageCount)
         {
+            if (!Repository.ExistsSinaPicture(userId, arcId, imgUrl))
+            {
+                var sinaPicture = new SinaPicture()
+                {
+                    uid = userId,
+                    bid = arcId,
+                    picurl = imgUrl
+                };
+                var suc = Repository.CreateSinaPicture(sinaPicture);
+                if (!suc)
+                {
+                    ShowStatus($"创建本地微博图片错误.");
+                    return false;
+                }
+            }
+            if(runningConfig.OnlyReadUserPicture == 1)
+            {
+                ShowStatus($"只采集微博图片忽略下载.");
+                return false;
+            }
             var image = HttpUtil.GetHttpRequestImageResult(imgUrl, runningConfig);
-            if(image == null)
+            if (image == null)
             {
                 ShowStatus($"下载第【{(haveReadPageCount + 1)}】张图片错误!");
                 return false;

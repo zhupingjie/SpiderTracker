@@ -264,7 +264,38 @@ namespace SpiderTracker.Imp
             }
         }
 
-       public TEntity GetEntity<TEntity>(string table, string where) where TEntity : BaseEntity, new ()
+        public bool ExistsEntity(string table, string where)
+        {
+            using (SQLiteConnection con = new SQLiteConnection(strConn))
+            {
+                con.Open();
+                var cmd = con.CreateCommand();
+
+                cmd.CommandText = $"select count(*) from {table} where {where}";
+                try
+                {
+                    var obj = cmd.ExecuteScalar();
+                    if (obj != DBNull.Value)
+                    {
+                        int count = 0;
+                        int.TryParse(obj.ToString(), out count);
+                        return count > 0 ? true : false;
+                    }
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    log4net.LogManager.GetLogger("logAppender").Error(ex);
+                    return false;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public TEntity GetEntity<TEntity>(string table, string where) where TEntity : BaseEntity, new ()
         {
             return GetEntitys<TEntity>(table, where).FirstOrDefault();
         }

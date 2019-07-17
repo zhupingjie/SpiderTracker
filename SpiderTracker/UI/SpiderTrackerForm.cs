@@ -877,7 +877,7 @@ namespace SpiderTracker
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
-            dr["配置项"] = "关注采集用户";
+            dr["配置项"] = "只采集图片数";
             dr["配置值"] = "0";
             dt.Rows.Add(dr);
 
@@ -984,12 +984,12 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue);
                     runningConfig.OnlyReadUserStatus = intValue;
                 }
-                else if(row.Cells["配置项"].Value.ToString() == "关注采集用户")
+                else if(row.Cells["配置项"].Value.ToString() == "只采集图片数")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     int intValue = 0;
                     int.TryParse(strValue, out intValue); ;
-                    runningConfig.ReadUserThenFocus = intValue;
+                    runningConfig.OnlyReadUserPicture = intValue;
                 }
             }
             return runningConfig;

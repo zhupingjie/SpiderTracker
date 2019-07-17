@@ -16,6 +16,11 @@ namespace SpiderTracker.Imp.Model
 
         }
 
+        public bool CreateSinaPicture(SinaPicture picture)
+        {
+            return DBHelper.CreateEntity(picture, "sina_picture");
+        }
+
         public bool CreateSinaUser(SinaUser user)
         {
             return DBHelper.CreateEntity(user, "sina_user");
@@ -25,6 +30,12 @@ namespace SpiderTracker.Imp.Model
         {
             return DBHelper.DeleteEntity("sina_user", "uid", user.uid);
         }
+
+        public bool DeleteSinaUserPicture(SinaUser user)
+        {
+            return DBHelper.DeleteEntity("sina_picture", "uid", user.uid);
+        }
+
         public bool UpdateSinaUser(SinaUser user, string[] columns)
         {
             return DBHelper.UpdateEntity(user, "sina_user", "uid", user.uid, columns);
@@ -63,6 +74,11 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.ExistsEntity("sina_status", "bid", bid);
         }
 
+        public bool ExistsSinaPicture(string uid, string bid, string imgurl)
+        {
+            return DBHelper.ExistsEntity("sina_picture", $"uid='{uid}' and bid='{bid}' and picurl='{imgurl}'");
+        }
+
         public SinaUser GetUser(string uid)
         {
             return DBHelper.GetEntity<SinaUser>("sina_user", $"uid='{uid}'");
@@ -96,6 +112,11 @@ namespace SpiderTracker.Imp.Model
         public List<SinaStatus> GetUserStatuses(string uid)
         {
             return DBHelper.GetEntitys<SinaStatus>("sina_status", $"uid='{uid}' and retweeted=0 and ignore=0");
+        }
+
+        public List<SinaPicture> GetUserPictures(string uid)
+        {
+            return DBHelper.GetEntitys<SinaPicture>("sinna_picture", $"uid='{uid}'");
         }
 
         public List<SinaUser> GetFocusUsers(string groupname)
@@ -165,7 +186,7 @@ namespace SpiderTracker.Imp.Model
             sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(status.bid);
             if (readStatusImageCount != -1)
             {
-                sinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
+                //sinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
             }
             if (retweeted == null)
             {
@@ -197,7 +218,7 @@ namespace SpiderTracker.Imp.Model
                     sinaStatus.pics = retweeted.pics != null ? retweeted.pics.Length : 0;
                     if (readStatusImageCount != -1)
                     {
-                        sinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
+                        //sinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
                     }
                     var suc = CreateSinaStatus(sinaStatus);
                     if (!suc)

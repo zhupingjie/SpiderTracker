@@ -100,30 +100,22 @@ namespace SpiderTracker.Imp
         public int OnlyReadOwnerUser { get; set; } = 0;
 
         /// <summary>
-        /// 只采集用户数
+        /// 只采集用户数(不读取用户微博)
         /// </summary>
         public int OnlyReadUserInfo { get; set; } = 0;
         /// <summary>
-        /// 只采集微博数(不下载图片)
+        /// 只采集微博数(不读取微博图片)
         /// </summary>
         public int OnlyReadUserStatus { get; set; } = 0;
+
+        /// <summary>
+        /// 只采集图片数(不下载微博图片)
+        /// </summary>
+        public int OnlyReadUserPicture { get; set; } = 0;
 
         /// <summary>
         /// 只读关注用户
         /// </summary>
         public int OnlyReadFocusUser { get; set; } = 0;
-
-        /// <summary>
-        /// 关注采集用户
-        /// </summary>
-        public int ReadUserThenFocus { get; set; } = 0;
-
-        public bool MustLogin
-        {
-            get
-            {
-                return ReadUserThenFocus == 1 ? true : false;
-            }
-        }
     }
 }

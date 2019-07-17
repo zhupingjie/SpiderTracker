@@ -17,7 +17,7 @@ namespace SpiderTracker.Imp
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
-            request.Timeout = 5 * 1000;
+            request.Timeout = 10 * 1000;
             if (!string.IsNullOrEmpty(runningConfig.LoginCookie))
             {
                 request.Headers["Cookie"] = runningConfig.LoginCookie;
@@ -41,7 +41,7 @@ namespace SpiderTracker.Imp
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
-            request.Timeout = 5 * 1000;
+            request.Timeout = 10 * 1000;
             if (!string.IsNullOrEmpty(runningConfig.LoginCookie))
             {
                 request.Headers["Cookie"] = runningConfig.LoginCookie;
@@ -50,7 +50,6 @@ namespace SpiderTracker.Imp
             {
                 var response = request.GetResponse();
                 var stream = response.GetResponseStream();
-
                 return Image.FromStream(stream);
             }
             catch (Exception ex)
@@ -100,7 +99,7 @@ namespace SpiderTracker.Imp
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
-            request.Timeout = 5 * 1000;
+            request.Timeout = 10 * 1000;
             request.Referer = "https://passport.weibo.cn/signin/login";
             request.ContentType = "application/x-www-form-urlencoded";
 
@@ -133,7 +132,7 @@ namespace SpiderTracker.Imp
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
-            request.Timeout = 5 * 1000;
+            request.Timeout = 10 * 1000;
             //request.Referer = "https://passport.weibo.cn/signin/login";
             request.ContentType = "application/x-www-form-urlencoded";
 

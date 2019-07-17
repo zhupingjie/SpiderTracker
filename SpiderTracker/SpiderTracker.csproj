@@ -94,6 +94,7 @@
     <Compile Include="Imp\GatherTypeEnum.cs" />
     <Compile Include="Imp\Model\BaseEntity.cs" />
     <Compile Include="Imp\Model\IEntity.cs" />
+    <Compile Include="Imp\Model\SinaPicture.cs" />
     <Compile Include="Imp\Model\SinaRepository.cs" />
     <Compile Include="Imp\Model\SinaStatus.cs" />
     <Compile Include="Imp\Model\SinaUser.cs" />

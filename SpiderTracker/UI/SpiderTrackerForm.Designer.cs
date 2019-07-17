@@ -125,7 +125,7 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1323, 51);
             this.panel1.TabIndex = 0;
@@ -139,7 +139,7 @@
             this.txtStartUrl.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.txtStartUrl.ForeColor = System.Drawing.Color.Blue;
             this.txtStartUrl.Location = new System.Drawing.Point(0, 0);
-            this.txtStartUrl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtStartUrl.Margin = new System.Windows.Forms.Padding(4);
             this.txtStartUrl.Name = "txtStartUrl";
             this.txtStartUrl.Size = new System.Drawing.Size(1118, 51);
             this.txtStartUrl.TabIndex = 2;
@@ -151,7 +151,7 @@
             this.panel4.Controls.Add(this.cbxName);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel4.Location = new System.Drawing.Point(1118, 0);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(205, 51);
             this.panel4.TabIndex = 4;
@@ -167,7 +167,7 @@
             this.cbxName.Items.AddRange(new object[] {
             ""});
             this.cbxName.Location = new System.Drawing.Point(0, 0);
-            this.cbxName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbxName.Margin = new System.Windows.Forms.Padding(4);
             this.cbxName.Name = "cbxName";
             this.cbxName.Size = new System.Drawing.Size(205, 47);
             this.cbxName.TabIndex = 3;
@@ -180,7 +180,7 @@
             this.btnLoop.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnLoop.ForeColor = System.Drawing.Color.White;
             this.btnLoop.Location = new System.Drawing.Point(171, 44);
-            this.btnLoop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLoop.Margin = new System.Windows.Forms.Padding(4);
             this.btnLoop.Name = "btnLoop";
             this.btnLoop.Size = new System.Drawing.Size(148, 51);
             this.btnLoop.TabIndex = 11;
@@ -194,7 +194,7 @@
             this.btnSearch.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnSearch.ForeColor = System.Drawing.Color.White;
             this.btnSearch.Location = new System.Drawing.Point(12, 44);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(151, 51);
             this.btnSearch.TabIndex = 10;
@@ -229,7 +229,7 @@
             this.panel3.Controls.Add(this.panel6);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 51);
-            this.panel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(291, 699);
             this.panel3.TabIndex = 7;
@@ -240,7 +240,7 @@
             this.panel15.Controls.Add(this.txtUserFilter);
             this.panel15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel15.Location = new System.Drawing.Point(0, 32);
-            this.panel15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel15.Margin = new System.Windows.Forms.Padding(4);
             this.panel15.Name = "panel15";
             this.panel15.Size = new System.Drawing.Size(289, 363);
             this.panel15.TabIndex = 8;
@@ -278,7 +278,7 @@
             this.panel9.Controls.Add(this.panel8);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel9.Location = new System.Drawing.Point(0, 395);
-            this.panel9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel9.Margin = new System.Windows.Forms.Padding(4);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(289, 251);
             this.panel9.TabIndex = 7;
@@ -291,7 +291,7 @@
             this.lstArc.FormattingEnabled = true;
             this.lstArc.ItemHeight = 23;
             this.lstArc.Location = new System.Drawing.Point(0, 32);
-            this.lstArc.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lstArc.Margin = new System.Windows.Forms.Padding(4);
             this.lstArc.Name = "lstArc";
             this.lstArc.Size = new System.Drawing.Size(289, 219);
             this.lstArc.TabIndex = 12;
@@ -308,7 +308,7 @@
             this.panel8.Controls.Add(this.label7);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(0, 0);
-            this.panel8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel8.Margin = new System.Windows.Forms.Padding(4);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(289, 32);
             this.panel8.TabIndex = 11;
@@ -318,7 +318,7 @@
             this.btnFocusStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnFocusStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnFocusStatus.Location = new System.Drawing.Point(148, 2);
-            this.btnFocusStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnFocusStatus.Margin = new System.Windows.Forms.Padding(4);
             this.btnFocusStatus.Name = "btnFocusStatus";
             this.btnFocusStatus.Size = new System.Drawing.Size(47, 25);
             this.btnFocusStatus.TabIndex = 20;
@@ -331,7 +331,7 @@
             this.btnOpenStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnOpenStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnOpenStatus.Location = new System.Drawing.Point(193, 2);
-            this.btnOpenStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnOpenStatus.Margin = new System.Windows.Forms.Padding(4);
             this.btnOpenStatus.Name = "btnOpenStatus";
             this.btnOpenStatus.Size = new System.Drawing.Size(47, 25);
             this.btnOpenStatus.TabIndex = 19;
@@ -344,7 +344,7 @@
             this.btnIgnoreStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnIgnoreStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnIgnoreStatus.Location = new System.Drawing.Point(101, 2);
-            this.btnIgnoreStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnIgnoreStatus.Margin = new System.Windows.Forms.Padding(4);
             this.btnIgnoreStatus.Name = "btnIgnoreStatus";
             this.btnIgnoreStatus.Size = new System.Drawing.Size(47, 25);
             this.btnIgnoreStatus.TabIndex = 11;
@@ -357,7 +357,7 @@
             this.btnBrowseStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnBrowseStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnBrowseStatus.Location = new System.Drawing.Point(239, 2);
-            this.btnBrowseStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBrowseStatus.Margin = new System.Windows.Forms.Padding(4);
             this.btnBrowseStatus.Name = "btnBrowseStatus";
             this.btnBrowseStatus.Size = new System.Drawing.Size(47, 25);
             this.btnBrowseStatus.TabIndex = 7;
@@ -387,7 +387,7 @@
             this.panel7.Controls.Add(this.label5);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
-            this.panel7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel7.Margin = new System.Windows.Forms.Padding(4);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(289, 32);
             this.panel7.TabIndex = 4;
@@ -397,7 +397,7 @@
             this.btnFoucsUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnFoucsUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnFoucsUser.Location = new System.Drawing.Point(148, 4);
-            this.btnFoucsUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnFoucsUser.Margin = new System.Windows.Forms.Padding(4);
             this.btnFoucsUser.Name = "btnFoucsUser";
             this.btnFoucsUser.Size = new System.Drawing.Size(47, 25);
             this.btnFoucsUser.TabIndex = 11;
@@ -410,7 +410,7 @@
             this.btnIgnoreUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnIgnoreUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnIgnoreUser.Location = new System.Drawing.Point(103, 4);
-            this.btnIgnoreUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnIgnoreUser.Margin = new System.Windows.Forms.Padding(4);
             this.btnIgnoreUser.Name = "btnIgnoreUser";
             this.btnIgnoreUser.Size = new System.Drawing.Size(47, 25);
             this.btnIgnoreUser.TabIndex = 10;
@@ -423,7 +423,7 @@
             this.btnFollowerUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnFollowerUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnFollowerUser.Location = new System.Drawing.Point(193, 4);
-            this.btnFollowerUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnFollowerUser.Margin = new System.Windows.Forms.Padding(4);
             this.btnFollowerUser.Name = "btnFollowerUser";
             this.btnFollowerUser.Size = new System.Drawing.Size(47, 25);
             this.btnFollowerUser.TabIndex = 9;
@@ -436,7 +436,7 @@
             this.btnBrowseUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnBrowseUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnBrowseUser.Location = new System.Drawing.Point(239, 4);
-            this.btnBrowseUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBrowseUser.Margin = new System.Windows.Forms.Padding(4);
             this.btnBrowseUser.Name = "btnBrowseUser";
             this.btnBrowseUser.Size = new System.Drawing.Size(47, 25);
             this.btnBrowseUser.TabIndex = 8;
@@ -463,7 +463,7 @@
             this.panel6.Controls.Add(this.lblImgCount);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel6.Location = new System.Drawing.Point(0, 646);
-            this.panel6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel6.Margin = new System.Windows.Forms.Padding(4);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(289, 51);
             this.panel6.TabIndex = 3;
@@ -483,7 +483,7 @@
             this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(67, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(529, 659);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -500,7 +500,7 @@
             this.panel10.Controls.Add(this.panel14);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel10.Location = new System.Drawing.Point(989, 51);
-            this.panel10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel10.Margin = new System.Windows.Forms.Padding(4);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(334, 699);
             this.panel10.TabIndex = 11;
@@ -512,7 +512,7 @@
             this.panel5.Controls.Add(this.panel16);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(0, 140);
-            this.panel5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel5.Margin = new System.Windows.Forms.Padding(4);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(332, 395);
             this.panel5.TabIndex = 18;
@@ -535,7 +535,7 @@
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 32);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
@@ -555,7 +555,7 @@
             this.panel16.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel16.ForeColor = System.Drawing.Color.White;
             this.panel16.Location = new System.Drawing.Point(0, 0);
-            this.panel16.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel16.Margin = new System.Windows.Forms.Padding(4);
             this.panel16.Name = "panel16";
             this.panel16.Size = new System.Drawing.Size(332, 32);
             this.panel16.TabIndex = 13;
@@ -578,7 +578,7 @@
             this.panel17.Controls.Add(this.panel13);
             this.panel17.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel17.Location = new System.Drawing.Point(0, 0);
-            this.panel17.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel17.Margin = new System.Windows.Forms.Padding(4);
             this.panel17.Name = "panel17";
             this.panel17.Size = new System.Drawing.Size(332, 140);
             this.panel17.TabIndex = 18;
@@ -597,7 +597,7 @@
             this.panel2.Controls.Add(this.label4);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 32);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(332, 108);
             this.panel2.TabIndex = 17;
@@ -607,7 +607,7 @@
             this.btnAnlayse.BackColor = System.Drawing.Color.White;
             this.btnAnlayse.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnAnlayse.Location = new System.Drawing.Point(248, 0);
-            this.btnAnlayse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAnlayse.Margin = new System.Windows.Forms.Padding(4);
             this.btnAnlayse.Name = "btnAnlayse";
             this.btnAnlayse.Size = new System.Drawing.Size(21, 108);
             this.btnAnlayse.TabIndex = 23;
@@ -620,7 +620,7 @@
             this.btnIgnoreConfig.BackColor = System.Drawing.Color.White;
             this.btnIgnoreConfig.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnIgnoreConfig.Location = new System.Drawing.Point(269, 0);
-            this.btnIgnoreConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnIgnoreConfig.Margin = new System.Windows.Forms.Padding(4);
             this.btnIgnoreConfig.Name = "btnIgnoreConfig";
             this.btnIgnoreConfig.Size = new System.Drawing.Size(21, 108);
             this.btnIgnoreConfig.TabIndex = 22;
@@ -633,7 +633,7 @@
             this.btnFocusConfig.BackColor = System.Drawing.Color.White;
             this.btnFocusConfig.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnFocusConfig.Location = new System.Drawing.Point(290, 0);
-            this.btnFocusConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnFocusConfig.Margin = new System.Windows.Forms.Padding(4);
             this.btnFocusConfig.Name = "btnFocusConfig";
             this.btnFocusConfig.Size = new System.Drawing.Size(21, 108);
             this.btnFocusConfig.TabIndex = 21;
@@ -646,7 +646,7 @@
             this.btnLock.BackColor = System.Drawing.Color.White;
             this.btnLock.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnLock.Location = new System.Drawing.Point(311, 0);
-            this.btnLock.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLock.Margin = new System.Windows.Forms.Padding(4);
             this.btnLock.Name = "btnLock";
             this.btnLock.Size = new System.Drawing.Size(21, 108);
             this.btnLock.TabIndex = 20;
@@ -727,7 +727,7 @@
             this.panel13.Controls.Add(this.label1);
             this.panel13.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel13.Location = new System.Drawing.Point(0, 0);
-            this.panel13.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel13.Margin = new System.Windows.Forms.Padding(4);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(332, 32);
             this.panel13.TabIndex = 15;
@@ -753,7 +753,7 @@
             this.panel14.Controls.Add(this.panel11);
             this.panel14.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel14.Location = new System.Drawing.Point(0, 535);
-            this.panel14.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel14.Margin = new System.Windows.Forms.Padding(4);
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(332, 162);
             this.panel14.TabIndex = 16;
@@ -764,7 +764,7 @@
             this.btnAutoGather.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnAutoGather.ForeColor = System.Drawing.Color.White;
             this.btnAutoGather.Location = new System.Drawing.Point(171, 102);
-            this.btnAutoGather.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAutoGather.Margin = new System.Windows.Forms.Padding(4);
             this.btnAutoGather.Name = "btnAutoGather";
             this.btnAutoGather.Size = new System.Drawing.Size(148, 51);
             this.btnAutoGather.TabIndex = 15;
@@ -778,7 +778,7 @@
             this.btnGatherFoucs.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnGatherFoucs.ForeColor = System.Drawing.Color.White;
             this.btnGatherFoucs.Location = new System.Drawing.Point(12, 102);
-            this.btnGatherFoucs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGatherFoucs.Margin = new System.Windows.Forms.Padding(4);
             this.btnGatherFoucs.Name = "btnGatherFoucs";
             this.btnGatherFoucs.Size = new System.Drawing.Size(151, 51);
             this.btnGatherFoucs.TabIndex = 14;
@@ -792,7 +792,7 @@
             this.panel11.Controls.Add(this.label15);
             this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel11.Location = new System.Drawing.Point(0, 0);
-            this.panel11.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel11.Margin = new System.Windows.Forms.Padding(4);
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(332, 32);
             this.panel11.TabIndex = 12;
@@ -819,7 +819,7 @@
             this.lstLog.Location = new System.Drawing.Point(0, 0);
             this.lstLog.Margin = new System.Windows.Forms.Padding(0);
             this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(661, 656);
+            this.lstLog.Size = new System.Drawing.Size(663, 659);
             this.lstLog.TabIndex = 15;
             // 
             // pnlRight
@@ -827,7 +827,7 @@
             this.pnlRight.BackColor = System.Drawing.Color.White;
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.pnlRight.Location = new System.Drawing.Point(596, 0);
-            this.pnlRight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlRight.Margin = new System.Windows.Forms.Padding(4);
             this.pnlRight.Name = "pnlRight";
             this.pnlRight.Size = new System.Drawing.Size(67, 659);
             this.pnlRight.TabIndex = 16;
@@ -841,7 +841,7 @@
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tabControl1.Location = new System.Drawing.Point(291, 83);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(3, 3);
@@ -867,7 +867,7 @@
             this.pnlLeft.BackColor = System.Drawing.Color.White;
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeft.Location = new System.Drawing.Point(0, 0);
-            this.pnlLeft.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlLeft.Margin = new System.Windows.Forms.Padding(4);
             this.pnlLeft.Name = "pnlLeft";
             this.pnlLeft.Size = new System.Drawing.Size(67, 659);
             this.pnlLeft.TabIndex = 17;
@@ -880,7 +880,7 @@
             this.tbpGatherLog.Location = new System.Drawing.Point(4, 4);
             this.tbpGatherLog.Margin = new System.Windows.Forms.Padding(0);
             this.tbpGatherLog.Name = "tbpGatherLog";
-            this.tbpGatherLog.Size = new System.Drawing.Size(661, 656);
+            this.tbpGatherLog.Size = new System.Drawing.Size(663, 659);
             this.tbpGatherLog.TabIndex = 0;
             this.tbpGatherLog.Text = "运行日志";
             // 
@@ -904,7 +904,7 @@
             this.panel12.Controls.Add(this.label10);
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel12.Location = new System.Drawing.Point(291, 51);
-            this.panel12.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel12.Margin = new System.Windows.Forms.Padding(4);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(698, 32);
             this.panel12.TabIndex = 14;
@@ -914,7 +914,7 @@
             this.btnManager.BackColor = System.Drawing.SystemColors.Control;
             this.btnManager.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnManager.Location = new System.Drawing.Point(616, 4);
-            this.btnManager.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnManager.Margin = new System.Windows.Forms.Padding(4);
             this.btnManager.Name = "btnManager";
             this.btnManager.Size = new System.Drawing.Size(76, 25);
             this.btnManager.TabIndex = 6;
@@ -934,7 +934,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SpiderTrackerForm";
             this.Text = "新浪微博探索者v1.0";
             this.Load += new System.EventHandler(this.SpiderTrackerForm_Load);
