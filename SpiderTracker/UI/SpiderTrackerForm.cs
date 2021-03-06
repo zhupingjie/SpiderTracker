@@ -838,7 +838,7 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "最大采集页数";
-            dr["配置值"] = "3";
+            dr["配置值"] = "10";
             dt.Rows.Add(dr);
 
             //dr = dt.NewRow();
@@ -883,12 +883,12 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "图片最小尺寸";
-            dr["配置值"] = "680";
+            dr["配置值"] = "580";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
             dr["配置项"] = "图片最大尺寸";
-            dr["配置值"] = "6000";
+            dr["配置值"] = "8000";
             dt.Rows.Add(dr);
 
             this.dataGridView1.DataSource = dt.DefaultView;
