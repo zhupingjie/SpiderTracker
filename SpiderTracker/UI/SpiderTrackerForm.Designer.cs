@@ -167,7 +167,7 @@
             this.cbxName.Name = "cbxName";
             this.cbxName.Size = new System.Drawing.Size(154, 39);
             this.cbxName.TabIndex = 3;
-            this.cbxName.Text = "default";
+            this.cbxName.Text = "cosplay";
             this.cbxName.Leave += new System.EventHandler(this.cbxName_Leave);
             // 
             // btnLoop
@@ -769,7 +769,7 @@
             this.lstLog.Location = new System.Drawing.Point(0, 0);
             this.lstLog.Margin = new System.Windows.Forms.Padding(0);
             this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(494, 526);
+            this.lstLog.Size = new System.Drawing.Size(492, 523);
             this.lstLog.TabIndex = 15;
             // 
             // pnlRight
@@ -827,7 +827,7 @@
             this.tbpGatherLog.Location = new System.Drawing.Point(4, 4);
             this.tbpGatherLog.Margin = new System.Windows.Forms.Padding(0);
             this.tbpGatherLog.Name = "tbpGatherLog";
-            this.tbpGatherLog.Size = new System.Drawing.Size(494, 526);
+            this.tbpGatherLog.Size = new System.Drawing.Size(492, 523);
             this.tbpGatherLog.TabIndex = 0;
             this.tbpGatherLog.Text = "运行日志";
             // 

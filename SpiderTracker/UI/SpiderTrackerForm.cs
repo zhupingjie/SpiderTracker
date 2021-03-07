@@ -46,6 +46,7 @@ namespace SpiderTracker
         {
             Log = LogManager.GetLogger("logAppender");
 
+            SQLiteDBHelper.Instance.InitSpiderDB();
             InitSpiderRunningConfig();
 
             //SQLiteDBHelper.Instance.InitSQLiteDB();
@@ -883,7 +884,7 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "图片最小尺寸";
-            dr["配置值"] = "580";
+            dr["配置值"] = "480";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SQLite;
 using SpiderTracker.Imp.Model;
 using System.Data;
+using MySqlConnector;
 
 namespace SpiderTracker.Imp
 {
@@ -21,8 +21,21 @@ namespace SpiderTracker.Imp
         }
 
         private static readonly SQLiteDBHelper instance = new SQLiteDBHelper();
-        private static readonly string dbName = "../../SQliteDB/SpiderDB.db";
-        private static readonly string strConn = $"Data Source={dbName}";
+        //private static readonly string dbName = "../../SQliteDB/SpiderDB.db";
+        //private static readonly string strConn = $"Data Source={dbName}";
+        public string DBServiceIP { get; set; } = "121.4.29.105";
+        public string DBName { get; set; } = "spider";
+        public string DBUserID { get; set; } = "root";
+        public string DBPwd { get; set; } = "sa!123456";
+        public int DBPort { get; set; } = 3306;
+
+        public string DBConnectionString
+        {
+            get
+            {
+                return $"Server={DBServiceIP};Database={DBName};User Id={DBUserID};Password={DBPwd};Connect Timeout=20;";
+            }
+        }
         public static SQLiteDBHelper Instance
         {
             get
@@ -31,9 +44,9 @@ namespace SpiderTracker.Imp
             }
         }
 
-        public void InitSQLiteDB()
+        public void InitSpiderDB()
         {
-            CreateDB(dbName);
+            //CreateDB(dbName);
 
             var columns = new List<SQLiteColumn>();
             columns.Add(new SQLiteColumn("groupname", "nvarchar", 20));
@@ -52,6 +65,8 @@ namespace SpiderTracker.Imp
             columns.Add(new SQLiteColumn("getstatuses", "int"));
             columns.Add(new SQLiteColumn("originals", "int"));
             columns.Add(new SQLiteColumn("retweets", "int"));
+            columns.Add(new SQLiteColumn("mayfocus", "int"));
+            columns.Add(new SQLiteColumn("mayignore", "int"));
             CreateTable("sina_user", columns.ToArray());
 
             columns = new List<SQLiteColumn>();
@@ -68,12 +83,26 @@ namespace SpiderTracker.Imp
             columns.Add(new SQLiteColumn("lastdate", "datetime"));
             columns.Add(new SQLiteColumn("focus", "int"));
             columns.Add(new SQLiteColumn("ignore", "int"));
+            columns.Add(new SQLiteColumn("mayfocus", "int"));
+            columns.Add(new SQLiteColumn("mayignore", "int"));
             CreateTable("sina_status", columns.ToArray());
+
+            columns = new List<SQLiteColumn>();
+            columns.Add(new SQLiteColumn("uid", "nvarchar", 16));
+            columns.Add(new SQLiteColumn("bid", "nvarchar", 16));
+            columns.Add(new SQLiteColumn("picurl", "nvarchar", 250));
+            columns.Add(new SQLiteColumn("localpath", "nvarchar", 250));
+            columns.Add(new SQLiteColumn("width", "int"));
+            columns.Add(new SQLiteColumn("height", "int"));
+            columns.Add(new SQLiteColumn("size", "bigint"));
+            columns.Add(new SQLiteColumn("downdate", "datetime"));
+            columns.Add(new SQLiteColumn("lastdate", "datetime"));
+            CreateTable("sina_picture", columns.ToArray());
         }
 
         void CreateDB(string dbName)
         {
-            SQLiteConnection.CreateFile($"{dbName}");
+            //MySqlConnection.CreateFile($"{dbName}");
         }
 
         /// <summary>
@@ -83,24 +112,26 @@ namespace SpiderTracker.Imp
         /// <param name="columns"></param>
         void CreateTable(string tableName, SQLiteColumn[] columns)
         {
-            using (SQLiteConnection con = new SQLiteConnection(strConn))
+            using (MySqlConnection con = new MySqlConnection(DBConnectionString))
             {
                 con.Open();
                 var cmd = con.CreateCommand();
                 StringBuilder sb = new StringBuilder();
-                sb.Append($"create table {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT");
-                foreach(var column in columns)
+                sb.Append($"create table IF NOT EXISTS {tableName} (`ID` int(11) NOT NULL AUTO_INCREMENT");
+                foreach (var column in columns)
                 {
                     if (column.Length != 0)
                     {
-                        sb.Append($",{column.ColumnName} {column.DataType}({column.Length})");
+                        sb.Append($",`{column.ColumnName}` {column.DataType}({column.Length})");
                     }
                     else
                     {
-                        sb.Append($",{column.ColumnName} {column.DataType}");
+                        sb.Append($",`{column.ColumnName}` {column.DataType}");
                     }
                 }
-                sb.Append(")");
+                sb.Append(",PRIMARY KEY (`ID`)");
+                sb.Append(") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;");
+
                 cmd.CommandText = sb.ToString();
                 cmd.ExecuteNonQuery();
                 con.Close();
@@ -110,7 +141,7 @@ namespace SpiderTracker.Imp
 
         public bool CreateEntity(BaseEntity entity, string table)
         {
-            using (SQLiteConnection con = new SQLiteConnection(strConn))
+            using (MySqlConnection con = new MySqlConnection(DBConnectionString))
             {
                 con.Open();
                 var cmd = con.CreateCommand();
@@ -124,7 +155,7 @@ namespace SpiderTracker.Imp
                 {
                     if (field.Name == "id") continue;
 
-                    sbCol.Append($",{field.Name}");
+                    sbCol.Append($",`{field.Name}`");
 
                     var value = field.GetValue(entity);
                     if (value != null)
@@ -169,7 +200,7 @@ namespace SpiderTracker.Imp
 
         public bool UpdateEntity(BaseEntity entity, string table, string col, string val, string[] columns)
         {
-            using (SQLiteConnection con = new SQLiteConnection(strConn))
+            using (MySqlConnection con = new MySqlConnection(DBConnectionString))
             {
                 con.Open();
                 var cmd = con.CreateCommand();
@@ -186,10 +217,10 @@ namespace SpiderTracker.Imp
                     var value = field.GetValue(entity);
                     if (value != null)
                     {
-                        sb.Append($",{field.Name}='{value}'");
+                        sb.Append($",`{field.Name}`='{value}'");
                     }
                 }
-                cmd.CommandText = $"update {table} set lastdate='{DateTime.Now.ToString("s")}' {sb.ToString()} where {col}='{val}'";
+                cmd.CommandText = $"update {table} set `lastdate`='{DateTime.Now.ToString("s")}' {sb.ToString()} where `{col}`='{val}'";
                 try
                 {
                     cmd.ExecuteNonQuery();
@@ -209,13 +240,13 @@ namespace SpiderTracker.Imp
 
         public bool DeleteEntity(string table, string col, string val)
         {
-            using (SQLiteConnection con = new SQLiteConnection(strConn))
+            using (MySqlConnection con = new MySqlConnection(DBConnectionString))
             {
                 con.Open();
                 var cmd = con.CreateCommand();
 
                 StringBuilder sb = new StringBuilder();
-                cmd.CommandText = $"delete from {table} where {col}='{val}'";
+                cmd.CommandText = $"delete from {table} where `{col}`='{val}'";
                 try
                 {
                     cmd.ExecuteNonQuery();
@@ -235,12 +266,12 @@ namespace SpiderTracker.Imp
 
         public bool ExistsEntity(string table, string column, string value)
         {
-            using (SQLiteConnection con = new SQLiteConnection(strConn))
+            using (MySqlConnection con = new MySqlConnection(DBConnectionString))
             {
                 con.Open();
                 var cmd = con.CreateCommand();
 
-                cmd.CommandText = $"select count(*) from {table} where {column}='{value}'";
+                cmd.CommandText = $"select count(*) from {table} where `{column}`='{value}'";
                 try
                 {
                     var obj = cmd.ExecuteScalar();
@@ -266,7 +297,7 @@ namespace SpiderTracker.Imp
 
         public bool ExistsEntity(string table, string where)
         {
-            using (SQLiteConnection con = new SQLiteConnection(strConn))
+            using (MySqlConnection con = new MySqlConnection(DBConnectionString))
             {
                 con.Open();
                 var cmd = con.CreateCommand();
@@ -302,14 +333,14 @@ namespace SpiderTracker.Imp
 
         public List<TEntity> GetEntitys<TEntity>(string table, string where)  where TEntity : BaseEntity, new ()
         {
-            using (SQLiteConnection con = new SQLiteConnection(strConn))
+            using (MySqlConnection con = new MySqlConnection(DBConnectionString))
             {
                 try
                 {
                     con.Open();
                     var cmd = con.CreateCommand();
                     cmd.CommandText = $"select * from {table} where {where}";
-                    var ada = new SQLiteDataAdapter(cmd);
+                    var ada = new MySqlDataAdapter(cmd);
                     var dt = new DataTable(table);
                     ada.Fill(dt);
 
@@ -360,14 +391,14 @@ namespace SpiderTracker.Imp
 
         public List<string> GetGroupStrings(string table, string groupColumn, string where)
         {
-            using (SQLiteConnection con = new SQLiteConnection(strConn))
+            using (MySqlConnection con = new MySqlConnection(DBConnectionString))
             {
                 try
                 {
                     con.Open();
                     var cmd = con.CreateCommand();
                     cmd.CommandText = $"select {groupColumn} from {table} where {where} group by {groupColumn}";
-                    var ada = new SQLiteDataAdapter(cmd);
+                    var ada = new MySqlDataAdapter(cmd);
                     var dt = new DataTable(table);
                     ada.Fill(dt);
 

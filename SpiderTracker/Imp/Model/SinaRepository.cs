@@ -76,12 +76,12 @@ namespace SpiderTracker.Imp.Model
 
         public bool ExistsSinaPicture(string uid, string bid, string imgurl)
         {
-            return DBHelper.ExistsEntity("sina_picture", $"uid='{uid}' and bid='{bid}' and picurl='{imgurl}'");
+            return DBHelper.ExistsEntity("sina_picture", $"`uid`='{uid}' and `bid`='{bid}' and `picurl`='{imgurl}'");
         }
 
         public SinaUser GetUser(string uid)
         {
-            return DBHelper.GetEntity<SinaUser>("sina_user", $"uid='{uid}'");
+            return DBHelper.GetEntity<SinaUser>("sina_user", $"`uid`='{uid}'");
         }
 
         public string[] GetGroupNames()
@@ -91,45 +91,45 @@ namespace SpiderTracker.Imp.Model
 
         public List<SinaUser> GetUsers(string groupname)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"groupname='{groupname}'");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}'");
         }
 
         public List<SinaUser> GetUsers(string groupname, string keyword)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"groupname='{groupname}' and ignore=0 and uid like '%{keyword}%'");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `ignore`=0 and `uid` like '%{keyword}%'");
         }
 
         public List<SinaUser> GetUsers(string[] uids)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $" uid in ({string.Join(",", uids.Select(c => $"'{c}'"))})");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $" `uid` in ({string.Join(",", uids.Select(c => $"'{c}'"))})");
         }
 
         public SinaStatus GetUserStatus(string bid)
         {
-            return DBHelper.GetEntity<SinaStatus>("sina_status", $"bid='{bid}'");
+            return DBHelper.GetEntity<SinaStatus>("sina_status", $"`bid`='{bid}'");
         }
 
         public List<SinaStatus> GetUserStatuses(string uid)
         {
-            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"uid='{uid}' and retweeted=0 and ignore=0");
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweeted`=0 and `ignore`=0");
         }
 
         public List<SinaPicture> GetUserPictures(string uid)
         {
-            return DBHelper.GetEntitys<SinaPicture>("sinna_picture", $"uid='{uid}'");
+            return DBHelper.GetEntitys<SinaPicture>("sinna_picture", $"`uid`='{uid}'");
         }
 
         public List<SinaUser> GetFocusUsers(string groupname)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"groupname='{groupname}' and focus=1");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `focus`=1");
         }
         public List<SinaUser> GetAnalyseFocusUsers(string groupname)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"groupname='{groupname}' and mayfocus=1");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `mayfocus`=1");
         }
         public List<SinaUser> GetAnalyseIgnoreUsers(string groupname)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"groupname='{groupname}' and mayignore=1");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `mayignore`=1");
         }
 
         public bool CheckUserIgnore(string uid)
@@ -186,7 +186,7 @@ namespace SpiderTracker.Imp.Model
             sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(status.bid);
             if (readStatusImageCount != -1)
             {
-                //sinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
+                sinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
             }
             if (retweeted == null)
             {
