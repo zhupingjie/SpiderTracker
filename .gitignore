@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs
+/packages
+/SpiderTracker/bin/Debug
+/SpiderTracker/cache
+/SpiderTracker/obj/Debug
