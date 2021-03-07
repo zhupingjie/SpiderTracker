@@ -256,6 +256,12 @@ namespace SpiderTracker
                         }
                         this.cbxName.EndUpdate();
                     }
+                    if (names.Length > 0)
+                    {
+                        LoadCacheName = names.FirstOrDefault();
+
+                        LoadCacheUserList(LoadCacheName);
+                    }
                 }));
 
                 Thread.Sleep(10 * 1000);
