@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -54,6 +54,7 @@
             this.btnBrowseStatus = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.btnNewUser = new System.Windows.Forms.Button();
             this.btnFoucsUser = new System.Windows.Forms.Button();
             this.btnIgnoreUser = new System.Windows.Forms.Button();
             this.btnFollowerUser = new System.Windows.Forms.Button();
@@ -94,10 +95,10 @@
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
+            this.txtShowImg = new System.Windows.Forms.CheckBox();
             this.btnManager = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.btnNewUser = new System.Windows.Forms.Button();
-            this.txtShowImg = new System.Windows.Forms.CheckBox();
+            this.lblStatusCount = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -380,6 +381,18 @@
             this.panel7.Size = new System.Drawing.Size(217, 26);
             this.panel7.TabIndex = 4;
             // 
+            // btnNewUser
+            // 
+            this.btnNewUser.BackColor = System.Drawing.SystemColors.Control;
+            this.btnNewUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnNewUser.Location = new System.Drawing.Point(49, 3);
+            this.btnNewUser.Name = "btnNewUser";
+            this.btnNewUser.Size = new System.Drawing.Size(35, 20);
+            this.btnNewUser.TabIndex = 12;
+            this.btnNewUser.Text = "NEW";
+            this.btnNewUser.UseVisualStyleBackColor = false;
+            this.btnNewUser.Click += new System.EventHandler(this.btnNewUser_Click);
+            // 
             // btnFoucsUser
             // 
             this.btnFoucsUser.BackColor = System.Drawing.SystemColors.Control;
@@ -443,6 +456,7 @@
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.Color.LightCyan;
+            this.panel6.Controls.Add(this.lblStatusCount);
             this.panel6.Controls.Add(this.lblImgCount);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel6.Location = new System.Drawing.Point(0, 514);
@@ -453,11 +467,11 @@
             // lblImgCount
             // 
             this.lblImgCount.AutoSize = true;
-            this.lblImgCount.Location = new System.Drawing.Point(3, 16);
+            this.lblImgCount.Location = new System.Drawing.Point(84, 16);
             this.lblImgCount.Name = "lblImgCount";
-            this.lblImgCount.Size = new System.Drawing.Size(131, 12);
+            this.lblImgCount.Size = new System.Drawing.Size(77, 12);
             this.lblImgCount.TabIndex = 0;
-            this.lblImgCount.Text = "【本图集共 0 张图片】";
+            this.lblImgCount.Text = "【0 张图片】";
             // 
             // pictureBox1
             // 
@@ -497,27 +511,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -861,6 +875,18 @@
             this.panel12.Size = new System.Drawing.Size(522, 26);
             this.panel12.TabIndex = 14;
             // 
+            // txtShowImg
+            // 
+            this.txtShowImg.AutoSize = true;
+            this.txtShowImg.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtShowImg.ForeColor = System.Drawing.Color.White;
+            this.txtShowImg.Location = new System.Drawing.Point(384, 6);
+            this.txtShowImg.Name = "txtShowImg";
+            this.txtShowImg.Size = new System.Drawing.Size(76, 16);
+            this.txtShowImg.TabIndex = 21;
+            this.txtShowImg.Text = "显示图集";
+            this.txtShowImg.UseVisualStyleBackColor = true;
+            // 
             // btnManager
             // 
             this.btnManager.BackColor = System.Drawing.SystemColors.Control;
@@ -880,29 +906,14 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
-            // btnNewUser
+            // lblStatusCount
             // 
-            this.btnNewUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnNewUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnNewUser.Location = new System.Drawing.Point(49, 3);
-            this.btnNewUser.Name = "btnNewUser";
-            this.btnNewUser.Size = new System.Drawing.Size(35, 20);
-            this.btnNewUser.TabIndex = 12;
-            this.btnNewUser.Text = "NEW";
-            this.btnNewUser.UseVisualStyleBackColor = false;
-            this.btnNewUser.Click += new System.EventHandler(this.btnNewUser_Click);
-            // 
-            // txtShowImg
-            // 
-            this.txtShowImg.AutoSize = true;
-            this.txtShowImg.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtShowImg.ForeColor = System.Drawing.Color.White;
-            this.txtShowImg.Location = new System.Drawing.Point(384, 6);
-            this.txtShowImg.Name = "txtShowImg";
-            this.txtShowImg.Size = new System.Drawing.Size(76, 16);
-            this.txtShowImg.TabIndex = 21;
-            this.txtShowImg.Text = "显示图集";
-            this.txtShowImg.UseVisualStyleBackColor = true;
+            this.lblStatusCount.AutoSize = true;
+            this.lblStatusCount.Location = new System.Drawing.Point(1, 16);
+            this.lblStatusCount.Name = "lblStatusCount";
+            this.lblStatusCount.Size = new System.Drawing.Size(77, 12);
+            this.lblStatusCount.TabIndex = 1;
+            this.lblStatusCount.Text = "【0 个图集】";
             // 
             // SpiderTrackerForm
             // 
@@ -1026,6 +1037,7 @@
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.Button btnNewUser;
         private System.Windows.Forms.CheckBox txtShowImg;
+        private System.Windows.Forms.Label lblStatusCount;
     }
 }
 

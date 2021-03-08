@@ -309,6 +309,8 @@ namespace SpiderTracker
                 this.lstArc.BeginUpdate();
                 this.lstArc.Items.AddRange(needArcIds.ToArray());
                 this.lstArc.EndUpdate();
+
+                this.lblStatusCount.Text = $"【{statuses.Count} 个图集】";
             }));
         }
         
@@ -488,7 +490,7 @@ namespace SpiderTracker
             {
                 ShowImage(files, 0);
             }
-            this.lblImgCount.Text = $"【本图集共 {files.Length} 张图片】";
+            this.lblImgCount.Text = $"【{files.Length} 张图片】";
 
             if (this.txtShowImg.Checked)
             {
