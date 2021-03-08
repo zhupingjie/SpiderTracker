@@ -886,7 +886,7 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "最大采集页数";
-            dr["配置值"] = "10";
+            dr["配置值"] = "3";
             dt.Rows.Add(dr);
 
             //dr = dt.NewRow();
@@ -901,7 +901,7 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "最少图片数量";
-            dr["配置值"] = "4";
+            dr["配置值"] = "3";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
