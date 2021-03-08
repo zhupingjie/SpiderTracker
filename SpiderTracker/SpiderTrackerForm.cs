@@ -489,7 +489,11 @@ namespace SpiderTracker
                 ShowImage(files, 0);
             }
             this.lblImgCount.Text = $"【本图集共 {files.Length} 张图片】";
-            ActiveImageCtl();
+
+            if (this.txtShowImg.Checked)
+            {
+                ActiveImageCtl();
+            }
         }
 
         private void btnBrowseUser_Click(object sender, EventArgs e)
@@ -519,6 +523,25 @@ namespace SpiderTracker
                 var index = this.lstUser.SelectedIndex;
                 this.lstUser.Items.Remove(user);
                 if (this.lstUser.Items.Count > index) this.lstUser.SelectedIndex = index;
+            }
+        }
+        private void btnNewUser_Click(object sender, EventArgs e)
+        {
+            var user = this.txtUserFilter.Text.Trim();
+            if (string.IsNullOrEmpty(user)) return;
+
+            if (MessageBox.Show("确认添加当前用户?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+
+            var rep = new SinaRepository();
+            var suc = rep.CreateSinaUser(new SinaUser()
+            {
+                uid = user,
+                groupname = LoadCacheName
+            });
+            if (suc)
+            {
+                this.lstUser.Items.Insert(0, user);
+                this.lstUser.SelectedIndex = 0;
             }
         }
 
@@ -676,6 +699,11 @@ namespace SpiderTracker
             {
                 FilterUserIds(keyword);
             }
+        }
+
+        private void txtUserFilter_DoubleClick(object sender, EventArgs e)
+        {
+            this.txtUserFilter.Clear();
         }
 
         private void btnLock_Click(object sender, EventArgs e)
@@ -1116,5 +1144,6 @@ namespace SpiderTracker
             this.WindowState = FormWindowState.Normal;
             this.Activate();
         }
+
     }
 }

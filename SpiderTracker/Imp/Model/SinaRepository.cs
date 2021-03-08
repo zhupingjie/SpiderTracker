@@ -169,7 +169,7 @@ namespace SpiderTracker.Imp.Model
             }
             else if (bUpdate)
             {
-                var suc = UpdateSinaUser(sinaUser, new string[] { "follows", "followers", "statuses" });
+                var suc = UpdateSinaUser(sinaUser, new string[] { "follows", "followers", "statuses", "name", "avatar", "desc", "profile" });
                 if (!suc)
                 {
                     return $"更新本地用户错误!";
