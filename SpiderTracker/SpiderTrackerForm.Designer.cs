@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -63,7 +63,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.btnNewUser = new System.Windows.Forms.Button();
-            this.btnFoucsUser = new System.Windows.Forms.Button();
+            this.btnFollwerUser = new System.Windows.Forms.Button();
             this.btnIgnoreUser = new System.Windows.Forms.Button();
             this.btnBrowseUser = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -442,7 +442,7 @@
             this.panel7.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.panel7.Controls.Add(this.btnMarkUser);
             this.panel7.Controls.Add(this.btnNewUser);
-            this.panel7.Controls.Add(this.btnFoucsUser);
+            this.panel7.Controls.Add(this.btnFollwerUser);
             this.panel7.Controls.Add(this.btnIgnoreUser);
             this.panel7.Controls.Add(this.btnBrowseUser);
             this.panel7.Controls.Add(this.label5);
@@ -464,17 +464,17 @@
             this.btnNewUser.UseVisualStyleBackColor = false;
             this.btnNewUser.Click += new System.EventHandler(this.btnNewUser_Click);
             // 
-            // btnFoucsUser
+            // btnFollwerUser
             // 
-            this.btnFoucsUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnFoucsUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnFoucsUser.Location = new System.Drawing.Point(113, 3);
-            this.btnFoucsUser.Name = "btnFoucsUser";
-            this.btnFoucsUser.Size = new System.Drawing.Size(35, 20);
-            this.btnFoucsUser.TabIndex = 11;
-            this.btnFoucsUser.Text = "FCS";
-            this.btnFoucsUser.UseVisualStyleBackColor = false;
-            this.btnFoucsUser.Click += new System.EventHandler(this.btnFoucsUser_Click);
+            this.btnFollwerUser.BackColor = System.Drawing.SystemColors.Control;
+            this.btnFollwerUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnFollwerUser.Location = new System.Drawing.Point(146, 3);
+            this.btnFollwerUser.Name = "btnFollwerUser";
+            this.btnFollwerUser.Size = new System.Drawing.Size(35, 20);
+            this.btnFollwerUser.TabIndex = 11;
+            this.btnFollwerUser.Text = "FOW";
+            this.btnFollwerUser.UseVisualStyleBackColor = false;
+            this.btnFollwerUser.Click += new System.EventHandler(this.btnFollowerUser_Click);
             // 
             // btnIgnoreUser
             // 
@@ -579,27 +579,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle11;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -978,7 +978,7 @@
             // 
             this.btnMarkUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnMarkUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnMarkUser.Location = new System.Drawing.Point(146, 3);
+            this.btnMarkUser.Location = new System.Drawing.Point(113, 3);
             this.btnMarkUser.Name = "btnMarkUser";
             this.btnMarkUser.Size = new System.Drawing.Size(35, 20);
             this.btnMarkUser.TabIndex = 21;
@@ -1100,7 +1100,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnIgnoreStatus;
         private System.Windows.Forms.Button btnOpenStatus;
-        private System.Windows.Forms.Button btnFoucsUser;
+        private System.Windows.Forms.Button btnFollwerUser;
         private System.Windows.Forms.Button btnArchiveStatus;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.Button btnNewUser;

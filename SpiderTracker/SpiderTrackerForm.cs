@@ -308,26 +308,12 @@ namespace SpiderTracker
         
         void LoadCacheUserStatusList(string user)
         {
-            var needArcs = new List<SinaStatus>();
             var statuses = SinaSpiderService.Repository.GetUserStatuses(user);
-            if (this.lstArc.Items.Count > 0)
-            {
-                foreach (var status in statuses.OrderByDescending(c => c.lastdate))
-                {
-                    if (this.lstArc.FindItemWithText(status.bid, true, 0, true) == null)
-                    {
-                        needArcs.Add(status);
-                    }
-                }
-            }
-            else
-            {
-                needArcs.AddRange(statuses);
-            }
             InvokeControl(this.lstArc, new Action(() =>
             {
                 this.lstArc.BeginUpdate();
-                foreach (var item in needArcs)
+                this.lstArc.Items.Clear();
+                foreach (var item in statuses)
                 {
                     var subItem = new ListViewItem();
                     subItem.Text = item.bid;
@@ -703,10 +689,7 @@ namespace SpiderTracker
                     var userStatusPath = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, bid);
                     if (Directory.Exists(userStatusPath)) Directory.Delete(userStatusPath, true);
 
-                    if(this.lstArc.Items.Count > 0)
-                    {
-                        this.lstArc.Items[0].Selected = true;
-                    }
+                    LoadCacheUserStatusList(uid);
                 }
             }
         }
@@ -719,9 +702,6 @@ namespace SpiderTracker
             var url = SinaUrlUtil.GetSinaUserFollowerUrl(userId);
             System.Diagnostics.Process.Start(url);
         }
-
-
-
 
         private void btnArchiveStatus_Click(object sender, EventArgs e)
         {
