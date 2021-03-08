@@ -203,13 +203,27 @@ namespace SpiderTracker.Imp.Model
                 sinaStatus.retuid = retweeted.user.id;
                 sinaStatus.retbid = retweeted.bid;
             }
-            if (!ExistsSinaStatus(status.bid))
+
+            var extSinaStatus = GetUserStatus(status.bid);
+            if (extSinaStatus == null)
             {
                 var suc = CreateSinaStatus(sinaStatus);
                 if (!suc)
                 {
                     return $"创建本地微博错误!";
                 }
+            }
+            else
+            {
+                if (readStatusImageCount != -1)
+                {
+                    extSinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
+                }
+                if (retweeted == null)
+                {
+                    extSinaStatus.pics = status.pics != null ? status.pics.Length : 0;
+                }
+                UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "pics" });
             }
             if (retweeted != null)
             {
@@ -231,10 +245,6 @@ namespace SpiderTracker.Imp.Model
                         return $"创建本地转发微博错误!";
                     }
                 }
-            }
-            else
-            {
-                UpdateSinaStatus(sinaStatus, new string[] { "ignore", "pics" });
             }
             return null;
         }
