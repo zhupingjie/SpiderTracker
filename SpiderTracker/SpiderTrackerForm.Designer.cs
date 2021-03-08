@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -94,6 +95,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.btnManager = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -866,6 +868,13 @@
             this.btnManager.UseVisualStyleBackColor = false;
             this.btnManager.Click += new System.EventHandler(this.btnManager_Click);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
+            // 
             // SpiderTrackerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -880,7 +889,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SpiderTrackerForm";
             this.Text = "新浪微博探索者v1.0";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SpiderTrackerForm_FormClosing);
             this.Load += new System.EventHandler(this.SpiderTrackerForm_Load);
+            this.SizeChanged += new System.EventHandler(this.SpiderTrackerForm_SizeChanged);
             this.panel1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
@@ -983,6 +994,7 @@
         private System.Windows.Forms.Button btnOpenStatus;
         private System.Windows.Forms.Button btnFoucsUser;
         private System.Windows.Forms.Button btnFocusStatus;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }
 

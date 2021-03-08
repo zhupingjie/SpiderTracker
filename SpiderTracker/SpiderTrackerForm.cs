@@ -1093,5 +1093,28 @@ namespace SpiderTracker
             this.tabControl1.Enabled = enabled;
         }
         #endregion
+
+        #region 关闭&最小化
+
+        private void SpiderTrackerForm_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Hide();
+                this.notifyIcon1.Visible = true;
+            }
+        }
+        private void SpiderTrackerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
+        }
+        #endregion
+
+        private void notifyIcon1_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+            this.Activate();
+        }
     }
 }
