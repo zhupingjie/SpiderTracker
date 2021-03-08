@@ -533,15 +533,26 @@ namespace SpiderTracker
             if (MessageBox.Show("确认添加当前用户?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             var rep = new SinaRepository();
-            var suc = rep.CreateSinaUser(new SinaUser()
+            if (!rep.ExistsSinaUser(user))
             {
-                uid = user,
-                groupname = LoadCacheName
-            });
-            if (suc)
+                var suc = rep.CreateSinaUser(new SinaUser()
+                {
+                    uid = user,
+                    groupname = LoadCacheName
+                });
+                if (suc)
+                {
+                    this.lstUser.Items.Insert(0, user);
+                    this.lstUser.SelectedIndex = 0;
+                }
+            }
+            else
             {
-                this.lstUser.Items.Insert(0, user);
-                this.lstUser.SelectedIndex = 0;
+                var index = this.lstUser.Items.IndexOf(user);
+                if(index > -1)
+                {
+                    this.lstUser.SelectedIndex = index;
+                }
             }
         }
 
