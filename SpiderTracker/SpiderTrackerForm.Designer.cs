@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -43,12 +43,20 @@
             this.tplStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel15 = new System.Windows.Forms.Panel();
-            this.lstUser = new System.Windows.Forms.ListBox();
+            this.lstUser = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txtUserFilter = new System.Windows.Forms.TextBox();
             this.panel9 = new System.Windows.Forms.Panel();
-            this.lstArc = new System.Windows.Forms.ListBox();
+            this.lstArc = new System.Windows.Forms.ListView();
+            this.colBid = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colQty = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colLoc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colMrk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel8 = new System.Windows.Forms.Panel();
-            this.btnFocusStatus = new System.Windows.Forms.Button();
+            this.btnGetStatusByBid = new System.Windows.Forms.Button();
+            this.btnArchiveStatus = new System.Windows.Forms.Button();
             this.btnOpenStatus = new System.Windows.Forms.Button();
             this.btnIgnoreStatus = new System.Windows.Forms.Button();
             this.btnBrowseStatus = new System.Windows.Forms.Button();
@@ -57,10 +65,10 @@
             this.btnNewUser = new System.Windows.Forms.Button();
             this.btnFoucsUser = new System.Windows.Forms.Button();
             this.btnIgnoreUser = new System.Windows.Forms.Button();
-            this.btnFollowerUser = new System.Windows.Forms.Button();
             this.btnBrowseUser = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.lblStatusCount = new System.Windows.Forms.Label();
             this.lblImgCount = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel10 = new System.Windows.Forms.Panel();
@@ -98,7 +106,7 @@
             this.txtShowImg = new System.Windows.Forms.CheckBox();
             this.btnManager = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.lblStatusCount = new System.Windows.Forms.Label();
+            this.btnMarkUser = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -147,7 +155,7 @@
             this.txtStartUrl.Size = new System.Drawing.Size(838, 41);
             this.txtStartUrl.TabIndex = 2;
             this.txtStartUrl.Text = "https://m.weibo.cn/u/1738733270";
-            this.txtStartUrl.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            this.txtStartUrl.TextChanged += new System.EventHandler(this.txtStartUrl_TextChanged);
             // 
             // panel4
             // 
@@ -244,17 +252,38 @@
             // lstUser
             // 
             this.lstUser.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstUser.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3});
             this.lstUser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstUser.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lstUser.FormattingEnabled = true;
-            this.lstUser.ItemHeight = 19;
+            this.lstUser.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstUser.FullRowSelect = true;
+            this.lstUser.GridLines = true;
+            this.lstUser.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lstUser.HideSelection = false;
             this.lstUser.Location = new System.Drawing.Point(0, 23);
-            this.lstUser.Margin = new System.Windows.Forms.Padding(0);
             this.lstUser.Name = "lstUser";
-            this.lstUser.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lstUser.Size = new System.Drawing.Size(217, 264);
-            this.lstUser.TabIndex = 6;
+            this.lstUser.TabIndex = 9;
+            this.lstUser.UseCompatibleStateImageBehavior = false;
+            this.lstUser.View = System.Windows.Forms.View.Details;
             this.lstUser.SelectedIndexChanged += new System.EventHandler(this.lstUser_SelectedIndexChanged);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "UID";
+            this.columnHeader1.Width = 80;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Name";
+            this.columnHeader2.Width = 78;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "QTY";
+            this.columnHeader3.Width = 40;
             // 
             // txtUserFilter
             // 
@@ -282,21 +311,51 @@
             // lstArc
             // 
             this.lstArc.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstArc.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colBid,
+            this.colQty,
+            this.colLoc,
+            this.colMrk});
             this.lstArc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstArc.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lstArc.FormattingEnabled = true;
-            this.lstArc.ItemHeight = 19;
+            this.lstArc.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstArc.FullRowSelect = true;
+            this.lstArc.GridLines = true;
+            this.lstArc.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lstArc.HideSelection = false;
             this.lstArc.Location = new System.Drawing.Point(0, 26);
             this.lstArc.Name = "lstArc";
             this.lstArc.Size = new System.Drawing.Size(217, 175);
             this.lstArc.TabIndex = 12;
+            this.lstArc.UseCompatibleStateImageBehavior = false;
+            this.lstArc.View = System.Windows.Forms.View.Details;
             this.lstArc.SelectedIndexChanged += new System.EventHandler(this.lstArc_SelectedIndexChanged);
+            // 
+            // colBid
+            // 
+            this.colBid.Text = "BID";
+            this.colBid.Width = 80;
+            // 
+            // colQty
+            // 
+            this.colQty.Text = "QTY";
+            this.colQty.Width = 40;
+            // 
+            // colLoc
+            // 
+            this.colLoc.Text = "LOC";
+            this.colLoc.Width = 40;
+            // 
+            // colMrk
+            // 
+            this.colMrk.Text = "MRK";
+            this.colMrk.Width = 40;
             // 
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel8.Controls.Add(this.btnFocusStatus);
+            this.panel8.Controls.Add(this.btnGetStatusByBid);
+            this.panel8.Controls.Add(this.btnArchiveStatus);
             this.panel8.Controls.Add(this.btnOpenStatus);
             this.panel8.Controls.Add(this.btnIgnoreStatus);
             this.panel8.Controls.Add(this.btnBrowseStatus);
@@ -307,23 +366,35 @@
             this.panel8.Size = new System.Drawing.Size(217, 26);
             this.panel8.TabIndex = 11;
             // 
-            // btnFocusStatus
+            // btnGetStatusByBid
             // 
-            this.btnFocusStatus.BackColor = System.Drawing.SystemColors.Control;
-            this.btnFocusStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnFocusStatus.Location = new System.Drawing.Point(111, 2);
-            this.btnFocusStatus.Name = "btnFocusStatus";
-            this.btnFocusStatus.Size = new System.Drawing.Size(35, 20);
-            this.btnFocusStatus.TabIndex = 20;
-            this.btnFocusStatus.Text = "FCS";
-            this.btnFocusStatus.UseVisualStyleBackColor = false;
-            this.btnFocusStatus.Click += new System.EventHandler(this.btnFocusStatus_Click);
+            this.btnGetStatusByBid.BackColor = System.Drawing.SystemColors.Control;
+            this.btnGetStatusByBid.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnGetStatusByBid.Location = new System.Drawing.Point(112, 2);
+            this.btnGetStatusByBid.Name = "btnGetStatusByBid";
+            this.btnGetStatusByBid.Size = new System.Drawing.Size(35, 20);
+            this.btnGetStatusByBid.TabIndex = 21;
+            this.btnGetStatusByBid.Text = "GET";
+            this.btnGetStatusByBid.UseVisualStyleBackColor = false;
+            this.btnGetStatusByBid.Click += new System.EventHandler(this.btnGetStatusByBid_Click);
+            // 
+            // btnArchiveStatus
+            // 
+            this.btnArchiveStatus.BackColor = System.Drawing.SystemColors.Control;
+            this.btnArchiveStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnArchiveStatus.Location = new System.Drawing.Point(78, 2);
+            this.btnArchiveStatus.Name = "btnArchiveStatus";
+            this.btnArchiveStatus.Size = new System.Drawing.Size(35, 20);
+            this.btnArchiveStatus.TabIndex = 20;
+            this.btnArchiveStatus.Text = "MRK";
+            this.btnArchiveStatus.UseVisualStyleBackColor = false;
+            this.btnArchiveStatus.Click += new System.EventHandler(this.btnArchiveStatus_Click);
             // 
             // btnOpenStatus
             // 
             this.btnOpenStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnOpenStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnOpenStatus.Location = new System.Drawing.Point(145, 2);
+            this.btnOpenStatus.Location = new System.Drawing.Point(146, 2);
             this.btnOpenStatus.Name = "btnOpenStatus";
             this.btnOpenStatus.Size = new System.Drawing.Size(35, 20);
             this.btnOpenStatus.TabIndex = 19;
@@ -335,7 +406,7 @@
             // 
             this.btnIgnoreStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnIgnoreStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnIgnoreStatus.Location = new System.Drawing.Point(76, 2);
+            this.btnIgnoreStatus.Location = new System.Drawing.Point(44, 2);
             this.btnIgnoreStatus.Name = "btnIgnoreStatus";
             this.btnIgnoreStatus.Size = new System.Drawing.Size(35, 20);
             this.btnIgnoreStatus.TabIndex = 11;
@@ -347,7 +418,7 @@
             // 
             this.btnBrowseStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnBrowseStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBrowseStatus.Location = new System.Drawing.Point(179, 2);
+            this.btnBrowseStatus.Location = new System.Drawing.Point(180, 2);
             this.btnBrowseStatus.Name = "btnBrowseStatus";
             this.btnBrowseStatus.Size = new System.Drawing.Size(35, 20);
             this.btnBrowseStatus.TabIndex = 7;
@@ -369,10 +440,10 @@
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.panel7.Controls.Add(this.btnMarkUser);
             this.panel7.Controls.Add(this.btnNewUser);
             this.panel7.Controls.Add(this.btnFoucsUser);
             this.panel7.Controls.Add(this.btnIgnoreUser);
-            this.panel7.Controls.Add(this.btnFollowerUser);
             this.panel7.Controls.Add(this.btnBrowseUser);
             this.panel7.Controls.Add(this.label5);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
@@ -385,7 +456,7 @@
             // 
             this.btnNewUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnNewUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnNewUser.Location = new System.Drawing.Point(49, 3);
+            this.btnNewUser.Location = new System.Drawing.Point(48, 3);
             this.btnNewUser.Name = "btnNewUser";
             this.btnNewUser.Size = new System.Drawing.Size(35, 20);
             this.btnNewUser.TabIndex = 12;
@@ -397,7 +468,7 @@
             // 
             this.btnFoucsUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnFoucsUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnFoucsUser.Location = new System.Drawing.Point(112, 3);
+            this.btnFoucsUser.Location = new System.Drawing.Point(113, 3);
             this.btnFoucsUser.Name = "btnFoucsUser";
             this.btnFoucsUser.Size = new System.Drawing.Size(35, 20);
             this.btnFoucsUser.TabIndex = 11;
@@ -409,25 +480,13 @@
             // 
             this.btnIgnoreUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnIgnoreUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnIgnoreUser.Location = new System.Drawing.Point(79, 3);
+            this.btnIgnoreUser.Location = new System.Drawing.Point(81, 3);
             this.btnIgnoreUser.Name = "btnIgnoreUser";
             this.btnIgnoreUser.Size = new System.Drawing.Size(35, 20);
             this.btnIgnoreUser.TabIndex = 10;
             this.btnIgnoreUser.Text = "IGN";
             this.btnIgnoreUser.UseVisualStyleBackColor = false;
             this.btnIgnoreUser.Click += new System.EventHandler(this.btnIgnoreUser_Click);
-            // 
-            // btnFollowerUser
-            // 
-            this.btnFollowerUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnFollowerUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnFollowerUser.Location = new System.Drawing.Point(145, 3);
-            this.btnFollowerUser.Name = "btnFollowerUser";
-            this.btnFollowerUser.Size = new System.Drawing.Size(35, 20);
-            this.btnFollowerUser.TabIndex = 9;
-            this.btnFollowerUser.Text = "FOW";
-            this.btnFollowerUser.UseVisualStyleBackColor = false;
-            this.btnFollowerUser.Click += new System.EventHandler(this.btnFollowerUser_Click);
             // 
             // btnBrowseUser
             // 
@@ -463,6 +522,15 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(217, 41);
             this.panel6.TabIndex = 3;
+            // 
+            // lblStatusCount
+            // 
+            this.lblStatusCount.AutoSize = true;
+            this.lblStatusCount.Location = new System.Drawing.Point(1, 16);
+            this.lblStatusCount.Name = "lblStatusCount";
+            this.lblStatusCount.Size = new System.Drawing.Size(77, 12);
+            this.lblStatusCount.TabIndex = 1;
+            this.lblStatusCount.Text = "【0 个图集】";
             // 
             // lblImgCount
             // 
@@ -511,27 +579,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -906,14 +974,17 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
-            // lblStatusCount
+            // btnMarkUser
             // 
-            this.lblStatusCount.AutoSize = true;
-            this.lblStatusCount.Location = new System.Drawing.Point(1, 16);
-            this.lblStatusCount.Name = "lblStatusCount";
-            this.lblStatusCount.Size = new System.Drawing.Size(77, 12);
-            this.lblStatusCount.TabIndex = 1;
-            this.lblStatusCount.Text = "【0 个图集】";
+            this.btnMarkUser.BackColor = System.Drawing.SystemColors.Control;
+            this.btnMarkUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnMarkUser.Location = new System.Drawing.Point(146, 3);
+            this.btnMarkUser.Name = "btnMarkUser";
+            this.btnMarkUser.Size = new System.Drawing.Size(35, 20);
+            this.btnMarkUser.TabIndex = 21;
+            this.btnMarkUser.Text = "MRK";
+            this.btnMarkUser.UseVisualStyleBackColor = false;
+            this.btnMarkUser.Click += new System.EventHandler(this.btnMarkUser_Click);
             // 
             // SpiderTrackerForm
             // 
@@ -982,9 +1053,7 @@
         private System.Windows.Forms.Label lblImgCount;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripStatusLabel tplStatus;
-        private System.Windows.Forms.ListBox lstUser;
         private System.Windows.Forms.Panel panel9;
-        private System.Windows.Forms.ListBox lstArc;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnLoop;
@@ -1027,17 +1096,27 @@
         private System.Windows.Forms.Button btnAutoGather;
         private System.Windows.Forms.Button btnAnlayse;
         private System.Windows.Forms.Button btnManager;
-        private System.Windows.Forms.Button btnFollowerUser;
         private System.Windows.Forms.Button btnIgnoreUser;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnIgnoreStatus;
         private System.Windows.Forms.Button btnOpenStatus;
         private System.Windows.Forms.Button btnFoucsUser;
-        private System.Windows.Forms.Button btnFocusStatus;
+        private System.Windows.Forms.Button btnArchiveStatus;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.Button btnNewUser;
         private System.Windows.Forms.CheckBox txtShowImg;
         private System.Windows.Forms.Label lblStatusCount;
+        private System.Windows.Forms.ListView lstUser;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ListView lstArc;
+        private System.Windows.Forms.ColumnHeader colBid;
+        private System.Windows.Forms.ColumnHeader colQty;
+        private System.Windows.Forms.ColumnHeader colLoc;
+        private System.Windows.Forms.ColumnHeader colMrk;
+        private System.Windows.Forms.Button btnGetStatusByBid;
+        private System.Windows.Forms.Button btnMarkUser;
     }
 }
 

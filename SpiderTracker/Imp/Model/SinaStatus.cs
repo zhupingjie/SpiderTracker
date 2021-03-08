@@ -35,5 +35,6 @@ namespace SpiderTracker.Imp.Model
         public int ignore { get; set; }
         public int mayfocus { get; set; }
         public int mayignore { get; set; }
+        public int archive { get; set; }
     }
 }

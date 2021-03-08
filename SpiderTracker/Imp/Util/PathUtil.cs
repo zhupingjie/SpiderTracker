@@ -150,16 +150,16 @@ namespace SpiderTracker.Imp
             return lst[index + 2];
         }
 
-        public static string GetStoreImageUserStatusPathBySelect(string name, string uidAndStatus)
+        public static string GetStoreImageUserStatusPathBySelect(string name, string uid, string bid)
         {
             if (string.IsNullOrEmpty(name)) throw new Exception("采集类目未选择");
-            var path = $"{GetStoreImagePath(name)}\\{uidAndStatus.Replace("/", "\\")}";
+            var path = $"{GetStoreImagePath(name)}\\{uid}\\{bid}";
             return path;
         }
-        public static string[] GetStoreImageFiles(string name, string uidAndStatus)
+        public static string[] GetStoreImageFiles(string name, string uid, string bid)
         {
             if (string.IsNullOrEmpty(name)) throw new Exception("采集类目未选择");
-            var path = GetStoreImageUserStatusPathBySelect(name, uidAndStatus);
+            var path = GetStoreImageUserStatusPathBySelect(name, uid, bid);
             if (!Directory.Exists(path)) return new string[] { };
             return Directory.GetFiles(path).Where(c => c.EndsWith(".jpg")).ToArray();
         }

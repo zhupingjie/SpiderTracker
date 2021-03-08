@@ -79,6 +79,11 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.ExistsEntity("sina_picture", $"`uid`='{uid}' and `bid`='{bid}' and `picurl`='{imgurl}'");
         }
 
+        public int GetEntityCount(string uid)
+        {
+            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `ignore`=0 and `retweeted`=0");
+        }
+
         public SinaUser GetUser(string uid)
         {
             return DBHelper.GetEntity<SinaUser>("sina_user", $"`uid`='{uid}'");
@@ -218,7 +223,7 @@ namespace SpiderTracker.Imp.Model
                     sinaStatus.pics = retweeted.pics != null ? retweeted.pics.Length : 0;
                     if (readStatusImageCount != -1)
                     {
-                        //sinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
+                        sinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
                     }
                     var suc = CreateSinaStatus(sinaStatus);
                     if (!suc)
@@ -226,6 +231,10 @@ namespace SpiderTracker.Imp.Model
                         return $"创建本地转发微博错误!";
                     }
                 }
+            }
+            else
+            {
+                UpdateSinaStatus(sinaStatus, new string[] { "ignore", "pics" });
             }
             return null;
         }
@@ -272,6 +281,19 @@ namespace SpiderTracker.Imp.Model
             sinaUser.focus = 1;
             return UpdateSinaUser(sinaUser, new string[] { "focus" });
         }
+        public bool UpdateSinaUserQty(string user)
+        {
+            var sinaUser = GetUser(user);
+            if (sinaUser == null) return true;
+
+            var picCount = GetEntityCount(user);
+            if (picCount >= 0)
+            {
+                sinaUser.piccount = picCount;
+                return UpdateSinaUser(sinaUser, new string[] { "piccount" });
+            }
+            return false;
+        }
 
         public bool IgnoreSinaStatus(string status)
         {
@@ -288,6 +310,26 @@ namespace SpiderTracker.Imp.Model
 
             sinaStatus.focus = 1;
             return UpdateSinaStatus(sinaStatus, new string[] { "focus" });
+        }
+
+        public bool ArchiveSinaStatus(string status)
+        {
+            var sinaStatus = GetUserStatus(status);
+            if (sinaStatus == null) return true;
+
+            sinaStatus.archive = 1;
+            return UpdateSinaStatus(sinaStatus, new string[] { "archive" });
+        }
+
+        public bool ArchiveSinaUser(string user)
+        {
+            var sinaStatuss= GetUserStatuses(user);
+            foreach (var sinaStatus in sinaStatuss)
+            {
+                sinaStatus.archive = 1;
+                UpdateSinaStatus(sinaStatus, new string[] { "archive" });
+            }
+            return true;
         }
     }
 }

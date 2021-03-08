@@ -74,7 +74,7 @@ namespace SpiderTracker.Imp
 
         public void ChangeUserStatus(string uid, bool ignore)
         {
-            OnChangeUserStatus?.Invoke(uid, ignore);
+            //OnChangeUserStatus?.Invoke(uid, ignore);
         }
 
         #endregion
@@ -352,16 +352,10 @@ namespace SpiderTracker.Imp
                     Thread.Sleep(runningConfig.ReadNextPageWaitSecond * 1000);
                 }
             }
-            ////未读取到任何图集
-            //if (readUserImageCount == 0)
-            //{
-            //    var sinaStatuses = Repository.GetUserStatuses(user.id);
-            //    if (sinaStatuses.Count == 0)
-            //    {
-            //        Repository.IgnoreSinaUser(user.id);
-            //        ChangeUserStatus(user.id, true);
-            //    }
-            //}
+            if (readUserImageCount > 0)
+            {
+                Repository.UpdateSinaUserQty(user.id);
+            }
             return readUserImageCount;
         }
 
