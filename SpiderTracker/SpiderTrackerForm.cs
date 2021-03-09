@@ -817,46 +817,6 @@ namespace SpiderTracker
             }
         }
 
-        private void btnFocusConfig_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(LoadCacheName)) return;
-
-            FocusConfigForm frm = new FocusConfigForm();
-            frm.SpiderName = LoadCacheName;
-            frm.StartPosition = FormStartPosition.CenterParent;
-            frm.ShowDialog();
-
-            if (!string.IsNullOrEmpty(frm.GatherUser))
-            {
-                this.txtStartUrl.Text = SinaUrlUtil.GetSinaUserUrl(frm.GatherUser);
-            }
-        }
-
-        private void btnIgnoreConfig_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(LoadCacheName)) return;
-
-            IgnoreConfigForm frm = new IgnoreConfigForm();
-            frm.SpiderName = LoadCacheName;
-            frm.StartPosition = FormStartPosition.CenterParent;
-            frm.ShowDialog();
-
-            if (!string.IsNullOrEmpty(frm.GatherUser))
-            {
-                this.txtStartUrl.Text = SinaUrlUtil.GetSinaUserUrl(frm.GatherUser);
-            }
-        }
-
-        private void btnAnlayse_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(LoadCacheName)) return;
-
-            AnalyseConfigForm frm = new AnalyseConfigForm();
-            frm.SpiderName = LoadCacheName;
-            frm.StartPosition = FormStartPosition.CenterParent;
-            frm.ShowDialog();
-        }
-
         private void btnManager_Click(object sender, EventArgs e)
         {
             CacheImageViewForm frm = new CacheImageViewForm();

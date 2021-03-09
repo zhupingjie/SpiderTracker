@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -79,9 +79,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnAnlayse = new System.Windows.Forms.Button();
-            this.btnIgnoreConfig = new System.Windows.Forms.Button();
-            this.btnFocusConfig = new System.Windows.Forms.Button();
             this.btnLock = new System.Windows.Forms.Button();
             this.lblPicCount = new System.Windows.Forms.Label();
             this.lblArcCount = new System.Windows.Forms.Label();
@@ -598,27 +595,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle19;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle20;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle21;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -660,9 +657,6 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.btnAnlayse);
-            this.panel2.Controls.Add(this.btnIgnoreConfig);
-            this.panel2.Controls.Add(this.btnFocusConfig);
             this.panel2.Controls.Add(this.btnLock);
             this.panel2.Controls.Add(this.lblPicCount);
             this.panel2.Controls.Add(this.lblArcCount);
@@ -675,42 +669,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(249, 86);
             this.panel2.TabIndex = 17;
-            // 
-            // btnAnlayse
-            // 
-            this.btnAnlayse.BackColor = System.Drawing.Color.White;
-            this.btnAnlayse.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnAnlayse.Location = new System.Drawing.Point(185, 0);
-            this.btnAnlayse.Name = "btnAnlayse";
-            this.btnAnlayse.Size = new System.Drawing.Size(16, 86);
-            this.btnAnlayse.TabIndex = 23;
-            this.btnAnlayse.Text = "Analyse";
-            this.btnAnlayse.UseVisualStyleBackColor = false;
-            this.btnAnlayse.Click += new System.EventHandler(this.btnAnlayse_Click);
-            // 
-            // btnIgnoreConfig
-            // 
-            this.btnIgnoreConfig.BackColor = System.Drawing.Color.White;
-            this.btnIgnoreConfig.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnIgnoreConfig.Location = new System.Drawing.Point(201, 0);
-            this.btnIgnoreConfig.Name = "btnIgnoreConfig";
-            this.btnIgnoreConfig.Size = new System.Drawing.Size(16, 86);
-            this.btnIgnoreConfig.TabIndex = 22;
-            this.btnIgnoreConfig.Text = "Ignore";
-            this.btnIgnoreConfig.UseVisualStyleBackColor = false;
-            this.btnIgnoreConfig.Click += new System.EventHandler(this.btnIgnoreConfig_Click);
-            // 
-            // btnFocusConfig
-            // 
-            this.btnFocusConfig.BackColor = System.Drawing.Color.White;
-            this.btnFocusConfig.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnFocusConfig.Location = new System.Drawing.Point(217, 0);
-            this.btnFocusConfig.Name = "btnFocusConfig";
-            this.btnFocusConfig.Size = new System.Drawing.Size(16, 86);
-            this.btnFocusConfig.TabIndex = 21;
-            this.btnFocusConfig.Text = "Foucs";
-            this.btnFocusConfig.UseVisualStyleBackColor = false;
-            this.btnFocusConfig.Click += new System.EventHandler(this.btnFocusConfig_Click);
             // 
             // btnLock
             // 
@@ -835,6 +793,7 @@
             // btnGatherFoucs
             // 
             this.btnGatherFoucs.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnGatherFoucs.Enabled = false;
             this.btnGatherFoucs.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnGatherFoucs.ForeColor = System.Drawing.Color.White;
             this.btnGatherFoucs.Location = new System.Drawing.Point(9, 82);
@@ -1130,13 +1089,10 @@
         private System.Windows.Forms.Label lblUserCount;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btnLock;
-        private System.Windows.Forms.Button btnFocusConfig;
-        private System.Windows.Forms.Button btnIgnoreConfig;
         private System.Windows.Forms.ComboBox cbxName;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel17;
         private System.Windows.Forms.Button btnAutoGather;
-        private System.Windows.Forms.Button btnAnlayse;
         private System.Windows.Forms.Button btnManager;
         private System.Windows.Forms.Button btnIgnoreUser;
         private System.Windows.Forms.Label label5;

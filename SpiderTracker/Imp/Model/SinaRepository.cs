@@ -128,14 +128,6 @@ namespace SpiderTracker.Imp.Model
         {
             return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `focus`=1");
         }
-        public List<SinaUser> GetAnalyseFocusUsers(string groupname)
-        {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `mayfocus`=1");
-        }
-        public List<SinaUser> GetAnalyseIgnoreUsers(string groupname)
-        {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `mayignore`=1");
-        }
 
         public bool CheckUserIgnore(string uid)
         {

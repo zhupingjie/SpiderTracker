@@ -137,29 +137,11 @@
     <Compile Include="Imp\Util\UserUtil.cs" />
     <Compile Include="Imp\SpiderRunningConfig.cs" />
     <Compile Include="Imp\SinaUrlEnum.cs" />
-    <Compile Include="UI\AnalyseConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\AnalyseConfigForm.Designer.cs">
-      <DependentUpon>AnalyseConfigForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\CacheImageViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\CacheImageViewForm.Designer.cs">
       <DependentUpon>CacheImageViewForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\IgnoreConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\IgnoreConfigForm.Designer.cs">
-      <DependentUpon>IgnoreConfigForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\FocusConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\FocusConfigForm.Designer.cs">
-      <DependentUpon>FocusConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SinaLoginForm.cs">
       <SubType>Form</SubType>
@@ -181,17 +163,8 @@
     <Compile Include="UI\ViewImgForm.Designer.cs">
       <DependentUpon>ViewImgForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UI\AnalyseConfigForm.resx">
-      <DependentUpon>AnalyseConfigForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\CacheImageViewForm.resx">
       <DependentUpon>CacheImageViewForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\IgnoreConfigForm.resx">
-      <DependentUpon>IgnoreConfigForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\FocusConfigForm.resx">
-      <DependentUpon>FocusConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SinaLoginForm.resx">
       <DependentUpon>SinaLoginForm.cs</DependentUpon>

@@ -65,8 +65,6 @@ namespace SpiderTracker.Imp
             columns.Add(new SQLiteColumn("getstatuses", "int"));
             columns.Add(new SQLiteColumn("originals", "int"));
             columns.Add(new SQLiteColumn("retweets", "int"));
-            columns.Add(new SQLiteColumn("mayfocus", "int"));
-            columns.Add(new SQLiteColumn("mayignore", "int"));
             CreateTable("sina_user", columns.ToArray());
 
             columns = new List<SQLiteColumn>();
@@ -83,8 +81,6 @@ namespace SpiderTracker.Imp
             columns.Add(new SQLiteColumn("lastdate", "datetime"));
             columns.Add(new SQLiteColumn("focus", "int"));
             columns.Add(new SQLiteColumn("ignore", "int"));
-            columns.Add(new SQLiteColumn("mayfocus", "int"));
-            columns.Add(new SQLiteColumn("mayignore", "int"));
             CreateTable("sina_status", columns.ToArray());
 
             columns = new List<SQLiteColumn>();
