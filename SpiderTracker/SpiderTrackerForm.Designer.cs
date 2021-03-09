@@ -62,6 +62,7 @@
             this.btnBrowseStatus = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.btnMarkUser = new System.Windows.Forms.Button();
             this.btnNewUser = new System.Windows.Forms.Button();
             this.btnFollwerUser = new System.Windows.Forms.Button();
             this.btnIgnoreUser = new System.Windows.Forms.Button();
@@ -106,7 +107,9 @@
             this.txtShowImg = new System.Windows.Forms.CheckBox();
             this.btnManager = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.btnMarkUser = new System.Windows.Forms.Button();
+            this.txtStatusFilter = new System.Windows.Forms.TextBox();
+            this.panel18 = new System.Windows.Forms.Panel();
+            this.lblImageInfo = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -130,6 +133,7 @@
             this.tbpReview.SuspendLayout();
             this.tbpGatherLog.SuspendLayout();
             this.panel12.SuspendLayout();
+            this.panel18.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -246,7 +250,7 @@
             this.panel15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel15.Location = new System.Drawing.Point(0, 26);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(217, 287);
+            this.panel15.Size = new System.Drawing.Size(217, 298);
             this.panel15.TabIndex = 8;
             // 
             // lstUser
@@ -264,7 +268,7 @@
             this.lstUser.HideSelection = false;
             this.lstUser.Location = new System.Drawing.Point(0, 23);
             this.lstUser.Name = "lstUser";
-            this.lstUser.Size = new System.Drawing.Size(217, 264);
+            this.lstUser.Size = new System.Drawing.Size(217, 275);
             this.lstUser.TabIndex = 9;
             this.lstUser.UseCompatibleStateImageBehavior = false;
             this.lstUser.View = System.Windows.Forms.View.Details;
@@ -301,11 +305,12 @@
             // panel9
             // 
             this.panel9.Controls.Add(this.lstArc);
+            this.panel9.Controls.Add(this.txtStatusFilter);
             this.panel9.Controls.Add(this.panel8);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel9.Location = new System.Drawing.Point(0, 313);
+            this.panel9.Location = new System.Drawing.Point(0, 324);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(217, 201);
+            this.panel9.Size = new System.Drawing.Size(217, 208);
             this.panel9.TabIndex = 7;
             // 
             // lstArc
@@ -322,9 +327,9 @@
             this.lstArc.GridLines = true;
             this.lstArc.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lstArc.HideSelection = false;
-            this.lstArc.Location = new System.Drawing.Point(0, 26);
+            this.lstArc.Location = new System.Drawing.Point(0, 49);
             this.lstArc.Name = "lstArc";
-            this.lstArc.Size = new System.Drawing.Size(217, 175);
+            this.lstArc.Size = new System.Drawing.Size(217, 159);
             this.lstArc.TabIndex = 12;
             this.lstArc.UseCompatibleStateImageBehavior = false;
             this.lstArc.View = System.Windows.Forms.View.Details;
@@ -452,6 +457,18 @@
             this.panel7.Size = new System.Drawing.Size(217, 26);
             this.panel7.TabIndex = 4;
             // 
+            // btnMarkUser
+            // 
+            this.btnMarkUser.BackColor = System.Drawing.SystemColors.Control;
+            this.btnMarkUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnMarkUser.Location = new System.Drawing.Point(113, 3);
+            this.btnMarkUser.Name = "btnMarkUser";
+            this.btnMarkUser.Size = new System.Drawing.Size(35, 20);
+            this.btnMarkUser.TabIndex = 21;
+            this.btnMarkUser.Text = "MRK";
+            this.btnMarkUser.UseVisualStyleBackColor = false;
+            this.btnMarkUser.Click += new System.EventHandler(this.btnMarkUser_Click);
+            // 
             // btnNewUser
             // 
             this.btnNewUser.BackColor = System.Drawing.SystemColors.Control;
@@ -518,26 +535,28 @@
             this.panel6.Controls.Add(this.lblStatusCount);
             this.panel6.Controls.Add(this.lblImgCount);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel6.Location = new System.Drawing.Point(0, 514);
+            this.panel6.Location = new System.Drawing.Point(0, 532);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(217, 41);
+            this.panel6.Size = new System.Drawing.Size(217, 23);
             this.panel6.TabIndex = 3;
             // 
             // lblStatusCount
             // 
             this.lblStatusCount.AutoSize = true;
-            this.lblStatusCount.Location = new System.Drawing.Point(1, 16);
+            this.lblStatusCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblStatusCount.Location = new System.Drawing.Point(1, 3);
             this.lblStatusCount.Name = "lblStatusCount";
-            this.lblStatusCount.Size = new System.Drawing.Size(77, 12);
+            this.lblStatusCount.Size = new System.Drawing.Size(79, 17);
             this.lblStatusCount.TabIndex = 1;
             this.lblStatusCount.Text = "【0 个图集】";
             // 
             // lblImgCount
             // 
             this.lblImgCount.AutoSize = true;
-            this.lblImgCount.Location = new System.Drawing.Point(84, 16);
+            this.lblImgCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblImgCount.Location = new System.Drawing.Point(75, 3);
             this.lblImgCount.Name = "lblImgCount";
-            this.lblImgCount.Size = new System.Drawing.Size(77, 12);
+            this.lblImgCount.Size = new System.Drawing.Size(79, 17);
             this.lblImgCount.TabIndex = 0;
             this.lblImgCount.Text = "【0 张图片】";
             // 
@@ -547,7 +566,7 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(50, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(392, 523);
+            this.pictureBox1.Size = new System.Drawing.Size(392, 503);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
@@ -866,7 +885,7 @@
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.pnlRight.Location = new System.Drawing.Point(442, 0);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(50, 523);
+            this.pnlRight.Size = new System.Drawing.Size(50, 503);
             this.pnlRight.TabIndex = 16;
             this.pnlRight.Click += new System.EventHandler(this.pnlRight_Click);
             // 
@@ -889,8 +908,9 @@
             // 
             this.tbpReview.BackColor = System.Drawing.Color.Transparent;
             this.tbpReview.Controls.Add(this.pictureBox1);
-            this.tbpReview.Controls.Add(this.pnlLeft);
             this.tbpReview.Controls.Add(this.pnlRight);
+            this.tbpReview.Controls.Add(this.pnlLeft);
+            this.tbpReview.Controls.Add(this.panel18);
             this.tbpReview.Location = new System.Drawing.Point(4, 4);
             this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
             this.tbpReview.Name = "tbpReview";
@@ -904,7 +924,7 @@
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeft.Location = new System.Drawing.Point(0, 0);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(50, 523);
+            this.pnlLeft.Size = new System.Drawing.Size(50, 503);
             this.pnlLeft.TabIndex = 17;
             this.pnlLeft.Click += new System.EventHandler(this.pnlLeft_Click);
             // 
@@ -974,17 +994,36 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
-            // btnMarkUser
+            // txtStatusFilter
             // 
-            this.btnMarkUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnMarkUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnMarkUser.Location = new System.Drawing.Point(113, 3);
-            this.btnMarkUser.Name = "btnMarkUser";
-            this.btnMarkUser.Size = new System.Drawing.Size(35, 20);
-            this.btnMarkUser.TabIndex = 21;
-            this.btnMarkUser.Text = "MRK";
-            this.btnMarkUser.UseVisualStyleBackColor = false;
-            this.btnMarkUser.Click += new System.EventHandler(this.btnMarkUser_Click);
+            this.txtStatusFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtStatusFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtStatusFilter.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtStatusFilter.Location = new System.Drawing.Point(0, 26);
+            this.txtStatusFilter.Margin = new System.Windows.Forms.Padding(0);
+            this.txtStatusFilter.Name = "txtStatusFilter";
+            this.txtStatusFilter.Size = new System.Drawing.Size(217, 23);
+            this.txtStatusFilter.TabIndex = 13;
+            this.txtStatusFilter.TextChanged += new System.EventHandler(this.txtStatusFilter_TextChanged);
+            // 
+            // panel18
+            // 
+            this.panel18.BackColor = System.Drawing.Color.LightCyan;
+            this.panel18.Controls.Add(this.lblImageInfo);
+            this.panel18.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel18.Location = new System.Drawing.Point(0, 503);
+            this.panel18.Name = "panel18";
+            this.panel18.Size = new System.Drawing.Size(492, 20);
+            this.panel18.TabIndex = 18;
+            // 
+            // lblImageInfo
+            // 
+            this.lblImageInfo.AutoSize = true;
+            this.lblImageInfo.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblImageInfo.Location = new System.Drawing.Point(191, 2);
+            this.lblImageInfo.Name = "lblImageInfo";
+            this.lblImageInfo.Size = new System.Drawing.Size(0, 17);
+            this.lblImageInfo.TabIndex = 2;
             // 
             // SpiderTrackerForm
             // 
@@ -1011,6 +1050,7 @@
             this.panel15.ResumeLayout(false);
             this.panel15.PerformLayout();
             this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
             this.panel7.ResumeLayout(false);
@@ -1036,6 +1076,8 @@
             this.tbpGatherLog.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
+            this.panel18.ResumeLayout(false);
+            this.panel18.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1117,6 +1159,9 @@
         private System.Windows.Forms.ColumnHeader colMrk;
         private System.Windows.Forms.Button btnGetStatusByBid;
         private System.Windows.Forms.Button btnMarkUser;
+        private System.Windows.Forms.TextBox txtStatusFilter;
+        private System.Windows.Forms.Panel panel18;
+        private System.Windows.Forms.Label lblImageInfo;
     }
 }
 

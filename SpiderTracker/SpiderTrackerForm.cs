@@ -30,6 +30,9 @@ namespace SpiderTracker
 
         bool SortByDate { get; set; } = true;
 
+        List<SinaUser> CacheSinaUsers { get; set; } = new List<SinaUser>();
+        List<SinaStatus> CacheSinaStatuss { get; set; } = new List<SinaStatus>();
+
         public SpiderTrackerForm()
         {
             InitializeComponent();
@@ -195,6 +198,8 @@ namespace SpiderTracker
 
         void ClearCacheUser()
         {
+            this.CacheSinaUsers.Clear();
+
             InvokeControl(this.lstUser, new Action(() =>
             {
                 this.lstUser.Items.Clear();
@@ -203,6 +208,11 @@ namespace SpiderTracker
             InvokeControl(this.lstArc, new Action(() =>
             {
                 this.lstArc.Items.Clear();
+            }));
+
+            InvokeControl(this.pictureBox1, new Action(() =>
+            {
+                this.ClearImage();
             }));
         }
 
@@ -250,7 +260,7 @@ namespace SpiderTracker
                         this.cbxName.BeginUpdate();
                         this.cbxName.Items.Clear();
                         this.cbxName.Items.AddRange(names);
-                        if (!selectName.Equals("default"))
+                        if (!selectName.Equals("cosplay"))
                         {
                             this.cbxName.Text = selectName;
                         }
@@ -261,7 +271,10 @@ namespace SpiderTracker
                         LoadCacheName = names.FirstOrDefault();
 
                         LoadCacheUserList(LoadCacheName);
+
+                        UpdateCacheUserInfo(LoadCacheName);
                     }
+
                 }));
 
                 Thread.Sleep(10 * 1000);
@@ -277,19 +290,23 @@ namespace SpiderTracker
             else users = users.OrderBy(c => c.uid).ToList();
 
             var needUsers = new List<SinaUser>();
-            if (this.lstUser.Items.Count > 0)
+            if (CacheSinaUsers.Count > 0)
             {
                 foreach (var user in users)
                 {
-                    if (this.lstUser.FindItemWithText(user.uid, true, 0, true) == null)
+                    if (!CacheSinaUsers.Any(c=>c.uid == user.uid))
                     {
                         needUsers.Add(user);
+
+                        CacheSinaUsers.Add(user);
                     }
                 }
             }
             else
             {
                 needUsers.AddRange(users);
+
+                CacheSinaUsers.AddRange(users);
             }
             InvokeControl(this.lstUser, new Action(() =>
             {
@@ -309,11 +326,18 @@ namespace SpiderTracker
         void LoadCacheUserStatusList(string user)
         {
             var statuses = SinaSpiderService.Repository.GetUserStatuses(user);
+            this.CacheSinaStatuss.Clear();
+            this.CacheSinaStatuss.AddRange(statuses);
+            this.BindUserStatusList(statuses, user);
+        }
+
+        void BindUserStatusList(List<SinaStatus> sinaStatus, string user)
+        {
             InvokeControl(this.lstArc, new Action(() =>
             {
                 this.lstArc.BeginUpdate();
                 this.lstArc.Items.Clear();
-                foreach (var item in statuses)
+                foreach (var item in sinaStatus)
                 {
                     var subItem = new ListViewItem();
                     subItem.Text = item.bid;
@@ -321,7 +345,7 @@ namespace SpiderTracker
 
                     var local = 0;
                     var path = PathUtil.GetStoreImageUserStatusPathBySelect(LoadCacheName, user, item.bid);
-                    if(Directory.Exists(path))
+                    if (Directory.Exists(path))
                     {
                         local = Directory.GetFiles(path).Where(c => c.EndsWith(".jpg")).Count();
                     }
@@ -331,7 +355,7 @@ namespace SpiderTracker
                 }
                 this.lstArc.EndUpdate();
 
-                this.lblStatusCount.Text = $"【{statuses.Count} 个图集】";
+                this.lblStatusCount.Text = $"【{sinaStatus.Count} 个图集】";
             }));
         }
         
@@ -647,10 +671,10 @@ namespace SpiderTracker
             if (!string.IsNullOrEmpty(uid))
             {
                 var path = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, bid);
-
-                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("Explorer.exe");
-                psi.Arguments = "/e,/select," + path;
-                System.Diagnostics.Process.Start(psi);
+                if (Directory.Exists(path))
+                {
+                    System.Diagnostics.Process.Start(path);
+                }
             }
         }
 
@@ -751,6 +775,32 @@ namespace SpiderTracker
         private void txtUserFilter_DoubleClick(object sender, EventArgs e)
         {
             this.txtUserFilter.Clear();
+
+            if (!string.IsNullOrEmpty(LoadCacheName))
+            {
+                ResetLoadCacheTask = true;
+            }
+
+            Task.Factory.StartNew(() => {
+                LoadCacheUserTask();
+            });
+        }
+
+
+        private void txtStatusFilter_TextChanged(object sender, EventArgs e)
+        {
+            var user = GetSelectUserId();
+            if (string.IsNullOrEmpty(user)) return;
+
+            var keyword = this.txtStatusFilter.Text.Trim();
+            if (string.IsNullOrEmpty(keyword))
+            {
+                LoadCacheUserStatusList(user);
+            }
+            else
+            {
+                FilterStatusIds(keyword, user);
+            }
         }
 
         private void btnLock_Click(object sender, EventArgs e)
@@ -1127,16 +1177,32 @@ namespace SpiderTracker
 
         void FilterUserIds(string keyword)
         {
-            var searchItems = new List<ListViewItem>();
-            foreach (ListViewItem item in this.lstUser.Items)
+            var searchUsers = CacheSinaUsers.Where(c => c.uid.Contains(keyword) || c.name.Contains(keyword)).ToArray();
+
+            InvokeControl(this.lstUser, new Action(() =>
             {
-                if (item.SubItems[0].Text.Contains(keyword))
+                this.lstUser.Items.Clear();
+                this.lstUser.BeginUpdate();
+                foreach (var item in searchUsers)
                 {
-                    searchItems.Add(item);
+                    var subItem = new ListViewItem();
+                    subItem.Text = item.uid;
+                    subItem.SubItems.Add(item.name);
+                    subItem.SubItems.Add($"{item.piccount}");
+                    this.lstUser.Items.Add(subItem);
                 }
-            }
-            this.lstUser.Items.Clear();
-            this.lstUser.Items.AddRange(searchItems.ToArray());
+                this.lstUser.EndUpdate();
+            }));
+            InvokeControl(this.lstArc, new Action(() =>
+            {
+                this.lstArc.Items.Clear();
+            }));
+        }
+
+        void FilterStatusIds(string keyword, string user)
+        {
+            var searchStatuss = CacheSinaStatuss.Where(c => c.bid.ToUpper().Contains(keyword.ToUpper())).ToList();
+            this.BindUserStatusList(searchStatuss, user);
         }
 
         void ShowImage(string[] files, int index)
@@ -1146,11 +1212,13 @@ namespace SpiderTracker
             Image bmp = new Bitmap(resImg);
             resImg.Dispose();
             this.pictureBox1.Image = bmp;
+            this.lblImageInfo.Text = $"【图片尺寸 : {bmp.Width}*{bmp.Height}】";
         }
 
         void ClearImage()
         {
             this.pictureBox1.Image = null;
+            this.lblImageInfo.Text = "";
         }
 
         /// <summary>
@@ -1213,6 +1281,5 @@ namespace SpiderTracker
         }
 
         #endregion
-
     }
 }
