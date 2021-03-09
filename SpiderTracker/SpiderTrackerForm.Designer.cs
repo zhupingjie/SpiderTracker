@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -54,6 +54,7 @@
             this.colQty = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colLoc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colMrk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.txtStatusFilter = new System.Windows.Forms.TextBox();
             this.panel8 = new System.Windows.Forms.Panel();
             this.btnGetStatusByBid = new System.Windows.Forms.Button();
             this.btnArchiveStatus = new System.Windows.Forms.Button();
@@ -98,15 +99,14 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbpReview = new System.Windows.Forms.TabPage();
             this.pnlLeft = new System.Windows.Forms.Panel();
+            this.panel18 = new System.Windows.Forms.Panel();
+            this.lblImageInfo = new System.Windows.Forms.Label();
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.txtShowImg = new System.Windows.Forms.CheckBox();
             this.btnManager = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.txtStatusFilter = new System.Windows.Forms.TextBox();
-            this.panel18 = new System.Windows.Forms.Panel();
-            this.lblImageInfo = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -128,9 +128,9 @@
             this.panel11.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbpReview.SuspendLayout();
+            this.panel18.SuspendLayout();
             this.tbpGatherLog.SuspendLayout();
             this.panel12.SuspendLayout();
-            this.panel18.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -352,6 +352,18 @@
             this.colMrk.Text = "MRK";
             this.colMrk.Width = 40;
             // 
+            // txtStatusFilter
+            // 
+            this.txtStatusFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtStatusFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtStatusFilter.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtStatusFilter.Location = new System.Drawing.Point(0, 26);
+            this.txtStatusFilter.Margin = new System.Windows.Forms.Padding(0);
+            this.txtStatusFilter.Name = "txtStatusFilter";
+            this.txtStatusFilter.Size = new System.Drawing.Size(217, 23);
+            this.txtStatusFilter.TabIndex = 13;
+            this.txtStatusFilter.TextChanged += new System.EventHandler(this.txtStatusFilter_TextChanged);
+            // 
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.SystemColors.InactiveCaption;
@@ -551,7 +563,7 @@
             // 
             this.lblImgCount.AutoSize = true;
             this.lblImgCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblImgCount.Location = new System.Drawing.Point(75, 3);
+            this.lblImgCount.Location = new System.Drawing.Point(100, 3);
             this.lblImgCount.Name = "lblImgCount";
             this.lblImgCount.Size = new System.Drawing.Size(79, 17);
             this.lblImgCount.TabIndex = 0;
@@ -595,27 +607,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle21.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -887,6 +899,25 @@
             this.pnlLeft.TabIndex = 17;
             this.pnlLeft.Click += new System.EventHandler(this.pnlLeft_Click);
             // 
+            // panel18
+            // 
+            this.panel18.BackColor = System.Drawing.Color.LightCyan;
+            this.panel18.Controls.Add(this.lblImageInfo);
+            this.panel18.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel18.Location = new System.Drawing.Point(0, 503);
+            this.panel18.Name = "panel18";
+            this.panel18.Size = new System.Drawing.Size(492, 20);
+            this.panel18.TabIndex = 18;
+            // 
+            // lblImageInfo
+            // 
+            this.lblImageInfo.AutoSize = true;
+            this.lblImageInfo.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblImageInfo.Location = new System.Drawing.Point(191, 2);
+            this.lblImageInfo.Name = "lblImageInfo";
+            this.lblImageInfo.Size = new System.Drawing.Size(0, 17);
+            this.lblImageInfo.TabIndex = 2;
+            // 
             // tbpGatherLog
             // 
             this.tbpGatherLog.BackColor = System.Drawing.Color.Transparent;
@@ -953,37 +984,6 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
-            // txtStatusFilter
-            // 
-            this.txtStatusFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtStatusFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtStatusFilter.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtStatusFilter.Location = new System.Drawing.Point(0, 26);
-            this.txtStatusFilter.Margin = new System.Windows.Forms.Padding(0);
-            this.txtStatusFilter.Name = "txtStatusFilter";
-            this.txtStatusFilter.Size = new System.Drawing.Size(217, 23);
-            this.txtStatusFilter.TabIndex = 13;
-            this.txtStatusFilter.TextChanged += new System.EventHandler(this.txtStatusFilter_TextChanged);
-            // 
-            // panel18
-            // 
-            this.panel18.BackColor = System.Drawing.Color.LightCyan;
-            this.panel18.Controls.Add(this.lblImageInfo);
-            this.panel18.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel18.Location = new System.Drawing.Point(0, 503);
-            this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(492, 20);
-            this.panel18.TabIndex = 18;
-            // 
-            // lblImageInfo
-            // 
-            this.lblImageInfo.AutoSize = true;
-            this.lblImageInfo.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblImageInfo.Location = new System.Drawing.Point(191, 2);
-            this.lblImageInfo.Name = "lblImageInfo";
-            this.lblImageInfo.Size = new System.Drawing.Size(0, 17);
-            this.lblImageInfo.TabIndex = 2;
-            // 
             // SpiderTrackerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1032,11 +1032,11 @@
             this.panel11.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tbpReview.ResumeLayout(false);
+            this.panel18.ResumeLayout(false);
+            this.panel18.PerformLayout();
             this.tbpGatherLog.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
-            this.panel18.ResumeLayout(false);
-            this.panel18.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
