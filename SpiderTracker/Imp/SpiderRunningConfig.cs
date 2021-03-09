@@ -95,18 +95,18 @@ namespace SpiderTracker.Imp
         public int CurrentPageIndex { get; set; } = 1;
 
         /// <summary>
-        /// 只采集本用户
+        /// 采集原创图集
         /// </summary>
         public int OnlyReadOwnerUser { get; set; } = 0;
 
         /// <summary>
-        /// 只采集用户数(不读取用户微博)
+        /// 采集所有用户
         /// </summary>
-        public int OnlyReadUserInfo { get; set; } = 0;
+        public int ReadAllOfUser { get; set; } = 0;
         /// <summary>
-        /// 只采集微博数(不读取微博图片)
+        /// 采集用户关注
         /// </summary>
-        public int OnlyReadUserStatus { get; set; } = 0;
+        public int ReadUserOfFocus { get; set; } = 0;
 
         /// <summary>
         /// 只采集图片数(不下载微博图片)
@@ -114,8 +114,8 @@ namespace SpiderTracker.Imp
         public int OnlyReadUserPicture { get; set; } = 0;
 
         /// <summary>
-        /// 只读关注用户
+        /// 关注用户名称
         /// </summary>
-        public int OnlyReadFocusUser { get; set; } = 0;
+        public string ReadUserNameLike { get; set; }
     }
 }

@@ -26,6 +26,11 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 他的关注采集
         /// </summary>
-        HeFocusGather = 3
+        HeFocusGather = 3,
+
+        /// <summary>
+        /// 按配置采集
+        /// </summary>
+        AutoGather = 4
     }
 }

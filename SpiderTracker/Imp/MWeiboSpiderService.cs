@@ -101,15 +101,6 @@ namespace SpiderTracker.Imp
 
         public void StartSpider(SpiderRunningConfig runningConfig)
         {
-            if (runningConfig.GatherType == GatherTypeEnum.MyFocusGather)
-            {
-                var loginForm = new SinaLoginForm(runningConfig);
-                if(loginForm.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-                {
-                    ShowStatus("微博登陆失败!");
-                    return;
-                }
-            }
             Task.Factory.StartNew(() =>
             {
                 if (string.IsNullOrEmpty(runningConfig.Name))
@@ -147,6 +138,12 @@ namespace SpiderTracker.Imp
                             ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
                             break;
                         }
+                    default:
+                        {
+                            var readStatusImageCount = StartAutoGatherTask(runningConfig);
+                            ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
+                            break;
+                        }
                 }
                 SpiderComplete();
             });
@@ -178,6 +175,37 @@ namespace SpiderTracker.Imp
 
         }
         
+        int StartAutoGatherTask(SpiderRunningConfig runningConfig)
+        {
+            var readUsers = new List<SinaUser>();
+            if(runningConfig.ReadAllOfUser == 1)
+            {
+                readUsers = Repository.GetUsers(runningConfig.Name);
+                if (!string.IsNullOrEmpty(runningConfig.ReadUserNameLike))
+                {
+                    readUsers = readUsers.Where(c => c.name.Contains(runningConfig.ReadUserNameLike)).ToList();
+                }
+                runningConfig.UserIds = readUsers.Select(c => c.uid).ToArray();
+            }
+            if(runningConfig.ReadUserOfFocus == 1)
+            {
+                var focusUser = GatherHeFocusUsers(runningConfig);
+                if (!string.IsNullOrEmpty(runningConfig.ReadUserNameLike))
+                {
+                    focusUser = focusUser.Where(c => c.screen_name.Contains(runningConfig.ReadUserNameLike)).ToArray();
+                }
+                runningConfig.UserIds = runningConfig.UserIds.Concat(focusUser.Select(c => c.id)).Distinct().ToArray();
+            }
+            if(runningConfig.UserIds.Length == 0)
+            {
+                ShowStatus($"无采集用户数据.");
+                return 0;
+            }
+            ShowStatus($"准备读取【{runningConfig.UserIds.Length}】个用户的微博数据...");
+
+            return StartStartMultiGatherTask(runningConfig);
+        }
+
         int StartSpiderGatherTask(SpiderRunningConfig runninConfig)
         {
             var sinaUrlEnum = SinaUrlUtil.GetSinaUrlEnum(runninConfig.StartUrl);
@@ -262,39 +290,46 @@ namespace SpiderTracker.Imp
             var user = GatherHeFocusUsers(runningConfig);
             ShowStatus($"总共读取到【{user.Length}】个关注用户的微博数据...");
 
+            if(!string.IsNullOrEmpty(runningConfig.ReadUserNameLike))
+            {
+                user = user.Where(c => c.screen_name.Contains(runningConfig.ReadUserNameLike)).ToArray();
+            }
+
             runningConfig.UserIds = user.Select(c => c.id).ToArray();
             return StartStartMultiGatherTask(runningConfig);
         }
 
         MWeiboUser[] GatherHeFocusUsers(SpiderRunningConfig runningConfig)
         {
-            int page = 0;
             var focusUsers = new List<MWeiboUser>();
-            var userId = SinaUrlUtil.GetSinaUserByStartUrl(runningConfig.StartUrl);
 
-            while (++page > 0)
+            foreach(var userId in runningConfig.UserIds)
             {
-                ShowStatus($"开始读取{userId}关注的第{page}页用户信息...", true);
-                var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231051_-_followers_-_{userId}_-_1042015%253AtagCategory_039&luicode=10000011&lfid=1076033810669779&page={page}";
-                var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
-                if (html == null)
+                int page = 0;
+                while (++page > 0)
                 {
-                    ShowStatus($"读取{userId}关注的第{page}页用户信息错误!");
-                    return null;
+                    ShowStatus($"开始读取{userId}关注的第{page}页用户信息...", true);
+                    var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231051_-_followers_-_{userId}_-_1042015%253AtagCategory_039&luicode=10000011&lfid=1076033810669779&page={page}";
+                    var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
+                    if (html == null)
+                    {
+                        ShowStatus($"读取{userId}关注的第{page}页用户信息错误!");
+                        return null;
+                    }
+                    var result = GetWeiboFocusResult(html);
+                    if (result == null || result.data == null)
+                    {
+                        ShowStatus($"解析{userId}关注的第{page}页用户错误!");
+                        return null;
+                    }
+                    var focusUserCard = result.data.cards.FirstOrDefault(c => c.card_type == 11 && c.card_style != 1);
+                    if (focusUserCard == null)
+                    {
+                        break;
+                    }
+                    var users = focusUserCard.card_group.Select(c => c.user).ToArray();
+                    focusUsers.AddRange(users);
                 }
-                var result = GetWeiboFocusResult(html);
-                if (result == null || result.data == null)
-                {
-                    ShowStatus($"解析{userId}关注的第{page}页用户错误!");
-                    return null;
-                }
-                var focusUserCard = result.data.cards.FirstOrDefault(c => c.card_type == 11 && c.card_style != 1);
-                if (focusUserCard == null)
-                {
-                    break;
-                }
-                var users = focusUserCard.card_group.Select(c => c.user).ToArray();
-                focusUsers.AddRange(users);
             }
             return focusUsers.Distinct().ToArray();
         }
@@ -318,11 +353,11 @@ namespace SpiderTracker.Imp
                 return 0;
             }
 
-            if (runningConfig.OnlyReadUserInfo == 1)
-            {
-                ShowStatus($"只采集用户数据忽略内容【{user.id}】.");
-                return 0;
-            }
+            //if (runningConfig.OnlyReadUserInfo == 1)
+            //{
+            //    ShowStatus($"只采集用户数据忽略内容【{user.id}】.");
+            //    return 0;
+            //}
 
             int readUserImageCount = 0, readPageIndex = 0, emptyPageCount = 0;
             int readPageCount = (runningConfig.ReadPageCount == 0 ? int.MaxValue : runningConfig.StartPageIndex + runningConfig.ReadPageCount);
@@ -335,9 +370,9 @@ namespace SpiderTracker.Imp
                 if (stopReadNextPage) emptyPageCount++;
                 else emptyPageCount = 0;
 
-                if (emptyPageCount > 5)
+                if (emptyPageCount > 10)
                 {
-                    ShowStatus($"连续超过5页无数据中止采集...");
+                    ShowStatus($"连续超过10页无数据中止采集...");
                     break;
                 }
 
@@ -576,11 +611,11 @@ namespace SpiderTracker.Imp
                 ShowStatus($"跳过不符合最小图数组图【{status.bid}】.");
                 return 0;
             }
-            if(runninConfig.OnlyReadUserStatus == 1)
-            {
-                ShowStatus($"只采集微博数据忽略组图【{status.bid}】.");
-                return -1;
-            }
+            //if(runninConfig.OnlyReadUserStatus == 1)
+            //{
+            //    ShowStatus($"只采集微博数据忽略组图【{status.bid}】.");
+            //    return -1;
+            //}
             ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页组图【{status.bid}】...");
             int haveReadImageCount = 0, readImageIndex = 0;
             foreach (var pic in status.pics)
@@ -675,11 +710,11 @@ namespace SpiderTracker.Imp
                     return false;
                 }
             }
-            if(runningConfig.OnlyReadUserPicture == 1)
-            {
-                ShowStatus($"只采集微博图片忽略下载.");
-                return false;
-            }
+            //if(runningConfig.OnlyReadUserPicture == 1)
+            //{
+            //    ShowStatus($"只采集微博图片忽略下载.");
+            //    return false;
+            //}
             var image = HttpUtil.GetHttpRequestImageResult(imgUrl, runningConfig);
             if (image == null)
             {
