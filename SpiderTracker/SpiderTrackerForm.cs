@@ -100,25 +100,6 @@ namespace SpiderTracker
                 this.btnSearch.Text = "Stop";
                 this.btnSearch.Enabled = true;
             }));
-
-            InvokeControl(this.btnLoop, new Action(() =>
-            {
-                this.btnLoop.Text = "Stop";
-                this.btnLoop.Enabled = true;
-            }));
-
-
-            InvokeControl(this.btnGatherFoucs, new Action(() =>
-            {
-                this.btnGatherFoucs.Text = "Stop";
-                this.btnGatherFoucs.Enabled = true;
-            }));
-
-            InvokeControl(this.btnAutoGather, new Action(() =>
-            {
-                this.btnAutoGather.Text = "Stop";
-                this.btnAutoGather.Enabled = true;
-            }));
         }
 
         private void WeiboSpiderService_OnSpiderStoping()
@@ -128,49 +109,14 @@ namespace SpiderTracker
                 this.btnSearch.Text = "Stop...";
                 this.btnSearch.Enabled = false;
             }));
-
-            InvokeControl(this.btnLoop, new Action(() =>
-            {
-                this.btnLoop.Text = "Stop...";
-                this.btnLoop.Enabled = false;
-            }));
-
-            InvokeControl(this.btnGatherFoucs, new Action(() =>
-            {
-                this.btnGatherFoucs.Text = "Stop...";
-                this.btnGatherFoucs.Enabled = false;
-            }));
-            InvokeControl(this.btnAutoGather, new Action(() =>
-            {
-                this.btnAutoGather.Text = "Stop...";
-                this.btnAutoGather.Enabled = false;
-            }));
         }
 
         private void WeiboSpiderService_OnSpiderComplete()
         {
             InvokeControl(this.btnSearch, new Action(() =>
             {
-                this.btnSearch.Text = "单次采集";
+                this.btnSearch.Text = "开始采集";
                 this.btnSearch.Enabled = true;
-            }));
-
-            InvokeControl(this.btnLoop, new Action(() =>
-            {
-                this.btnLoop.Text = "循环采集";
-                this.btnLoop.Enabled = true;
-            }));
-
-            InvokeControl(this.btnGatherFoucs, new Action(() =>
-            {
-                this.btnGatherFoucs.Text = "我的关注";
-                this.btnGatherFoucs.Enabled = true;
-            }));
-
-            InvokeControl(this.btnAutoGather, new Action(() =>
-            {
-                this.btnAutoGather.Text = "他的关注";
-                this.btnAutoGather.Enabled = true;
             }));
         }
 
@@ -393,81 +339,15 @@ namespace SpiderTracker
         {
             if (!SinaSpiderService.IsSpiderStarted)
             {
-                SinaSpiderService.StartSpider(GetSpiderRunningConfig());
-            }
-            else
-            {
-                SinaSpiderService.StopSpider();
-            }
-        }
-
-        /// <summary>
-        /// 循环采集
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnLoop_Click(object sender, EventArgs e)
-        {
-            if (!SinaSpiderService.IsSpiderStarted)
-            {
                 var userIds = new List<string>();
                 foreach (ListViewItem item in this.lstUser.SelectedItems)
                 {
                     var u = item.SubItems[0].Text.ToString();
                     if (!userIds.Contains(u)) userIds.Add(u);
                 }
-
                 var runningConfig = GetSpiderRunningConfig();
                 runningConfig.UserIds = userIds.ToArray();
-                runningConfig.GatherType = GatherTypeEnum.MultiGather;
-
-                SinaSpiderService.StartSpider(runningConfig);
-            }
-            else
-            {
-                SinaSpiderService.StopSpider();
-            }
-        }
-
-        /// <summary>
-        /// 关注采集
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnGatherFoucs_Click(object sender, EventArgs e)
-        {
-            if (!SinaSpiderService.IsSpiderStarted)
-            {
-                var runningConfig = GetSpiderRunningConfig();
-                runningConfig.GatherType = GatherTypeEnum.MyFocusGather;
-                SinaSpiderService.StartSpider(runningConfig);
-            }
-            else
-            {
-                SinaSpiderService.StopSpider();
-            }
-        }
-
-        /// <summary>
-        /// 智能分析
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnAutoGather_Click(object sender, EventArgs e)
-        {
-            if (!SinaSpiderService.IsSpiderStarted)
-            {
-                var userIds = new List<string>();
-                foreach (ListViewItem item in this.lstUser.SelectedItems)
-                {
-                    var u = item.SubItems[0].Text.ToString();
-                    if (!userIds.Contains(u)) userIds.Add(u);
-                }
-
-                var runningConfig = GetSpiderRunningConfig();
-                runningConfig.UserIds = userIds.ToArray();
-                runningConfig.GatherType = GatherTypeEnum.HeFocusGather;
-
+                runningConfig.GatherType = GatherTypeEnum.AutoGather;
                 SinaSpiderService.StartSpider(runningConfig);
             }
             else
@@ -644,10 +524,7 @@ namespace SpiderTracker
                 var userPath = PathUtil.GetStoreImageUserPath(LoadCacheName, userId);
                 if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
 
-                if (this.lstUser.Items.Count > 0)
-                {
-                    this.lstUser.Items[0].Selected = true;
-                }
+                ResetLoadCacheTask = true;
             }
         }
 
@@ -964,29 +841,29 @@ namespace SpiderTracker
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
-            dr["配置项"] = "只采集本用户";
+            dr["配置项"] = "采集原创图集";
             dr["配置值"] = "1";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
-            dr["配置项"] = "只读关注用户";
+            dr["配置项"] = "采集所有用户";
             dr["配置值"] = "0";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
-            dr["配置项"] = "只采集用户数";
+            dr["配置项"] = "采集用户关注";
             dr["配置值"] = "0";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
-            dr["配置项"] = "只采集微博数";
-            dr["配置值"] = "0";
+            dr["配置项"] = "采集用户名称";
+            dr["配置值"] = "";
             dt.Rows.Add(dr);
 
-            dr = dt.NewRow();
-            dr["配置项"] = "只采集图片数";
-            dr["配置值"] = "0";
-            dt.Rows.Add(dr);
+            //dr = dt.NewRow();
+            //dr["配置项"] = "只采集图片数";
+            //dr["配置值"] = "0";
+            //dt.Rows.Add(dr);
 
             dr = dt.NewRow();
             dr["配置项"] = "图片最小尺寸";
@@ -1042,7 +919,7 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue);
                     runningConfig.StartPageIndex = intValue;
                 }
-                else if (row.Cells["配置项"].Value.ToString() == "只采集本用户")
+                else if (row.Cells["配置项"].Value.ToString() == "采集原创图集")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     var intValue = 0;
@@ -1070,26 +947,24 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue);
                     runningConfig.ReadMaxOfImgSize = intValue;
                 }
-                else if (row.Cells["配置项"].Value.ToString() == "只读关注用户")
+                else if (row.Cells["配置项"].Value.ToString() == "采集用户名称")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    runningConfig.OnlyReadFocusUser = intValue;
+                    runningConfig.ReadUserNameLike = strValue;
                 }
-                else if (row.Cells["配置项"].Value.ToString() == "只采集用户数")
+                else if (row.Cells["配置项"].Value.ToString() == "采集所有用户")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     var intValue = 0;
                     int.TryParse(strValue, out intValue);
-                    runningConfig.OnlyReadUserInfo = intValue;
+                    runningConfig.ReadAllOfUser = intValue;
                 }
-                else if (row.Cells["配置项"].Value.ToString() == "只采集微博数")
+                else if (row.Cells["配置项"].Value.ToString() == "采集用户关注")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     var intValue = 0;
                     int.TryParse(strValue, out intValue);
-                    runningConfig.OnlyReadUserStatus = intValue;
+                    runningConfig.ReadUserOfFocus = intValue;
                 }
                 else if(row.Cells["配置项"].Value.ToString() == "只采集图片数")
                 {

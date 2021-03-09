@@ -129,6 +129,13 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `focus`=1");
         }
 
+        public bool CheckUserFocus(string uid)
+        {
+            var user = GetUser(uid);
+            if (user != null && user.focus == 1) return true;
+            return false;
+        }
+
         public bool CheckUserIgnore(string uid)
         {
             var user = GetUser(uid);

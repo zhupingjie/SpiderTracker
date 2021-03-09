@@ -37,7 +37,6 @@
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.cbxName = new System.Windows.Forms.ComboBox();
-            this.btnLoop = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tplStatus = new System.Windows.Forms.ToolStripStatusLabel();
@@ -90,8 +89,6 @@
             this.panel13 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel14 = new System.Windows.Forms.Panel();
-            this.btnAutoGather = new System.Windows.Forms.Button();
-            this.btnGatherFoucs = new System.Windows.Forms.Button();
             this.panel11 = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
             this.lstLog = new System.Windows.Forms.ListBox();
@@ -184,29 +181,16 @@
             this.cbxName.Text = "cosplay";
             this.cbxName.Leave += new System.EventHandler(this.cbxName_Leave);
             // 
-            // btnLoop
-            // 
-            this.btnLoop.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnLoop.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnLoop.ForeColor = System.Drawing.Color.White;
-            this.btnLoop.Location = new System.Drawing.Point(128, 35);
-            this.btnLoop.Name = "btnLoop";
-            this.btnLoop.Size = new System.Drawing.Size(111, 41);
-            this.btnLoop.TabIndex = 11;
-            this.btnLoop.Text = "循环采集";
-            this.btnLoop.UseVisualStyleBackColor = false;
-            this.btnLoop.Click += new System.EventHandler(this.btnLoop_Click);
-            // 
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnSearch.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnSearch.ForeColor = System.Drawing.Color.White;
-            this.btnSearch.Location = new System.Drawing.Point(9, 35);
+            this.btnSearch.Location = new System.Drawing.Point(4, 31);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(113, 41);
+            this.btnSearch.Size = new System.Drawing.Size(241, 41);
             this.btnSearch.TabIndex = 10;
-            this.btnSearch.Text = "单次采集";
+            this.btnSearch.Text = "开始采集";
             this.btnSearch.UseVisualStyleBackColor = false;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
@@ -602,7 +586,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(0, 112);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(249, 313);
+            this.panel5.Size = new System.Drawing.Size(249, 364);
             this.panel5.TabIndex = 18;
             // 
             // dataGridView1
@@ -632,7 +616,7 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(249, 287);
+            this.dataGridView1.Size = new System.Drawing.Size(249, 338);
             this.dataGridView1.TabIndex = 18;
             // 
             // panel16
@@ -778,43 +762,13 @@
             // 
             // panel14
             // 
-            this.panel14.Controls.Add(this.btnAutoGather);
-            this.panel14.Controls.Add(this.btnGatherFoucs);
             this.panel14.Controls.Add(this.btnSearch);
-            this.panel14.Controls.Add(this.btnLoop);
             this.panel14.Controls.Add(this.panel11);
             this.panel14.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel14.Location = new System.Drawing.Point(0, 425);
+            this.panel14.Location = new System.Drawing.Point(0, 476);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(249, 130);
+            this.panel14.Size = new System.Drawing.Size(249, 79);
             this.panel14.TabIndex = 16;
-            // 
-            // btnAutoGather
-            // 
-            this.btnAutoGather.BackColor = System.Drawing.Color.HotPink;
-            this.btnAutoGather.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnAutoGather.ForeColor = System.Drawing.Color.White;
-            this.btnAutoGather.Location = new System.Drawing.Point(128, 82);
-            this.btnAutoGather.Name = "btnAutoGather";
-            this.btnAutoGather.Size = new System.Drawing.Size(111, 41);
-            this.btnAutoGather.TabIndex = 15;
-            this.btnAutoGather.Text = "他的关注";
-            this.btnAutoGather.UseVisualStyleBackColor = false;
-            this.btnAutoGather.Click += new System.EventHandler(this.btnAutoGather_Click);
-            // 
-            // btnGatherFoucs
-            // 
-            this.btnGatherFoucs.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnGatherFoucs.Enabled = false;
-            this.btnGatherFoucs.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnGatherFoucs.ForeColor = System.Drawing.Color.White;
-            this.btnGatherFoucs.Location = new System.Drawing.Point(9, 82);
-            this.btnGatherFoucs.Name = "btnGatherFoucs";
-            this.btnGatherFoucs.Size = new System.Drawing.Size(113, 41);
-            this.btnGatherFoucs.TabIndex = 14;
-            this.btnGatherFoucs.Text = "我的关注";
-            this.btnGatherFoucs.UseVisualStyleBackColor = false;
-            this.btnGatherFoucs.Click += new System.EventHandler(this.btnGatherFoucs_Click);
             // 
             // panel11
             // 
@@ -1057,7 +1011,6 @@
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button btnLoop;
         private System.Windows.Forms.Panel panel10;
         private System.Windows.Forms.Panel panel14;
         private System.Windows.Forms.Panel panel13;
@@ -1067,7 +1020,6 @@
         private System.Windows.Forms.ListBox lstLog;
         private System.Windows.Forms.Button btnBrowseStatus;
         private System.Windows.Forms.Button btnBrowseUser;
-        private System.Windows.Forms.Button btnGatherFoucs;
         private System.Windows.Forms.TextBox txtUserFilter;
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.TabControl tabControl1;
@@ -1092,7 +1044,6 @@
         private System.Windows.Forms.ComboBox cbxName;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel17;
-        private System.Windows.Forms.Button btnAutoGather;
         private System.Windows.Forms.Button btnManager;
         private System.Windows.Forms.Button btnIgnoreUser;
         private System.Windows.Forms.Label label5;
