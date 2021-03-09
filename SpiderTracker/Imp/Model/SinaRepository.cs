@@ -204,6 +204,7 @@ namespace SpiderTracker.Imp.Model
                 {
                     return $"创建本地微博错误!";
                 }
+                UpdateSinaUserQty(user.id);
             }
             else
             {
@@ -216,6 +217,7 @@ namespace SpiderTracker.Imp.Model
                     extSinaStatus.pics = status.pics != null ? status.pics.Length : 0;
                 }
                 UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "pics" });
+                UpdateSinaUserQty(user.id);
             }
             if (retweeted != null)
             {

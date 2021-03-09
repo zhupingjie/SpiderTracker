@@ -337,7 +337,7 @@ namespace SpiderTracker
             {
                 this.lstArc.BeginUpdate();
                 this.lstArc.Items.Clear();
-                foreach (var item in sinaStatus)
+                foreach (var item in sinaStatus.OrderByDescending(c=>c.lastdate).ToArray())
                 {
                     var subItem = new ListViewItem();
                     subItem.Text = item.bid;

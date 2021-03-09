@@ -352,10 +352,6 @@ namespace SpiderTracker.Imp
                     Thread.Sleep(runningConfig.ReadNextPageWaitSecond * 1000);
                 }
             }
-            if (readUserImageCount > 0)
-            {
-                Repository.UpdateSinaUserQty(user.id);
-            }
             return readUserImageCount;
         }
 
@@ -585,7 +581,7 @@ namespace SpiderTracker.Imp
                 ShowStatus($"只采集微博数据忽略组图【{status.bid}】.");
                 return -1;
             }
-            ShowStatus($"开始采集用户【{user.id}】组图【{status.bid}】...");
+            ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页组图【{status.bid}】...");
             int haveReadImageCount = 0, readImageIndex = 0;
             foreach (var pic in status.pics)
             {
