@@ -387,9 +387,9 @@ namespace SpiderTracker
             if (!SinaSpiderService.IsSpiderStarted)
             {
                 var userIds = new List<string>();
-                foreach (var item in this.lstUser.SelectedItems)
+                foreach (ListViewItem item in this.lstUser.SelectedItems)
                 {
-                    var u = item.ToString();
+                    var u = item.SubItems[0].Text.ToString();
                     if (!userIds.Contains(u)) userIds.Add(u);
                 }
 
@@ -434,9 +434,9 @@ namespace SpiderTracker
             if (!SinaSpiderService.IsSpiderStarted)
             {
                 var userIds = new List<string>();
-                foreach (var item in this.lstUser.SelectedItems)
+                foreach (ListViewItem item in this.lstUser.SelectedItems)
                 {
-                    var u = item.ToString();
+                    var u = item.SubItems[0].Text.ToString();
                     if (!userIds.Contains(u)) userIds.Add(u);
                 }
 
@@ -481,25 +481,19 @@ namespace SpiderTracker
 
         private void lstUser_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.lstUser.SelectedItems == null) return;
+            if (this.lstUser.SelectedItems == null || this.lstUser.SelectedItems.Count == 0) return;
+            if (this.lstUser.SelectedItems.Count > 1) return;
 
-            this.lstArc.Items.Clear();
+            var userId = GetSelectUserId();
+            var userUrl = SinaUrlUtil.GetSinaUserUrl(userId);
 
-            foreach (ListViewItem selectItem in this.lstUser.SelectedItems)
+            this.txtStartUrl.Text = userUrl;
+
+            LoadCacheUserStatusList(userId);
+
+            if (this.lstArc.Items.Count > 0)
             {
-                var userId = selectItem.SubItems[0].Text;
-                var userPath = PathUtil.GetStoreImageUserPath(LoadCacheName, userId);
-                var userUrl = SinaUrlUtil.GetSinaUserUrl(userId);
-
-                this.txtStartUrl.Text = userUrl;
-
-                //LoadCacheUserStatusList(userPath, userId);
-                LoadCacheUserStatusList(userId);
-
-                if(this.lstArc.Items.Count > 0)
-                {
-                    this.lstArc.Items[0].Selected = true;
-                }
+                this.lstArc.Items[0].Selected = true;
             }
         }
 
@@ -528,7 +522,7 @@ namespace SpiderTracker
 
         string GetSelectUserId()
         {
-            if (this.lstUser.SelectedItems == null) return null;
+            if (this.lstUser.SelectedItems == null || this.lstUser.SelectedItems.Count == 0) return null;
 
             return this.lstUser.SelectedItems[0].SubItems[0].Text;
         }
