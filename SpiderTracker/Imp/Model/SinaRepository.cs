@@ -312,7 +312,9 @@ namespace SpiderTracker.Imp.Model
             if (sinaStatus == null) return true;
 
             sinaStatus.ignore = 1;
-            return UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
+            UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
+
+            return UpdateSinaUserQty(sinaStatus.uid);
         }
         public bool FocusSinaStatus(string status)
         {

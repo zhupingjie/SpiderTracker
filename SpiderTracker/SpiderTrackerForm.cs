@@ -176,8 +176,6 @@ namespace SpiderTracker
                 
                 LoadCacheUserList(LoadCacheName);
 
-                UpdateCacheUserInfo(LoadCacheName);
-
                 Thread.Sleep(3 * 1000);
             }
         }
@@ -217,8 +215,6 @@ namespace SpiderTracker
                         LoadCacheName = names.FirstOrDefault();
 
                         LoadCacheUserList(LoadCacheName);
-
-                        UpdateCacheUserInfo(LoadCacheName);
                     }
 
                 }));
@@ -266,6 +262,7 @@ namespace SpiderTracker
                     this.lstUser.Items.Add(subItem);
                 }
                 this.lstUser.EndUpdate();
+                this.lblLstUserCount.Text = $"用户：{this.lstUser.Items.Count}";
             }));
         }
         
@@ -300,14 +297,12 @@ namespace SpiderTracker
                     this.lstArc.Items.Add(subItem);
                 }
                 this.lstArc.EndUpdate();
-
-                this.lblStatusCount.Text = $"【{sinaStatus.Count} 个图集】";
+                this.lblStatusCount.Text = $"图集：{this.lstArc.Items.Count}";
             }));
         }
         
         public void UpdateCacheUserInfo(string name)
         {
-            return;
             string root = PathUtil.GetStoreImagePath(name);
 
             var userCount = Directory.GetDirectories(root).Length;
@@ -417,7 +412,7 @@ namespace SpiderTracker
                 ClearImage();
             }
 
-            this.lblImgCount.Text = $"【{files.Length} 张图片】";
+            this.lblImgCount.Text = $"图片：{files.Length}";
 
             if (this.txtShowImg.Checked)
             {
@@ -528,7 +523,17 @@ namespace SpiderTracker
                 var listItem = this.lstUser.FindItemWithText(userId, true, 0);
                 if (listItem != null)
                 {
+                    var index = listItem.Index;
                     this.lstUser.Items.Remove(listItem);
+                    if (this.lstUser.Items.Count <= index)
+                    {
+                        this.lstUser.Items[this.lstUser.Items.Count - 1].Selected = true;
+                    }
+                    else
+                    {
+                        this.lstUser.Items[index].Selected = true;
+                    }
+                    this.lblLstUserCount.Text = $"用户：{this.lstUser.Items.Count}";
                 }
             }
         }
@@ -592,7 +597,17 @@ namespace SpiderTracker
                     var listItem = this.lstArc.FindItemWithText(bid, true, 0);
                     if (listItem != null)
                     {
+                        var index = listItem.Index;
                         this.lstArc.Items.Remove(listItem);
+                        if(this.lstArc.Items.Count <= index)
+                        {
+                            this.lstArc.Items[this.lstArc.Items.Count - 1].Selected = true;
+                        }
+                        else
+                        {
+                            this.lstArc.Items[index].Selected = true;
+                        }
+                        this.lblStatusCount.Text = $"图集：{this.lstArc.Items.Count} ";
                     }
                 }
             }
@@ -703,6 +718,11 @@ namespace SpiderTracker
             }
         }
 
+        private void btnUpdateInfo_Click(object sender, EventArgs e)
+        {
+            this.UpdateCacheUserInfo(LoadCacheName);
+        }
+
         private void btnManager_Click(object sender, EventArgs e)
         {
             CacheImageViewForm frm = new CacheImageViewForm();
@@ -793,6 +813,78 @@ namespace SpiderTracker
                     frm.ViewImgPath = files[imgIndex];
                     frm.ShowDialog();
                 }
+            }
+        }
+
+        void UpSelectStatus()
+        {
+            var index = 0;
+            if (this.lstArc.SelectedItems.Count == 0)
+            {
+                index = 1;
+            }
+            else
+            {
+                index = this.lstArc.SelectedItems[0].Index;
+
+                this.lstArc.Items[index].Selected = false;
+            }
+            if (index > 0)
+            {
+                index -= 1;
+                this.lstArc.Items[index].Selected = true;
+            }
+            else
+            {
+                this.lstArc.Items[0].Selected = true;
+            }
+        }
+
+        void DownSelectStatus()
+        {
+            var index = 0;
+            if(this.lstArc.SelectedItems.Count == 0)
+            {
+                index = -1;
+            }
+            else
+            {
+                index = this.lstArc.SelectedItems[0].Index;
+
+                this.lstArc.Items[index].Selected = false;
+            }
+            if(index < this.lstArc.Items.Count - 1)
+            {
+                index += 1;
+                this.lstArc.Items[index].Selected = true;
+            }
+            else if(this.lstArc.Items.Count > 0)
+            {
+                this.lstArc.Items[this.lstArc.Items.Count - 1].Selected = true;
+            }
+        }
+
+        private void lstArc_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Right || e.KeyCode == Keys.D)
+            {
+                this.pnlRight_Click(sender, e);
+            }
+            else if(e.KeyCode == Keys.Left ||  e.KeyCode == Keys.A)
+            {
+                this.pnlLeft_Click(sender, e);
+            }
+            else if(e.KeyCode == Keys.W)
+            {
+                this.UpSelectStatus();
+            }
+            else if(e.KeyCode == Keys.S)
+            {
+                this.DownSelectStatus();
+            }
+            else if(e.KeyCode == Keys.Delete)
+            {
+                this.btnIgnoreStatus_Click(sender, e);
             }
         }
         #endregion

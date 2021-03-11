@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -104,6 +104,8 @@
             this.txtShowImg = new System.Windows.Forms.CheckBox();
             this.btnManager = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.lblLstUserCount = new System.Windows.Forms.Label();
+            this.btnUpdateInfo = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -247,6 +249,7 @@
             this.lstUser.GridLines = true;
             this.lstUser.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lstUser.HideSelection = false;
+            this.lstUser.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstUser.Location = new System.Drawing.Point(0, 23);
             this.lstUser.Name = "lstUser";
             this.lstUser.Size = new System.Drawing.Size(217, 275);
@@ -308,6 +311,7 @@
             this.lstArc.GridLines = true;
             this.lstArc.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lstArc.HideSelection = false;
+            this.lstArc.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstArc.Location = new System.Drawing.Point(0, 49);
             this.lstArc.Name = "lstArc";
             this.lstArc.Size = new System.Drawing.Size(217, 159);
@@ -315,6 +319,7 @@
             this.lstArc.UseCompatibleStateImageBehavior = false;
             this.lstArc.View = System.Windows.Forms.View.Details;
             this.lstArc.SelectedIndexChanged += new System.EventHandler(this.lstArc_SelectedIndexChanged);
+            this.lstArc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstArc_KeyDown);
             // 
             // colBid
             // 
@@ -525,6 +530,7 @@
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.Color.LightCyan;
+            this.panel6.Controls.Add(this.lblLstUserCount);
             this.panel6.Controls.Add(this.lblStatusCount);
             this.panel6.Controls.Add(this.lblImgCount);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -537,21 +543,21 @@
             // 
             this.lblStatusCount.AutoSize = true;
             this.lblStatusCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblStatusCount.Location = new System.Drawing.Point(1, 3);
+            this.lblStatusCount.Location = new System.Drawing.Point(66, 3);
             this.lblStatusCount.Name = "lblStatusCount";
-            this.lblStatusCount.Size = new System.Drawing.Size(79, 17);
+            this.lblStatusCount.Size = new System.Drawing.Size(51, 17);
             this.lblStatusCount.TabIndex = 1;
-            this.lblStatusCount.Text = "【0 个图集】";
+            this.lblStatusCount.Text = "图集：0";
             // 
             // lblImgCount
             // 
             this.lblImgCount.AutoSize = true;
             this.lblImgCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblImgCount.Location = new System.Drawing.Point(100, 3);
+            this.lblImgCount.Location = new System.Drawing.Point(140, 3);
             this.lblImgCount.Name = "lblImgCount";
-            this.lblImgCount.Size = new System.Drawing.Size(79, 17);
+            this.lblImgCount.Size = new System.Drawing.Size(51, 17);
             this.lblImgCount.TabIndex = 0;
-            this.lblImgCount.Text = "【0 张图片】";
+            this.lblImgCount.Text = "图片：0";
             // 
             // pictureBox1
             // 
@@ -591,27 +597,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -653,6 +659,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnUpdateInfo);
             this.panel2.Controls.Add(this.btnLock);
             this.panel2.Controls.Add(this.lblPicCount);
             this.panel2.Controls.Add(this.lblArcCount);
@@ -938,6 +945,28 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
+            // lblLstUserCount
+            // 
+            this.lblLstUserCount.AutoSize = true;
+            this.lblLstUserCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLstUserCount.Location = new System.Drawing.Point(4, 3);
+            this.lblLstUserCount.Name = "lblLstUserCount";
+            this.lblLstUserCount.Size = new System.Drawing.Size(51, 17);
+            this.lblLstUserCount.TabIndex = 2;
+            this.lblLstUserCount.Text = "用户：0";
+            // 
+            // btnUpdateInfo
+            // 
+            this.btnUpdateInfo.BackColor = System.Drawing.Color.White;
+            this.btnUpdateInfo.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnUpdateInfo.Location = new System.Drawing.Point(217, 0);
+            this.btnUpdateInfo.Name = "btnUpdateInfo";
+            this.btnUpdateInfo.Size = new System.Drawing.Size(16, 86);
+            this.btnUpdateInfo.TabIndex = 21;
+            this.btnUpdateInfo.Text = "UPDATE";
+            this.btnUpdateInfo.UseVisualStyleBackColor = false;
+            this.btnUpdateInfo.Click += new System.EventHandler(this.btnUpdateInfo_Click);
+            // 
             // SpiderTrackerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1069,6 +1098,8 @@
         private System.Windows.Forms.TextBox txtStatusFilter;
         private System.Windows.Forms.Panel panel18;
         private System.Windows.Forms.Label lblImageInfo;
+        private System.Windows.Forms.Label lblLstUserCount;
+        private System.Windows.Forms.Button btnUpdateInfo;
     }
 }
 
