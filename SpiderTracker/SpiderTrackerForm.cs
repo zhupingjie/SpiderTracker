@@ -307,6 +307,7 @@ namespace SpiderTracker
         
         public void UpdateCacheUserInfo(string name)
         {
+            return;
             string root = PathUtil.GetStoreImagePath(name);
 
             var userCount = Directory.GetDirectories(root).Length;
