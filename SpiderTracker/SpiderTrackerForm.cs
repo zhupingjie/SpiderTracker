@@ -525,7 +525,11 @@ namespace SpiderTracker
                 var userPath = PathUtil.GetStoreImageUserPath(LoadCacheName, userId);
                 if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
 
-                ResetLoadCacheTask = true;
+                var listItem = this.lstUser.FindItemWithText(userId, true, 0);
+                if (listItem != null)
+                {
+                    this.lstUser.Items.Remove(listItem);
+                }
             }
         }
 
@@ -585,7 +589,11 @@ namespace SpiderTracker
                     var userStatusPath = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, bid);
                     if (Directory.Exists(userStatusPath)) Directory.Delete(userStatusPath, true);
 
-                    LoadCacheUserStatusList(uid);
+                    var listItem = this.lstArc.FindItemWithText(bid, true, 0);
+                    if (listItem != null)
+                    {
+                        this.lstArc.Items.Remove(listItem);
+                    }
                 }
             }
         }
