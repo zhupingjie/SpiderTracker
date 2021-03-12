@@ -942,10 +942,14 @@ namespace SpiderTracker
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
+            dr["配置项"] = "忽略存档图集";
+            dr["配置值"] = "0";
+            dt.Rows.Add(dr);
+
+            dr = dt.NewRow();
             dr["配置项"] = "采集原创图集";
             dr["配置值"] = "1";
             dt.Rows.Add(dr);
-
             dr = dt.NewRow();
             dr["配置项"] = "采集所有用户";
             dr["配置值"] = "0";
@@ -960,6 +964,7 @@ namespace SpiderTracker
             dr["配置项"] = "采集用户名称";
             dr["配置值"] = "";
             dt.Rows.Add(dr);
+
 
             //dr = dt.NewRow();
             //dr["配置项"] = "只采集图片数";
@@ -1067,12 +1072,12 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue);
                     runningConfig.ReadUserOfFocus = intValue;
                 }
-                else if(row.Cells["配置项"].Value.ToString() == "只采集图片数")
+                else if (row.Cells["配置项"].Value.ToString() == "忽略存档图集")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     int intValue = 0;
                     int.TryParse(strValue, out intValue); ;
-                    runningConfig.OnlyReadUserPicture = intValue;
+                    runningConfig.IgnoreReadArchiveStatus = intValue;
                 }
             }
             return runningConfig;

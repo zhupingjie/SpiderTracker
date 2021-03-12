@@ -560,7 +560,6 @@ namespace SpiderTracker.Imp
                     ShowStatus($"跳过非本用户【{status.retweeted_status.user.id}】转发数据.");
                     return 0;
                 }
-                //if (UserUtil.CheckUserIgnore(runningConfig.Name, status.retweeted_status.user.id))
                 if (Repository.CheckUserIgnore(status.retweeted_status.user.id))
                 {
                     ShowStatus($"用户【{status.retweeted_status.user.id}】已忽略采集.");
@@ -601,21 +600,30 @@ namespace SpiderTracker.Imp
                 ShowStatus($"用户【{user.id}】已忽略采集.");
                 return 0;
             }
-            if (PathUtil.CheckUserStatusExists(runninConfig.Name, user.id, status.bid) || Repository.CheckStatusIgnore(status.bid))
+            if (PathUtil.CheckUserStatusExists(runninConfig.Name, user.id, status.bid))
             {
                 ShowStatus($"跳过已缓存组图【{status.bid}】.");
                 return -1;
+            }
+            var sinaStatus = Repository.GetUserStatus(status.bid);
+            if(sinaStatus != null)
+            {
+                if(sinaStatus.ignore == 1)
+                {
+                    ShowStatus($"跳过已忽略组图【{status.bid}】.");
+                    return -1;
+                }
+                if(runninConfig.IgnoreReadArchiveStatus == 1 && sinaStatus.archive == 1)
+                {
+                    ShowStatus($"跳过已存档组图【{status.bid}】.");
+                    return -1;
+                }
             }
             if (status.pics == null || status.pics.Length < runninConfig.ReadMinOfImgCount)
             {
                 ShowStatus($"跳过不符合最小图数组图【{status.bid}】.");
                 return 0;
             }
-            //if(runninConfig.OnlyReadUserStatus == 1)
-            //{
-            //    ShowStatus($"只采集微博数据忽略组图【{status.bid}】.");
-            //    return -1;
-            //}
             ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页组图【{status.bid}】...");
             int haveReadImageCount = 0, readImageIndex = 0;
             foreach (var pic in status.pics)

@@ -109,9 +109,9 @@ namespace SpiderTracker.Imp
         public int ReadUserOfFocus { get; set; } = 0;
 
         /// <summary>
-        /// 只采集图片数(不下载微博图片)
+        /// 忽略存档图集
         /// </summary>
-        public int OnlyReadUserPicture { get; set; } = 0;
+        public int IgnoreReadArchiveStatus { get; set; } = 0;
 
         /// <summary>
         /// 关注用户名称
