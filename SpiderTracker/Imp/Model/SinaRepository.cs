@@ -79,9 +79,14 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.ExistsEntity("sina_picture", $"`uid`='{uid}' and `bid`='{bid}' and `picurl`='{imgurl}'");
         }
 
-        public int GetEntityCount(string uid)
+        public int GetUserStatusCount(string uid)
         {
             return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `ignore`=0 and `retweeted`=0");
+        }
+
+        public int GetUserStatusNewCount(string uid)
+        {
+            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `ignore`=0 and `retweeted`=0 and `archive`=0");
         }
 
         public SinaUser GetUser(string uid)
@@ -297,11 +302,13 @@ namespace SpiderTracker.Imp.Model
             var sinaUser = GetUser(user);
             if (sinaUser == null) return true;
 
-            var picCount = GetEntityCount(user);
+            var picCount = GetUserStatusCount(user);
             if (picCount >= 0)
             {
+                var newCount = GetUserStatusNewCount(user);
                 sinaUser.piccount = picCount;
-                return UpdateSinaUser(sinaUser, new string[] { "piccount" });
+                sinaUser.newcount = newCount;
+                return UpdateSinaUser(sinaUser, new string[] { "piccount", "newcount" });
             }
             return false;
         }
