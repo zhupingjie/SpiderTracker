@@ -446,9 +446,9 @@ namespace SpiderTracker
 
         private void btnMarkUser_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("确认已存档当前用户的所有图集?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
-
             var user = GetSelectUserId();
+            if (MessageBox.Show($"确认已存档当前用户的所有图集[{user}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+
             if (!string.IsNullOrEmpty(user))
             {
                 var rep = new SinaRepository();
@@ -512,7 +512,7 @@ namespace SpiderTracker
             var userId = GetSelectUserId();
             if (string.IsNullOrEmpty(userId)) return;
 
-            if (MessageBox.Show("确认拉黑当前用户?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+            if (MessageBox.Show($"确认拉黑当前用户[{userId}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             var rep = new SinaRepository();
             var suc = rep.IgnoreSinaUser(userId);
@@ -581,10 +581,10 @@ namespace SpiderTracker
 
         private void btnIgnoreStatus_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("确认拉黑当前图集?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
-
             var uid = GetSelectUserId();
             var bid = GetSelectStatusId();
+
+            if (MessageBox.Show($"确认拉黑当前图集[{bid}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             if (!string.IsNullOrEmpty(uid))
             {
@@ -625,10 +625,10 @@ namespace SpiderTracker
 
         private void btnArchiveStatus_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("确认已存档当前图集?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
-
             var uid = GetSelectUserId();
             var bid = GetSelectStatusId();
+
+            if (MessageBox.Show($"确认已存档当前图集[{bid}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             if (!string.IsNullOrEmpty(uid))
             {

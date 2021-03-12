@@ -338,7 +338,8 @@ namespace SpiderTracker.Imp.Model
             if (sinaStatus == null) return true;
 
             sinaStatus.archive = 1;
-            return UpdateSinaStatus(sinaStatus, new string[] { "archive" });
+            UpdateSinaStatus(sinaStatus, new string[] { "archive" });
+            return UpdateSinaUserQty(sinaStatus.uid);
         }
 
         public bool ArchiveSinaUser(string user)
@@ -349,6 +350,7 @@ namespace SpiderTracker.Imp.Model
                 sinaStatus.archive = 1;
                 UpdateSinaStatus(sinaStatus, new string[] { "archive" });
             }
+            UpdateSinaUserQty(user);
             return true;
         }
     }
