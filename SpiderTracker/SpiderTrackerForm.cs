@@ -259,6 +259,7 @@ namespace SpiderTracker
                     subItem.Text = item.uid;
                     subItem.SubItems.Add(item.name);
                     subItem.SubItems.Add($"{item.piccount}");
+                    subItem.SubItems.Add($"{(item.newcount>0? "◉" : "")}");
                     this.lstUser.Items.Add(subItem);
                 }
                 this.lstUser.EndUpdate();

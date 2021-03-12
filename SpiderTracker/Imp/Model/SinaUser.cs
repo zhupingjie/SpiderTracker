@@ -29,5 +29,7 @@ namespace SpiderTracker.Imp.Model
         public int originals { get; set; }
         public int retweets { get; set; }
         public int piccount { get; set; }
+
+        public int newcount { get; set; }
     }
 }
