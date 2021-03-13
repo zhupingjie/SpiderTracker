@@ -155,8 +155,10 @@ namespace SpiderTracker.Imp.Model
             return false;
         }
 
-        public string StoreSinaUser(SpiderRunningConfig runningConfig, MWeiboUser user, bool bUpdate = false)
+        public string StoreSinaUser(SpiderRunningConfig runningConfig, MWeiboUser user, bool bUpdate, out SinaUser newUser)
         {
+            newUser = null;
+
             var sinaUser = new SinaUser();
             sinaUser.groupname = runningConfig.Name;
             sinaUser.uid = user.id;
@@ -167,7 +169,7 @@ namespace SpiderTracker.Imp.Model
             sinaUser.followers = user.followers_count;
             sinaUser.profile = SinaUrlUtil.GetSinaUserUrl(user.id);
             sinaUser.statuses = user.statuses_count.HasValue?user.statuses_count.Value : 0;
-
+            
             if (!ExistsSinaUser(user.id))
             {
                 var suc = CreateSinaUser(sinaUser);
@@ -175,6 +177,7 @@ namespace SpiderTracker.Imp.Model
                 {
                     return $"创建本地用户错误!";
                 }
+                newUser = sinaUser;
             }
             else if (bUpdate)
             {
@@ -186,8 +189,9 @@ namespace SpiderTracker.Imp.Model
             }
             return null;
         }
-        public string StoreSinaStatus(MWeiboUser user, MWeiboStatus status, MWeiboStatus retweeted, int readStatusImageCount)
+        public string StoreSinaStatus(MWeiboUser user, MWeiboStatus status, MWeiboStatus retweeted, int readStatusImageCount, out SinaStatus newStatus)
         {
+            newStatus = null;
             var sinaStatus = new SinaStatus();
             sinaStatus.uid = user.id;
             sinaStatus.bid = status.bid;
@@ -217,6 +221,7 @@ namespace SpiderTracker.Imp.Model
                     return $"创建本地微博错误!";
                 }
                 UpdateSinaUserQty(user.id);
+                newStatus = sinaStatus;
             }
             else
             {

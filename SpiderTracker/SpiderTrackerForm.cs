@@ -60,8 +60,10 @@ namespace SpiderTracker
             SinaSpiderService.OnSpiderComplete += WeiboSpiderService_OnSpiderComplete;
             SinaSpiderService.OnSpiderStoping += WeiboSpiderService_OnSpiderStoping;
             SinaSpiderService.OnRefreshConfig += WeiboSpiderService_OnRefreshConfig;
-            //SinaSpiderService.OnChangeUserStatus += SinaSpiderService_OnChangeUserStatus;
-                 
+            SinaSpiderService.OnGatherNewUser += SinaSpiderService_OnGatherNewUser;
+            SinaSpiderService.OnGatherNewStatus += SinaSpiderService_OnGatherNewStatus;
+
+
             Task.Factory.StartNew(() => {
                 LoadCacheNameList();
             });
@@ -69,6 +71,32 @@ namespace SpiderTracker
 
 
         #region Spider Event
+
+        private void SinaSpiderService_OnGatherNewStatus(SinaStatus newStatus)
+        {
+            InvokeControl(this.lstUser, new Action(() =>
+            {
+                var listItem = this.lstUser.FindItemWithText(newStatus.uid, true, 0);
+                if (listItem != null)
+                {
+                    var statusQty = 0;
+                    int.TryParse(listItem.SubItems[2].Text, out statusQty);
+                    statusQty += 1;
+                    listItem.SubItems[2].Text = $"{statusQty}";
+                }
+            }));
+        }
+
+        private void SinaSpiderService_OnGatherNewUser(SinaUser user)
+        {
+            if (!CacheSinaUsers.Any(c => c.uid == user.uid))
+            {
+                CacheSinaUsers.Add(user);
+
+                LoadCacheUserList(LoadCacheName);
+            }
+        }
+
 
         //private void SinaSpiderService_OnChangeUserStatus(string uid, bool ignore)
         //{
@@ -164,7 +192,7 @@ namespace SpiderTracker
 
         void LoadCacheUserTask()
         {
-            while (true)
+            //while (true)
             {
                 if (ResetLoadCacheTask)
                 {
@@ -172,11 +200,11 @@ namespace SpiderTracker
                     ClearCacheUser();
                 }
 
-                Thread.Sleep(2 * 1000);
+                //Thread.Sleep(2 * 1000);
                 
                 LoadCacheUserList(LoadCacheName);
 
-                Thread.Sleep(3 * 1000);
+                //Thread.Sleep(3 * 1000);
             }
         }
 

@@ -68,15 +68,23 @@ namespace SpiderTracker.Imp
             OnSpiderStoping?.Invoke();
         }
 
-        public delegate void ChangeUserStatusEventHander(string uid, bool ignore);
+        public delegate void SpiderGatherNewUserEventHander(SinaUser user);
 
-        public event ChangeUserStatusEventHander OnChangeUserStatus;
+        public event SpiderGatherNewUserEventHander OnGatherNewUser;
 
-        public void ChangeUserStatus(string uid, bool ignore)
+        public void GatherNewUser(SinaUser user)
         {
-            //OnChangeUserStatus?.Invoke(uid, ignore);
+            OnGatherNewUser?.Invoke(user);
         }
 
+        public delegate void SpiderGatherNewStatusEventHander(SinaStatus newStatus);
+
+        public event SpiderGatherNewStatusEventHander OnGatherNewStatus;
+
+        public void GatherNewStatus(SinaStatus newStatus)
+        {
+            OnGatherNewStatus?.Invoke(newStatus);
+        }
         #endregion
 
         /// <summary>
@@ -407,11 +415,17 @@ namespace SpiderTracker.Imp
                 return null;
             }
             var user = result.data.userInfo;
-            var rst = Repository.StoreSinaUser(runningConfig, user, true);
+
+            SinaUser newUser = null;
+            var rst = Repository.StoreSinaUser(runningConfig, user, true, out newUser);
             if (!string.IsNullOrEmpty(rst))
             {
                 ShowStatus(rst);
                 return null;
+            }
+            if (newUser != null)
+            {
+                GatherNewUser(newUser);
             }
             return user;
         }
@@ -545,8 +559,13 @@ namespace SpiderTracker.Imp
             int readStatusImageCount = 0;
             if (status.pics != null)
             {
+                SinaStatus newStatus = null;
                 readStatusImageCount = GatherSinaStatusByStatusResult(runningConfig, status);
-                Repository.StoreSinaStatus(user, status, null, readStatusImageCount);
+                Repository.StoreSinaStatus(user, status, null, readStatusImageCount, out newStatus);
+                if(newStatus != null)
+                {
+                    GatherNewStatus(newStatus);
+                }
             }
             if (status.retweeted_status != null)
             {
@@ -566,14 +585,20 @@ namespace SpiderTracker.Imp
                     return 0;
                 }
                 //存储转发用户信息
-                var rst = Repository.StoreSinaUser(runningConfig, status.retweeted_status.user, false);
+                SinaUser newUser = null;
+                var rst = Repository.StoreSinaUser(runningConfig, status.retweeted_status.user, false, out newUser);
                 if (!string.IsNullOrEmpty(rst))
                 {
                     ShowStatus(rst);
                     return 0;
                 }
+                if(newUser != null)
+                {
+                    GatherNewUser(newUser);
+                }
+                SinaStatus newStatus = null;
                 readStatusImageCount = GatherSinaStatusByStatusResult(runningConfig, status.retweeted_status);
-                Repository.StoreSinaStatus(user, status, status.retweeted_status, readStatusImageCount);
+                Repository.StoreSinaStatus(user, status, status.retweeted_status, readStatusImageCount, out newStatus);
             }
             return readStatusImageCount > 0 ? readStatusImageCount : 0;
         }
