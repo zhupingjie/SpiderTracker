@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -56,6 +56,7 @@
             this.colMrk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txtStatusFilter = new System.Windows.Forms.TextBox();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.txtShowImg = new System.Windows.Forms.CheckBox();
             this.btnGetStatusByBid = new System.Windows.Forms.Button();
             this.btnArchiveStatus = new System.Windows.Forms.Button();
             this.btnOpenStatus = new System.Windows.Forms.Button();
@@ -70,6 +71,8 @@
             this.btnBrowseUser = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.lblLstArchiveCount = new System.Windows.Forms.Label();
+            this.lblLstArchiveCountTitle = new System.Windows.Forms.Label();
             this.lblLstImgCount = new System.Windows.Forms.Label();
             this.lblLstStatusCount = new System.Windows.Forms.Label();
             this.lblLstUserCount = new System.Windows.Forms.Label();
@@ -84,6 +87,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnManage = new System.Windows.Forms.Button();
             this.btnUpdateInfo = new System.Windows.Forms.Button();
             this.btnLock = new System.Windows.Forms.Button();
             this.lblPicCount = new System.Windows.Forms.Label();
@@ -107,11 +111,7 @@
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
-            this.txtShowImg = new System.Windows.Forms.CheckBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.lblLstArchiveCountTitle = new System.Windows.Forms.Label();
-            this.lblLstArchiveCount = new System.Windows.Forms.Label();
-            this.btnManage = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -383,6 +383,17 @@
             this.panel8.Size = new System.Drawing.Size(240, 26);
             this.panel8.TabIndex = 11;
             // 
+            // txtShowImg
+            // 
+            this.txtShowImg.AutoSize = true;
+            this.txtShowImg.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtShowImg.ForeColor = System.Drawing.Color.Black;
+            this.txtShowImg.Location = new System.Drawing.Point(33, 6);
+            this.txtShowImg.Name = "txtShowImg";
+            this.txtShowImg.Size = new System.Drawing.Size(15, 14);
+            this.txtShowImg.TabIndex = 21;
+            this.txtShowImg.UseVisualStyleBackColor = true;
+            // 
             // btnGetStatusByBid
             // 
             this.btnGetStatusByBid.BackColor = System.Drawing.SystemColors.Control;
@@ -558,11 +569,31 @@
             this.panel6.Size = new System.Drawing.Size(240, 23);
             this.panel6.TabIndex = 3;
             // 
+            // lblLstArchiveCount
+            // 
+            this.lblLstArchiveCount.AutoSize = true;
+            this.lblLstArchiveCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLstArchiveCount.Location = new System.Drawing.Point(207, 3);
+            this.lblLstArchiveCount.Name = "lblLstArchiveCount";
+            this.lblLstArchiveCount.Size = new System.Drawing.Size(15, 17);
+            this.lblLstArchiveCount.TabIndex = 7;
+            this.lblLstArchiveCount.Text = "0";
+            // 
+            // lblLstArchiveCountTitle
+            // 
+            this.lblLstArchiveCountTitle.AutoSize = true;
+            this.lblLstArchiveCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLstArchiveCountTitle.Location = new System.Drawing.Point(177, 3);
+            this.lblLstArchiveCountTitle.Name = "lblLstArchiveCountTitle";
+            this.lblLstArchiveCountTitle.Size = new System.Drawing.Size(35, 17);
+            this.lblLstArchiveCountTitle.TabIndex = 6;
+            this.lblLstArchiveCountTitle.Text = "归档:";
+            // 
             // lblLstImgCount
             // 
             this.lblLstImgCount.AutoSize = true;
             this.lblLstImgCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstImgCount.Location = new System.Drawing.Point(146, 3);
+            this.lblLstImgCount.Location = new System.Drawing.Point(143, 3);
             this.lblLstImgCount.Name = "lblLstImgCount";
             this.lblLstImgCount.Size = new System.Drawing.Size(15, 17);
             this.lblLstImgCount.TabIndex = 5;
@@ -572,7 +603,7 @@
             // 
             this.lblLstStatusCount.AutoSize = true;
             this.lblLstStatusCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstStatusCount.Location = new System.Drawing.Point(88, 3);
+            this.lblLstStatusCount.Location = new System.Drawing.Point(86, 3);
             this.lblLstStatusCount.Name = "lblLstStatusCount";
             this.lblLstStatusCount.Size = new System.Drawing.Size(15, 17);
             this.lblLstStatusCount.TabIndex = 4;
@@ -602,7 +633,7 @@
             // 
             this.lblLstStatusCountTitle.AutoSize = true;
             this.lblLstStatusCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstStatusCountTitle.Location = new System.Drawing.Point(58, 3);
+            this.lblLstStatusCountTitle.Location = new System.Drawing.Point(56, 3);
             this.lblLstStatusCountTitle.Name = "lblLstStatusCountTitle";
             this.lblLstStatusCountTitle.Size = new System.Drawing.Size(35, 17);
             this.lblLstStatusCountTitle.TabIndex = 1;
@@ -612,7 +643,7 @@
             // 
             this.lblLstImgCountTitle.AutoSize = true;
             this.lblLstImgCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstImgCountTitle.Location = new System.Drawing.Point(117, 3);
+            this.lblLstImgCountTitle.Location = new System.Drawing.Point(114, 3);
             this.lblLstImgCountTitle.Name = "lblLstImgCountTitle";
             this.lblLstImgCountTitle.Size = new System.Drawing.Size(35, 17);
             this.lblLstImgCountTitle.TabIndex = 0;
@@ -656,27 +687,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -732,6 +763,18 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(249, 86);
             this.panel2.TabIndex = 17;
+            // 
+            // btnManage
+            // 
+            this.btnManage.BackColor = System.Drawing.Color.White;
+            this.btnManage.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnManage.Location = new System.Drawing.Point(201, 0);
+            this.btnManage.Name = "btnManage";
+            this.btnManage.Size = new System.Drawing.Size(16, 86);
+            this.btnManage.TabIndex = 22;
+            this.btnManage.Text = "MANAGE";
+            this.btnManage.UseVisualStyleBackColor = false;
+            this.btnManage.Click += new System.EventHandler(this.btnManage_Click);
             // 
             // btnUpdateInfo
             // 
@@ -984,55 +1027,12 @@
             this.panel12.Size = new System.Drawing.Size(522, 26);
             this.panel12.TabIndex = 14;
             // 
-            // txtShowImg
-            // 
-            this.txtShowImg.AutoSize = true;
-            this.txtShowImg.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtShowImg.ForeColor = System.Drawing.Color.Black;
-            this.txtShowImg.Location = new System.Drawing.Point(33, 6);
-            this.txtShowImg.Name = "txtShowImg";
-            this.txtShowImg.Size = new System.Drawing.Size(15, 14);
-            this.txtShowImg.TabIndex = 21;
-            this.txtShowImg.UseVisualStyleBackColor = true;
-            // 
             // notifyIcon1
             // 
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
-            // 
-            // lblLstArchiveCountTitle
-            // 
-            this.lblLstArchiveCountTitle.AutoSize = true;
-            this.lblLstArchiveCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstArchiveCountTitle.Location = new System.Drawing.Point(174, 3);
-            this.lblLstArchiveCountTitle.Name = "lblLstArchiveCountTitle";
-            this.lblLstArchiveCountTitle.Size = new System.Drawing.Size(35, 17);
-            this.lblLstArchiveCountTitle.TabIndex = 6;
-            this.lblLstArchiveCountTitle.Text = "归档:";
-            // 
-            // lblLstArchiveCount
-            // 
-            this.lblLstArchiveCount.AutoSize = true;
-            this.lblLstArchiveCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstArchiveCount.Location = new System.Drawing.Point(203, 3);
-            this.lblLstArchiveCount.Name = "lblLstArchiveCount";
-            this.lblLstArchiveCount.Size = new System.Drawing.Size(15, 17);
-            this.lblLstArchiveCount.TabIndex = 7;
-            this.lblLstArchiveCount.Text = "0";
-            // 
-            // btnManage
-            // 
-            this.btnManage.BackColor = System.Drawing.Color.White;
-            this.btnManage.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnManage.Location = new System.Drawing.Point(201, 0);
-            this.btnManage.Name = "btnManage";
-            this.btnManage.Size = new System.Drawing.Size(16, 86);
-            this.btnManage.TabIndex = 22;
-            this.btnManage.Text = "MANAGE";
-            this.btnManage.UseVisualStyleBackColor = false;
-            this.btnManage.Click += new System.EventHandler(this.btnManage_Click);
             // 
             // SpiderTrackerForm
             // 
