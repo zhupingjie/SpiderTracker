@@ -999,7 +999,7 @@ namespace SpiderTracker
             dr["配置项"] = "忽略存档图集";
             dr["配置值"] = "1";
             dt.Rows.Add(dr);
-
+              
             dr = dt.NewRow();
             dr["配置项"] = "采集原创图集";
             dr["配置值"] = "1";
