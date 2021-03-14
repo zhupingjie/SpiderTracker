@@ -147,6 +147,18 @@ namespace SpiderTracker
                 this.btnSearch.Text = "Stop";
                 this.btnSearch.Enabled = true;
             }));
+            InvokeControl(this.lblUserCount, new Action(() =>
+            {
+                this.lblUserCount.Text = $"{0}";
+            }));
+            InvokeControl(this.lblArcCount, new Action(() =>
+            {
+                this.lblArcCount.Text = $"{0}";
+            }));
+            InvokeControl(this.lblPicCount, new Action(() =>
+            {
+                this.lblPicCount.Text = $"{0}";
+            }));
         }
 
         private void WeiboSpiderService_OnSpiderStoping()
