@@ -83,7 +83,18 @@ namespace SpiderTracker
                     int.TryParse(listItem.SubItems[2].Text, out statusQty);
                     statusQty += 1;
                     listItem.SubItems[2].Text = $"{statusQty}";
+
+                    var statusCount = 0;
+                    int.TryParse(this.lblArcCount.Text, out statusCount);
+                    statusCount += 1;
+                    this.lblArcCount.Text = $"{statusCount}";
+
+                    var imageCount = 0;
+                    int.TryParse(this.lblPicCount.Text, out imageCount);
+                    imageCount += newStatus.pics;
+                    this.lblPicCount.Text = $"{imageCount}";
                 }
+
             }));
         }
 
@@ -94,6 +105,14 @@ namespace SpiderTracker
                 CacheSinaUsers.Add(user);
 
                 LoadCacheUserList(LoadCacheName);
+
+                InvokeControl(this.lblUserCount, new Action(() =>
+                {
+                    var userCount = 0;
+                    int.TryParse(this.lblUserCount.Text, out userCount);
+                    userCount += 1;
+                    this.lblUserCount.Text = $"{userCount}";
+                }));
             }
         }
 
