@@ -122,7 +122,7 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 预览图片数量
         /// </summary>
-        public int PreviewImageCount { get; set; } = 3;
+        public int PreviewImageCount { get; set; } = 9;
 
         /// <summary>
         /// 是否预览图片

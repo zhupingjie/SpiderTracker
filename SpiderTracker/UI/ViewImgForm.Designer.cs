@@ -30,8 +30,8 @@
         {
             this.imageCtl = new System.Windows.Forms.Panel();
             this.imageRight = new System.Windows.Forms.Panel();
-            this.imageLeft = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.imageLeft = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.imageRight.SuspendLayout();
             this.imageLeft.SuspendLayout();
@@ -59,6 +59,16 @@
             this.imageRight.TabIndex = 2;
             this.imageRight.Click += new System.EventHandler(this.imageRight_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(12, 276);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(27, 27);
+            this.label1.TabIndex = 0;
+            this.label1.Text = ">";
+            // 
             // imageLeft
             // 
             this.imageLeft.BackColor = System.Drawing.Color.White;
@@ -69,16 +79,6 @@
             this.imageLeft.Size = new System.Drawing.Size(50, 621);
             this.imageLeft.TabIndex = 3;
             this.imageLeft.Click += new System.EventHandler(this.imageLeft_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(12, 276);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(27, 27);
-            this.label1.TabIndex = 0;
-            this.label1.Text = ">";
             // 
             // label2
             // 
@@ -100,6 +100,7 @@
             this.Controls.Add(this.imageRight);
             this.Name = "ViewImgForm";
             this.Text = "查看原图";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewImgForm_FormClosing);
             this.Load += new System.EventHandler(this.ViewImgForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ViewImgForm_KeyDown);
             this.imageRight.ResumeLayout(false);

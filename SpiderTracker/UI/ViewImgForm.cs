@@ -24,7 +24,11 @@ namespace SpiderTracker.UI
         {
             if (ViewImgPaths != null && ViewImgPaths.Length > 0 && ViewImgIndex < ViewImgPaths.Length)
             {
-                this.imageCtl.BackgroundImage = Image.FromFile(ViewImgPaths[ViewImgIndex]);
+                var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
+                var bmp = new Bitmap(image);
+                this.imageCtl.BackgroundImage = bmp;
+                image.Dispose();
+                image = null;
             }
         }
 
@@ -34,7 +38,11 @@ namespace SpiderTracker.UI
             if (ViewImgIndex < 0) ViewImgIndex = 0;
             if (ViewImgPaths != null && ViewImgPaths.Length > 0 && ViewImgIndex < ViewImgPaths.Length)
             {
-                this.imageCtl.BackgroundImage = Image.FromFile(ViewImgPaths[ViewImgIndex]);
+                var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
+                var bmp = new Bitmap(image);
+                this.imageCtl.BackgroundImage = bmp;
+                image.Dispose();
+                image = null;
             }
         }
 
@@ -44,7 +52,11 @@ namespace SpiderTracker.UI
             if (ViewImgIndex >= ViewImgPaths.Length) ViewImgIndex = ViewImgPaths.Length - 1;
             if (ViewImgPaths != null && ViewImgPaths.Length > 0 && ViewImgIndex < ViewImgPaths.Length)
             {
-                this.imageCtl.BackgroundImage = Image.FromFile(ViewImgPaths[ViewImgIndex]);
+                var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
+                var bmp = new Bitmap(image);
+                this.imageCtl.BackgroundImage = bmp;
+                image.Dispose();
+                image = null;
             }
         }
 
@@ -58,6 +70,15 @@ namespace SpiderTracker.UI
                 case Keys.Right:
                     imageRight_Click(sender, e);
                     break;
+            }
+        }
+
+        private void ViewImgForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.imageCtl.BackgroundImage != null)
+            {
+                this.imageCtl.BackgroundImage.Dispose();
+                this.imageCtl.BackgroundImage = null;
             }
         }
     }

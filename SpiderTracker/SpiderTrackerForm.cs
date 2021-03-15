@@ -687,6 +687,8 @@ namespace SpiderTracker
                 var suc = rep.IgnoreSinaStatus(bid);
                 if (suc)
                 {
+                    this.ClearImage();
+
                     var userStatusPath = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, bid);
                     if (Directory.Exists(userStatusPath)) Directory.Delete(userStatusPath, true);
 
@@ -1042,7 +1044,7 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "预览图片数量";
-            dr["配置值"] = "3";
+            dr["配置值"] = "9";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
@@ -1238,8 +1240,12 @@ namespace SpiderTracker
             else
             {
                 if (!imageCtl.Visible) imageCtl.Visible = true;
-                imageCtl.BackgroundImage = Image.FromFile(files[index]);
+                var image = Image.FromFile(files[index]);
+                var bmp = new Bitmap(image);
+                imageCtl.BackgroundImage = bmp;
                 imageCtl.BackgroundImageLayout = ImageLayout.Zoom;
+                image.Dispose();
+                image = null;
             }
         }
 
@@ -1247,7 +1253,11 @@ namespace SpiderTracker
         {
             foreach(var img in ShowImageCtls)
             {
-                img.BackgroundImage = null;
+                if (img.BackgroundImage != null)
+                {
+                    img.BackgroundImage.Dispose();
+                    img.BackgroundImage = null;
+                }
             }
         }
 
