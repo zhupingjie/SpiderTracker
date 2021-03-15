@@ -124,6 +124,11 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweeted`=0 and `ignore`=0");
         }
 
+        public List<SinaStatus> GetUserStatuseOfNoArchives(string uid)
+        {
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweeted`=0 and `ignore`=0 and `archive`=0");
+        }
+
         public List<SinaPicture> GetUserPictures(string uid)
         {
             return DBHelper.GetEntitys<SinaPicture>("sinna_picture", $"`uid`='{uid}'");

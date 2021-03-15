@@ -319,6 +319,11 @@ namespace SpiderTracker
                 this.lstUser.BeginUpdate();
                 foreach(var item in needUsers)
                 {
+                    if(this.lstUser.Items.Count > 0)
+                    {
+                        var listItem = this.lstUser.FindItemWithText(item.uid);
+                        if (listItem != null) continue;
+                    }
                     var subItem = new ListViewItem();
                     subItem.Text = item.uid;
                     subItem.SubItems.Add(item.name);
@@ -542,6 +547,8 @@ namespace SpiderTracker
             if (!string.IsNullOrEmpty(user))
             {
                 var rep = new SinaRepository();
+                var status = rep.GetUserStatuseOfNoArchives(user);
+
                 rep.ArchiveSinaUser(user);
 
                 if (this.lstUser.Items.Count == 0) return;
@@ -550,6 +557,11 @@ namespace SpiderTracker
                 if (listItem != null)
                 {
                     listItem.SubItems[3].Text = "◉";
+                }
+                if (status.Count > 0)
+                {
+                    var bids = status.Select(c => c.bid).ToArray();
+                    ArchiveStatus(user, bids);
                 }
             }
         }
@@ -774,6 +786,26 @@ namespace SpiderTracker
                     int.TryParse(this.lblLstArchiveCount.Text, out archiveQty);
                     archiveQty += 1;
                     this.lblLstArchiveCount.Text = $"{archiveQty} ";
+                }
+            }
+            ArchiveStatus(uid, bids);
+        }
+
+        void ArchiveStatus(string uid, string[] bids)
+        {
+            var archivePath = Path.Combine(PathUtil.BaseDirectory, RunningConfig.DefaultArchivePath);
+            if (!Directory.Exists(archivePath)) Directory.CreateDirectory(archivePath);
+
+            foreach(var bid in bids)
+            {
+                var path = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, bid);
+                if (!Directory.Exists(path)) continue;
+
+                var files = Directory.GetFiles(path).Where(c => c.EndsWith(".jpg")).Select(c => new FileInfo(c)).ToArray();
+                foreach(var file in files)
+                {
+                    var destFile = Path.Combine(archivePath, file.Name);
+                    file.CopyTo(destFile, true);
                 }
             }
         }
@@ -1050,6 +1082,11 @@ namespace SpiderTracker
             dr["配置值"] = "1";
             dt.Rows.Add(dr);
 
+            dr = dt.NewRow();
+            dr["配置项"] = "默认归档路径";
+            dr["配置值"] = "archive";
+            dt.Rows.Add(dr);
+
             this.dataGridView1.DataSource = dt.DefaultView;
             this.dataGridView1.Columns[0].Width = 120;
             this.dataGridView1.Columns[1].Width = 120;
@@ -1168,6 +1205,11 @@ namespace SpiderTracker
                     int intValue = 0;
                     int.TryParse(strValue, out intValue);
                     runningConfig.PreviewImageNow = intValue;
+                }
+                else if(row.Cells["配置项"].Value.ToString() == "默认归档路径")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    runningConfig.DefaultArchivePath = strValue;
                 }
             }
             return runningConfig;

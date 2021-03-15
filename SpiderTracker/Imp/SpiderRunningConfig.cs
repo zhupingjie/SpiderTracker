@@ -88,7 +88,7 @@ namespace SpiderTracker.Imp
         /// 读取图片最大尺寸
         /// </summary>
         public int ReadMaxOfImgSize { get; set; } = 5000;
-        
+
         /// <summary>
         /// 当前读取页数
         /// </summary>
@@ -133,5 +133,7 @@ namespace SpiderTracker.Imp
         /// 关注用户名称
         /// </summary>
         public string ReadUserNameLike { get; set; }
+
+        public string DefaultArchivePath { get; set; }
     }
 }
