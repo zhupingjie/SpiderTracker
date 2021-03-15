@@ -643,6 +643,13 @@ namespace SpiderTracker.Imp
                     ShowStatus($"跳过已存档组图【{status.bid}】.");
                     return -1;
                 }
+                if(runninConfig.IgnoreDeleteImageStatus == 1)
+                {
+                    Repository.IgnoreSinaStatus(status.bid);
+
+                    ShowStatus($"忽略已删除组图【{status.bid}】.");
+                    return -1;
+                }
             }
             if (status.pics == null || status.pics.Length < runninConfig.ReadMinOfImgCount)
             {

@@ -475,6 +475,8 @@ namespace SpiderTracker
 
         private void lstArc_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (this.lstUser.SelectedItems.Count > 1) return;
+
             var uid = GetSelectUserId();
             var bid = GetSelectStatusId();
 
@@ -510,6 +512,17 @@ namespace SpiderTracker
             if (this.lstArc.SelectedItems == null || this.lstArc.SelectedItems.Count == 0) return string.Empty;
 
             return this.lstArc.SelectedItems[0].SubItems[0].Text;
+        }
+        string[] GetSelectStatusIds()
+        {
+            if (this.lstArc.SelectedItems == null || this.lstArc.SelectedItems.Count == 0) return new string[] { };
+
+            var ids = new List<string>();
+            foreach(ListViewItem item in this.lstArc.SelectedItems)
+            {
+                ids.Add(item.SubItems[0].Text);
+            }
+            return ids.ToArray();
         }
 
         private void btnBrowseUser_Click(object sender, EventArgs e)
@@ -651,8 +664,8 @@ namespace SpiderTracker
 
         private void btnGetStatusByBid_Click(object sender, EventArgs e)
         {
-            var bid = GetSelectStatusId();
-            if (!string.IsNullOrEmpty(bid))
+            var bids = GetSelectStatusIds();
+            foreach(var bid in bids)
             {
                 if (!SinaSpiderService.IsSpiderStarted)
                 {
@@ -665,13 +678,14 @@ namespace SpiderTracker
         private void btnIgnoreStatus_Click(object sender, EventArgs e)
         {
             var uid = GetSelectUserId();
-            var bid = GetSelectStatusId();
+            var bids = GetSelectStatusIds();
+            if (bids.Length == 0) return;
 
-            if (MessageBox.Show($"确认拉黑当前图集[{bid}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+            if (MessageBox.Show($"确认拉黑当前选中的[{bids.Length}]个图集?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
-            if (!string.IsNullOrEmpty(uid))
+            var rep = new SinaRepository();
+            foreach (var bid in bids)
             {
-                var rep = new SinaRepository();
                 var suc = rep.IgnoreSinaStatus(bid);
                 if (suc)
                 {
@@ -687,13 +701,16 @@ namespace SpiderTracker
                         var archive = listItem.SubItems[3].Text;
 
                         this.lstArc.Items.Remove(listItem);
-                        if(this.lstArc.Items.Count <= index)
+                        if (this.lstArc.Items.Count > 0)
                         {
-                            this.lstArc.Items[this.lstArc.Items.Count - 1].Selected = true;
-                        }
-                        else
-                        {
-                            this.lstArc.Items[index].Selected = true;
+                            if (this.lstArc.Items.Count <= index)
+                            {
+                                this.lstArc.Items[this.lstArc.Items.Count - 1].Selected = true;
+                            }
+                            else
+                            {
+                                this.lstArc.Items[index].Selected = true;
+                            }
                         }
                         var localStatus = 0;
                         int.TryParse(this.lblLstStatusCount.Text, out localStatus);
@@ -711,7 +728,6 @@ namespace SpiderTracker
                             archiveQty -= 1;
                             this.lblLstArchiveCount.Text = $"{archiveQty} ";
                         }
-                        
                     }
                 }
             }
@@ -729,13 +745,14 @@ namespace SpiderTracker
         private void btnArchiveStatus_Click(object sender, EventArgs e)
         {
             var uid = GetSelectUserId();
-            var bid = GetSelectStatusId();
+            var bids = GetSelectStatusIds();
+            if (bids.Length == 0) return;
 
-            if (MessageBox.Show($"确认已存档当前图集[{bid}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+            if (MessageBox.Show($"确认已存档当前选中的[{bids.Length}]个图集?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
-            if (!string.IsNullOrEmpty(uid))
+            var rep = new SinaRepository();
+            foreach (var bid in bids)
             {
-                var rep = new SinaRepository();
                 rep.ArchiveSinaStatus(bid);
 
                 var listItem = this.lstArc.FindItemWithText(bid, true, 0);
@@ -1058,7 +1075,12 @@ namespace SpiderTracker
             dr["配置项"] = "忽略存档图集";
             dr["配置值"] = "1";
             dt.Rows.Add(dr);
-              
+
+            dr = dt.NewRow();
+            dr["配置项"] = "忽略已删图集";
+            dr["配置值"] = "0";
+            dt.Rows.Add(dr);
+
             dr = dt.NewRow();
             dr["配置项"] = "采集原创图集";
             dr["配置值"] = "1";
@@ -1077,12 +1099,6 @@ namespace SpiderTracker
             dr["配置项"] = "采集用户名称";
             dr["配置值"] = "";
             dt.Rows.Add(dr);
-
-
-            //dr = dt.NewRow();
-            //dr["配置项"] = "只采集图片数";
-            //dr["配置值"] = "0";
-            //dt.Rows.Add(dr);
 
             dr = dt.NewRow();
             dr["配置项"] = "图片最小尺寸";
@@ -1191,6 +1207,13 @@ namespace SpiderTracker
                     int intValue = 0;
                     int.TryParse(strValue, out intValue); ;
                     runningConfig.IgnoreReadArchiveStatus = intValue;
+                }
+                else if (row.Cells["配置项"].Value.ToString() == "忽略已删图集")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    int intValue = 0;
+                    int.TryParse(strValue, out intValue); ;
+                    runningConfig.IgnoreDeleteImageStatus = intValue;
                 }
             }
             return runningConfig;

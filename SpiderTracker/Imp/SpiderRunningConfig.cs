@@ -114,6 +114,11 @@ namespace SpiderTracker.Imp
         public int IgnoreReadArchiveStatus { get; set; } = 0;
 
         /// <summary>
+        /// 忽略已删图集
+        /// </summary>
+        public int IgnoreDeleteImageStatus { get; set; } = 0;
+
+        /// <summary>
         /// 关注用户名称
         /// </summary>
         public string ReadUserNameLike { get; set; }
