@@ -27,7 +27,7 @@ namespace SpiderTracker
     {
         ILog Log { get; set; }
         MWeiboSpiderService SinaSpiderService { get; set; }
-
+         
         bool SortByDate { get; set; } = true;
 
         List<SinaUser> CacheSinaUsers { get; set; } = new List<SinaUser>();
