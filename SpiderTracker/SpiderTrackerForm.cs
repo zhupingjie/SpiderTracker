@@ -84,7 +84,9 @@ namespace SpiderTracker
         {
             InvokeControl(this.lstUser, new Action(() =>
             {
-                var listItem = this.lstUser.FindItemWithText(newStatus.uid, true, 0);
+                if (this.lstUser.Items.Count == 0) return;
+
+                var listItem = this.lstUser.FindItemWithText(newStatus.uid);
                 if (listItem != null)
                 {
                     var statusQty = 0;
@@ -489,7 +491,7 @@ namespace SpiderTracker
                 var bid = GetSelectStatusId();
 
                 var files = PathUtil.GetStoreImageFiles(LoadCacheName, uid, bid);
-                this.imagePreviewUC1.ShowImages(files.Take(RunningConfig.PreviewImageCount).ToArray(), 0);
+                this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount);
             }
             else
             {
@@ -542,7 +544,9 @@ namespace SpiderTracker
                 var rep = new SinaRepository();
                 rep.ArchiveSinaUser(user);
 
-                var listItem = this.lstUser.FindItemWithText(user, true, 0);
+                if (this.lstUser.Items.Count == 0) return;
+
+                var listItem = this.lstUser.FindItemWithText(user);
                 if (listItem != null)
                 {
                     listItem.SubItems[3].Text = "◉";
@@ -593,7 +597,9 @@ namespace SpiderTracker
             }
             else
             {
-                var selectItem = this.lstUser.FindItemWithText(user, true, 0, true);
+                if (this.lstUser.Items.Count == 0) return;
+
+                var selectItem = this.lstUser.FindItemWithText(user);
                 if(selectItem != null)
                 {
                     this.lstUser.Items[selectItem.Index].Selected = true;
@@ -615,7 +621,9 @@ namespace SpiderTracker
                 var userPath = PathUtil.GetStoreImageUserPath(LoadCacheName, userId);
                 if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
 
-                var listItem = this.lstUser.FindItemWithText(userId, true, 0);
+                if (this.lstUser.Items.Count == 0) return;
+
+                var listItem = this.lstUser.FindItemWithText(userId);
                 if (listItem != null)
                 {
                     var index = listItem.Index;
@@ -684,13 +692,15 @@ namespace SpiderTracker
             var rep = new SinaRepository();
             foreach (var bid in bids)
             {
-                var suc = rep.IgnoreSinaStatus(bid);
-                if (suc)
-                {
-                    var userStatusPath = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, bid);
-                    if (Directory.Exists(userStatusPath)) Directory.Delete(userStatusPath, true);
+                rep.IgnoreSinaStatus(bid);
 
-                    var listItem = this.lstArc.FindItemWithText(bid, true, 0);
+                var userStatusPath = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, bid);
+                if (Directory.Exists(userStatusPath)) Directory.Delete(userStatusPath, true);
+
+
+                if (this.lstArc.Items.Count > 0)
+                {
+                    var listItem = this.lstArc.FindItemWithText(bid);
                     if (listItem != null)
                     {
                         var index = listItem.Index;
@@ -753,15 +763,18 @@ namespace SpiderTracker
             {
                 rep.ArchiveSinaStatus(bid);
 
-                var listItem = this.lstArc.FindItemWithText(bid, true, 0);
-                if(listItem != null)
+                if (this.lstArc.Items.Count > 0)
                 {
-                    listItem.SubItems[3].Text = "✔";
+                    var listItem = this.lstArc.FindItemWithText(bid);
+                    if (listItem != null)
+                    {
+                        listItem.SubItems[3].Text = "✔";
+                    }
+                    var archiveQty = 0;
+                    int.TryParse(this.lblLstArchiveCount.Text, out archiveQty);
+                    archiveQty += 1;
+                    this.lblLstArchiveCount.Text = $"{archiveQty} ";
                 }
-                var archiveQty = 0;
-                int.TryParse(this.lblLstArchiveCount.Text, out archiveQty);
-                archiveQty += 1;
-                this.lblLstArchiveCount.Text = $"{archiveQty} ";
             }
         }
 
@@ -781,7 +794,9 @@ namespace SpiderTracker
             var userId = SinaUrlUtil.GetSinaUserByStartUrl(this.txtStartUrl.Text.Trim());
             if (!string.IsNullOrEmpty(userId))
             {
-                var listItem = this.lstUser.FindItemWithText(userId, true, 0, true);
+                if (this.lstUser.Items.Count == 0) return;
+
+                var listItem = this.lstUser.FindItemWithText(userId);
                 if (listItem != null)
                 {
                     this.lstUser.Items[listItem.Index].Selected = true;

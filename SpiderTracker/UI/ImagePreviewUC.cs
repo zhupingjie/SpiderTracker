@@ -29,14 +29,14 @@ namespace SpiderTracker.UI
         string[] cacheImageFiles = null;
         int imageIndex = 0;
 
-        public void ShowImages(string[] imageFiles, int showIndex)
+        public void ShowImages(string[] imageFiles, int showIndex, int showImageCount)
         {
             this.cacheImageFiles = imageFiles;
             this.imageIndex = showIndex;
 
             for (var i = 0; i < 9; i++)
             {
-                if (i < cacheImageFiles.Length)
+                if (i < cacheImageFiles.Length && i < showImageCount)
                 {
                     ShowImage(imageCtls[i], cacheImageFiles[i]);
                 }
