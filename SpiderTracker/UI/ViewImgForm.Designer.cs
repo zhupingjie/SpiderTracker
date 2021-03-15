@@ -28,44 +28,84 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.imageCtl = new System.Windows.Forms.Panel();
+            this.imageRight = new System.Windows.Forms.Panel();
+            this.imageLeft = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.imageRight.SuspendLayout();
+            this.imageLeft.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // imageCtl
             // 
-            this.panel1.AutoScroll = true;
-            this.panel1.AutoSize = true;
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(904, 621);
-            this.panel1.TabIndex = 1;
+            this.imageCtl.AutoScroll = true;
+            this.imageCtl.AutoSize = true;
+            this.imageCtl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.imageCtl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageCtl.Location = new System.Drawing.Point(50, 0);
+            this.imageCtl.Name = "imageCtl";
+            this.imageCtl.Size = new System.Drawing.Size(804, 621);
+            this.imageCtl.TabIndex = 1;
             // 
-            // pictureBox1
+            // imageRight
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(880, 600);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.imageRight.BackColor = System.Drawing.Color.White;
+            this.imageRight.Controls.Add(this.label1);
+            this.imageRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.imageRight.Location = new System.Drawing.Point(854, 0);
+            this.imageRight.Name = "imageRight";
+            this.imageRight.Size = new System.Drawing.Size(50, 621);
+            this.imageRight.TabIndex = 2;
+            this.imageRight.Click += new System.EventHandler(this.imageRight_Click);
+            // 
+            // imageLeft
+            // 
+            this.imageLeft.BackColor = System.Drawing.Color.White;
+            this.imageLeft.Controls.Add(this.label2);
+            this.imageLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.imageLeft.Location = new System.Drawing.Point(0, 0);
+            this.imageLeft.Name = "imageLeft";
+            this.imageLeft.Size = new System.Drawing.Size(50, 621);
+            this.imageLeft.TabIndex = 3;
+            this.imageLeft.Click += new System.EventHandler(this.imageLeft_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(12, 276);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(27, 27);
+            this.label1.TabIndex = 0;
+            this.label1.Text = ">";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.Location = new System.Drawing.Point(12, 260);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(27, 27);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "<";
             // 
             // ViewImgForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(904, 621);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.imageCtl);
+            this.Controls.Add(this.imageLeft);
+            this.Controls.Add(this.imageRight);
             this.Name = "ViewImgForm";
             this.Text = "查看原图";
             this.Load += new System.EventHandler(this.ViewImgForm_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ViewImgForm_KeyDown);
+            this.imageRight.ResumeLayout(false);
+            this.imageRight.PerformLayout();
+            this.imageLeft.ResumeLayout(false);
+            this.imageLeft.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -73,7 +113,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel imageCtl;
+        private System.Windows.Forms.Panel imageRight;
+        private System.Windows.Forms.Panel imageLeft;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

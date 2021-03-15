@@ -33,11 +33,18 @@ namespace SpiderTracker
         List<SinaUser> CacheSinaUsers { get; set; } = new List<SinaUser>();
         List<SinaStatus> CacheSinaStatuss { get; set; } = new List<SinaStatus>();
 
+        List<Panel> ShowImageCtls { get; set; }
+
+        SpiderRunningConfig RunningConfig { get; set; }
         public SpiderTrackerForm()
         {
             InitializeComponent();
 
             XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config")));
+
+            this.ShowImageCtls = new List<Panel> { this.imageCtl1, this.imageCtl2, this.imageCtl3, this.imageCtl4, this.imageCtl5, this.imageCtl6, this.imageCtl7, this.imageCtl8, this.imageCtl9 };
+
+            this.RunningConfig = GetSpiderRunningConfig();
         }
 
         /// <summary>
@@ -50,9 +57,8 @@ namespace SpiderTracker
             Log = LogManager.GetLogger("logAppender");
 
             SQLiteDBHelper.Instance.InitSpiderDB();
-            InitSpiderRunningConfig();
 
-            //SQLiteDBHelper.Instance.InitSQLiteDB();
+            InitSpiderRunningConfig();
 
             SinaSpiderService = new MWeiboSpiderService();
             SinaSpiderService.OnShowStatus += WeiboSpiderService_OnShowStatus;
@@ -213,11 +219,6 @@ namespace SpiderTracker
             InvokeControl(this.lstArc, new Action(() =>
             {
                 this.lstArc.Items.Clear();
-            }));
-
-            InvokeControl(this.pictureBox1, new Action(() =>
-            {
-                this.ClearImage();
             }));
         }
 
@@ -473,31 +474,28 @@ namespace SpiderTracker
         }
 
 
+        
         private void lstArc_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.lstUser.SelectedItems.Count > 1) return;
-
-            var uid = GetSelectUserId();
-            var bid = GetSelectStatusId();
-
-            var files = PathUtil.GetStoreImageFiles(LoadCacheName, uid, bid);
-            if (files.Length > 0)
-            {
-                ShowImage(files, 0);
-            }
-            else
-            {
-                ClearImage();
-            }
-
-            if (this.txtShowImg.Checked)
+            if (RunningConfig.PreviewImageNow == 1)
             {
                 ActiveImageCtl();
+
+                var uid = GetSelectUserId();
+                var bid = GetSelectStatusId();
+
+                var files = PathUtil.GetStoreImageFiles(LoadCacheName, uid, bid);
+                for (var i = 0; i < 9; i++)
+                {
+                    ShowImage(files, i);
+                }
             }
             else
             {
                 ActiveLoggerCtl();
             }
+            
         }
 
         string GetSelectUserId()
@@ -870,79 +868,19 @@ namespace SpiderTracker
         #endregion
 
         #region 图集功能操作
-        /// <summary>
-        /// 图片预览上一页
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pnlLeft_Click(object sender, EventArgs e)
-        {
-            if (this.pictureBox1.Tag == null) return;
-            int imgIndex = 0;
-            int.TryParse(this.pictureBox1.Tag.ToString(), out imgIndex);
 
+        private void imageCtl1_Click(object sender, EventArgs e)
+        {
             var uid = GetSelectUserId();
             var bid = GetSelectStatusId();
 
             if (!string.IsNullOrEmpty(bid))
             {
                 var files = PathUtil.GetStoreImageFiles(LoadCacheName, uid, bid);
-                if (files.Length > 0 && imgIndex > 0)
-                {
-                    imgIndex -= 1;
-                    ShowImage(files, imgIndex);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 图片预览下一页
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pnlRight_Click(object sender, EventArgs e)
-        {
-            if (this.pictureBox1.Tag == null) return;
-            int imgIndex = 0;
-            int.TryParse(this.pictureBox1.Tag.ToString(), out imgIndex);
-
-            var uid = GetSelectUserId();
-            var bid = GetSelectStatusId();
-
-            if (!string.IsNullOrEmpty(bid))
-            {
-                var files = PathUtil.GetStoreImageFiles(LoadCacheName, uid, bid);
-                if (files.Length > 0 && imgIndex < files.Length - 1)
-                {
-                    imgIndex += 1;
-                    ShowImage(files, imgIndex);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 图片预览原图
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            if (this.pictureBox1.Tag == null) return;
-            int imgIndex = 0;
-            int.TryParse(this.pictureBox1.Tag.ToString(), out imgIndex);
-
-            var uid = GetSelectUserId();
-            var bid = GetSelectStatusId();
-
-            if (!string.IsNullOrEmpty(bid))
-            {
-                var files = PathUtil.GetStoreImageFiles(LoadCacheName, uid, bid);
-                if (files.Length > 0 && imgIndex >= 0 && imgIndex <= files.Length - 1)
-                {
-                    ViewImgForm frm = new ViewImgForm();
-                    frm.ViewImgPath = files[imgIndex];
-                    frm.ShowDialog();
-                }
+                ViewImgForm frm = new ViewImgForm();
+                frm.ViewImgPaths = files;
+                frm.ViewImgIndex = 0;
+                frm.ShowDialog();
             }
         }
 
@@ -996,15 +934,7 @@ namespace SpiderTracker
 
         private void lstArc_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Right || e.KeyCode == Keys.D)
-            {
-                this.pnlRight_Click(sender, e);
-            }
-            else if(e.KeyCode == Keys.Left ||  e.KeyCode == Keys.A)
-            {
-                this.pnlLeft_Click(sender, e);
-            }
-            else if(e.KeyCode == Keys.W)
+             if(e.KeyCode == Keys.W)
             {
                 this.UpSelectStatus();
             }
@@ -1108,6 +1038,16 @@ namespace SpiderTracker
             dr = dt.NewRow();
             dr["配置项"] = "图片最大尺寸";
             dr["配置值"] = "8000";
+            dt.Rows.Add(dr);
+
+            dr = dt.NewRow();
+            dr["配置项"] = "预览图片数量";
+            dr["配置值"] = "3";
+            dt.Rows.Add(dr);
+
+            dr = dt.NewRow();
+            dr["配置项"] = "预览显示图片";
+            dr["配置值"] = "1";
             dt.Rows.Add(dr);
 
             this.dataGridView1.DataSource = dt.DefaultView;
@@ -1215,21 +1155,27 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue); ;
                     runningConfig.IgnoreDeleteImageStatus = intValue;
                 }
+                else if (row.Cells["配置项"].Value.ToString() == "预览图片数量")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    int intValue = 0;
+                    int.TryParse(strValue, out intValue); 
+                    runningConfig.PreviewImageCount = intValue;
+                }
+                else if (row.Cells["配置项"].Value.ToString() == "预览显示图片")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    int intValue = 0;
+                    int.TryParse(strValue, out intValue);
+                    runningConfig.PreviewImageNow = intValue;
+                }
             }
             return runningConfig;
         }
 
-        void UpdateSpiderRunningConfig(string key, string value)
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            InvokeControl(this.dataGridView1, new Action(() =>
-            {
-                var dv = this.dataGridView1.DataSource as DataView;
-                var drs = dv.Table.Select("配置项='" + key + "'");
-                if (drs.Length > 0)
-                {
-                    drs[0]["配置值"] = value;
-                }
-            }));
+            this.RunningConfig = GetSpiderRunningConfig();
         }
 
         public int GetDirectoryCount(string path)
@@ -1284,18 +1230,25 @@ namespace SpiderTracker
 
         void ShowImage(string[] files, int index)
         {
-            this.pictureBox1.Tag = index;
-            var resImg = Image.FromFile(files[index]);
-            Image bmp = new Bitmap(resImg);
-            resImg.Dispose();
-            this.pictureBox1.Image = bmp;
-            this.lblImageInfo.Text = $"【图片尺寸 : {bmp.Width}*{bmp.Height}】";
+            var imageCtl = this.ShowImageCtls[index];
+            if (files.Length == 0 || index >= files.Length || index >= RunningConfig.PreviewImageCount)
+            {
+                if (imageCtl.Visible) imageCtl.Visible = false;
+            }
+            else
+            {
+                if (!imageCtl.Visible) imageCtl.Visible = true;
+                imageCtl.BackgroundImage = Image.FromFile(files[index]);
+                imageCtl.BackgroundImageLayout = ImageLayout.Zoom;
+            }
         }
 
         void ClearImage()
         {
-            this.pictureBox1.Image = null;
-            this.lblImageInfo.Text = "";
+            foreach(var img in ShowImageCtls)
+            {
+                img.BackgroundImage = null;
+            }
         }
 
         /// <summary>
@@ -1306,7 +1259,7 @@ namespace SpiderTracker
             InvokeControl(this.tabControl1, new Action(() =>
             {
                 if (this.tabControl1.Enabled == false) return;
-                this.tabControl1.SelectedIndex = 0;
+                this.tabControl1.SelectedIndex = 1;
             }));
         }
 
@@ -1318,7 +1271,7 @@ namespace SpiderTracker
             InvokeControl(this.tabControl1, new Action(() =>
             {
                 if (this.tabControl1.Enabled == false) return;
-                this.tabControl1.SelectedIndex = 1;
+                this.tabControl1.SelectedIndex = 0;
             }));
         }
 
@@ -1358,6 +1311,5 @@ namespace SpiderTracker
         }
 
         #endregion
-
     }
 }

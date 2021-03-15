@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -56,7 +56,6 @@
             this.colMrk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txtStatusFilter = new System.Windows.Forms.TextBox();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.txtShowImg = new System.Windows.Forms.CheckBox();
             this.btnGetStatusByBid = new System.Windows.Forms.Button();
             this.btnArchiveStatus = new System.Windows.Forms.Button();
             this.btnOpenStatus = new System.Windows.Forms.Button();
@@ -79,7 +78,6 @@
             this.lblLstUserCountTitle = new System.Windows.Forms.Label();
             this.lblLstStatusCountTitle = new System.Windows.Forms.Label();
             this.lblLstImgCountTitle = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel10 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -102,16 +100,24 @@
             this.panel11 = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
             this.lstLog = new System.Windows.Forms.ListBox();
-            this.pnlRight = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tbpReview = new System.Windows.Forms.TabPage();
-            this.pnlLeft = new System.Windows.Forms.Panel();
-            this.panel18 = new System.Windows.Forms.Panel();
-            this.lblImageInfo = new System.Windows.Forms.Label();
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
+            this.tbpReview = new System.Windows.Forms.TabPage();
+            this.pnlImageCenter = new System.Windows.Forms.Panel();
+            this.imageCtl5 = new System.Windows.Forms.Panel();
+            this.imageCtl4 = new System.Windows.Forms.Panel();
+            this.pnlImageBottom = new System.Windows.Forms.Panel();
+            this.imageCtl8 = new System.Windows.Forms.Panel();
+            this.imageCtl7 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.imageCtl6 = new System.Windows.Forms.Panel();
+            this.imageCtl9 = new System.Windows.Forms.Panel();
+            this.pnlImageTop = new System.Windows.Forms.Panel();
+            this.imageCtl3 = new System.Windows.Forms.Panel();
+            this.imageCtl2 = new System.Windows.Forms.Panel();
+            this.imageCtl1 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -121,7 +127,6 @@
             this.panel8.SuspendLayout();
             this.panel7.SuspendLayout();
             this.panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel10.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -132,10 +137,12 @@
             this.panel14.SuspendLayout();
             this.panel11.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tbpReview.SuspendLayout();
-            this.panel18.SuspendLayout();
             this.tbpGatherLog.SuspendLayout();
+            this.tbpReview.SuspendLayout();
+            this.pnlImageCenter.SuspendLayout();
+            this.pnlImageBottom.SuspendLayout();
             this.panel12.SuspendLayout();
+            this.pnlImageTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -370,7 +377,6 @@
             // 
             this.panel8.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel8.Controls.Add(this.txtShowImg);
             this.panel8.Controls.Add(this.btnGetStatusByBid);
             this.panel8.Controls.Add(this.btnArchiveStatus);
             this.panel8.Controls.Add(this.btnOpenStatus);
@@ -382,17 +388,6 @@
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(240, 26);
             this.panel8.TabIndex = 11;
-            // 
-            // txtShowImg
-            // 
-            this.txtShowImg.AutoSize = true;
-            this.txtShowImg.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtShowImg.ForeColor = System.Drawing.Color.Black;
-            this.txtShowImg.Location = new System.Drawing.Point(33, 6);
-            this.txtShowImg.Name = "txtShowImg";
-            this.txtShowImg.Size = new System.Drawing.Size(15, 14);
-            this.txtShowImg.TabIndex = 21;
-            this.txtShowImg.UseVisualStyleBackColor = true;
             // 
             // btnGetStatusByBid
             // 
@@ -649,18 +644,6 @@
             this.lblLstImgCountTitle.TabIndex = 0;
             this.lblLstImgCountTitle.Text = "图片:";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(50, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(392, 503);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
             // panel10
             // 
             this.panel10.BackColor = System.Drawing.SystemColors.Control;
@@ -687,33 +670,34 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle17;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridView1.Size = new System.Drawing.Size(249, 338);
             this.dataGridView1.TabIndex = 18;
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             // 
             // panel16
             // 
@@ -926,21 +910,11 @@
             this.lstLog.Size = new System.Drawing.Size(492, 523);
             this.lstLog.TabIndex = 15;
             // 
-            // pnlRight
-            // 
-            this.pnlRight.BackColor = System.Drawing.Color.White;
-            this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(442, 0);
-            this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(50, 503);
-            this.pnlRight.TabIndex = 16;
-            this.pnlRight.Click += new System.EventHandler(this.pnlRight_Click);
-            // 
             // tabControl1
             // 
             this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Right;
-            this.tabControl1.Controls.Add(this.tbpReview);
             this.tabControl1.Controls.Add(this.tbpGatherLog);
+            this.tabControl1.Controls.Add(this.tbpReview);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tabControl1.Location = new System.Drawing.Point(242, 67);
@@ -950,49 +924,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(522, 531);
             this.tabControl1.TabIndex = 17;
-            // 
-            // tbpReview
-            // 
-            this.tbpReview.BackColor = System.Drawing.Color.Transparent;
-            this.tbpReview.Controls.Add(this.pictureBox1);
-            this.tbpReview.Controls.Add(this.pnlRight);
-            this.tbpReview.Controls.Add(this.pnlLeft);
-            this.tbpReview.Controls.Add(this.panel18);
-            this.tbpReview.Location = new System.Drawing.Point(4, 4);
-            this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
-            this.tbpReview.Name = "tbpReview";
-            this.tbpReview.Size = new System.Drawing.Size(492, 523);
-            this.tbpReview.TabIndex = 1;
-            this.tbpReview.Text = "图集预览";
-            // 
-            // pnlLeft
-            // 
-            this.pnlLeft.BackColor = System.Drawing.Color.White;
-            this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlLeft.Location = new System.Drawing.Point(0, 0);
-            this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(50, 503);
-            this.pnlLeft.TabIndex = 17;
-            this.pnlLeft.Click += new System.EventHandler(this.pnlLeft_Click);
-            // 
-            // panel18
-            // 
-            this.panel18.BackColor = System.Drawing.Color.LightCyan;
-            this.panel18.Controls.Add(this.lblImageInfo);
-            this.panel18.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel18.Location = new System.Drawing.Point(0, 503);
-            this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(492, 20);
-            this.panel18.TabIndex = 18;
-            // 
-            // lblImageInfo
-            // 
-            this.lblImageInfo.AutoSize = true;
-            this.lblImageInfo.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblImageInfo.Location = new System.Drawing.Point(191, 2);
-            this.lblImageInfo.Name = "lblImageInfo";
-            this.lblImageInfo.Size = new System.Drawing.Size(0, 17);
-            this.lblImageInfo.TabIndex = 2;
             // 
             // tbpGatherLog
             // 
@@ -1004,6 +935,81 @@
             this.tbpGatherLog.Size = new System.Drawing.Size(492, 523);
             this.tbpGatherLog.TabIndex = 0;
             this.tbpGatherLog.Text = "运行日志";
+            // 
+            // tbpReview
+            // 
+            this.tbpReview.BackColor = System.Drawing.Color.White;
+            this.tbpReview.Controls.Add(this.pnlImageCenter);
+            this.tbpReview.Controls.Add(this.pnlImageTop);
+            this.tbpReview.Controls.Add(this.pnlImageBottom);
+            this.tbpReview.Location = new System.Drawing.Point(4, 4);
+            this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
+            this.tbpReview.Name = "tbpReview";
+            this.tbpReview.Size = new System.Drawing.Size(492, 523);
+            this.tbpReview.TabIndex = 1;
+            this.tbpReview.Text = "图集预览";
+            // 
+            // pnlImageCenter
+            // 
+            this.pnlImageCenter.BackColor = System.Drawing.Color.Transparent;
+            this.pnlImageCenter.Controls.Add(this.imageCtl6);
+            this.pnlImageCenter.Controls.Add(this.imageCtl5);
+            this.pnlImageCenter.Controls.Add(this.imageCtl4);
+            this.pnlImageCenter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlImageCenter.Location = new System.Drawing.Point(0, 175);
+            this.pnlImageCenter.Name = "pnlImageCenter";
+            this.pnlImageCenter.Padding = new System.Windows.Forms.Padding(5);
+            this.pnlImageCenter.Size = new System.Drawing.Size(492, 173);
+            this.pnlImageCenter.TabIndex = 21;
+            // 
+            // imageCtl5
+            // 
+            this.imageCtl5.BackColor = System.Drawing.Color.White;
+            this.imageCtl5.Dock = System.Windows.Forms.DockStyle.Left;
+            this.imageCtl5.Location = new System.Drawing.Point(165, 5);
+            this.imageCtl5.Name = "imageCtl5";
+            this.imageCtl5.Size = new System.Drawing.Size(160, 163);
+            this.imageCtl5.TabIndex = 15;
+            // 
+            // imageCtl4
+            // 
+            this.imageCtl4.BackColor = System.Drawing.Color.White;
+            this.imageCtl4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.imageCtl4.Location = new System.Drawing.Point(5, 5);
+            this.imageCtl4.Name = "imageCtl4";
+            this.imageCtl4.Size = new System.Drawing.Size(160, 163);
+            this.imageCtl4.TabIndex = 13;
+            // 
+            // pnlImageBottom
+            // 
+            this.pnlImageBottom.Controls.Add(this.imageCtl9);
+            this.pnlImageBottom.Controls.Add(this.imageCtl8);
+            this.pnlImageBottom.Controls.Add(this.imageCtl7);
+            this.pnlImageBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlImageBottom.Location = new System.Drawing.Point(0, 348);
+            this.pnlImageBottom.Name = "pnlImageBottom";
+            this.pnlImageBottom.Padding = new System.Windows.Forms.Padding(5);
+            this.pnlImageBottom.Size = new System.Drawing.Size(492, 175);
+            this.pnlImageBottom.TabIndex = 12;
+            // 
+            // imageCtl8
+            // 
+            this.imageCtl8.BackColor = System.Drawing.Color.White;
+            this.imageCtl8.Dock = System.Windows.Forms.DockStyle.Left;
+            this.imageCtl8.Location = new System.Drawing.Point(165, 5);
+            this.imageCtl8.Name = "imageCtl8";
+            this.imageCtl8.Size = new System.Drawing.Size(160, 165);
+            this.imageCtl8.TabIndex = 18;
+            // 
+            // imageCtl7
+            // 
+            this.imageCtl7.BackColor = System.Drawing.Color.White;
+            this.imageCtl7.Dock = System.Windows.Forms.DockStyle.Left;
+            this.imageCtl7.Location = new System.Drawing.Point(5, 5);
+            this.imageCtl7.Name = "imageCtl7";
+            this.imageCtl7.Padding = new System.Windows.Forms.Padding(5);
+            this.imageCtl7.Size = new System.Drawing.Size(160, 165);
+            this.imageCtl7.TabIndex = 16;
             // 
             // label10
             // 
@@ -1033,6 +1039,64 @@
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
+            // 
+            // imageCtl6
+            // 
+            this.imageCtl6.BackColor = System.Drawing.Color.White;
+            this.imageCtl6.Dock = System.Windows.Forms.DockStyle.Left;
+            this.imageCtl6.Location = new System.Drawing.Point(325, 5);
+            this.imageCtl6.Name = "imageCtl6";
+            this.imageCtl6.Size = new System.Drawing.Size(160, 163);
+            this.imageCtl6.TabIndex = 16;
+            // 
+            // imageCtl9
+            // 
+            this.imageCtl9.BackColor = System.Drawing.Color.White;
+            this.imageCtl9.Dock = System.Windows.Forms.DockStyle.Left;
+            this.imageCtl9.Location = new System.Drawing.Point(325, 5);
+            this.imageCtl9.Name = "imageCtl9";
+            this.imageCtl9.Size = new System.Drawing.Size(160, 165);
+            this.imageCtl9.TabIndex = 19;
+            // 
+            // pnlImageTop
+            // 
+            this.pnlImageTop.Controls.Add(this.imageCtl3);
+            this.pnlImageTop.Controls.Add(this.imageCtl2);
+            this.pnlImageTop.Controls.Add(this.imageCtl1);
+            this.pnlImageTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlImageTop.Location = new System.Drawing.Point(0, 0);
+            this.pnlImageTop.Name = "pnlImageTop";
+            this.pnlImageTop.Padding = new System.Windows.Forms.Padding(5);
+            this.pnlImageTop.Size = new System.Drawing.Size(492, 175);
+            this.pnlImageTop.TabIndex = 22;
+            // 
+            // imageCtl3
+            // 
+            this.imageCtl3.BackColor = System.Drawing.Color.White;
+            this.imageCtl3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.imageCtl3.Location = new System.Drawing.Point(325, 5);
+            this.imageCtl3.Name = "imageCtl3";
+            this.imageCtl3.Size = new System.Drawing.Size(160, 165);
+            this.imageCtl3.TabIndex = 2;
+            // 
+            // imageCtl2
+            // 
+            this.imageCtl2.BackColor = System.Drawing.Color.White;
+            this.imageCtl2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.imageCtl2.Location = new System.Drawing.Point(165, 5);
+            this.imageCtl2.Name = "imageCtl2";
+            this.imageCtl2.Size = new System.Drawing.Size(160, 165);
+            this.imageCtl2.TabIndex = 1;
+            // 
+            // imageCtl1
+            // 
+            this.imageCtl1.BackColor = System.Drawing.Color.White;
+            this.imageCtl1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.imageCtl1.Location = new System.Drawing.Point(5, 5);
+            this.imageCtl1.Name = "imageCtl1";
+            this.imageCtl1.Size = new System.Drawing.Size(160, 165);
+            this.imageCtl1.TabIndex = 0;
+            this.imageCtl1.Click += new System.EventHandler(this.imageCtl1_Click);
             // 
             // SpiderTrackerForm
             // 
@@ -1066,7 +1130,6 @@
             this.panel7.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel10.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -1081,12 +1144,13 @@
             this.panel11.ResumeLayout(false);
             this.panel11.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tbpReview.ResumeLayout(false);
-            this.panel18.ResumeLayout(false);
-            this.panel18.PerformLayout();
             this.tbpGatherLog.ResumeLayout(false);
+            this.tbpReview.ResumeLayout(false);
+            this.pnlImageCenter.ResumeLayout(false);
+            this.pnlImageBottom.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
+            this.pnlImageTop.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1102,7 +1166,6 @@
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label lblLstImgCountTitle;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripStatusLabel tplStatus;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Panel panel8;
@@ -1117,11 +1180,9 @@
         private System.Windows.Forms.Button btnBrowseStatus;
         private System.Windows.Forms.Button btnBrowseUser;
         private System.Windows.Forms.TextBox txtUserFilter;
-        private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tbpGatherLog;
         private System.Windows.Forms.TabPage tbpReview;
-        private System.Windows.Forms.Panel pnlLeft;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Panel panel12;
         private System.Windows.Forms.Panel panel15;
@@ -1148,7 +1209,6 @@
         private System.Windows.Forms.Button btnArchiveStatus;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.Button btnNewUser;
-        private System.Windows.Forms.CheckBox txtShowImg;
         private System.Windows.Forms.Label lblLstStatusCountTitle;
         private System.Windows.Forms.ListView lstUser;
         private System.Windows.Forms.ColumnHeader columnHeader1;
@@ -1162,8 +1222,6 @@
         private System.Windows.Forms.Button btnGetStatusByBid;
         private System.Windows.Forms.Button btnMarkUser;
         private System.Windows.Forms.TextBox txtStatusFilter;
-        private System.Windows.Forms.Panel panel18;
-        private System.Windows.Forms.Label lblImageInfo;
         private System.Windows.Forms.Label lblLstUserCountTitle;
         private System.Windows.Forms.Button btnUpdateInfo;
         private System.Windows.Forms.ColumnHeader columnHeader4;
@@ -1173,6 +1231,18 @@
         private System.Windows.Forms.Label lblLstArchiveCountTitle;
         private System.Windows.Forms.Label lblLstArchiveCount;
         private System.Windows.Forms.Button btnManage;
+        private System.Windows.Forms.Panel pnlImageCenter;
+        private System.Windows.Forms.Panel pnlImageBottom;
+        private System.Windows.Forms.Panel imageCtl5;
+        private System.Windows.Forms.Panel imageCtl4;
+        private System.Windows.Forms.Panel imageCtl8;
+        private System.Windows.Forms.Panel imageCtl7;
+        private System.Windows.Forms.Panel imageCtl6;
+        private System.Windows.Forms.Panel imageCtl9;
+        private System.Windows.Forms.Panel pnlImageTop;
+        private System.Windows.Forms.Panel imageCtl3;
+        private System.Windows.Forms.Panel imageCtl2;
+        private System.Windows.Forms.Panel imageCtl1;
     }
 }
 

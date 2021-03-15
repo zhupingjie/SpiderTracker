@@ -118,6 +118,17 @@ namespace SpiderTracker.Imp
         /// </summary>
         public int IgnoreDeleteImageStatus { get; set; } = 0;
 
+
+        /// <summary>
+        /// 预览图片数量
+        /// </summary>
+        public int PreviewImageCount { get; set; } = 3;
+
+        /// <summary>
+        /// 是否预览图片
+        /// </summary>
+        public int PreviewImageNow { get; set; } = 1;
+
         /// <summary>
         /// 关注用户名称
         /// </summary>
