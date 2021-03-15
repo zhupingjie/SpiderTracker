@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -56,6 +56,7 @@
             this.colMrk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txtStatusFilter = new System.Windows.Forms.TextBox();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.txtShowImg = new System.Windows.Forms.CheckBox();
             this.btnGetStatusByBid = new System.Windows.Forms.Button();
             this.btnArchiveStatus = new System.Windows.Forms.Button();
             this.btnOpenStatus = new System.Windows.Forms.Button();
@@ -70,9 +71,14 @@
             this.btnBrowseUser = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.lblLstArchiveCount = new System.Windows.Forms.Label();
+            this.lblLstArchiveCountTitle = new System.Windows.Forms.Label();
+            this.lblLstImgCount = new System.Windows.Forms.Label();
+            this.lblLstStatusCount = new System.Windows.Forms.Label();
             this.lblLstUserCount = new System.Windows.Forms.Label();
-            this.lblStatusCount = new System.Windows.Forms.Label();
-            this.lblImgCount = new System.Windows.Forms.Label();
+            this.lblLstUserCountTitle = new System.Windows.Forms.Label();
+            this.lblLstStatusCountTitle = new System.Windows.Forms.Label();
+            this.lblLstImgCountTitle = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel10 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -81,6 +87,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnManage = new System.Windows.Forms.Button();
             this.btnUpdateInfo = new System.Windows.Forms.Button();
             this.btnLock = new System.Windows.Forms.Button();
             this.lblPicCount = new System.Windows.Forms.Label();
@@ -104,8 +111,6 @@
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
-            this.txtShowImg = new System.Windows.Forms.CheckBox();
-            this.btnManager = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -365,6 +370,7 @@
             // 
             this.panel8.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel8.Controls.Add(this.txtShowImg);
             this.panel8.Controls.Add(this.btnGetStatusByBid);
             this.panel8.Controls.Add(this.btnArchiveStatus);
             this.panel8.Controls.Add(this.btnOpenStatus);
@@ -376,6 +382,17 @@
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(240, 26);
             this.panel8.TabIndex = 11;
+            // 
+            // txtShowImg
+            // 
+            this.txtShowImg.AutoSize = true;
+            this.txtShowImg.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtShowImg.ForeColor = System.Drawing.Color.Black;
+            this.txtShowImg.Location = new System.Drawing.Point(33, 6);
+            this.txtShowImg.Name = "txtShowImg";
+            this.txtShowImg.Size = new System.Drawing.Size(15, 14);
+            this.txtShowImg.TabIndex = 21;
+            this.txtShowImg.UseVisualStyleBackColor = true;
             // 
             // btnGetStatusByBid
             // 
@@ -538,44 +555,99 @@
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.Color.LightCyan;
+            this.panel6.Controls.Add(this.lblLstArchiveCount);
+            this.panel6.Controls.Add(this.lblLstArchiveCountTitle);
+            this.panel6.Controls.Add(this.lblLstImgCount);
+            this.panel6.Controls.Add(this.lblLstStatusCount);
             this.panel6.Controls.Add(this.lblLstUserCount);
-            this.panel6.Controls.Add(this.lblStatusCount);
-            this.panel6.Controls.Add(this.lblImgCount);
+            this.panel6.Controls.Add(this.lblLstUserCountTitle);
+            this.panel6.Controls.Add(this.lblLstStatusCountTitle);
+            this.panel6.Controls.Add(this.lblLstImgCountTitle);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel6.Location = new System.Drawing.Point(0, 532);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(240, 23);
             this.panel6.TabIndex = 3;
             // 
+            // lblLstArchiveCount
+            // 
+            this.lblLstArchiveCount.AutoSize = true;
+            this.lblLstArchiveCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLstArchiveCount.Location = new System.Drawing.Point(207, 3);
+            this.lblLstArchiveCount.Name = "lblLstArchiveCount";
+            this.lblLstArchiveCount.Size = new System.Drawing.Size(15, 17);
+            this.lblLstArchiveCount.TabIndex = 7;
+            this.lblLstArchiveCount.Text = "0";
+            // 
+            // lblLstArchiveCountTitle
+            // 
+            this.lblLstArchiveCountTitle.AutoSize = true;
+            this.lblLstArchiveCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLstArchiveCountTitle.Location = new System.Drawing.Point(177, 3);
+            this.lblLstArchiveCountTitle.Name = "lblLstArchiveCountTitle";
+            this.lblLstArchiveCountTitle.Size = new System.Drawing.Size(35, 17);
+            this.lblLstArchiveCountTitle.TabIndex = 6;
+            this.lblLstArchiveCountTitle.Text = "归档:";
+            // 
+            // lblLstImgCount
+            // 
+            this.lblLstImgCount.AutoSize = true;
+            this.lblLstImgCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLstImgCount.Location = new System.Drawing.Point(143, 3);
+            this.lblLstImgCount.Name = "lblLstImgCount";
+            this.lblLstImgCount.Size = new System.Drawing.Size(15, 17);
+            this.lblLstImgCount.TabIndex = 5;
+            this.lblLstImgCount.Text = "0";
+            // 
+            // lblLstStatusCount
+            // 
+            this.lblLstStatusCount.AutoSize = true;
+            this.lblLstStatusCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLstStatusCount.Location = new System.Drawing.Point(86, 3);
+            this.lblLstStatusCount.Name = "lblLstStatusCount";
+            this.lblLstStatusCount.Size = new System.Drawing.Size(15, 17);
+            this.lblLstStatusCount.TabIndex = 4;
+            this.lblLstStatusCount.Text = "0";
+            // 
             // lblLstUserCount
             // 
             this.lblLstUserCount.AutoSize = true;
             this.lblLstUserCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstUserCount.Location = new System.Drawing.Point(4, 3);
+            this.lblLstUserCount.Location = new System.Drawing.Point(34, 3);
             this.lblLstUserCount.Name = "lblLstUserCount";
-            this.lblLstUserCount.Size = new System.Drawing.Size(51, 17);
-            this.lblLstUserCount.TabIndex = 2;
-            this.lblLstUserCount.Text = "用户：0";
+            this.lblLstUserCount.Size = new System.Drawing.Size(15, 17);
+            this.lblLstUserCount.TabIndex = 3;
+            this.lblLstUserCount.Text = "0";
             // 
-            // lblStatusCount
+            // lblLstUserCountTitle
             // 
-            this.lblStatusCount.AutoSize = true;
-            this.lblStatusCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblStatusCount.Location = new System.Drawing.Point(66, 3);
-            this.lblStatusCount.Name = "lblStatusCount";
-            this.lblStatusCount.Size = new System.Drawing.Size(51, 17);
-            this.lblStatusCount.TabIndex = 1;
-            this.lblStatusCount.Text = "图集：0";
+            this.lblLstUserCountTitle.AutoSize = true;
+            this.lblLstUserCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLstUserCountTitle.Location = new System.Drawing.Point(4, 3);
+            this.lblLstUserCountTitle.Name = "lblLstUserCountTitle";
+            this.lblLstUserCountTitle.Size = new System.Drawing.Size(35, 17);
+            this.lblLstUserCountTitle.TabIndex = 2;
+            this.lblLstUserCountTitle.Text = "用户:";
             // 
-            // lblImgCount
+            // lblLstStatusCountTitle
             // 
-            this.lblImgCount.AutoSize = true;
-            this.lblImgCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblImgCount.Location = new System.Drawing.Point(140, 3);
-            this.lblImgCount.Name = "lblImgCount";
-            this.lblImgCount.Size = new System.Drawing.Size(51, 17);
-            this.lblImgCount.TabIndex = 0;
-            this.lblImgCount.Text = "图片：0";
+            this.lblLstStatusCountTitle.AutoSize = true;
+            this.lblLstStatusCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLstStatusCountTitle.Location = new System.Drawing.Point(56, 3);
+            this.lblLstStatusCountTitle.Name = "lblLstStatusCountTitle";
+            this.lblLstStatusCountTitle.Size = new System.Drawing.Size(35, 17);
+            this.lblLstStatusCountTitle.TabIndex = 1;
+            this.lblLstStatusCountTitle.Text = "图集:";
+            // 
+            // lblLstImgCountTitle
+            // 
+            this.lblLstImgCountTitle.AutoSize = true;
+            this.lblLstImgCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLstImgCountTitle.Location = new System.Drawing.Point(114, 3);
+            this.lblLstImgCountTitle.Name = "lblLstImgCountTitle";
+            this.lblLstImgCountTitle.Size = new System.Drawing.Size(35, 17);
+            this.lblLstImgCountTitle.TabIndex = 0;
+            this.lblLstImgCountTitle.Text = "图片:";
             // 
             // pictureBox1
             // 
@@ -615,27 +687,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -677,6 +749,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnManage);
             this.panel2.Controls.Add(this.btnUpdateInfo);
             this.panel2.Controls.Add(this.btnLock);
             this.panel2.Controls.Add(this.lblPicCount);
@@ -690,6 +763,18 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(249, 86);
             this.panel2.TabIndex = 17;
+            // 
+            // btnManage
+            // 
+            this.btnManage.BackColor = System.Drawing.Color.White;
+            this.btnManage.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnManage.Location = new System.Drawing.Point(201, 0);
+            this.btnManage.Name = "btnManage";
+            this.btnManage.Size = new System.Drawing.Size(16, 86);
+            this.btnManage.TabIndex = 22;
+            this.btnManage.Text = "MANAGE";
+            this.btnManage.UseVisualStyleBackColor = false;
+            this.btnManage.Click += new System.EventHandler(this.btnManage_Click);
             // 
             // btnUpdateInfo
             // 
@@ -935,38 +1020,12 @@
             // 
             this.panel12.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel12.Controls.Add(this.txtShowImg);
-            this.panel12.Controls.Add(this.btnManager);
             this.panel12.Controls.Add(this.label10);
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel12.Location = new System.Drawing.Point(242, 41);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(522, 26);
             this.panel12.TabIndex = 14;
-            // 
-            // txtShowImg
-            // 
-            this.txtShowImg.AutoSize = true;
-            this.txtShowImg.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtShowImg.ForeColor = System.Drawing.Color.White;
-            this.txtShowImg.Location = new System.Drawing.Point(384, 6);
-            this.txtShowImg.Name = "txtShowImg";
-            this.txtShowImg.Size = new System.Drawing.Size(76, 16);
-            this.txtShowImg.TabIndex = 21;
-            this.txtShowImg.Text = "显示图集";
-            this.txtShowImg.UseVisualStyleBackColor = true;
-            // 
-            // btnManager
-            // 
-            this.btnManager.BackColor = System.Drawing.SystemColors.Control;
-            this.btnManager.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnManager.Location = new System.Drawing.Point(462, 3);
-            this.btnManager.Name = "btnManager";
-            this.btnManager.Size = new System.Drawing.Size(57, 20);
-            this.btnManager.TabIndex = 6;
-            this.btnManager.Text = "Manage";
-            this.btnManager.UseVisualStyleBackColor = false;
-            this.btnManager.Click += new System.EventHandler(this.btnManager_Click);
             // 
             // notifyIcon1
             // 
@@ -1042,7 +1101,7 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Label lblImgCount;
+        private System.Windows.Forms.Label lblLstImgCountTitle;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripStatusLabel tplStatus;
         private System.Windows.Forms.Panel panel9;
@@ -1081,7 +1140,6 @@
         private System.Windows.Forms.ComboBox cbxName;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel17;
-        private System.Windows.Forms.Button btnManager;
         private System.Windows.Forms.Button btnIgnoreUser;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnIgnoreStatus;
@@ -1091,7 +1149,7 @@
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.Button btnNewUser;
         private System.Windows.Forms.CheckBox txtShowImg;
-        private System.Windows.Forms.Label lblStatusCount;
+        private System.Windows.Forms.Label lblLstStatusCountTitle;
         private System.Windows.Forms.ListView lstUser;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
@@ -1106,9 +1164,15 @@
         private System.Windows.Forms.TextBox txtStatusFilter;
         private System.Windows.Forms.Panel panel18;
         private System.Windows.Forms.Label lblImageInfo;
-        private System.Windows.Forms.Label lblLstUserCount;
+        private System.Windows.Forms.Label lblLstUserCountTitle;
         private System.Windows.Forms.Button btnUpdateInfo;
         private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.Label lblLstUserCount;
+        private System.Windows.Forms.Label lblLstImgCount;
+        private System.Windows.Forms.Label lblLstStatusCount;
+        private System.Windows.Forms.Label lblLstArchiveCountTitle;
+        private System.Windows.Forms.Label lblLstArchiveCount;
+        private System.Windows.Forms.Button btnManage;
     }
 }
 

@@ -60,8 +60,10 @@ namespace SpiderTracker
             SinaSpiderService.OnSpiderComplete += WeiboSpiderService_OnSpiderComplete;
             SinaSpiderService.OnSpiderStoping += WeiboSpiderService_OnSpiderStoping;
             SinaSpiderService.OnRefreshConfig += WeiboSpiderService_OnRefreshConfig;
-            //SinaSpiderService.OnChangeUserStatus += SinaSpiderService_OnChangeUserStatus;
-                 
+            SinaSpiderService.OnGatherNewUser += SinaSpiderService_OnGatherNewUser;
+            SinaSpiderService.OnGatherNewStatus += SinaSpiderService_OnGatherNewStatus;
+
+
             Task.Factory.StartNew(() => {
                 LoadCacheNameList();
             });
@@ -69,6 +71,51 @@ namespace SpiderTracker
 
 
         #region Spider Event
+
+        private void SinaSpiderService_OnGatherNewStatus(SinaStatus newStatus)
+        {
+            InvokeControl(this.lstUser, new Action(() =>
+            {
+                var listItem = this.lstUser.FindItemWithText(newStatus.uid, true, 0);
+                if (listItem != null)
+                {
+                    var statusQty = 0;
+                    int.TryParse(listItem.SubItems[2].Text, out statusQty);
+                    statusQty += 1;
+                    listItem.SubItems[2].Text = $"{statusQty}";
+
+                    var statusCount = 0;
+                    int.TryParse(this.lblArcCount.Text, out statusCount);
+                    statusCount += 1;
+                    this.lblArcCount.Text = $"{statusCount}";
+
+                    var imageCount = 0;
+                    int.TryParse(this.lblPicCount.Text, out imageCount);
+                    imageCount += newStatus.pics;
+                    this.lblPicCount.Text = $"{imageCount}";
+                }
+
+            }));
+        }
+
+        private void SinaSpiderService_OnGatherNewUser(SinaUser user)
+        {
+            if (!CacheSinaUsers.Any(c => c.uid == user.uid))
+            {
+                CacheSinaUsers.Add(user);
+
+                LoadCacheUserList(LoadCacheName);
+
+                InvokeControl(this.lblUserCount, new Action(() =>
+                {
+                    var userCount = 0;
+                    int.TryParse(this.lblUserCount.Text, out userCount);
+                    userCount += 1;
+                    this.lblUserCount.Text = $"{userCount}";
+                }));
+            }
+        }
+
 
         //private void SinaSpiderService_OnChangeUserStatus(string uid, bool ignore)
         //{
@@ -99,6 +146,18 @@ namespace SpiderTracker
             {
                 this.btnSearch.Text = "Stop";
                 this.btnSearch.Enabled = true;
+            }));
+            InvokeControl(this.lblUserCount, new Action(() =>
+            {
+                this.lblUserCount.Text = $"{0}";
+            }));
+            InvokeControl(this.lblArcCount, new Action(() =>
+            {
+                this.lblArcCount.Text = $"{0}";
+            }));
+            InvokeControl(this.lblPicCount, new Action(() =>
+            {
+                this.lblPicCount.Text = $"{0}";
             }));
         }
 
@@ -164,7 +223,7 @@ namespace SpiderTracker
 
         void LoadCacheUserTask()
         {
-            while (true)
+            //while (true)
             {
                 if (ResetLoadCacheTask)
                 {
@@ -172,11 +231,11 @@ namespace SpiderTracker
                     ClearCacheUser();
                 }
 
-                Thread.Sleep(2 * 1000);
+                //Thread.Sleep(2 * 1000);
                 
                 LoadCacheUserList(LoadCacheName);
 
-                Thread.Sleep(3 * 1000);
+                //Thread.Sleep(3 * 1000);
             }
         }
 
@@ -263,7 +322,7 @@ namespace SpiderTracker
                     this.lstUser.Items.Add(subItem);
                 }
                 this.lstUser.EndUpdate();
-                this.lblLstUserCount.Text = $"用户：{this.lstUser.Items.Count}";
+                this.lblLstUserCount.Text = $"{this.lstUser.Items.Count}";
             }));
         }
         
@@ -281,10 +340,13 @@ namespace SpiderTracker
             {
                 this.lstArc.BeginUpdate();
                 this.lstArc.Items.Clear();
+                var localImg = 0;
+                var localStatus = 0;
+                var archiveQty = 0;
                 foreach (var item in sinaStatus.OrderByDescending(c=>c.lastdate).ToArray())
                 {
                     var subItem = new ListViewItem();
-                    subItem.Text = item.bid;
+                    subItem.Text = $"{item.bid}";
                     subItem.SubItems.Add($"{item.pics}");
 
                     var local = 0;
@@ -292,13 +354,25 @@ namespace SpiderTracker
                     if (Directory.Exists(path))
                     {
                         local = Directory.GetFiles(path).Where(c => c.EndsWith(".jpg")).Count();
+                        if (local > 0)
+                        {
+                            localImg += local;
+                            localStatus += 1;
+                        }
+                    }
+                    
+                    if(item.archive == 1)
+                    {
+                        archiveQty += 1;
                     }
                     subItem.SubItems.Add($"{local}");
                     subItem.SubItems.Add(item.archive == 1 ? "✔" : "×");
                     this.lstArc.Items.Add(subItem);
                 }
                 this.lstArc.EndUpdate();
-                this.lblStatusCount.Text = $"图集：{this.lstArc.Items.Count}";
+                this.lblLstStatusCount.Text = $"{localStatus}";
+                this.lblLstImgCount.Text = $"{localImg}";
+                this.lblLstArchiveCount.Text = $"{archiveQty}";
             }));
         }
         
@@ -398,6 +472,7 @@ namespace SpiderTracker
             }
         }
 
+
         private void lstArc_SelectedIndexChanged(object sender, EventArgs e)
         {
             var uid = GetSelectUserId();
@@ -413,11 +488,13 @@ namespace SpiderTracker
                 ClearImage();
             }
 
-            this.lblImgCount.Text = $"图片：{files.Length}";
-
             if (this.txtShowImg.Checked)
             {
                 ActiveImageCtl();
+            }
+            else
+            {
+                ActiveLoggerCtl();
             }
         }
 
@@ -453,6 +530,12 @@ namespace SpiderTracker
             {
                 var rep = new SinaRepository();
                 rep.ArchiveSinaUser(user);
+
+                var listItem = this.lstUser.FindItemWithText(user, true, 0);
+                if (listItem != null)
+                {
+                    listItem.SubItems[3].Text = "◉";
+                }
             }
         }
 
@@ -534,7 +617,7 @@ namespace SpiderTracker
                     {
                         this.lstUser.Items[index].Selected = true;
                     }
-                    this.lblLstUserCount.Text = $"用户：{this.lstUser.Items.Count}";
+                    this.lblLstUserCountTitle.Text = $"用户：{this.lstUser.Items.Count}";
                 }
             }
         }
@@ -599,6 +682,10 @@ namespace SpiderTracker
                     if (listItem != null)
                     {
                         var index = listItem.Index;
+                        var local = 0;
+                        int.TryParse(listItem.SubItems[2].Text, out local);
+                        var archive = listItem.SubItems[3].Text;
+
                         this.lstArc.Items.Remove(listItem);
                         if(this.lstArc.Items.Count <= index)
                         {
@@ -608,7 +695,23 @@ namespace SpiderTracker
                         {
                             this.lstArc.Items[index].Selected = true;
                         }
-                        this.lblStatusCount.Text = $"图集：{this.lstArc.Items.Count} ";
+                        var localStatus = 0;
+                        int.TryParse(this.lblLstStatusCount.Text, out localStatus);
+                        localStatus -= 1;
+                        this.lblLstStatusCount.Text = $"{localStatus} ";
+                        var localImg = 0;
+                        int.TryParse(this.lblLstImgCount.Text, out localImg);
+                        localImg -= local;
+                        this.lblLstImgCount.Text = $"{localImg} ";
+
+                        if (archive == "✔")
+                        {
+                            var archiveQty = 0;
+                            int.TryParse(this.lblLstArchiveCount.Text, out archiveQty);
+                            archiveQty -= 1;
+                            this.lblLstArchiveCount.Text = $"{archiveQty} ";
+                        }
+                        
                     }
                 }
             }
@@ -634,6 +737,16 @@ namespace SpiderTracker
             {
                 var rep = new SinaRepository();
                 rep.ArchiveSinaStatus(bid);
+
+                var listItem = this.lstArc.FindItemWithText(bid, true, 0);
+                if(listItem != null)
+                {
+                    listItem.SubItems[3].Text = "✔";
+                }
+                var archiveQty = 0;
+                int.TryParse(this.lblLstArchiveCount.Text, out archiveQty);
+                archiveQty += 1;
+                this.lblLstArchiveCount.Text = $"{archiveQty} ";
             }
         }
 
@@ -723,8 +836,7 @@ namespace SpiderTracker
         {
             this.UpdateCacheUserInfo(LoadCacheName);
         }
-
-        private void btnManager_Click(object sender, EventArgs e)
+        private void btnManage_Click(object sender, EventArgs e)
         {
             CacheImageViewForm frm = new CacheImageViewForm();
             frm.StartPosition = FormStartPosition.CenterScreen;
@@ -944,9 +1056,9 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "忽略存档图集";
-            dr["配置值"] = "0";
+            dr["配置值"] = "1";
             dt.Rows.Add(dr);
-
+              
             dr = dt.NewRow();
             dr["配置项"] = "采集原创图集";
             dr["配置值"] = "1";
@@ -1223,5 +1335,6 @@ namespace SpiderTracker
         }
 
         #endregion
+
     }
 }
