@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -103,21 +103,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.tbpReview = new System.Windows.Forms.TabPage();
-            this.pnlImageCenter = new System.Windows.Forms.Panel();
-            this.imageCtl5 = new System.Windows.Forms.Panel();
-            this.imageCtl4 = new System.Windows.Forms.Panel();
-            this.pnlImageBottom = new System.Windows.Forms.Panel();
-            this.imageCtl8 = new System.Windows.Forms.Panel();
-            this.imageCtl7 = new System.Windows.Forms.Panel();
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.imageCtl6 = new System.Windows.Forms.Panel();
-            this.imageCtl9 = new System.Windows.Forms.Panel();
-            this.pnlImageTop = new System.Windows.Forms.Panel();
-            this.imageCtl3 = new System.Windows.Forms.Panel();
-            this.imageCtl2 = new System.Windows.Forms.Panel();
-            this.imageCtl1 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -139,10 +128,7 @@
             this.tabControl1.SuspendLayout();
             this.tbpGatherLog.SuspendLayout();
             this.tbpReview.SuspendLayout();
-            this.pnlImageCenter.SuspendLayout();
-            this.pnlImageBottom.SuspendLayout();
             this.panel12.SuspendLayout();
-            this.pnlImageTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -670,27 +656,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle22;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle23;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle24;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -938,10 +924,8 @@
             // 
             // tbpReview
             // 
-            this.tbpReview.BackColor = System.Drawing.Color.White;
-            this.tbpReview.Controls.Add(this.pnlImageCenter);
-            this.tbpReview.Controls.Add(this.pnlImageTop);
-            this.tbpReview.Controls.Add(this.pnlImageBottom);
+            this.tbpReview.BackColor = System.Drawing.Color.Transparent;
+            this.tbpReview.Controls.Add(this.imagePreviewUC1);
             this.tbpReview.Location = new System.Drawing.Point(4, 4);
             this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
             this.tbpReview.Name = "tbpReview";
@@ -949,67 +933,15 @@
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
             // 
-            // pnlImageCenter
+            // imagePreviewUC1
             // 
-            this.pnlImageCenter.BackColor = System.Drawing.Color.Transparent;
-            this.pnlImageCenter.Controls.Add(this.imageCtl6);
-            this.pnlImageCenter.Controls.Add(this.imageCtl5);
-            this.pnlImageCenter.Controls.Add(this.imageCtl4);
-            this.pnlImageCenter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlImageCenter.Location = new System.Drawing.Point(0, 175);
-            this.pnlImageCenter.Name = "pnlImageCenter";
-            this.pnlImageCenter.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlImageCenter.Size = new System.Drawing.Size(492, 173);
-            this.pnlImageCenter.TabIndex = 21;
-            // 
-            // imageCtl5
-            // 
-            this.imageCtl5.BackColor = System.Drawing.Color.White;
-            this.imageCtl5.Dock = System.Windows.Forms.DockStyle.Left;
-            this.imageCtl5.Location = new System.Drawing.Point(165, 5);
-            this.imageCtl5.Name = "imageCtl5";
-            this.imageCtl5.Size = new System.Drawing.Size(160, 163);
-            this.imageCtl5.TabIndex = 15;
-            // 
-            // imageCtl4
-            // 
-            this.imageCtl4.BackColor = System.Drawing.Color.White;
-            this.imageCtl4.Dock = System.Windows.Forms.DockStyle.Left;
-            this.imageCtl4.Location = new System.Drawing.Point(5, 5);
-            this.imageCtl4.Name = "imageCtl4";
-            this.imageCtl4.Size = new System.Drawing.Size(160, 163);
-            this.imageCtl4.TabIndex = 13;
-            // 
-            // pnlImageBottom
-            // 
-            this.pnlImageBottom.Controls.Add(this.imageCtl9);
-            this.pnlImageBottom.Controls.Add(this.imageCtl8);
-            this.pnlImageBottom.Controls.Add(this.imageCtl7);
-            this.pnlImageBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlImageBottom.Location = new System.Drawing.Point(0, 348);
-            this.pnlImageBottom.Name = "pnlImageBottom";
-            this.pnlImageBottom.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlImageBottom.Size = new System.Drawing.Size(492, 175);
-            this.pnlImageBottom.TabIndex = 12;
-            // 
-            // imageCtl8
-            // 
-            this.imageCtl8.BackColor = System.Drawing.Color.White;
-            this.imageCtl8.Dock = System.Windows.Forms.DockStyle.Left;
-            this.imageCtl8.Location = new System.Drawing.Point(165, 5);
-            this.imageCtl8.Name = "imageCtl8";
-            this.imageCtl8.Size = new System.Drawing.Size(160, 165);
-            this.imageCtl8.TabIndex = 18;
-            // 
-            // imageCtl7
-            // 
-            this.imageCtl7.BackColor = System.Drawing.Color.White;
-            this.imageCtl7.Dock = System.Windows.Forms.DockStyle.Left;
-            this.imageCtl7.Location = new System.Drawing.Point(5, 5);
-            this.imageCtl7.Name = "imageCtl7";
-            this.imageCtl7.Padding = new System.Windows.Forms.Padding(5);
-            this.imageCtl7.Size = new System.Drawing.Size(160, 165);
-            this.imageCtl7.TabIndex = 16;
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(492, 523);
+            this.imagePreviewUC1.TabIndex = 0;
             // 
             // label10
             // 
@@ -1040,68 +972,9 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
-            // imageCtl6
-            // 
-            this.imageCtl6.BackColor = System.Drawing.Color.White;
-            this.imageCtl6.Dock = System.Windows.Forms.DockStyle.Left;
-            this.imageCtl6.Location = new System.Drawing.Point(325, 5);
-            this.imageCtl6.Name = "imageCtl6";
-            this.imageCtl6.Size = new System.Drawing.Size(160, 163);
-            this.imageCtl6.TabIndex = 16;
-            // 
-            // imageCtl9
-            // 
-            this.imageCtl9.BackColor = System.Drawing.Color.White;
-            this.imageCtl9.Dock = System.Windows.Forms.DockStyle.Left;
-            this.imageCtl9.Location = new System.Drawing.Point(325, 5);
-            this.imageCtl9.Name = "imageCtl9";
-            this.imageCtl9.Size = new System.Drawing.Size(160, 165);
-            this.imageCtl9.TabIndex = 19;
-            // 
-            // pnlImageTop
-            // 
-            this.pnlImageTop.Controls.Add(this.imageCtl3);
-            this.pnlImageTop.Controls.Add(this.imageCtl2);
-            this.pnlImageTop.Controls.Add(this.imageCtl1);
-            this.pnlImageTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlImageTop.Location = new System.Drawing.Point(0, 0);
-            this.pnlImageTop.Name = "pnlImageTop";
-            this.pnlImageTop.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlImageTop.Size = new System.Drawing.Size(492, 175);
-            this.pnlImageTop.TabIndex = 22;
-            // 
-            // imageCtl3
-            // 
-            this.imageCtl3.BackColor = System.Drawing.Color.White;
-            this.imageCtl3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.imageCtl3.Location = new System.Drawing.Point(325, 5);
-            this.imageCtl3.Name = "imageCtl3";
-            this.imageCtl3.Size = new System.Drawing.Size(160, 165);
-            this.imageCtl3.TabIndex = 2;
-            // 
-            // imageCtl2
-            // 
-            this.imageCtl2.BackColor = System.Drawing.Color.White;
-            this.imageCtl2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.imageCtl2.Location = new System.Drawing.Point(165, 5);
-            this.imageCtl2.Name = "imageCtl2";
-            this.imageCtl2.Size = new System.Drawing.Size(160, 165);
-            this.imageCtl2.TabIndex = 1;
-            // 
-            // imageCtl1
-            // 
-            this.imageCtl1.BackColor = System.Drawing.Color.White;
-            this.imageCtl1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.imageCtl1.Location = new System.Drawing.Point(5, 5);
-            this.imageCtl1.Name = "imageCtl1";
-            this.imageCtl1.Size = new System.Drawing.Size(160, 165);
-            this.imageCtl1.TabIndex = 0;
-            this.imageCtl1.Click += new System.EventHandler(this.imageCtl1_Click);
-            // 
             // SpiderTrackerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1015, 620);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel12);
@@ -1110,6 +983,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "SpiderTrackerForm";
             this.Text = "新浪微博探索者v1.0";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SpiderTrackerForm_FormClosing);
@@ -1146,11 +1020,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tbpGatherLog.ResumeLayout(false);
             this.tbpReview.ResumeLayout(false);
-            this.pnlImageCenter.ResumeLayout(false);
-            this.pnlImageBottom.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
-            this.pnlImageTop.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1231,18 +1102,7 @@
         private System.Windows.Forms.Label lblLstArchiveCountTitle;
         private System.Windows.Forms.Label lblLstArchiveCount;
         private System.Windows.Forms.Button btnManage;
-        private System.Windows.Forms.Panel pnlImageCenter;
-        private System.Windows.Forms.Panel pnlImageBottom;
-        private System.Windows.Forms.Panel imageCtl5;
-        private System.Windows.Forms.Panel imageCtl4;
-        private System.Windows.Forms.Panel imageCtl8;
-        private System.Windows.Forms.Panel imageCtl7;
-        private System.Windows.Forms.Panel imageCtl6;
-        private System.Windows.Forms.Panel imageCtl9;
-        private System.Windows.Forms.Panel pnlImageTop;
-        private System.Windows.Forms.Panel imageCtl3;
-        private System.Windows.Forms.Panel imageCtl2;
-        private System.Windows.Forms.Panel imageCtl1;
+        private UI.ImagePreviewUC imagePreviewUC1;
     }
 }
 

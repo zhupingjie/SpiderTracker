@@ -33,16 +33,18 @@ namespace SpiderTracker
         List<SinaUser> CacheSinaUsers { get; set; } = new List<SinaUser>();
         List<SinaStatus> CacheSinaStatuss { get; set; } = new List<SinaStatus>();
 
-        List<Panel> ShowImageCtls { get; set; }
-
         SpiderRunningConfig RunningConfig { get; set; }
         public SpiderTrackerForm()
         {
             InitializeComponent();
 
-            XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config")));
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            //开启双缓冲
+            this.SetStyle(ControlStyles.DoubleBuffer, true);
+            this.SetStyle(ControlStyles.UserPaint, true);
+            this.SetStyle(ControlStyles.ResizeRedraw, true);
 
-            this.ShowImageCtls = new List<Panel> { this.imageCtl1, this.imageCtl2, this.imageCtl3, this.imageCtl4, this.imageCtl5, this.imageCtl6, this.imageCtl7, this.imageCtl8, this.imageCtl9 };
+            XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config")));
 
             this.RunningConfig = GetSpiderRunningConfig();
         }
@@ -477,19 +479,17 @@ namespace SpiderTracker
         
         private void lstArc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.lstUser.SelectedItems.Count > 1) return;
             if (RunningConfig.PreviewImageNow == 1)
             {
                 ActiveImageCtl();
+
+                if (this.lstArc.SelectedItems.Count > 1) return;
 
                 var uid = GetSelectUserId();
                 var bid = GetSelectStatusId();
 
                 var files = PathUtil.GetStoreImageFiles(LoadCacheName, uid, bid);
-                for (var i = 0; i < 9; i++)
-                {
-                    ShowImage(files, i);
-                }
+                this.imagePreviewUC1.ShowImages(files.Take(RunningConfig.PreviewImageCount).ToArray(), 0);
             }
             else
             {
@@ -687,8 +687,6 @@ namespace SpiderTracker
                 var suc = rep.IgnoreSinaStatus(bid);
                 if (suc)
                 {
-                    this.ClearImage();
-
                     var userStatusPath = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, bid);
                     if (Directory.Exists(userStatusPath)) Directory.Delete(userStatusPath, true);
 
@@ -870,21 +868,6 @@ namespace SpiderTracker
         #endregion
 
         #region 图集功能操作
-
-        private void imageCtl1_Click(object sender, EventArgs e)
-        {
-            var uid = GetSelectUserId();
-            var bid = GetSelectStatusId();
-
-            if (!string.IsNullOrEmpty(bid))
-            {
-                var files = PathUtil.GetStoreImageFiles(LoadCacheName, uid, bid);
-                ViewImgForm frm = new ViewImgForm();
-                frm.ViewImgPaths = files;
-                frm.ViewImgIndex = 0;
-                frm.ShowDialog();
-            }
-        }
 
         void UpSelectStatus()
         {
@@ -1228,37 +1211,6 @@ namespace SpiderTracker
         {
             var searchStatuss = CacheSinaStatuss.Where(c => c.bid.ToUpper().Contains(keyword.ToUpper())).ToList();
             this.BindUserStatusList(searchStatuss, user);
-        }
-
-        void ShowImage(string[] files, int index)
-        {
-            var imageCtl = this.ShowImageCtls[index];
-            if (files.Length == 0 || index >= files.Length || index >= RunningConfig.PreviewImageCount)
-            {
-                if (imageCtl.Visible) imageCtl.Visible = false;
-            }
-            else
-            {
-                if (!imageCtl.Visible) imageCtl.Visible = true;
-                var image = Image.FromFile(files[index]);
-                var bmp = new Bitmap(image);
-                imageCtl.BackgroundImage = bmp;
-                imageCtl.BackgroundImageLayout = ImageLayout.Zoom;
-                image.Dispose();
-                image = null;
-            }
-        }
-
-        void ClearImage()
-        {
-            foreach(var img in ShowImageCtls)
-            {
-                if (img.BackgroundImage != null)
-                {
-                    img.BackgroundImage.Dispose();
-                    img.BackgroundImage = null;
-                }
-            }
         }
 
         /// <summary>

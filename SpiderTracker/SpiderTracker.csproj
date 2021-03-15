@@ -143,6 +143,12 @@
     <Compile Include="UI\CacheImageViewForm.Designer.cs">
       <DependentUpon>CacheImageViewForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ImagePreviewUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ImagePreviewUC.Designer.cs">
+      <DependentUpon>ImagePreviewUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SinaLoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +171,9 @@
     </Compile>
     <EmbeddedResource Include="UI\CacheImageViewForm.resx">
       <DependentUpon>CacheImageViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ImagePreviewUC.resx">
+      <DependentUpon>ImagePreviewUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SinaLoginForm.resx">
       <DependentUpon>SinaLoginForm.cs</DependentUpon>
