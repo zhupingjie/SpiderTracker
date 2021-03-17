@@ -246,9 +246,8 @@ namespace SpiderTracker
 
         void LoadCacheNameList()
         {
-            while (true)
-            {
-                //var names = PathUtil.GetStoreNames();
+            //while (true)
+            //{
                 var names = SinaSpiderService.Repository.GetGroupNames();
 
                 InvokeControl(this.cbxName, new Action(() =>
@@ -283,8 +282,8 @@ namespace SpiderTracker
 
                 }));
 
-                Thread.Sleep(10 * 1000);
-            }
+                //Thread.Sleep(10 * 1000);
+            //}
         }
 
         void LoadCacheUserList(string name)
