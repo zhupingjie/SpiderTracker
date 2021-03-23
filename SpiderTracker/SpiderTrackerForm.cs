@@ -1063,12 +1063,12 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "图片最小尺寸";
-            dr["配置值"] = "480";
+            dr["配置值"] = "600";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
             dr["配置项"] = "图片最大尺寸";
-            dr["配置值"] = "8000";
+            dr["配置值"] = "9999";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
