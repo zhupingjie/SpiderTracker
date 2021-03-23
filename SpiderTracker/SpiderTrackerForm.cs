@@ -676,6 +676,19 @@ namespace SpiderTracker
                 {
                     System.Diagnostics.Process.Start(path);
                 }
+                else
+                {
+                    path = PathUtil.GetStoreImageUserPath(LoadCacheName, uid);
+                    if (Directory.Exists(path))
+                    {
+                        System.Diagnostics.Process.Start(path);
+                    }
+                    else
+                    {
+                        path = PathUtil.BaseDirectory;
+                        System.Diagnostics.Process.Start(path);
+                    }
+                }
             }
         }
 
