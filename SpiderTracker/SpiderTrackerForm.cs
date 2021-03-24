@@ -593,7 +593,8 @@ namespace SpiderTracker
             if (MessageBox.Show("确认添加当前用户?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             var rep = new SinaRepository();
-            if (!rep.ExistsSinaUser(user))
+            var sinaUser = rep.GetUser(user);
+            if (sinaUser == null)
             {
                 var suc = rep.CreateSinaUser(new SinaUser()
                 {
@@ -606,14 +607,25 @@ namespace SpiderTracker
                     this.lstUser.Items[0].Selected = true;
                 }
             }
-            else
+            else 
             {
-                if (this.lstUser.Items.Count == 0) return;
-
-                var selectItem = this.lstUser.FindItemWithText(user);
-                if(selectItem != null)
+                if (sinaUser.ignore == 1)
                 {
-                    this.lstUser.Items[selectItem.Index].Selected = true;
+                    sinaUser.ignore = 0;
+                    rep.UpdateSinaUser(sinaUser, new string[] { "ignore" });
+
+                    this.lstUser.Items.Insert(0, user);
+                    this.lstUser.Items[0].Selected = true;
+                }
+                else
+                {
+                    if (this.lstUser.Items.Count == 0) return;
+
+                    var selectItem = this.lstUser.FindItemWithText(user);
+                    if (selectItem != null)
+                    {
+                        this.lstUser.Items[selectItem.Index].Selected = true;
+                    }
                 }
             }
         }
