@@ -129,11 +129,35 @@ namespace SpiderTracker.Imp
         /// </summary>
         public int PreviewImageNow { get; set; } = 1;
 
+
+        /// <summary>
+        /// 并发用户数量
+        /// </summary>
+        public int MaxReadUserThteadCount { get; set; } = 1;
+
         /// <summary>
         /// 关注用户名称
         /// </summary>
         public string ReadUserNameLike { get; set; }
 
         public string DefaultArchivePath { get; set; }
+
+        public SpiderRunningConfig Clone()
+        {
+            SpiderRunningConfig runningConfig = new SpiderRunningConfig();
+            var ps = this.GetType().GetProperties();
+            foreach (var p in ps)
+            {
+                var findP = runningConfig.GetType().GetProperty(p.Name);
+                if (findP == null) continue;
+
+
+                if (findP.GetSetMethod() != null)
+                {
+                    findP.SetValue(runningConfig, p.GetValue(this, null), null);
+                }
+            }
+            return runningConfig;
+        }
     }
 }

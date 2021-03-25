@@ -1033,6 +1033,11 @@ namespace SpiderTracker
                 dt.Columns.Add(new DataColumn(column));
             }
             var dr = dt.NewRow();
+            dr["配置项"] = "并发用户数量";
+            dr["配置值"] = "1";
+            dt.Rows.Add(dr);
+
+            dr = dt.NewRow();
             dr["配置项"] = "起始采集页码";
             dr["配置值"] = "1";
             dt.Rows.Add(dr);
@@ -1229,6 +1234,13 @@ namespace SpiderTracker
                     int intValue = 0;
                     int.TryParse(strValue, out intValue);
                     runningConfig.PreviewImageNow = intValue;
+                }
+                else if (row.Cells["配置项"].Value.ToString() == "并发用户数量")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    int intValue = 0;
+                    int.TryParse(strValue, out intValue);
+                    runningConfig.MaxReadUserThteadCount = intValue;
                 }
                 else if(row.Cells["配置项"].Value.ToString() == "默认归档路径")
                 {

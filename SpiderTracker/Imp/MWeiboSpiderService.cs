@@ -45,6 +45,8 @@ namespace SpiderTracker.Imp
         {
             IsSpiderStarted = true;
 
+            StopSpiderWork = false;
+
             OnSpiderStarted?.Invoke();
         }
 
@@ -116,43 +118,8 @@ namespace SpiderTracker.Imp
                     ShowStatus("采集类目为空!");
                     return;
                 }
-
-                StopSpiderWork = false;
                 SpiderStarted();
-
-                switch (runningConfig.GatherType)
-                {
-                    case GatherTypeEnum.SingleGather:
-                        {
-                            var readStatusImageCount = StartSpiderGatherTask(runningConfig);
-                            ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
-                            break;
-                        }
-                    case GatherTypeEnum.MultiGather:
-                        {
-                            var readStatusImageCount = StartStartMultiGatherTask(runningConfig);
-                            ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
-                            break;
-                        }
-                    case GatherTypeEnum.MyFocusGather:
-                        {
-                            var readStatusImageCount = StartMyFocusGatherTask(runningConfig);
-                            ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
-                            break;
-                        }
-                    case GatherTypeEnum.HeFocusGather:
-                        {
-                            var readStatusImageCount = StartHeFocusGatherTask(runningConfig);
-                            ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
-                            break;
-                        }
-                    default:
-                        {
-                            var readStatusImageCount = StartAutoGatherTask(runningConfig);
-                            ShowStatus($"采集完成,共采集图片【{readStatusImageCount}】张.");
-                            break;
-                        }
-                }
+                StartAutoGatherTask(runningConfig);
                 SpiderComplete();
             });
         }
@@ -163,27 +130,7 @@ namespace SpiderTracker.Imp
             SpiderStoping();
         }
 
-        
-        void SetWeiboLoginCookieResult(string cookie)
-        {
-            //SUB=_2A25wKNB1DeRhGedG7lIS8S3PzTiIHXVT0vA9rDV6PUJbkdAKLULFkW1NUViBpBbgQBJA907ftPxat7B2us9K069Y; Path=/; Domain=.weibo.cn; Expires=Tue, 14 Jul 2020 15:47:49 GMT; HttpOnly,
-            //SUHB =0103XdpGvcqUF0; expires=Tuesday, 14-Jul-2020 15:47:49 GMT; path=/; domain=.weibo.cn,
-            //SSOLoginState =1563205669; path=/; domain=weibo.cn,ALF=1565797669; expires=Wednesday, 14-Aug-2019 15:47:49 GMT; path=/; domain=.sina.cn,
-            //login =b956ab2a781575709c4b14df65b7a16b; Path=/
-
-            var sub = cookie.Substring(cookie.IndexOf("SUB=") + 4, cookie.IndexOf(";"));
-            cookie = cookie.Substring(cookie.IndexOf(";"));
-            var suhb = cookie.Substring(cookie.IndexOf("SUHB =") + 6, cookie.IndexOf(";"));
-            cookie = cookie.Substring(cookie.IndexOf(";"));
-            var ssologinstate = cookie.Substring(cookie.IndexOf("SSOLoginState =") + 15, cookie.IndexOf(";"));
-            cookie = cookie.Substring(cookie.IndexOf(";"));
-            var login = cookie.Substring(cookie.IndexOf("login =") + 7, cookie.IndexOf(";"));
-
-
-
-        }
-        
-        int StartAutoGatherTask(SpiderRunningConfig runningConfig)
+        void StartAutoGatherTask(SpiderRunningConfig runningConfig)
         {
             var readUsers = new List<SinaUser>();
             if(runningConfig.ReadAllOfUser == 1)
@@ -207,11 +154,11 @@ namespace SpiderTracker.Imp
             if(runningConfig.UserIds.Length == 0)
             {
                 ShowStatus($"无采集用户数据.");
-                return 0;
+                return ;
             }
             ShowStatus($"准备读取【{runningConfig.UserIds.Length}】个用户的微博数据...");
 
-            return StartStartMultiGatherTask(runningConfig);
+            StartStartMultiGatherTask(runningConfig);
         }
 
         int StartSpiderGatherTask(SpiderRunningConfig runninConfig)
@@ -228,59 +175,53 @@ namespace SpiderTracker.Imp
             }
         }
 
-
-
-        int StartStartMultiGatherTask(SpiderRunningConfig runningConfig)
+        void StartStartMultiGatherTask(SpiderRunningConfig runningConfig)
         {
-            int readStatusImageCount = 0;
-            foreach (var user in runningConfig.UserIds)
+            var maxThreadCount =
+                runningConfig.MaxReadUserThteadCount == 0 ? runningConfig.UserIds.Length :
+                runningConfig.MaxReadUserThteadCount > runningConfig.UserIds.Length ?
+                runningConfig.UserIds.Length : runningConfig.MaxReadUserThteadCount;
+            if (maxThreadCount == 1 || runningConfig.UserIds.Length == 1)
             {
-                runningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user);
-                readStatusImageCount += StartSpiderGatherTask(runningConfig);
+                foreach (var user in runningConfig.UserIds)
+                {
+                    runningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user);
+                    var readStatusImageCount = StartSpiderGatherTask(runningConfig);
 
-                if (StopSpiderWork) break;
+                    ShowStatus($"用户[{user}]采集完成,共采集图片【{readStatusImageCount}】张.");
+                    if (StopSpiderWork) break;
+                }
             }
-            return readStatusImageCount;
-        }
-
-        int StartMyFocusGatherTask(SpiderRunningConfig runningConfig)
-        {
-            var user= GatherMyFocusUsers(runningConfig);
-            ShowStatus($"总共读取到【{user.Length}】个关注用户的微博数据...");
-
-            runningConfig.UserIds = user.Select(c => c.id).ToArray();
-            return StartStartMultiGatherTask(runningConfig);
-        }
-
-        MWeiboUser[] GatherMyFocusUsers(SpiderRunningConfig runningConfig)
-        {
-            int page = 0;
-            var focusUsers = new List<MWeiboUser>();
-            while (++page > 0)
+            else
             {
-                ShowStatus($"开始读取我关注的第{page}页用户信息...", true);
-                var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231093_-_selffollowed&page={page}";
-                var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
-                if (html == null)
+                var threads = new List<Task>();
+                var userCount = (int)Math.Floor(runningConfig.UserIds.Length * 1.0m / maxThreadCount * 1.0m);
+                for (var i = 0; i < maxThreadCount; i++)
                 {
-                    ShowStatus($"读取我关注的第{page}页用户信息错误!");
-                    return null;
+                    var userRunningConfig = runningConfig.Clone();
+                    if (i == maxThreadCount - 1)
+                    {
+                        userRunningConfig.UserIds = runningConfig.UserIds.Skip(i * userCount).ToArray();
+                    }
+                    else
+                    {
+                        userRunningConfig.UserIds = runningConfig.UserIds.Skip(i * userCount).Take(userCount).ToArray();
+                    }
+                    var task = Task.Factory.StartNew(() =>
+                    {
+                        foreach (var user in userRunningConfig.UserIds)
+                        {
+                            userRunningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user);
+                            var readStatusImageCount = StartSpiderGatherTask(userRunningConfig);
+
+                            ShowStatus($"用户[{user}]采集完成,共采集图片【{readStatusImageCount}】张.");
+                            if (StopSpiderWork) break;
+                        }
+                    });
+                    threads.Add(task);
                 }
-                var result = GetWeiboFocusResult(html);
-                if (result == null || result.data == null)
-                {
-                    ShowStatus($"解析我关注的第{page}页用户错误!");
-                    return null;
-                }
-                var focusUserCard = result.data.cards.FirstOrDefault(c => c.card_type == 11 && !string.IsNullOrEmpty(c.itemid));
-                if(focusUserCard == null)
-                {
-                    break;
-                }
-                var users = focusUserCard.card_group.Select(c => c.user).ToArray();
-                focusUsers.AddRange(users);
+                Task.WaitAll(threads.ToArray());
             }
-            return focusUsers.Distinct().ToArray();
         }
 
         MWeiboFocusResult GetWeiboFocusResult(string html)
@@ -290,21 +231,6 @@ namespace SpiderTracker.Imp
 
             var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboFocusResult>(doc.DocumentNode.InnerText) as MWeiboFocusResult;
             return jsonResult;
-        }
-
-
-        int StartHeFocusGatherTask(SpiderRunningConfig runningConfig)
-        {
-            var user = GatherHeFocusUsers(runningConfig);
-            ShowStatus($"总共读取到【{user.Length}】个关注用户的微博数据...");
-
-            if(!string.IsNullOrEmpty(runningConfig.ReadUserNameLike))
-            {
-                user = user.Where(c => c.screen_name.Contains(runningConfig.ReadUserNameLike)).ToArray();
-            }
-
-            runningConfig.UserIds = user.Select(c => c.id).ToArray();
-            return StartStartMultiGatherTask(runningConfig);
         }
 
         MWeiboUser[] GatherHeFocusUsers(SpiderRunningConfig runningConfig)
@@ -391,7 +317,7 @@ namespace SpiderTracker.Imp
                 }
                 if (readPageIndex + 1 < readPageCount && readPageImageCount > 0)
                 {
-                    ShowStatus($"等待【{runningConfig.ReadNextPageWaitSecond}】秒读取下一页微博数据...");
+                    ShowStatus($"等待【{runningConfig.ReadNextPageWaitSecond}】秒读取用户【{userId}】下一页微博数据...");
                     Thread.Sleep(runningConfig.ReadNextPageWaitSecond * 1000);
                 }
             }
@@ -750,18 +676,13 @@ namespace SpiderTracker.Imp
                     return false;
                 }
             }
-            //if(runningConfig.OnlyReadUserPicture == 1)
-            //{
-            //    ShowStatus($"只采集微博图片忽略下载.");
-            //    return false;
-            //}
             var image = HttpUtil.GetHttpRequestImageResult(imgUrl, runningConfig);
             if (image == null)
             {
-                ShowStatus($"下载第【{(haveReadPageCount + 1)}】张图片错误!");
+                ShowStatus($"下载组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片错误!");
                 return false;
             }
-            if (!CheckImageSize(runningConfig, image, haveReadPageCount)) return false;
+            if (!CheckImageSize(runningConfig, image, arcId, haveReadPageCount)) return false;
 
             var path = PathUtil.GetStoreImageUserStatusPath(runningConfig.Name, userId, arcId);
             PathUtil.CheckCreateDirectory(path);
@@ -770,26 +691,26 @@ namespace SpiderTracker.Imp
             {
                 image.Save(img);
                 image.Dispose();
-                ShowStatus($"下载第【{(haveReadPageCount + 1)}】张图片(OK).");
+                ShowStatus($"下载组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片(OK).");
                 return true;
             }
             catch(Exception ex)
             {
-                ShowStatus($"下载第【{(haveReadPageCount + 1)}】张图片错误!");
+                ShowStatus($"下载组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片错误!");
                 return false;
             }
         }
 
-        bool CheckImageSize(SpiderRunningConfig runningConfig,Image image, int haveReadPageCount)
+        bool CheckImageSize(SpiderRunningConfig runningConfig,Image image, string arcId, int haveReadPageCount)
         {
             if(image.Width <= runningConfig.ReadMinOfImgSize || image.Height <= runningConfig.ReadMinOfImgSize)
             {
-                ShowStatus($"第【{(haveReadPageCount + 1)}】张图片尺寸太小忽略");
+                ShowStatus($"组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片尺寸太小忽略");
                 return false;
             }
             if (image.Width > runningConfig.ReadMaxOfImgSize || image.Height > runningConfig.ReadMaxOfImgSize)
             {
-                ShowStatus($"第【{(haveReadPageCount + 1)}】张图片尺寸太大忽略");
+                ShowStatus($"组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片尺寸太大忽略");
                 return false;
             }
             return true;
