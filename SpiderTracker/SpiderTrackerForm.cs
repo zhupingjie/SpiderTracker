@@ -1034,7 +1034,7 @@ namespace SpiderTracker
             }
             var dr = dt.NewRow();
             dr["配置项"] = "并发用户数量";
-            dr["配置值"] = "1";
+            dr["配置值"] = "3";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
