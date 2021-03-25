@@ -896,6 +896,7 @@
             // 
             // lstLog
             // 
+            this.lstLog.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lstLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lstLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstLog.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -1019,6 +1020,7 @@
             // 
             // panel18
             // 
+            this.panel18.BackColor = System.Drawing.Color.Transparent;
             this.panel18.Controls.Add(this.lstLog);
             this.panel18.Controls.Add(this.panel19);
             this.panel18.Dock = System.Windows.Forms.DockStyle.Bottom;
