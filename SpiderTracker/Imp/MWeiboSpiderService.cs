@@ -37,17 +37,53 @@ namespace SpiderTracker.Imp
         }
 
 
-        public delegate void SpiderStartedEventHander();
+        public delegate void SpiderStartedEventHander(SpiderRunningConfig spiderRunninConfig);
 
         public event SpiderStartedEventHander OnSpiderStarted;
 
-        public void SpiderStarted()
+        public void SpiderStart(SpiderRunningConfig spiderRunninConfig)
+        {
+            OnSpiderStarted?.Invoke(spiderRunninConfig);
+        }
+
+        public void SpiderStarted(SpiderRunningConfig runningConfig)
         {
             IsSpiderStarted = true;
-
             StopSpiderWork = false;
 
-            OnSpiderStarted?.Invoke();
+            var readUsers = new List<SinaUser>();
+            if (runningConfig.ReadAllOfUser == 1)
+            {
+                readUsers = Repository.GetUsers(runningConfig.Name);
+                if (!string.IsNullOrEmpty(runningConfig.ReadUserNameLike))
+                {
+                    readUsers = readUsers.Where(c => c.name.Contains(runningConfig.ReadUserNameLike)).ToList();
+                }
+                foreach (var user in readUsers)
+                {
+                    if (!runningConfig.DoUserIds.Contains(user.uid))
+                    {
+                        runningConfig.DoUserIds.Enqueue(user.uid);
+                    }
+                }
+            }
+            if (runningConfig.ReadUserOfFocus == 1)
+            {
+                var focusUser = GatherHeFocusUsers(runningConfig);
+                if (!string.IsNullOrEmpty(runningConfig.ReadUserNameLike))
+                {
+                    focusUser = focusUser.Where(c => c.screen_name.Contains(runningConfig.ReadUserNameLike)).ToArray();
+                }
+                foreach (var user in focusUser)
+                {
+                    if (!runningConfig.DoUserIds.Contains(user.id))
+                    {
+                        runningConfig.DoUserIds.Enqueue(user.id);
+                    }
+                }
+            }
+
+            SpiderStart(runningConfig);
         }
 
         public delegate void SpiderCompleteEventHander();
@@ -79,13 +115,31 @@ namespace SpiderTracker.Imp
             OnGatherNewUser?.Invoke(user);
         }
 
-        public delegate void SpiderGatherNewStatusEventHander(SinaStatus newStatus);
+        public delegate void SpiderGatherNewStatusEventHander(string uid, int readImageQty);
 
-        public event SpiderGatherNewStatusEventHander OnGatherNewStatus;
+        public event SpiderGatherNewStatusEventHander OnGatherStatusComplete;
 
-        public void GatherNewStatus(SinaStatus newStatus)
+        public void GatherStatusComplete(string uid, int readImageQty)
         {
-            OnGatherNewStatus?.Invoke(newStatus);
+            OnGatherStatusComplete?.Invoke(uid, readImageQty);
+        }
+
+        public delegate void SpiderGatherPageCompleteEventHander(string uid, int pageIndex, int readImageQty);
+
+        public event SpiderGatherPageCompleteEventHander OnGatherPageComplete;
+
+        public void GatherPageComplete(string uid, int pageIndex, int readImageQty)
+        {
+            OnGatherPageComplete?.Invoke(uid, pageIndex, readImageQty);
+        }
+
+        public delegate void SpiderGatherUserCompleteEventHander(string uid, int readImageQty);
+
+        public event SpiderGatherUserCompleteEventHander OnGatherUserComplete;
+
+        public void GatherUserComplete(string uid, int readImageQty)
+        {
+            OnGatherUserComplete?.Invoke(uid, readImageQty);
         }
         #endregion
 
@@ -118,7 +172,7 @@ namespace SpiderTracker.Imp
                     ShowStatus("采集类目为空!");
                     return;
                 }
-                SpiderStarted();
+                SpiderStarted(runningConfig);
                 StartAutoGatherTask(runningConfig);
                 SpiderComplete();
             });
@@ -132,33 +186,26 @@ namespace SpiderTracker.Imp
 
         void StartAutoGatherTask(SpiderRunningConfig runningConfig)
         {
-            var readUsers = new List<SinaUser>();
-            if(runningConfig.ReadAllOfUser == 1)
-            {
-                readUsers = Repository.GetUsers(runningConfig.Name);
-                if (!string.IsNullOrEmpty(runningConfig.ReadUserNameLike))
-                {
-                    readUsers = readUsers.Where(c => c.name.Contains(runningConfig.ReadUserNameLike)).ToList();
-                }
-                runningConfig.UserIds = readUsers.Select(c => c.uid).ToArray();
-            }
-            if(runningConfig.ReadUserOfFocus == 1)
-            {
-                var focusUser = GatherHeFocusUsers(runningConfig);
-                if (!string.IsNullOrEmpty(runningConfig.ReadUserNameLike))
-                {
-                    focusUser = focusUser.Where(c => c.screen_name.Contains(runningConfig.ReadUserNameLike)).ToArray();
-                }
-                runningConfig.UserIds = runningConfig.UserIds.Concat(focusUser.Select(c => c.id)).Distinct().ToArray();
-            }
-            if(runningConfig.UserIds.Length == 0)
+            if(runningConfig.DoUserIds.Count == 0)
             {
                 ShowStatus($"无采集用户数据.");
                 return ;
             }
-            ShowStatus($"准备读取【{runningConfig.UserIds.Length}】个用户的微博数据...");
+            ShowStatus($"准备读取【{runningConfig.DoUserIds.Count}】个用户的微博数据...");
 
-            StartStartMultiGatherTask(runningConfig);
+            var threads = new List<Task>();
+            var maxReadUserCount = runningConfig.MaxReadUserThreadCount;
+            var doUserCount = runningConfig.DoUserIds.Count;
+            var threadCount = (maxReadUserCount == 0 ? doUserCount : maxReadUserCount > doUserCount ? doUserCount : maxReadUserCount);
+            for (var i = 0; i < threadCount; i++)
+            {
+                var task = Task.Factory.StartNew(() =>
+                {
+                    StartSpiderGatherTaskThread(runningConfig);
+                });
+                threads.Add(task);
+            }
+            Task.WaitAll(threads.ToArray());
         }
 
         int StartSpiderGatherTask(SpiderRunningConfig runninConfig)
@@ -175,52 +222,20 @@ namespace SpiderTracker.Imp
             }
         }
 
-        void StartStartMultiGatherTask(SpiderRunningConfig runningConfig)
+        void StartSpiderGatherTaskThread(SpiderRunningConfig runningConfig)
         {
-            var maxThreadCount =
-                runningConfig.MaxReadUserThteadCount == 0 ? runningConfig.UserIds.Length :
-                runningConfig.MaxReadUserThteadCount > runningConfig.UserIds.Length ?
-                runningConfig.UserIds.Length : runningConfig.MaxReadUserThteadCount;
-            if (maxThreadCount == 1 || runningConfig.UserIds.Length == 1)
+            while (!StopSpiderWork)
             {
-                foreach (var user in runningConfig.UserIds)
-                {
-                    runningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user);
-                    var readStatusImageCount = StartSpiderGatherTask(runningConfig);
+                string user = null;
+                if (!runningConfig.DoUserIds.TryDequeue(out user)) break;
 
-                    ShowStatus($"用户[{user}]采集完成,共采集图片【{readStatusImageCount}】张.");
-                    if (StopSpiderWork) break;
-                }
-            }
-            else
-            {
-                var threads = new List<Task>();
-                var userCount = (int)Math.Floor(runningConfig.UserIds.Length * 1.0m / maxThreadCount * 1.0m);
-                for (var i = 0; i < maxThreadCount; i++)
-                {
-                    var userRunningConfig = runningConfig.Clone();
-                    if (i == maxThreadCount - 1)
-                    {
-                        userRunningConfig.UserIds = runningConfig.UserIds.Skip(i * userCount).ToArray();
-                    }
-                    else
-                    {
-                        userRunningConfig.UserIds = runningConfig.UserIds.Skip(i * userCount).Take(userCount).ToArray();
-                    }
-                    var task = Task.Factory.StartNew(() =>
-                    {
-                        foreach (var user in userRunningConfig.UserIds)
-                        {
-                            userRunningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user);
-                            var readStatusImageCount = StartSpiderGatherTask(userRunningConfig);
+                var tempRuningConfig = runningConfig.Clone();
+                tempRuningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user);
+                var readStatusImageCount = StartSpiderGatherTask(tempRuningConfig);
 
-                            ShowStatus($"用户[{user}]采集完成,共采集图片【{readStatusImageCount}】张.");
-                            if (StopSpiderWork) break;
-                        }
-                    });
-                    threads.Add(task);
-                }
-                Task.WaitAll(threads.ToArray());
+                GatherUserComplete(user, readStatusImageCount);
+
+                ShowStatus($"用户[{user}]采集完成,共采集图片【{readStatusImageCount}】张.");
             }
         }
 
@@ -237,7 +252,7 @@ namespace SpiderTracker.Imp
         {
             var focusUsers = new List<MWeiboUser>();
 
-            foreach(var userId in runningConfig.UserIds)
+            foreach(var userId in runningConfig.DoUserIds)
             {
                 int page = 0;
                 while (++page > 0)
@@ -287,12 +302,6 @@ namespace SpiderTracker.Imp
                 return 0;
             }
 
-            //if (runningConfig.OnlyReadUserInfo == 1)
-            //{
-            //    ShowStatus($"只采集用户数据忽略内容【{user.id}】.");
-            //    return 0;
-            //}
-
             int readUserImageCount = 0, readPageIndex = 0, emptyPageCount = 0;
             int readPageCount = (runningConfig.ReadPageCount == 0 ? int.MaxValue : runningConfig.StartPageIndex + runningConfig.ReadPageCount);
             for (readPageIndex = runningConfig.StartPageIndex; readPageIndex < readPageCount; readPageIndex++)
@@ -300,6 +309,8 @@ namespace SpiderTracker.Imp
                 bool stopReadNextPage = false;
                 int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningConfig, user, readPageIndex, readPageCount, out stopReadNextPage);
                 readUserImageCount += readPageImageCount;
+
+                GatherPageComplete(user.id, readPageIndex, readUserImageCount);
 
                 if (stopReadNextPage) emptyPageCount++;
                 else emptyPageCount = 0;
@@ -488,9 +499,9 @@ namespace SpiderTracker.Imp
                 SinaStatus newStatus = null;
                 readStatusImageCount = GatherSinaStatusByStatusResult(runningConfig, status);
                 Repository.StoreSinaStatus(user, status, null, readStatusImageCount, out newStatus);
-                if(newStatus != null)
+                if (readStatusImageCount > 0)
                 {
-                    GatherNewStatus(newStatus);
+                    GatherStatusComplete(user.id, readStatusImageCount);
                 }
             }
             if (status.retweeted_status != null)

@@ -106,6 +106,14 @@
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.lstRunstate = new System.Windows.Forms.ListView();
+            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel18 = new System.Windows.Forms.Panel();
+            this.panel19 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -129,6 +137,8 @@
             this.tbpGatherLog.SuspendLayout();
             this.tbpReview.SuspendLayout();
             this.panel12.SuspendLayout();
+            this.panel18.SuspendLayout();
+            this.panel19.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -886,15 +896,15 @@
             // 
             // lstLog
             // 
-            this.lstLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lstLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstLog.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lstLog.FormattingEnabled = true;
             this.lstLog.ItemHeight = 17;
-            this.lstLog.Location = new System.Drawing.Point(0, 0);
+            this.lstLog.Location = new System.Drawing.Point(0, 26);
             this.lstLog.Margin = new System.Windows.Forms.Padding(0);
             this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(492, 531);
+            this.lstLog.Size = new System.Drawing.Size(492, 202);
             this.lstLog.TabIndex = 15;
             // 
             // tabControl1
@@ -905,9 +915,10 @@
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tabControl1.Location = new System.Drawing.Point(242, 67);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
-            this.tabControl1.Padding = new System.Drawing.Point(3, 3);
+            this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(522, 539);
             this.tabControl1.TabIndex = 17;
@@ -915,7 +926,8 @@
             // tbpGatherLog
             // 
             this.tbpGatherLog.BackColor = System.Drawing.Color.Transparent;
-            this.tbpGatherLog.Controls.Add(this.lstLog);
+            this.tbpGatherLog.Controls.Add(this.lstRunstate);
+            this.tbpGatherLog.Controls.Add(this.panel18);
             this.tbpGatherLog.Location = new System.Drawing.Point(4, 4);
             this.tbpGatherLog.Margin = new System.Windows.Forms.Padding(0);
             this.tbpGatherLog.Name = "tbpGatherLog";
@@ -930,7 +942,7 @@
             this.tbpReview.Location = new System.Drawing.Point(4, 4);
             this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
             this.tbpReview.Name = "tbpReview";
-            this.tbpReview.Size = new System.Drawing.Size(492, 523);
+            this.tbpReview.Size = new System.Drawing.Size(492, 531);
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
             // 
@@ -963,6 +975,82 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
+            // lstRunstate
+            // 
+            this.lstRunstate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lstRunstate.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader10,
+            this.columnHeader11,
+            this.columnHeader12,
+            this.columnHeader13});
+            this.lstRunstate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstRunstate.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstRunstate.FullRowSelect = true;
+            this.lstRunstate.GridLines = true;
+            this.lstRunstate.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lstRunstate.HideSelection = false;
+            this.lstRunstate.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.lstRunstate.Location = new System.Drawing.Point(0, 0);
+            this.lstRunstate.Name = "lstRunstate";
+            this.lstRunstate.Size = new System.Drawing.Size(492, 303);
+            this.lstRunstate.TabIndex = 16;
+            this.lstRunstate.UseCompatibleStateImageBehavior = false;
+            this.lstRunstate.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader10
+            // 
+            this.columnHeader10.Text = "UID";
+            this.columnHeader10.Width = 100;
+            // 
+            // columnHeader11
+            // 
+            this.columnHeader11.Text = "PageQTY";
+            this.columnHeader11.Width = 80;
+            // 
+            // columnHeader12
+            // 
+            this.columnHeader12.Text = "ImageQTY";
+            this.columnHeader12.Width = 80;
+            // 
+            // columnHeader13
+            // 
+            this.columnHeader13.Text = "STATUS";
+            this.columnHeader13.Width = 80;
+            // 
+            // panel18
+            // 
+            this.panel18.Controls.Add(this.lstLog);
+            this.panel18.Controls.Add(this.panel19);
+            this.panel18.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel18.Location = new System.Drawing.Point(0, 303);
+            this.panel18.Margin = new System.Windows.Forms.Padding(0);
+            this.panel18.Name = "panel18";
+            this.panel18.Size = new System.Drawing.Size(492, 228);
+            this.panel18.TabIndex = 17;
+            // 
+            // panel19
+            // 
+            this.panel19.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.panel19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel19.Controls.Add(this.label6);
+            this.panel19.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel19.Location = new System.Drawing.Point(0, 0);
+            this.panel19.Margin = new System.Windows.Forms.Padding(0);
+            this.panel19.Name = "panel19";
+            this.panel19.Size = new System.Drawing.Size(492, 26);
+            this.panel19.TabIndex = 0;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label6.Location = new System.Drawing.Point(3, 5);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 17);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "运行日志";
+            // 
             // imagePreviewUC1
             // 
             this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
@@ -970,7 +1058,7 @@
             this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
             this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
             this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(492, 523);
+            this.imagePreviewUC1.Size = new System.Drawing.Size(492, 531);
             this.imagePreviewUC1.TabIndex = 0;
             // 
             // SpiderTrackerForm
@@ -1023,6 +1111,9 @@
             this.tbpReview.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
+            this.panel18.ResumeLayout(false);
+            this.panel19.ResumeLayout(false);
+            this.panel19.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1104,6 +1195,14 @@
         private System.Windows.Forms.Label lblLstArchiveCount;
         private System.Windows.Forms.Button btnManage;
         private UI.ImagePreviewUC imagePreviewUC1;
+        private System.Windows.Forms.ListView lstRunstate;
+        private System.Windows.Forms.ColumnHeader columnHeader10;
+        private System.Windows.Forms.ColumnHeader columnHeader11;
+        private System.Windows.Forms.ColumnHeader columnHeader12;
+        private System.Windows.Forms.ColumnHeader columnHeader13;
+        private System.Windows.Forms.Panel panel18;
+        private System.Windows.Forms.Panel panel19;
+        private System.Windows.Forms.Label label6;
     }
 }
 

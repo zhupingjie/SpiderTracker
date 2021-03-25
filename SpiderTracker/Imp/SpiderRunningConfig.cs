@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,10 +44,15 @@ namespace SpiderTracker.Imp
         public string StartUrl { get; set; }
 
 
+        ///// <summary>
+        ///// 用户ID集合
+        ///// </summary>
+        //public string[] UserIds { get; set; }
+
         /// <summary>
-        /// 用户ID集合
+        /// 待处理用户集合
         /// </summary>
-        public string[] UserIds { get; set; }
+        public ConcurrentQueue<string> DoUserIds { get; set; } = new ConcurrentQueue<string>();
 
 
         /// <summary>
@@ -133,7 +139,7 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 并发用户数量
         /// </summary>
-        public int MaxReadUserThteadCount { get; set; } = 1;
+        public int MaxReadUserThreadCount { get; set; } = 1;
 
         /// <summary>
         /// 关注用户名称
