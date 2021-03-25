@@ -1068,7 +1068,7 @@ namespace SpiderTracker
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
-            dr["配置项"] = "忽略已删图集";
+            dr["配置项"] = "忽略无图图集";
             dr["配置值"] = "0";
             dt.Rows.Add(dr);
 
@@ -1214,7 +1214,7 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue); ;
                     runningConfig.IgnoreReadArchiveStatus = intValue;
                 }
-                else if (row.Cells["配置项"].Value.ToString() == "忽略已删图集")
+                else if (row.Cells["配置项"].Value.ToString() == "忽略无图图集")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     int intValue = 0;
