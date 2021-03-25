@@ -434,7 +434,7 @@ namespace SpiderTracker.Imp
                 }
                 if (readStatusImageCount > 0)
                 {
-                    ShowStatus($"等待【{runningConfig.ReadNextStatusWaitSecond}】秒读取下一条微博数据...");
+                    ShowStatus($"等待【{runningConfig.ReadNextStatusWaitSecond}】秒读用户【{user}}】取下一条微博数据...");
                     Thread.Sleep(runningConfig.ReadNextStatusWaitSecond * 1000);
                 }
             }
