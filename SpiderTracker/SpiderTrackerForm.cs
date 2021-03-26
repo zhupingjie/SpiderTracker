@@ -1156,7 +1156,7 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "预览显示图片";
-            dr["配置值"] = "0";
+            dr["配置值"] = "1";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
