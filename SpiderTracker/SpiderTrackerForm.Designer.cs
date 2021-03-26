@@ -979,6 +979,7 @@
             this.lstRunstate.TabIndex = 16;
             this.lstRunstate.UseCompatibleStateImageBehavior = false;
             this.lstRunstate.View = System.Windows.Forms.View.Details;
+            this.lstRunstate.SelectedIndexChanged += new System.EventHandler(this.lstRunstate_SelectedIndexChanged);
             // 
             // columnHeader10
             // 

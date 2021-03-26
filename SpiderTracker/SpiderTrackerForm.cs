@@ -506,10 +506,10 @@ namespace SpiderTracker
 
             LoadCacheUserStatusList(user);
 
-            if (this.lstArc.Items.Count > 0)
-            {
-                this.lstArc.Items[0].Selected = true;
-            }
+            //if (this.lstArc.Items.Count > 0)
+            //{
+            //    this.lstArc.Items[0].Selected = true;
+            //}
         }
 
 
@@ -1154,10 +1154,10 @@ namespace SpiderTracker
             dr["配置值"] = "6";
             dt.Rows.Add(dr);
 
-            //dr = dt.NewRow();
-            //dr["配置项"] = "预览显示图片";
-            //dr["配置值"] = "0";
-            //dt.Rows.Add(dr);
+            dr = dt.NewRow();
+            dr["配置项"] = "预览显示图片";
+            dr["配置值"] = "0";
+            dt.Rows.Add(dr);
 
             dr = dt.NewRow();
             dr["配置项"] = "默认归档路径";
@@ -1280,13 +1280,13 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue);
                     RunningConfig.PreviewImageCount = intValue;
                 }
-                //else if (row.Cells["配置项"].Value.ToString() == "预览显示图片")
-                //{
-                //    var strValue = row.Cells["配置值"].Value.ToString();
-                //    int intValue = 0;
-                //    int.TryParse(strValue, out intValue);
-                //    RunningConfig.PreviewImageNow = intValue;
-                //}
+                else if (row.Cells["配置项"].Value.ToString() == "预览显示图片")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    int intValue = 0;
+                    int.TryParse(strValue, out intValue);
+                    RunningConfig.PreviewImageNow = intValue;
+                }
                 else if (row.Cells["配置项"].Value.ToString() == "并发用户数量")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
@@ -1419,5 +1419,23 @@ namespace SpiderTracker
         }
 
         #endregion
+
+        private void lstRunstate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.lstUser.Items.Count == 0) return;
+            if (this.lstRunstate.SelectedItems.Count == 0) return;
+            var selectItem = this.lstRunstate.SelectedItems[0];
+            var uid = selectItem.SubItems[0].Text;
+
+            var lstItem = this.lstUser.FindItemWithText(uid);
+            if(lstItem != null)
+            {
+                foreach(ListViewItem item in this.lstUser.SelectedItems)
+                {
+                    item.Selected = false;
+                }
+                this.lstUser.Items[lstItem.Index].Selected = true;
+            }
+        }
     }
 }
