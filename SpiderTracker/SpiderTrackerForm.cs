@@ -651,11 +651,6 @@ namespace SpiderTracker
                     subItem.Tag = sinaUser;
                     this.lstUser.Items.Insert(0, subItem);
                     this.lstUser.Items[0].Selected = true;
-
-                    if (SinaSpiderService.IsSpiderStarted)
-                    {
-                        this.RunningConfig.AddUser(user);
-                    }
                 }
             }
             else 
