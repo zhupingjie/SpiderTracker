@@ -145,6 +145,7 @@ namespace SpiderTracker
                     int.TryParse(listItem.SubItems[2].Text, out imageQty);
                     imageQty += readImageQty;
                     listItem.SubItems[2].Text = $"{imageQty}";
+                    listItem.SubItems[3].Text = "...";
                 }
             }));
         }
@@ -160,6 +161,7 @@ namespace SpiderTracker
                     int.TryParse(listItem.SubItems[1].Text, out pageQty);
                     pageQty += 1;
                     listItem.SubItems[1].Text = $"{pageQty}";
+                    listItem.SubItems[3].Text = "...";
                 }
             }));
         }
@@ -1090,7 +1092,7 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "最大采集页数";
-            dr["配置值"] = "3";
+            dr["配置值"] = "10";
             dt.Rows.Add(dr);
 
             //dr = dt.NewRow();
@@ -1289,7 +1291,7 @@ namespace SpiderTracker
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     int intValue = 0;
-                    int.TryParse(strValue, out intValue);
+                    int.TryParse(strValue, out intValue);                    
                     RunningConfig.MaxReadUserThreadCount = intValue;
                 }
                 else if(row.Cells["配置项"].Value.ToString() == "默认归档路径")

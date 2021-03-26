@@ -52,6 +52,8 @@ namespace SpiderTracker.Imp
         ///// </summary>
         //public string[] UserIds { get; set; }
 
+        public List<string> RunUserIds { get; set; } = new List<string>();
+
         /// <summary>
         /// 待处理用户集合
         /// </summary>
@@ -152,12 +154,18 @@ namespace SpiderTracker.Imp
 
         public string DefaultArchivePath { get; set; }
 
-        public void AddUser(string uid)
+        public bool AddUser(string uid)
         {
             if (!string.IsNullOrEmpty(uid) && !this.DoUserIds.Contains(uid))
             {
-                this.DoUserIds.Enqueue(uid);
+                if (!this.RunUserIds.Contains(uid))
+                {
+                    this.DoUserIds.Enqueue(uid);
+                    this.RunUserIds.Add(uid);
+                    return true;
+                }
             }
+            return false;
         }
 
         public SpiderRunningConfig Clone()
