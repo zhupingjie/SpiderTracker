@@ -41,11 +41,6 @@ namespace SpiderTracker.Imp
 
         public event SpiderStartedEventHander OnSpiderStarted;
 
-        public void SpiderStart(SpiderRunningConfig spiderRunninConfig)
-        {
-            OnSpiderStarted?.Invoke(spiderRunninConfig);
-        }
-
         public void SpiderStarted(SpiderRunningConfig runningConfig)
         {
             IsSpiderStarted = true;
@@ -61,10 +56,7 @@ namespace SpiderTracker.Imp
                 }
                 foreach (var user in readUsers)
                 {
-                    if (!runningConfig.DoUserIds.Contains(user.uid))
-                    {
-                        runningConfig.DoUserIds.Enqueue(user.uid);
-                    }
+                    runningConfig.AddUser(user.uid);
                 }
             }
             if (runningConfig.ReadUserOfFocus == 1)
@@ -76,14 +68,14 @@ namespace SpiderTracker.Imp
                 }
                 foreach (var user in focusUser)
                 {
-                    if (!runningConfig.DoUserIds.Contains(user.id))
-                    {
-                        runningConfig.DoUserIds.Enqueue(user.id);
-                    }
+                    runningConfig.AddUser(user.id);
                 }
             }
 
-            SpiderStart(runningConfig);
+            if (OnSpiderStarted != null)
+            {
+                OnSpiderStarted?.Invoke(runningConfig);
+            }
         }
 
         public delegate void SpiderCompleteEventHander();
@@ -141,6 +133,29 @@ namespace SpiderTracker.Imp
         {
             OnGatherUserComplete?.Invoke(uid, readImageQty);
         }
+
+        public delegate void SpiderGatherUserStartedEventHander(string uid);
+
+        public event SpiderGatherUserStartedEventHander OnGatherUserStarted;
+        public void GatherUserStarted(string uid)
+        {
+            OnGatherUserStarted?.Invoke(uid);
+        }
+
+        public delegate void SpiderGatherAppendUserEventHander(string uid);
+
+        public event SpiderGatherAppendUserEventHander OnGatherAppendUser;
+
+        public void AppendUser(string uid)
+        {
+            this.RunningConfig.AddUser(uid);
+
+            if(OnGatherAppendUser != null)
+            {
+                OnGatherAppendUser?.Invoke(uid);
+            }
+        }
+
         #endregion
 
         /// <summary>
@@ -158,6 +173,8 @@ namespace SpiderTracker.Imp
         /// </summary>
         public SinaRepository Repository { get; set; }
 
+        public SpiderRunningConfig RunningConfig { get; set; }
+
         public MWeiboSpiderService()
         {
             Repository = new SinaRepository();
@@ -165,6 +182,8 @@ namespace SpiderTracker.Imp
 
         public void StartSpider(SpiderRunningConfig runningConfig)
         {
+            this.RunningConfig = runningConfig;
+
             Task.Factory.StartNew(() =>
             {
                 if (string.IsNullOrEmpty(runningConfig.Name))
@@ -195,13 +214,14 @@ namespace SpiderTracker.Imp
 
             var threads = new List<Task>();
             var maxReadUserCount = runningConfig.MaxReadUserThreadCount;
-            var doUserCount = runningConfig.DoUserIds.Count;
-            var threadCount = (maxReadUserCount == 0 ? doUserCount : maxReadUserCount > doUserCount ? doUserCount : maxReadUserCount);
-            for (var i = 0; i < threadCount; i++)
+            //var doUserCount = runningConfig.DoUserIds.Count;
+            //var threadCount = (maxReadUserCount == 0 ? doUserCount : maxReadUserCount > doUserCount ? doUserCount : maxReadUserCount);
+            for (var i = 0; i < maxReadUserCount; i++)
             {
                 var task = Task.Factory.StartNew(() =>
                 {
-                    StartSpiderGatherTaskThread(runningConfig);
+                    runningConfig.DoTasks.TryAdd(Thread.CurrentThread.ManagedThreadId, ThreadState.Running);
+                    StartSpiderGatherTaskThread(Thread.CurrentThread.ManagedThreadId, runningConfig);
                 });
                 threads.Add(task);
             }
@@ -222,12 +242,30 @@ namespace SpiderTracker.Imp
             }
         }
 
-        void StartSpiderGatherTaskThread(SpiderRunningConfig runningConfig)
+        public void StartSpiderGatherTaskThread(int taskIndex, SpiderRunningConfig runningConfig)
         {
             while (!StopSpiderWork)
             {
                 string user = null;
-                if (!runningConfig.DoUserIds.TryDequeue(out user)) break;
+                if (!runningConfig.DoUserIds.TryDequeue(out user))
+                {
+                    if(!runningConfig.DoTasks.Any(c=>c.Value == ThreadState.Running))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        runningConfig.DoTasks.TryUpdate(taskIndex, ThreadState.Suspended, ThreadState.Running);
+                        Thread.Sleep(5 * 1000);
+                        continue;
+                    }
+                }
+                else
+                {
+                    runningConfig.DoTasks.TryUpdate(taskIndex, ThreadState.Running, ThreadState.Suspended);
+                }
+
+                GatherUserStarted(user);
 
                 var tempRuningConfig = runningConfig.Clone();
                 tempRuningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user);

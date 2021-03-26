@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpiderTracker.Imp
@@ -14,6 +15,8 @@ namespace SpiderTracker.Imp
         }
 
         public GatherTypeEnum GatherType { get; set; } = GatherTypeEnum.SingleGather;
+
+        public long Id { get; set; }
 
         public string Name { get; set; } = "default";
 
@@ -54,6 +57,7 @@ namespace SpiderTracker.Imp
         /// </summary>
         public ConcurrentQueue<string> DoUserIds { get; set; } = new ConcurrentQueue<string>();
 
+        public ConcurrentDictionary<int, ThreadState> DoTasks { get; set; } = new ConcurrentDictionary<int, ThreadState>();
 
         /// <summary>
         /// 微博路径集合
@@ -148,6 +152,14 @@ namespace SpiderTracker.Imp
 
         public string DefaultArchivePath { get; set; }
 
+        public void AddUser(string uid)
+        {
+            if (!string.IsNullOrEmpty(uid) && !this.DoUserIds.Contains(uid))
+            {
+                this.DoUserIds.Enqueue(uid);
+            }
+        }
+
         public SpiderRunningConfig Clone()
         {
             SpiderRunningConfig runningConfig = new SpiderRunningConfig();
@@ -163,6 +175,7 @@ namespace SpiderTracker.Imp
                     findP.SetValue(runningConfig, p.GetValue(this, null), null);
                 }
             }
+            runningConfig.Id = DateTime.Now.Ticks;
             return runningConfig;
         }
     }
