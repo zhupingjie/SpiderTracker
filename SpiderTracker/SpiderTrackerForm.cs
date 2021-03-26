@@ -705,13 +705,16 @@ namespace SpiderTracker
                 {
                     var index = listItem.Index;
                     this.lstUser.Items.Remove(listItem);
-                    if (this.lstUser.Items.Count < index)
+                    if (this.lstUser.Items.Count > 0)
                     {
-                        this.lstUser.Items[this.lstUser.Items.Count - 1].Selected = true;
-                    }
-                    else if(this.lstUser.Items.Count > 0)
-                    {
-                        this.lstUser.Items[index].Selected = true;
+                        if (this.lstUser.Items.Count <= index)
+                        {
+                            this.lstUser.Items[this.lstUser.Items.Count - 1].Selected = true;
+                        }
+                        else
+                        {
+                            this.lstUser.Items[index].Selected = true;
+                        }
                     }
                     this.lblLstUserCount.Text = $"{this.lstUser.Items.Count}";
                 }
@@ -801,7 +804,7 @@ namespace SpiderTracker
                         this.lstArc.Items.Remove(listItem);
                         if (this.lstArc.Items.Count > 0)
                         {
-                            if (this.lstArc.Items.Count < index)
+                            if (this.lstArc.Items.Count <= index)
                             {
                                 this.lstArc.Items[this.lstArc.Items.Count - 1].Selected = true;
                             }
@@ -958,11 +961,14 @@ namespace SpiderTracker
         {
             if (this.btnLock.Tag == null)
             {
+                RunningConfig.PreviewImageNow = 0;
                 this.btnLock.Tag = "lock";
                 LockImageCtl(false);
             }
             else
             {
+                RunningConfig.PreviewImageNow = 1;
+
                 this.btnLock.Tag = null;
                 LockImageCtl(true);
             }
@@ -1074,7 +1080,7 @@ namespace SpiderTracker
             }
             var dr = dt.NewRow();
             dr["配置项"] = "并发用户数量";
-            dr["配置值"] = "5";
+            dr["配置值"] = "3";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
@@ -1146,10 +1152,10 @@ namespace SpiderTracker
             dr["配置值"] = "6";
             dt.Rows.Add(dr);
 
-            dr = dt.NewRow();
-            dr["配置项"] = "预览显示图片";
-            dr["配置值"] = "0";
-            dt.Rows.Add(dr);
+            //dr = dt.NewRow();
+            //dr["配置项"] = "预览显示图片";
+            //dr["配置值"] = "0";
+            //dt.Rows.Add(dr);
 
             dr = dt.NewRow();
             dr["配置项"] = "默认归档路径";
@@ -1272,13 +1278,13 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue);
                     RunningConfig.PreviewImageCount = intValue;
                 }
-                else if (row.Cells["配置项"].Value.ToString() == "预览显示图片")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    int intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.PreviewImageNow = intValue;
-                }
+                //else if (row.Cells["配置项"].Value.ToString() == "预览显示图片")
+                //{
+                //    var strValue = row.Cells["配置值"].Value.ToString();
+                //    int intValue = 0;
+                //    int.TryParse(strValue, out intValue);
+                //    RunningConfig.PreviewImageNow = intValue;
+                //}
                 else if (row.Cells["配置项"].Value.ToString() == "并发用户数量")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
