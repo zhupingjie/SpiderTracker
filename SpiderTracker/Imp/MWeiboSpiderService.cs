@@ -385,7 +385,7 @@ namespace SpiderTracker.Imp
                 }
                 else
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                 }
             }
             return readUserImageCount;
@@ -506,7 +506,7 @@ namespace SpiderTracker.Imp
                 }
                 else
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                 }
             }
             return readPageImageCount;
