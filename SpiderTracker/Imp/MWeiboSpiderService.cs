@@ -378,10 +378,14 @@ namespace SpiderTracker.Imp
                     ShowStatus($"中止采集用户微博数据...");
                     break;
                 }
-                //if (readPageIndex + 1 < readPageCount && readPageImageCount > 0)
+                if (readPageIndex + 1 < readPageCount && readPageImageCount > 0)
                 {
                     ShowStatus($"等待【{runningConfig.ReadNextPageWaitSecond}】秒读取用户【{userId}】下一页微博数据...");
                     Thread.Sleep(runningConfig.ReadNextPageWaitSecond * 1000);
+                }
+                else
+                {
+                    Thread.Sleep(1000);
                 }
             }
             return readUserImageCount;
@@ -495,10 +499,14 @@ namespace SpiderTracker.Imp
                     ShowStatus($"中止采集组图数据...");
                     break;
                 }
-                //if (readStatusImageCount > 0)
+                if (readStatusImageCount > 0)
                 {
                     ShowStatus($"等待【{runningConfig.ReadNextStatusWaitSecond}】秒读取用户【{user.id}】下一条微博数据...");
                     Thread.Sleep(runningConfig.ReadNextStatusWaitSecond * 1000);
+                }
+                else
+                {
+                    Thread.Sleep(1000);
                 }
             }
             return readPageImageCount;
