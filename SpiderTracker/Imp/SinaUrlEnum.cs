@@ -10,7 +10,7 @@ namespace SpiderTracker.Imp
     {
         NotEffectUrl = 0,
 
-        UserUrl = 1,
+        UserUrl = 1, 
 
         StatusUrl =2
     }
