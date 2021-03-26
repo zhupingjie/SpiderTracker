@@ -78,6 +78,8 @@ namespace SpiderTracker
             });
         }
 
+        #region Spider Event
+
         private void SinaSpiderService_OnGatherUserStarted(string uid)
         {
             InvokeControl(this.lstRunstate, new Action(() =>
@@ -91,8 +93,6 @@ namespace SpiderTracker
                 }
             }));
         }
-
-        #region Spider Event
 
         private void SinaSpiderService_OnGatherAppendUser(string uid)
         {
@@ -197,7 +197,7 @@ namespace SpiderTracker
                     subItem.Text = user;
                     subItem.SubItems.Add($"0");
                     subItem.SubItems.Add($"0");
-                    subItem.SubItems.Add($"...");
+                    subItem.SubItems.Add($"Waitting");
                     this.lstRunstate.Items.Add(subItem);
                 }
             }));
