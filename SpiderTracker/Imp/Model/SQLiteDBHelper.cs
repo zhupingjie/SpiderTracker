@@ -213,7 +213,7 @@ namespace SpiderTracker.Imp
                     var value = field.GetValue(entity);
                     if (value != null)
                     {
-                        sb.Append($",`{field.Name}`='{value}'");
+                        sb.Append($",`{field.Name}`='{value.ToString().Replace("'","''")}'");
                     }
                 }
                 cmd.CommandText = $"update {table} set `lastdate`='{DateTime.Now.ToString("s")}' {sb.ToString()} where `{col}`='{val}'";
