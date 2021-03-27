@@ -41,12 +41,19 @@ namespace SpiderTracker.Imp
 
         public event SpiderStartedEventHander OnSpiderStarted;
 
-        public void SpiderStarted()
+        public void SpiderStarted(IList<string> userIds)
         {
             IsSpiderStarted = true;
             StopSpiderWork = false;
 
             var readUsers = new List<SinaUser>();
+            if(userIds != null && userIds.Count> 0)
+            {
+                foreach(var user in userIds)
+                {
+                    RunningConfig.AddUser(user);
+                }
+            }
             if (RunningConfig.ReadAllOfUser == 1)
             {
                 readUsers = Repository.GetUsers(RunningConfig.Name);
@@ -71,7 +78,6 @@ namespace SpiderTracker.Imp
                     RunningConfig.AddUser(user.id);
                 }
             }
-
             if (OnSpiderStarted != null)
             {
                 OnSpiderStarted?.Invoke(RunningConfig);
@@ -193,9 +199,10 @@ namespace SpiderTracker.Imp
             Repository = new SinaRepository();
         }
 
-        public void StartSpider(SpiderRunningConfig runningConfig)
+        public void StartSpider(SpiderRunningConfig runningConfig, IList<string> userIds)
         {
             this.RunningConfig = runningConfig;
+            this.RunningConfig.Reset();
 
             Task.Factory.StartNew(() =>
             {
@@ -204,7 +211,7 @@ namespace SpiderTracker.Imp
                     ShowStatus("采集类目为空!");
                     return;
                 }
-                SpiderStarted();
+                SpiderStarted(userIds);
                 StartAutoGatherTask();
                 SpiderComplete();
             });
@@ -221,7 +228,8 @@ namespace SpiderTracker.Imp
             var userCount = GetUserCount();
             if(userCount == 0)
             {
-                ShowStatus($"无采集用户数据.");
+                StartSpiderGatherTask(RunningConfig);
+                //ShowStatus($"无采集用户数据.");
                 return ;
             }
             ShowStatus($"准备读取【{userCount}】个用户的微博数据...");
@@ -630,7 +638,7 @@ namespace SpiderTracker.Imp
             var sinaStatus = Repository.GetUserStatus(status.bid);
             if(sinaStatus != null)
             {
-                if(sinaStatus.ignore == 1)
+                if(sinaStatus.ignore > 0)
                 {
                     ShowStatus($"跳过已忽略组图【{status.bid}】.");
                     return -1;
@@ -654,7 +662,7 @@ namespace SpiderTracker.Imp
                 return 0;
             }
             ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页组图【{status.bid}】...");
-            int haveReadImageCount = 0, readImageIndex = 0;
+            int haveReadImageCount = 0, readImageIndex = 0, errorReadImageCount = 0;
             foreach (var pic in status.pics)
             {
                 var succ = DownloadUserStatusImage(runninConfig, user.id, status.bid, pic.large.url, readImageIndex);
@@ -662,8 +670,16 @@ namespace SpiderTracker.Imp
                 {
                     haveReadImageCount++;
                 }
+                else
+                {
+                    errorReadImageCount++;
+                }
                 readImageIndex++;
                 Thread.Sleep(500);
+            }
+            if(errorReadImageCount == status.pics.Length && errorReadImageCount > 0)
+            {
+                return -1;
             }
             if (haveReadImageCount == 0)
             {

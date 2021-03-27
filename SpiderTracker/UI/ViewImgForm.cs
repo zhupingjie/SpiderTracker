@@ -17,12 +17,12 @@ namespace SpiderTracker.UI
             InitializeComponent();
         }
 
-        public string[] ViewImgPaths { get; set; }
+        public List<string> ViewImgPaths { get; set; }
         public int ViewImgIndex { get; set; }
 
         private void ViewImgForm_Load(object sender, EventArgs e)
         {
-            if (ViewImgPaths != null && ViewImgPaths.Length > 0 && ViewImgIndex < ViewImgPaths.Length)
+            if (ViewImgPaths != null && ViewImgPaths.Count > 0 && ViewImgIndex < ViewImgPaths.Count)
             {
                 if (this.imageCtl.BackgroundImage != null)
                 {
@@ -38,7 +38,7 @@ namespace SpiderTracker.UI
         {
             ViewImgIndex--;
             if (ViewImgIndex < 0) ViewImgIndex = 0;
-            if (ViewImgPaths != null && ViewImgPaths.Length > 0 && ViewImgIndex < ViewImgPaths.Length)
+            if (ViewImgPaths != null && ViewImgPaths.Count > 0 && ViewImgIndex < ViewImgPaths.Count)
             {
                 if (this.imageCtl.BackgroundImage != null)
                 {
@@ -53,8 +53,8 @@ namespace SpiderTracker.UI
         private void imageRight_Click(object sender, EventArgs e)
         {
             ViewImgIndex++;
-            if (ViewImgIndex >= ViewImgPaths.Length) ViewImgIndex = ViewImgPaths.Length - 1;
-            if (ViewImgPaths != null && ViewImgPaths.Length > 0 && ViewImgIndex < ViewImgPaths.Length)
+            if (ViewImgIndex >= ViewImgPaths.Count) ViewImgIndex = ViewImgPaths.Count - 1;
+            if (ViewImgPaths != null && ViewImgPaths.Count > 0 && ViewImgIndex < ViewImgPaths.Count)
             {
                 if (this.imageCtl.BackgroundImage != null)
                 {

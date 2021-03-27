@@ -354,7 +354,7 @@ namespace SpiderTracker
                     subItem.Text = item.uid;
                     subItem.SubItems.Add(item.name);
                     subItem.SubItems.Add($"{item.piccount}");
-                    subItem.SubItems.Add($"{(item.newcount>0? "◉" : "")}");
+                    subItem.SubItems.Add($"{(item.focus>0? "◉" : "")}");
                     subItem.Tag = item;
                     this.lstUser.Items.Add(subItem);
                 }
@@ -450,12 +450,13 @@ namespace SpiderTracker
         {
             if (!SinaSpiderService.IsSpiderStarted)
             {
+                var userIds = new List<string>();
                 foreach (ListViewItem item in this.lstUser.SelectedItems)
                 {
                     var uid = item.SubItems[0].Text.ToString();
-                    this.RunningConfig.AddUser(uid);
+                    userIds.Add(uid);
                 }
-                SinaSpiderService.StartSpider(this.RunningConfig);
+                SinaSpiderService.StartSpider(this.RunningConfig, userIds);
             }
             else
             {
@@ -479,6 +480,61 @@ namespace SpiderTracker
 
         #region 已采集数据操作
 
+        void IgnoreUser()
+        {
+            var userId = GetSelectUserId();
+            if (string.IsNullOrEmpty(userId)) return;
+
+            if (MessageBox.Show($"确认拉黑当前用户[{userId}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+
+            var rep = new SinaRepository();
+            var suc = rep.IgnoreSinaUser(userId);
+            if (suc)
+            {
+                var userPath = PathUtil.GetStoreImageUserPath(LoadCacheName, userId);
+                if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
+
+                if (this.lstUser.Items.Count == 0) return;
+
+                var listItem = this.lstUser.FindItemWithText(userId);
+                if (listItem != null)
+                {
+                    var index = listItem.Index;
+                    this.lstUser.Items.Remove(listItem);
+                    if (this.lstUser.Items.Count > 0)
+                    {
+                        if (this.lstUser.Items.Count <= index)
+                        {
+                            this.lstUser.Items[this.lstUser.Items.Count - 1].Selected = true;
+                        }
+                        else
+                        {
+                            this.lstUser.Items[index].Selected = true;
+                        }
+                    }
+                    this.lblLstUserCount.Text = $"{this.lstUser.Items.Count}";
+                }
+            }
+        }
+
+        void FocusUser()
+        {
+            var userId = GetSelectUserId();
+            if (string.IsNullOrEmpty(userId)) return;
+
+            if (MessageBox.Show($"确认关注当前用户[{userId}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+
+            var rep = new SinaRepository();
+            var focus = rep.FocusSinaUser(userId);
+            if (this.lstUser.Items.Count == 0) return;
+
+            var listItem = this.lstUser.FindItemWithText(userId);
+            if (listItem != null)
+            {
+                listItem.SubItems[3].Text = (focus ? "◉" : "");
+            }
+        }
+
         string LoadCacheName = string.Empty;
 
         private void cbxName_Leave(object sender, EventArgs e)
@@ -491,6 +547,28 @@ namespace SpiderTracker
             Task.Factory.StartNew(() => {
                 LoadCacheUserList(selectName, true);
             });
+        }
+
+        private void btnFocusUser_Click(object sender, EventArgs e)
+        {
+            this.FocusUser();
+        }
+
+        private void btnIgnoreUser_Click(object sender, EventArgs e)
+        {
+            this.IgnoreUser();
+        }
+
+        private void lstUser_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                this.IgnoreUser();
+            }
+            else if(e.KeyCode == Keys.Enter)
+            {
+                this.FocusUser();
+            }
         }
 
         private void lstUser_SelectedIndexChanged(object sender, EventArgs e)
@@ -586,17 +664,9 @@ namespace SpiderTracker
             if (!string.IsNullOrEmpty(user))
             {
                 var rep = new SinaRepository();
-                var status = rep.GetUserStatuseOfNoArchives(user);
-
                 rep.ArchiveSinaUser(user);
 
-                if (this.lstUser.Items.Count == 0) return;
-
-                var listItem = this.lstUser.FindItemWithText(user);
-                if (listItem != null)
-                {
-                    listItem.SubItems[3].Text = "◉";
-                }
+                var status = rep.GetUserStatuseOfNoArchives(user);
                 if (status.Count > 0)
                 {
                     var bids = status.Select(c => c.bid).ToArray();
@@ -625,98 +695,7 @@ namespace SpiderTracker
                 }
             }
         }
-        private void btnNewUser_Click(object sender, EventArgs e)
-        {
-            var user = this.txtUserFilter.Text.Trim();
-            if (string.IsNullOrEmpty(user)) return;
 
-            if (MessageBox.Show("确认添加当前用户?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
-
-            var rep = new SinaRepository();
-            var sinaUser = rep.GetUser(user);
-            if (sinaUser == null)
-            {
-                sinaUser = new SinaUser()
-                {
-                    uid = user,
-                    groupname = LoadCacheName
-                };
-                var suc = rep.CreateSinaUser(sinaUser);
-                if (suc)
-                {
-                    var subItem = new ListViewItem();
-                    subItem.Text = sinaUser.uid;
-                    subItem.SubItems.Add(sinaUser.name);
-                    subItem.SubItems.Add($"{sinaUser.piccount}");
-                    subItem.Tag = sinaUser;
-                    this.lstUser.Items.Insert(0, subItem);
-                    this.lstUser.Items[0].Selected = true;
-                } 
-            }
-            else 
-            {
-                if (sinaUser.ignore == 1)
-                {
-                    sinaUser.ignore = 0;
-                    rep.UpdateSinaUser(sinaUser, new string[] { "ignore" });
-
-                    var subItem = new ListViewItem();
-                    subItem.Text = sinaUser.uid;
-                    subItem.SubItems.Add(sinaUser.name);
-                    subItem.SubItems.Add($"{sinaUser.piccount}");
-                    subItem.Tag = sinaUser;
-                    this.lstUser.Items.Insert(0, subItem);
-                    this.lstUser.Items[0].Selected = true;
-                }
-                else
-                {
-                    if (this.lstUser.Items.Count == 0) return;
-
-                    var selectItem = this.lstUser.FindItemWithText(user);
-                    if (selectItem != null)
-                    {
-                        this.lstUser.Items[selectItem.Index].Selected = true;
-                    }
-                }
-            }
-        }
-
-        private void btnIgnoreUser_Click(object sender, EventArgs e)
-        {
-            var userId = GetSelectUserId();
-            if (string.IsNullOrEmpty(userId)) return;
-
-            if (MessageBox.Show($"确认拉黑当前用户[{userId}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
-
-            var rep = new SinaRepository();
-            var suc = rep.IgnoreSinaUser(userId);
-            if (suc)
-            {
-                var userPath = PathUtil.GetStoreImageUserPath(LoadCacheName, userId);
-                if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
-
-                if (this.lstUser.Items.Count == 0) return;
-
-                var listItem = this.lstUser.FindItemWithText(userId);
-                if (listItem != null)
-                {
-                    var index = listItem.Index;
-                    this.lstUser.Items.Remove(listItem);
-                    if (this.lstUser.Items.Count > 0)
-                    {
-                        if (this.lstUser.Items.Count <= index)
-                        {
-                            this.lstUser.Items[this.lstUser.Items.Count - 1].Selected = true;
-                        }
-                        else
-                        {
-                            this.lstUser.Items[index].Selected = true;
-                        }
-                    }
-                    this.lblLstUserCount.Text = $"{this.lstUser.Items.Count}";
-                }
-            }
-        }
 
         private void btnBrowseStatus_Click(object sender, EventArgs e)
         {
@@ -766,7 +745,8 @@ namespace SpiderTracker
                 if (!SinaSpiderService.IsSpiderStarted)
                 {
                     this.txtStartUrl.Text = $"https://m.weibo.cn/status/{bid}";
-                    SinaSpiderService.StartSpider(this.RunningConfig);
+                    this.RunningConfig.StartUrl = this.txtStartUrl.Text;
+                    SinaSpiderService.StartSpider(this.RunningConfig, null);
                 }
             }
         }
@@ -924,6 +904,62 @@ namespace SpiderTracker
             else
             {
                 FilterUserIds(keyword);
+            }
+        }
+
+        private void txtUserFilter_Leave(object sender, EventArgs e)
+        {
+            var user = this.txtUserFilter.Text.Trim();
+            if (string.IsNullOrEmpty(user)) return;
+
+            if (MessageBox.Show("确认添加当前用户?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+
+            var rep = new SinaRepository();
+            var sinaUser = rep.GetUser(user);
+            if (sinaUser == null)
+            {
+                sinaUser = new SinaUser()
+                {
+                    uid = user,
+                    groupname = LoadCacheName
+                };
+                var suc = rep.CreateSinaUser(sinaUser);
+                if (suc)
+                {
+                    var subItem = new ListViewItem();
+                    subItem.Text = sinaUser.uid;
+                    subItem.SubItems.Add(sinaUser.name);
+                    subItem.SubItems.Add($"{sinaUser.piccount}");
+                    subItem.Tag = sinaUser;
+                    this.lstUser.Items.Insert(0, subItem);
+                    this.lstUser.Items[0].Selected = true;
+                }
+            }
+            else
+            {
+                if (sinaUser.ignore > 0)
+                {
+                    sinaUser.ignore = 0;
+                    rep.UpdateSinaUser(sinaUser, new string[] { "ignore" });
+
+                    var subItem = new ListViewItem();
+                    subItem.Text = sinaUser.uid;
+                    subItem.SubItems.Add(sinaUser.name);
+                    subItem.SubItems.Add($"{sinaUser.piccount}");
+                    subItem.Tag = sinaUser;
+                    this.lstUser.Items.Insert(0, subItem);
+                    this.lstUser.Items[0].Selected = true;
+                }
+                else
+                {
+                    if (this.lstUser.Items.Count == 0) return;
+
+                    var selectItem = this.lstUser.FindItemWithText(user);
+                    if (selectItem != null)
+                    {
+                        this.lstUser.Items[selectItem.Index].Selected = true;
+                    }
+                }
             }
         }
 
@@ -1432,5 +1468,6 @@ namespace SpiderTracker
                 this.lstUser.Items[lstItem.Index].Selected = true;
             }
         }
+
     }
 }

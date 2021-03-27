@@ -50,7 +50,7 @@ namespace SpiderTracker.Imp
         ///// <summary>
         ///// 用户ID集合
         ///// </summary>
-        //public string[] UserIds { get; set; }
+        public string[] UserIds { get; set; }
 
         public List<string> RunUserIds { get; set; } = new List<string>();
 
@@ -154,7 +154,14 @@ namespace SpiderTracker.Imp
 
         public string DefaultArchivePath { get; set; }
 
-        public bool AddUser(string uid)
+        public void Reset()
+        {
+            this.DoUserIds = new ConcurrentQueue<string>();
+            this.RunUserIds.Clear();
+            this.DoTasks.Clear();
+        }
+
+        public bool AddUser(string uid, bool append = true)
         {
             if (!string.IsNullOrEmpty(uid) && !this.DoUserIds.Contains(uid))
             {

@@ -10,7 +10,7 @@ namespace SpiderTracker.Imp
     {
         bool IsSpiderStarted { get; set; }
 
-        void StartSpider(SpiderRunningConfig runninConfig);
+        void StartSpider(SpiderRunningConfig runninConfig, IList<string> userIds);
 
         void StopSpider();
     }

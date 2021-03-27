@@ -149,14 +149,14 @@ namespace SpiderTracker.Imp.Model
         public bool CheckUserIgnore(string uid)
         {
             var user = GetUser(uid);
-            if (user != null && user.ignore == 1) return true;
+            if (user != null && user.ignore > 0) return true;
             return false;
         }
 
         public bool CheckStatusIgnore(string bid)
         {
             var status = GetUserStatus(bid);
-            if (status != null && status.ignore == 1) return true;
+            if (status != null && status.ignore > 0) return true;
             return false;
         }
 
@@ -285,14 +285,14 @@ namespace SpiderTracker.Imp.Model
             var sinaUser = GetUser(user);
             if (sinaUser == null) return true;
 
-            sinaUser.ignore = 1;
+            sinaUser.ignore = 2;
             var suc = UpdateSinaUser(sinaUser, new string[] { "ignore" });
             if (suc)
             {
                 var sinaStatuses = GetUserStatuses(user);
                 foreach (var sinaStatus in sinaStatuses)
                 {
-                    sinaStatus.ignore = 1;
+                    sinaStatus.ignore = 2;
                     UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
                 }
             }
@@ -304,8 +304,9 @@ namespace SpiderTracker.Imp.Model
             var sinaUser = GetUser(user);
             if (sinaUser == null) return true;
 
-            sinaUser.focus = 1;
-            return UpdateSinaUser(sinaUser, new string[] { "focus" });
+            sinaUser.focus = sinaUser.focus == 0 ? 1 : 0;
+            UpdateSinaUser(sinaUser, new string[] { "focus" });
+            return sinaUser.focus == 1 ? true : false;
         }
         public bool UpdateSinaUserQty(string user)
         {

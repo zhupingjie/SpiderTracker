@@ -69,7 +69,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.btnMarkUser = new System.Windows.Forms.Button();
-            this.btnNewUser = new System.Windows.Forms.Button();
+            this.btnFocusUser = new System.Windows.Forms.Button();
             this.btnFollwerUser = new System.Windows.Forms.Button();
             this.btnIgnoreUser = new System.Windows.Forms.Button();
             this.btnBrowseUser = new System.Windows.Forms.Button();
@@ -268,6 +268,7 @@
             this.lstUser.UseCompatibleStateImageBehavior = false;
             this.lstUser.View = System.Windows.Forms.View.Details;
             this.lstUser.SelectedIndexChanged += new System.EventHandler(this.lstUser_SelectedIndexChanged);
+            this.lstUser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstUser_KeyDown);
             // 
             // columnHeader1
             // 
@@ -286,7 +287,7 @@
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "N";
+            this.columnHeader4.Text = "F";
             this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnHeader4.Width = 25;
             // 
@@ -364,6 +365,7 @@
             this.txtUserFilter.TabIndex = 8;
             this.txtUserFilter.TextChanged += new System.EventHandler(this.txtUserFilter_TextChanged);
             this.txtUserFilter.DoubleClick += new System.EventHandler(this.txtUserFilter_DoubleClick);
+            this.txtUserFilter.Leave += new System.EventHandler(this.txtUserFilter_Leave);
             // 
             // panel9
             // 
@@ -523,7 +525,7 @@
             // 
             this.panel7.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.panel7.Controls.Add(this.btnMarkUser);
-            this.panel7.Controls.Add(this.btnNewUser);
+            this.panel7.Controls.Add(this.btnFocusUser);
             this.panel7.Controls.Add(this.btnFollwerUser);
             this.panel7.Controls.Add(this.btnIgnoreUser);
             this.panel7.Controls.Add(this.btnBrowseUser);
@@ -546,17 +548,17 @@
             this.btnMarkUser.UseVisualStyleBackColor = false;
             this.btnMarkUser.Click += new System.EventHandler(this.btnMarkUser_Click);
             // 
-            // btnNewUser
+            // btnFocusUser
             // 
-            this.btnNewUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnNewUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnNewUser.Location = new System.Drawing.Point(72, 3);
-            this.btnNewUser.Name = "btnNewUser";
-            this.btnNewUser.Size = new System.Drawing.Size(35, 20);
-            this.btnNewUser.TabIndex = 12;
-            this.btnNewUser.Text = "NEW";
-            this.btnNewUser.UseVisualStyleBackColor = false;
-            this.btnNewUser.Click += new System.EventHandler(this.btnNewUser_Click);
+            this.btnFocusUser.BackColor = System.Drawing.SystemColors.Control;
+            this.btnFocusUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnFocusUser.Location = new System.Drawing.Point(73, 3);
+            this.btnFocusUser.Name = "btnFocusUser";
+            this.btnFocusUser.Size = new System.Drawing.Size(35, 20);
+            this.btnFocusUser.TabIndex = 12;
+            this.btnFocusUser.Text = "FCS";
+            this.btnFocusUser.UseVisualStyleBackColor = false;
+            this.btnFocusUser.Click += new System.EventHandler(this.btnFocusUser_Click);
             // 
             // btnFollwerUser
             // 
@@ -1189,7 +1191,7 @@
         private System.Windows.Forms.Button btnFollwerUser;
         private System.Windows.Forms.Button btnArchiveStatus;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
-        private System.Windows.Forms.Button btnNewUser;
+        private System.Windows.Forms.Button btnFocusUser;
         private System.Windows.Forms.Label lblLstStatusCountTitle;
         private System.Windows.Forms.ListView lstUser;
         private System.Windows.Forms.ColumnHeader columnHeader1;

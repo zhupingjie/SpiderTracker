@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,6 +14,15 @@ namespace SpiderTracker.UI
 {
     public partial class ImagePreviewUC : UserControl
     {
+
+        List<Task> tasks = new List<Task>();
+        List<Panel> imageCtls = null;
+        List<string> cacheImageFiles = null;
+        int imageIndex = 0;
+        int imageCount = 0;
+        Thread showImageThread = null;
+        ManualResetEvent resetEvent = null;
+
         public ImagePreviewUC()
         {
             InitializeComponent();
@@ -22,21 +32,54 @@ namespace SpiderTracker.UI
             this.SetStyle(ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.ResizeRedraw, true);
 
+            this.MakeThread();
+            this.cacheImageFiles = new List<string>();
             this.imageCtls = new List<Panel> { this.imageCtl1, this.imageCtl2, this.imageCtl3, this.imageCtl4, this.imageCtl5, this.imageCtl6, this.imageCtl7, this.imageCtl8, this.imageCtl9 };
+
         }
 
-        List<Panel> imageCtls = null;
-        string[] cacheImageFiles = null;
-        int imageIndex = 0;
+        void MakeThread()
+        {
+            this.showImageThread = new Thread(new ThreadStart(StartShowImageThread));
+            this.showImageThread.IsBackground = true;
+            this.showImageThread.Start();
+
+            this.resetEvent = new ManualResetEvent(false);
+        }
+
+        void StartShowImageThread()
+        {
+            while (true)
+            {
+                if (cacheImageFiles.Count > 0)
+                {
+                    var showCount = cacheImageFiles.Count > this.imageCount ? this.imageCount : cacheImageFiles.Count;
+                    for (var j = 0; j < showCount; j++)
+                    {
+                        ShowImage(imageCtls[j], cacheImageFiles[j]);
+                    }
+                    //for (var j = showCount; j < imageCount; j++)
+                    //{
+                    //    DispiseImage(imageCtls[j]);
+                    //}
+                    this.resetEvent.Reset();
+                }
+                this.resetEvent.WaitOne();
+            }
+        }
 
         public void ShowImages(string[] imageFiles, int showIndex, int showImageCount)
         {
-            this.cacheImageFiles = imageFiles;
+            this.DispiseImage();
+            this.cacheImageFiles.Clear();
+            this.cacheImageFiles.AddRange(imageFiles);
             this.imageIndex = showIndex;
-
+            this.imageCount = showImageCount;
+            this.resetEvent.Set();
+            return;
             for (var i = 0; i < 9; i++)
             {
-                if (i < cacheImageFiles.Length && i < showImageCount)
+                if (i < cacheImageFiles.Count && i < showImageCount)
                 {
                     ShowImage(imageCtls[i], cacheImageFiles[i]);
                 }
@@ -48,26 +91,55 @@ namespace SpiderTracker.UI
         }
         void ShowImage(Panel imageCtl, string file)
         {
-            using (Stream stream = File.Open(file, FileMode.Open, FileAccess.Read))
+            InvokeControl(imageCtl, () =>
             {
-                var image = Image.FromStream(stream);
-                imageCtl.BackgroundImage = image;
-                imageCtl.BackgroundImageLayout = ImageLayout.Zoom;
+                if (imageCtl.Tag != null && imageCtl.Tag.ToString() == file) return;
+
+                using (Stream stream = File.Open(file, FileMode.Open, FileAccess.Read))
+                {
+                    var image = Image.FromStream(stream);
+                    imageCtl.BackgroundImage = image;
+                    imageCtl.BackgroundImageLayout = ImageLayout.Zoom;
+                    imageCtl.Tag = file;
+                }
+            });
+        }
+
+        void DispiseImage()
+        {
+            for (var j = 0; j < this.imageCount; j++)
+            {
+                DispiseImage(imageCtls[j]);
             }
         }
 
         void DispiseImage(Panel imageCtl)
         {
-            if(imageCtl.BackgroundImage != null)
+            InvokeControl(imageCtl, () =>
             {
-                imageCtl.BackgroundImage.Dispose();
-                imageCtl.BackgroundImage = null;
+                if (imageCtl.BackgroundImage != null)
+                {
+                    imageCtl.BackgroundImage.Dispose();
+                    imageCtl.BackgroundImage = null;
+                    imageCtl.Tag = null;
+                }
+            });
+        }
+        private void InvokeControl(Control control, Action action)
+        {
+            if (control.InvokeRequired)
+            {
+                control.Invoke(action);
+            }
+            else
+            {
+                action();
             }
         }
 
         void ShowOriginImage(int index)
         {
-            if (index >= cacheImageFiles.Length) return;
+            if (index >= cacheImageFiles.Count) return;
 
             ViewImgForm frm = new ViewImgForm();
             frm.ViewImgPaths = cacheImageFiles;
