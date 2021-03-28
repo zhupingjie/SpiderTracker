@@ -179,7 +179,7 @@ namespace SpiderTracker.Imp.Model
                 var suc = CreateSinaUser(sinaUser);
                 if (!suc)
                 {
-                    return $"创建本地用户错误!";
+                    return $"创建本地用户错误!!!!!!";
                 }
                 newUser = sinaUser;
             }
@@ -188,7 +188,7 @@ namespace SpiderTracker.Imp.Model
                 var suc = UpdateSinaUser(sinaUser, new string[] { "follows", "followers", "statuses", "name", "avatar", "desc", "profile" });
                 if (!suc)
                 {
-                    return $"更新本地用户错误!";
+                    return $"更新本地用户错误!!!!!!";
                 }
             }
             return null;
@@ -222,7 +222,7 @@ namespace SpiderTracker.Imp.Model
                 var suc = CreateSinaStatus(sinaStatus);
                 if (!suc)
                 {
-                    return $"创建本地微博错误!";
+                    return $"创建本地微博错误!!!!!!";
                 }
                 UpdateSinaUserQty(user.id);
                 newStatus = sinaStatus;
@@ -257,7 +257,7 @@ namespace SpiderTracker.Imp.Model
                     var suc = CreateSinaStatus(sinaStatus);
                     if (!suc)
                     {
-                        return $"创建本地转发微博错误!";
+                        return $"创建本地转发微博错误!!!!!!!";
                     }
                 }
             }

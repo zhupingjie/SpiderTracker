@@ -418,13 +418,13 @@ namespace SpiderTracker.Imp
             var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
             if (html == null)
             {
-                ShowStatus($"获取用户信息错误!");
+                ShowStatus($"获取用户信息错误!!!!!!");
                 return null;
             }
             var result = GetWeiboUserResult(html);
             if (result == null || result.data == null || result.data.userInfo == null)
             {
-                ShowStatus($"解析用户信息错误!");
+                ShowStatus($"解析用户信息错误!!!!!!");
                 return null;
             }
             var user = result.data.userInfo;
@@ -452,13 +452,13 @@ namespace SpiderTracker.Imp
             var html = HttpUtil.PostHttpRequest(getApi, paramData, runningConfig);
             if (html == null)
             {
-                ShowStatus($"关注用户信息错误!");
+                ShowStatus($"关注用户信息错误!!!!!!");
                 return;
             }
             var result = GetWeiboFocusUserResult(html);
             if (result == null || result.ok != 1)
             {
-                ShowStatus($"关注用户信息错误!");
+                ShowStatus($"关注用户信息错误!!!!!!");
                 return;
             }
         }
@@ -491,13 +491,13 @@ namespace SpiderTracker.Imp
             var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
             if (html == null)
             {
-                ShowStatus($"获取用户微博列表错误!");
+                ShowStatus($"获取用户微博列表错误!!!!!!");
                 return 0;
             }
             var result = GetSinaStatusListResult(html);
             if (result == null || result.data == null)
             {
-                ShowStatus($"解析用户微博列表错误!");
+                ShowStatus($"解析用户微博列表错误!!!!!!");
                 return 0;
             }
             if(result.data.cards.Length == 0)
@@ -541,13 +541,13 @@ namespace SpiderTracker.Imp
             var html = HttpUtil.GetHttpRequestHtmlResult(runningConfig.StartUrl, runningConfig);
             if (html == null)
             {
-                ShowStatus($"获取用户微博列表错误!");
+                ShowStatus($"获取用户微博列表错误!!!!!!");
                 return 0;
             }
             var result = GetWeiboStatusResult(html);
             if (result == null || result.status == null)
             {
-                ShowStatus($"解析用户微博列表错误!");
+                ShowStatus($"解析用户微博列表错误!!!!!!");
                 return 0;
             }
             var user = result.status.user;
@@ -776,7 +776,7 @@ namespace SpiderTracker.Imp
                 var suc = Repository.CreateSinaPicture(sinaPicture);
                 if (!suc)
                 {
-                    ShowStatus($"创建本地微博图片错误.");
+                    ShowStatus($"创建本地微博图片错误!!!!!!");
                     return false;
                 }
             }
@@ -800,7 +800,8 @@ namespace SpiderTracker.Imp
             }
             catch(Exception ex)
             {
-                ShowStatus($"下载组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片错误!");
+                if (File.Exists(img)) File.Delete(img);
+                ShowStatus($"下载组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片错误!!!!!!");
                 return false;
             }
         }

@@ -97,10 +97,21 @@ namespace SpiderTracker.UI
 
                 using (Stream stream = File.Open(file, FileMode.Open, FileAccess.Read))
                 {
-                    var image = Image.FromStream(stream);
-                    imageCtl.BackgroundImage = image;
-                    imageCtl.BackgroundImageLayout = ImageLayout.Zoom;
-                    imageCtl.Tag = file;
+                    try
+                    {
+                        var image = Image.FromStream(stream);
+                        imageCtl.BackgroundImage = image;
+                        imageCtl.BackgroundImageLayout = ImageLayout.Zoom;
+                        imageCtl.Tag = file;
+                    }
+                    catch(Exception)
+                    {
+                        
+                    }
+                    finally
+                    {
+                        stream.Close();
+                    }
                 }
             });
         }
