@@ -565,13 +565,13 @@ namespace SpiderTracker
             this.IgnoreUser();
         }
 
-        private void lstUser_KeyDown(object sender, KeyEventArgs e)
+        private void lstUser_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {
                 this.IgnoreUser();
             }
-            else if(e.KeyCode == Keys.Enter)
+            else if (e.KeyCode == Keys.Enter)
             {
                 this.FocusUser();
             }

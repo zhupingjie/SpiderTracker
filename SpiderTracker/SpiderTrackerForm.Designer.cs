@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -112,11 +112,11 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.tbpReview = new System.Windows.Forms.TabPage();
-            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.sltFocus = new System.Windows.Forms.RadioButton();
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -269,7 +269,7 @@
             this.lstUser.UseCompatibleStateImageBehavior = false;
             this.lstUser.View = System.Windows.Forms.View.Details;
             this.lstUser.SelectedIndexChanged += new System.EventHandler(this.lstUser_SelectedIndexChanged);
-            this.lstUser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstUser_KeyDown);
+            this.lstUser.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstUser_KeyUp);
             // 
             // columnHeader1
             // 
@@ -715,27 +715,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle11;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -1051,16 +1051,6 @@
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
             // 
-            // imagePreviewUC1
-            // 
-            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
-            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
-            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(492, 531);
-            this.imagePreviewUC1.TabIndex = 0;
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -1101,6 +1091,16 @@
             this.sltFocus.Text = "关注";
             this.sltFocus.UseVisualStyleBackColor = true;
             this.sltFocus.CheckedChanged += new System.EventHandler(this.sltFocus_CheckedChanged);
+            // 
+            // imagePreviewUC1
+            // 
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(492, 531);
+            this.imagePreviewUC1.TabIndex = 0;
             // 
             // SpiderTrackerForm
             // 
