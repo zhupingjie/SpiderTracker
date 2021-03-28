@@ -101,12 +101,16 @@ namespace SpiderTracker.Imp.Model
 
         public List<SinaUser> GetUsers(string groupname)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}'");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `ignore=0`");
         }
 
         public List<SinaUser> GetUsers(string groupname, string keyword)
         {
             return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `ignore`=0 and `uid` like '%{keyword}%'");
+        }
+        public List<SinaUser> GetFocusUsers(string groupname)
+        {
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `ignore`=0 and `focus`=1");
         }
 
         public List<SinaUser> GetUsers(string[] uids)
@@ -132,11 +136,6 @@ namespace SpiderTracker.Imp.Model
         public List<SinaPicture> GetUserPictures(string uid)
         {
             return DBHelper.GetEntitys<SinaPicture>("sinna_picture", $"`uid`='{uid}'");
-        }
-
-        public List<SinaUser> GetFocusUsers(string groupname)
-        {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `focus`=1");
         }
 
         public bool CheckUserFocus(string uid)

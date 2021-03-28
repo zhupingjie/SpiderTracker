@@ -118,7 +118,11 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 采集用户关注
         /// </summary>
-        public int ReadUserOfFocus { get; set; } = 0;
+        public int ReadUserOfHeFocus { get; set; } = 0;
+        /// <summary>
+        /// 采集用户关注
+        /// </summary>
+        public int ReadUserOfMyFocus { get; set; } = 0;
 
         /// <summary>
         /// 忽略存档图集

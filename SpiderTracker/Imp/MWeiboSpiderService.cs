@@ -59,19 +59,31 @@ namespace SpiderTracker.Imp
                 readUsers = Repository.GetUsers(RunningConfig.Name);
                 if (!string.IsNullOrEmpty(RunningConfig.ReadUserNameLike))
                 {
-                    readUsers = readUsers.Where(c => c.name.Contains(RunningConfig.ReadUserNameLike)).ToList();
+                    readUsers = readUsers.Where(c => (c.name.Contains(RunningConfig.ReadUserNameLike) || c.desc.Contains(RunningConfig.ReadUserNameLike))).ToList();
                 }
                 foreach (var user in readUsers)
                 {
                     RunningConfig.AddUser(user.uid);
                 }
             }
-            if (RunningConfig.ReadUserOfFocus == 1)
+            if(RunningConfig.ReadUserOfMyFocus == 1)
+            {
+                readUsers = Repository.GetFocusUsers(RunningConfig.Name);
+                if (!string.IsNullOrEmpty(RunningConfig.ReadUserNameLike))
+                {
+                    readUsers = readUsers.Where(c => (c.name.Contains(RunningConfig.ReadUserNameLike) || c.desc.Contains(RunningConfig.ReadUserNameLike))).ToList();
+                }
+                foreach (var user in readUsers)
+                {
+                    RunningConfig.AddUser(user.uid);
+                }
+            }
+            if (RunningConfig.ReadUserOfHeFocus == 1)
             {
                 var focusUser = GatherHeFocusUsers(RunningConfig);
                 if (!string.IsNullOrEmpty(RunningConfig.ReadUserNameLike))
                 {
-                    focusUser = focusUser.Where(c => c.screen_name.Contains(RunningConfig.ReadUserNameLike)).ToArray();
+                    focusUser = focusUser.Where(c => (c.screen_name.Contains(RunningConfig.ReadUserNameLike) || c.description.Contains(RunningConfig.ReadUserNameLike))).ToArray();
                 }
                 foreach (var user in focusUser)
                 {
@@ -582,6 +594,11 @@ namespace SpiderTracker.Imp
                 if (runningConfig.OnlyReadOwnerUser == 1 && status.retweeted_status.user.id != user.id)
                 {
                     ShowStatus($"跳过非本用户【{status.retweeted_status.user.id}】转发数据.");
+                    return 0;
+                }
+                if(!string.IsNullOrEmpty(runningConfig.ReadUserNameLike) && (!status.retweeted_status.user.description.Contains(runningConfig.ReadUserNameLike) && !status.retweeted_status.user.screen_name.Contains(runningConfig.ReadUserNameLike)))
+                {
+                    ShowStatus($"跳过未包含关键字用户【{status.retweeted_status.user.id}】转发数据.");
                     return 0;
                 }
                 if (Repository.CheckUserIgnore(status.retweeted_status.user.id))

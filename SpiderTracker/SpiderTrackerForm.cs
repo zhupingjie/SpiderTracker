@@ -1168,6 +1168,11 @@ namespace SpiderTracker
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
+            dr["配置项"] = "采集我的关注";
+            dr["配置值"] = "0";
+            dt.Rows.Add(dr);
+
+            dr = dt.NewRow();
             dr["配置项"] = "采集用户关注";
             dr["配置值"] = "0";
             dt.Rows.Add(dr);
@@ -1295,7 +1300,14 @@ namespace SpiderTracker
                     var strValue = row.Cells["配置值"].Value.ToString();
                     var intValue = 0;
                     int.TryParse(strValue, out intValue);
-                    RunningConfig.ReadUserOfFocus = intValue;
+                    RunningConfig.ReadUserOfHeFocus = intValue;
+                }
+                else if (row.Cells["配置项"].Value.ToString() == "采集我的关注")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    var intValue = 0;
+                    int.TryParse(strValue, out intValue);
+                    RunningConfig.ReadUserOfMyFocus = intValue;
                 }
                 else if (row.Cells["配置项"].Value.ToString() == "忽略存档图集")
                 {
