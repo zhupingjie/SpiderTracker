@@ -319,7 +319,8 @@ namespace SpiderTracker
             if (this.sltLastDate.Checked) users = users.OrderByDescending(c => c.lastdate).ToList();
             else if (this.sltUserID.Checked) users = users.OrderBy(c => c.uid).ToList();
             else if (this.sltImageQty.Checked) users = users.OrderBy(c => c.piccount).ToList();
-            else if(this.sltNewQty.Checked) users = users.OrderByDescending(c => c.newcount).ToList();
+            else if (this.sltNewQty.Checked) users = users.OrderByDescending(c => c.newcount).ToList();
+            else if (this.sltFocus.Checked) users = users.OrderByDescending(c => c.focus).ToList();
 
             var needUsers = new List<SinaUser>();
             if (CacheSinaUsers.Count > 0)
@@ -435,6 +436,11 @@ namespace SpiderTracker
         }
 
         private void sltNewQty_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadCacheUserList(LoadCacheName, true);
+        }
+
+        private void sltFocus_CheckedChanged(object sender, EventArgs e)
         {
             LoadCacheUserList(LoadCacheName, true);
         }
@@ -1469,6 +1475,5 @@ namespace SpiderTracker
                 this.lstUser.Items[lstItem.Index].Selected = true;
             }
         }
-
     }
 }
