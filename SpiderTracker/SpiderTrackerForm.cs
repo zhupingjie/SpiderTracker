@@ -919,7 +919,7 @@ namespace SpiderTracker
             if (string.IsNullOrEmpty(user)) return;
             if (user.Length != 10) return;
             
-            if (MessageBox.Show("确认添加当前用户?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+            //if (MessageBox.Show("确认添加当前用户?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             var rep = new SinaRepository();
             var sinaUser = rep.GetUser(user);
