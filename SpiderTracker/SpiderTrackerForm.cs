@@ -486,12 +486,12 @@ namespace SpiderTracker
 
         #region 已采集数据操作
 
-        void IgnoreUser()
+        void IgnoreUser(bool confirm)
         {
             var userId = GetSelectUserId();
             if (string.IsNullOrEmpty(userId)) return;
 
-            if (MessageBox.Show($"确认拉黑当前用户[{userId}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+            if (confirm && MessageBox.Show($"确认拉黑当前用户[{userId}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             var rep = new SinaRepository();
             var suc = rep.IgnoreSinaUser(userId);
@@ -541,6 +541,65 @@ namespace SpiderTracker
             }
         }
 
+        void IgnoreStatus(bool confirm)
+        {
+            var uid = GetSelectUserId();
+            var bids = GetSelectStatusIds();
+
+            if (confirm && MessageBox.Show($"确认拉黑当前选中的[{bids.Length}]个图集?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+
+            var rep = new SinaRepository();
+            foreach (var bid in bids)
+            {
+                rep.IgnoreSinaStatus(bid);
+
+                var userStatusPath = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, bid);
+                if (Directory.Exists(userStatusPath)) Directory.Delete(userStatusPath, true);
+
+
+                if (this.lstArc.Items.Count > 0)
+                {
+                    var listItem = this.lstArc.FindItemWithText(bid);
+                    if (listItem != null)
+                    {
+                        var index = listItem.Index;
+                        var local = 0;
+                        int.TryParse(listItem.SubItems[2].Text, out local);
+                        var archive = listItem.SubItems[3].Text;
+
+                        this.lstArc.Items.Remove(listItem);
+                        if (this.lstArc.Items.Count > 0)
+                        {
+                            if (this.lstArc.Items.Count <= index)
+                            {
+                                this.lstArc.Items[this.lstArc.Items.Count - 1].Selected = true;
+                            }
+                            else
+                            {
+                                this.lstArc.Items[index].Selected = true;
+                            }
+                        }
+                        var localStatus = 0;
+                        int.TryParse(this.lblLstStatusCount.Text, out localStatus);
+                        localStatus -= 1;
+                        this.lblLstStatusCount.Text = $"{localStatus} ";
+                        var localImg = 0;
+                        int.TryParse(this.lblLstImgCount.Text, out localImg);
+                        localImg -= local;
+                        this.lblLstImgCount.Text = $"{localImg} ";
+
+                        if (archive == "✔")
+                        {
+                            var archiveQty = 0;
+                            int.TryParse(this.lblLstArchiveCount.Text, out archiveQty);
+                            archiveQty -= 1;
+                            this.lblLstArchiveCount.Text = $"{archiveQty} ";
+                        }
+                    }
+                }
+            }
+        }
+
         string LoadCacheName = string.Empty;
 
         private void cbxName_Leave(object sender, EventArgs e)
@@ -562,14 +621,14 @@ namespace SpiderTracker
 
         private void btnIgnoreUser_Click(object sender, EventArgs e)
         {
-            this.IgnoreUser();
+            this.IgnoreUser(true);
         }
 
         private void lstUser_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {
-                this.IgnoreUser();
+                this.IgnoreUser(true);
             }
             else if (e.KeyCode == Keys.Enter)
             {
@@ -608,9 +667,13 @@ namespace SpiderTracker
 
                 var uid = GetSelectUserId();
                 var bid = GetSelectStatusId();
+                if (string.IsNullOrEmpty(bid)) return;
 
                 var files = PathUtil.GetStoreImageFiles(LoadCacheName, uid, bid);
-                this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount);
+                if (files.Length > 0)
+                {
+                    this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount);
+                }
             }
             else
             {
@@ -759,62 +822,7 @@ namespace SpiderTracker
 
         private void btnIgnoreStatus_Click(object sender, EventArgs e)
         {
-            var uid = GetSelectUserId();
-            var bids = GetSelectStatusIds();
-            if (bids.Length == 0) return;
-
-            if (MessageBox.Show($"确认拉黑当前选中的[{bids.Length}]个图集?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
-
-            var rep = new SinaRepository();
-            foreach (var bid in bids)
-            {
-                rep.IgnoreSinaStatus(bid);
-
-                var userStatusPath = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, bid);
-                if (Directory.Exists(userStatusPath)) Directory.Delete(userStatusPath, true);
-
-
-                if (this.lstArc.Items.Count > 0)
-                {
-                    var listItem = this.lstArc.FindItemWithText(bid);
-                    if (listItem != null)
-                    {
-                        var index = listItem.Index;
-                        var local = 0;
-                        int.TryParse(listItem.SubItems[2].Text, out local);
-                        var archive = listItem.SubItems[3].Text;
-
-                        this.lstArc.Items.Remove(listItem);
-                        if (this.lstArc.Items.Count > 0)
-                        {
-                            if (this.lstArc.Items.Count <= index)
-                            {
-                                this.lstArc.Items[this.lstArc.Items.Count - 1].Selected = true;
-                            }
-                            else
-                            {
-                                this.lstArc.Items[index].Selected = true;
-                            }
-                        }
-                        var localStatus = 0;
-                        int.TryParse(this.lblLstStatusCount.Text, out localStatus);
-                        localStatus -= 1;
-                        this.lblLstStatusCount.Text = $"{localStatus} ";
-                        var localImg = 0;
-                        int.TryParse(this.lblLstImgCount.Text, out localImg);
-                        localImg -= local;
-                        this.lblLstImgCount.Text = $"{localImg} ";
-
-                        if (archive == "✔")
-                        {
-                            var archiveQty = 0;
-                            int.TryParse(this.lblLstArchiveCount.Text, out archiveQty);
-                            archiveQty -= 1;
-                            this.lblLstArchiveCount.Text = $"{archiveQty} ";
-                        }
-                    }
-                }
-            }
+            this.IgnoreStatus(true);
         }
 
         private void btnFollowerUser_Click(object sender, EventArgs e)
@@ -1086,7 +1094,7 @@ namespace SpiderTracker
             }
             else if(e.KeyCode == Keys.Delete)
             {
-                this.btnIgnoreStatus_Click(sender, e);
+                this.IgnoreStatus(false);
             }
         }
         #endregion

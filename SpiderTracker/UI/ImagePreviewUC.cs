@@ -70,25 +70,14 @@ namespace SpiderTracker.UI
 
         public void ShowImages(string[] imageFiles, int showIndex, int showImageCount)
         {
-            this.DispiseImage();
+            this.DispiseImage(imageFiles);
             this.cacheImageFiles.Clear();
             this.cacheImageFiles.AddRange(imageFiles);
             this.imageIndex = showIndex;
             this.imageCount = showImageCount;
             this.resetEvent.Set();
-            return;
-            for (var i = 0; i < 9; i++)
-            {
-                if (i < cacheImageFiles.Count && i < showImageCount)
-                {
-                    ShowImage(imageCtls[i], cacheImageFiles[i]);
-                }
-                else
-                {
-                    DispiseImage(imageCtls[i]);
-                }
-            }
         }
+
         void ShowImage(Panel imageCtl, string file)
         {
             InvokeControl(imageCtl, () =>
@@ -116,10 +105,12 @@ namespace SpiderTracker.UI
             });
         }
 
-        void DispiseImage()
+        void DispiseImage(string[] images)
         {
             for (var j = 0; j < this.imageCount; j++)
             {
+                if (images.Length > j && imageCtls[j].Tag != null && images[j] == imageCtls[j].Tag.ToString()) continue;
+
                 DispiseImage(imageCtls[j]);
             }
         }
