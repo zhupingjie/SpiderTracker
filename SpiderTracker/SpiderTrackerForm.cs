@@ -43,8 +43,6 @@ namespace SpiderTracker
             this.SetStyle(ControlStyles.ResizeRedraw, true);
 
             XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config")));
-
-            this.RunningConfig = GetSpiderRunningConfig();
         }
 
         /// <summary>
@@ -59,6 +57,8 @@ namespace SpiderTracker
             SQLiteDBHelper.Instance.InitSpiderDB();
 
             InitSpiderRunningConfig();
+
+            this.RunningConfig = GetSpiderRunningConfig();
 
             SinaSpiderService = new MWeiboSpiderService();
             SinaSpiderService.OnShowStatus += WeiboSpiderService_OnShowStatus;
@@ -691,7 +691,7 @@ namespace SpiderTracker
 
                     var files = PathUtil.GetStoreImageFiles(LoadCacheName, uid, status.bid);
                     if (files.Length > 0)
-                    {
+                    { 
                         this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount);
                     }
                 }
@@ -1271,20 +1271,20 @@ namespace SpiderTracker
             dr["配置值"] = "9999";
             dt.Rows.Add(dr);
 
-            dr = dt.NewRow();
-            dr["配置项"] = "预览图片数量";
-            dr["配置值"] = "6";
-            dt.Rows.Add(dr);
+            //dr = dt.NewRow();
+            //dr["配置项"] = "预览图片数量";
+            //dr["配置值"] = "6";
+            //dt.Rows.Add(dr);
 
-            dr = dt.NewRow();
-            dr["配置项"] = "预览显示资源";
-            dr["配置值"] = "1";
-            dt.Rows.Add(dr);
+            //dr = dt.NewRow();
+            //dr["配置项"] = "预览显示资源";
+            //dr["配置值"] = "1";
+            //dt.Rows.Add(dr);
 
-            dr = dt.NewRow();
-            dr["配置项"] = "默认归档路径";
-            dr["配置值"] = "archive";
-            dt.Rows.Add(dr);
+            //dr = dt.NewRow();
+            //dr["配置项"] = "默认归档路径";
+            //dr["配置值"] = "archive";
+            //dt.Rows.Add(dr);
 
             this.dataGridView1.DataSource = dt.DefaultView;
             this.dataGridView1.Columns[0].Width = 120;

@@ -63,7 +63,7 @@ namespace SpiderTracker.UI
                 this.resetEvent.WaitOne();
             }
         }
-
+        
         public void ShowImages(string[] imageFiles, int showIndex, int showImageCount)
         {
             this.DispiseImage(imageFiles);

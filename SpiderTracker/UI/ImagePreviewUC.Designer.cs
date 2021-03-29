@@ -55,7 +55,7 @@ namespace SpiderTracker.UI
             this.pnlImageTop.Location = new System.Drawing.Point(0, 0);
             this.pnlImageTop.Name = "pnlImageTop";
             this.pnlImageTop.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlImageTop.Size = new System.Drawing.Size(435, 175);
+            this.pnlImageTop.Size = new System.Drawing.Size(435, 202);
             this.pnlImageTop.TabIndex = 23;
             // 
             // imageCtl3
@@ -64,7 +64,7 @@ namespace SpiderTracker.UI
             this.imageCtl3.Dock = System.Windows.Forms.DockStyle.Left;
             this.imageCtl3.Location = new System.Drawing.Point(285, 5);
             this.imageCtl3.Name = "imageCtl3";
-            this.imageCtl3.Size = new System.Drawing.Size(140, 165);
+            this.imageCtl3.Size = new System.Drawing.Size(140, 192);
             this.imageCtl3.TabIndex = 2;
             this.imageCtl3.Click += new System.EventHandler(this.imageCtl3_Click);
             // 
@@ -74,7 +74,7 @@ namespace SpiderTracker.UI
             this.imageCtl2.Dock = System.Windows.Forms.DockStyle.Left;
             this.imageCtl2.Location = new System.Drawing.Point(145, 5);
             this.imageCtl2.Name = "imageCtl2";
-            this.imageCtl2.Size = new System.Drawing.Size(140, 165);
+            this.imageCtl2.Size = new System.Drawing.Size(140, 192);
             this.imageCtl2.TabIndex = 1;
             this.imageCtl2.Click += new System.EventHandler(this.imageCtl2_Click);
             // 
@@ -84,7 +84,7 @@ namespace SpiderTracker.UI
             this.imageCtl1.Dock = System.Windows.Forms.DockStyle.Left;
             this.imageCtl1.Location = new System.Drawing.Point(5, 5);
             this.imageCtl1.Name = "imageCtl1";
-            this.imageCtl1.Size = new System.Drawing.Size(140, 165);
+            this.imageCtl1.Size = new System.Drawing.Size(140, 192);
             this.imageCtl1.TabIndex = 0;
             this.imageCtl1.Click += new System.EventHandler(this.imageCtl1_Click);
             // 
@@ -94,11 +94,12 @@ namespace SpiderTracker.UI
             this.pnlImageBottom.Controls.Add(this.imageCtl8);
             this.pnlImageBottom.Controls.Add(this.imageCtl7);
             this.pnlImageBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlImageBottom.Location = new System.Drawing.Point(0, 350);
+            this.pnlImageBottom.Location = new System.Drawing.Point(0, 415);
             this.pnlImageBottom.Name = "pnlImageBottom";
             this.pnlImageBottom.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlImageBottom.Size = new System.Drawing.Size(435, 75);
+            this.pnlImageBottom.Size = new System.Drawing.Size(435, 10);
             this.pnlImageBottom.TabIndex = 24;
+            this.pnlImageBottom.Visible = false;
             // 
             // imageCtl9
             // 
@@ -106,7 +107,7 @@ namespace SpiderTracker.UI
             this.imageCtl9.Dock = System.Windows.Forms.DockStyle.Left;
             this.imageCtl9.Location = new System.Drawing.Point(285, 5);
             this.imageCtl9.Name = "imageCtl9";
-            this.imageCtl9.Size = new System.Drawing.Size(140, 65);
+            this.imageCtl9.Size = new System.Drawing.Size(140, 0);
             this.imageCtl9.TabIndex = 19;
             this.imageCtl9.Click += new System.EventHandler(this.imageCtl9_Click);
             // 
@@ -116,7 +117,7 @@ namespace SpiderTracker.UI
             this.imageCtl8.Dock = System.Windows.Forms.DockStyle.Left;
             this.imageCtl8.Location = new System.Drawing.Point(145, 5);
             this.imageCtl8.Name = "imageCtl8";
-            this.imageCtl8.Size = new System.Drawing.Size(140, 65);
+            this.imageCtl8.Size = new System.Drawing.Size(140, 0);
             this.imageCtl8.TabIndex = 18;
             this.imageCtl8.Click += new System.EventHandler(this.imageCtl8_Click);
             // 
@@ -127,7 +128,7 @@ namespace SpiderTracker.UI
             this.imageCtl7.Location = new System.Drawing.Point(5, 5);
             this.imageCtl7.Name = "imageCtl7";
             this.imageCtl7.Padding = new System.Windows.Forms.Padding(5);
-            this.imageCtl7.Size = new System.Drawing.Size(140, 65);
+            this.imageCtl7.Size = new System.Drawing.Size(140, 0);
             this.imageCtl7.TabIndex = 16;
             this.imageCtl7.Click += new System.EventHandler(this.imageCtl7_Click);
             // 
@@ -138,10 +139,10 @@ namespace SpiderTracker.UI
             this.pnlImageCenter.Controls.Add(this.imageCtl5);
             this.pnlImageCenter.Controls.Add(this.imageCtl4);
             this.pnlImageCenter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlImageCenter.Location = new System.Drawing.Point(0, 175);
+            this.pnlImageCenter.Location = new System.Drawing.Point(0, 202);
             this.pnlImageCenter.Name = "pnlImageCenter";
             this.pnlImageCenter.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlImageCenter.Size = new System.Drawing.Size(435, 175);
+            this.pnlImageCenter.Size = new System.Drawing.Size(435, 213);
             this.pnlImageCenter.TabIndex = 25;
             // 
             // imageCtl6
@@ -150,7 +151,7 @@ namespace SpiderTracker.UI
             this.imageCtl6.Dock = System.Windows.Forms.DockStyle.Left;
             this.imageCtl6.Location = new System.Drawing.Point(285, 5);
             this.imageCtl6.Name = "imageCtl6";
-            this.imageCtl6.Size = new System.Drawing.Size(140, 165);
+            this.imageCtl6.Size = new System.Drawing.Size(140, 203);
             this.imageCtl6.TabIndex = 16;
             this.imageCtl6.Click += new System.EventHandler(this.imageCtl6_Click);
             // 
@@ -160,7 +161,7 @@ namespace SpiderTracker.UI
             this.imageCtl5.Dock = System.Windows.Forms.DockStyle.Left;
             this.imageCtl5.Location = new System.Drawing.Point(145, 5);
             this.imageCtl5.Name = "imageCtl5";
-            this.imageCtl5.Size = new System.Drawing.Size(140, 165);
+            this.imageCtl5.Size = new System.Drawing.Size(140, 203);
             this.imageCtl5.TabIndex = 15;
             this.imageCtl5.Click += new System.EventHandler(this.imageCtl5_Click);
             // 
@@ -170,7 +171,7 @@ namespace SpiderTracker.UI
             this.imageCtl4.Dock = System.Windows.Forms.DockStyle.Left;
             this.imageCtl4.Location = new System.Drawing.Point(5, 5);
             this.imageCtl4.Name = "imageCtl4";
-            this.imageCtl4.Size = new System.Drawing.Size(140, 165);
+            this.imageCtl4.Size = new System.Drawing.Size(140, 203);
             this.imageCtl4.TabIndex = 13;
             this.imageCtl4.Click += new System.EventHandler(this.imageCtl4_Click);
             // 

@@ -780,7 +780,7 @@ namespace SpiderTracker.Imp
             if (status.page_info.urls == null || string.IsNullOrEmpty(status.page_info.urls.mp4_hd_mp4) || string.IsNullOrEmpty(status.page_info.urls.mp4_ld_mp4))
             {
                 ShowStatus($"跳过无链接视频【{status.bid}】.");
-                return 0;
+                return -1;
             }
             ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页视频【{status.bid}】...");
             int haveReadVedioCount = 0, errorReadVedioCount = 0;
