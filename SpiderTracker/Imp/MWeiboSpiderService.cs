@@ -211,18 +211,20 @@ namespace SpiderTracker.Imp
             Repository = new SinaRepository();
         }
 
-        public void StartSpider(SpiderRunningConfig runningConfig, IList<string> userIds)
+        public void StartSpider(SpiderRunningConfig runningConfig, string groupName, IList<string> userIds)
         {
             this.RunningConfig = runningConfig;
+            this.RunningConfig.Name = groupName;
             this.RunningConfig.Reset();
+
+            if (string.IsNullOrEmpty(RunningConfig.Name))
+            {
+                ShowStatus("采集类目为空!");
+                return;
+            }
 
             Task.Factory.StartNew(() =>
             {
-                if (string.IsNullOrEmpty(runningConfig.Name))
-                {
-                    ShowStatus("采集类目为空!");
-                    return;
-                }
                 SpiderStarted(userIds);
                 StartAutoGatherTask();
                 SpiderComplete();
@@ -307,7 +309,7 @@ namespace SpiderTracker.Imp
 
                 GatherUserComplete(user, readStatusImageCount);
 
-                ShowStatus($"用户[{user}]采集完成,共采集图片【{readStatusImageCount}】张.");
+                ShowStatus($"用户[{user}]采集完成,共采集资源【{readStatusImageCount}】.");
             }
         }
 
@@ -574,11 +576,22 @@ namespace SpiderTracker.Imp
         int GatherSinaStatusByStatusOrRetweeted(SpiderRunningConfig runningConfig, MWeiboStatus status, MWeiboUser user)
         {
             int readStatusImageCount = 0;
-            if (status.pics != null)
+            if (status.pics != null && runningConfig.ReadUserPics == 1)
+            {
+
+                SinaStatus newStatus = null;
+                readStatusImageCount = GatherSinaStatusPicsByStatusResult(runningConfig, status);
+                Repository.StoreSinaStatus(user, status, null, 0, status.pics.Length, readStatusImageCount, out newStatus);
+                if (readStatusImageCount > 0)
+                {
+                    GatherStatusComplete(user.id, readStatusImageCount);
+                }
+            }
+            if(status.page_info != null && runningConfig.ReadUserVideo == 1)
             {
                 SinaStatus newStatus = null;
-                readStatusImageCount = GatherSinaStatusByStatusResult(runningConfig, status);
-                Repository.StoreSinaStatus(user, status, null, readStatusImageCount, out newStatus);
+                readStatusImageCount = GatherSinaStatusViedoByStatusResult(runningConfig, status);
+                Repository.StoreSinaStatus(user, status, null,1, 1, readStatusImageCount, out newStatus);
                 if (readStatusImageCount > 0)
                 {
                     GatherStatusComplete(user.id, readStatusImageCount);
@@ -618,9 +631,26 @@ namespace SpiderTracker.Imp
                 {
                     GatherNewUser(newUser);
                 }
-                SinaStatus newStatus = null;
-                readStatusImageCount = GatherSinaStatusByStatusResult(runningConfig, status.retweeted_status);
-                Repository.StoreSinaStatus(user, status, status.retweeted_status, readStatusImageCount, out newStatus);
+                if (status.retweeted_status.pics != null && runningConfig.ReadUserPics == 1)
+                {
+                    SinaStatus newStatus = null;
+                    readStatusImageCount = GatherSinaStatusPicsByStatusResult(runningConfig, status.retweeted_status);
+                    Repository.StoreSinaStatus(user, status, status.retweeted_status, 0, status.retweeted_status.pics.Length, readStatusImageCount, out newStatus);
+                    if (readStatusImageCount > 0)
+                    {
+                        GatherStatusComplete(user.id, readStatusImageCount);
+                    }
+                }
+                if(status.retweeted_status.page_info != null && runningConfig.ReadUserVideo == 1)
+                {
+                    SinaStatus newStatus = null;
+                    readStatusImageCount = GatherSinaStatusViedoByStatusResult(runningConfig, status.retweeted_status);
+                    Repository.StoreSinaStatus(user, status, status.retweeted_status, 1, 1, readStatusImageCount, out newStatus);
+                    if (readStatusImageCount > 0)
+                    {
+                        GatherStatusComplete(user.id, readStatusImageCount);
+                    }
+                }
             }
             return readStatusImageCount > 0 ? readStatusImageCount : 0;
         }
@@ -634,7 +664,7 @@ namespace SpiderTracker.Imp
         /// -1:忽略
         /// 0:未采集到有效图片,需忽略
         /// </returns>
-        int GatherSinaStatusByStatusResult(SpiderRunningConfig runninConfig, MWeiboStatus status)
+        int GatherSinaStatusPicsByStatusResult(SpiderRunningConfig runninConfig, MWeiboStatus status)
         {
             var user = status.user;
             if (user == null)
@@ -647,7 +677,7 @@ namespace SpiderTracker.Imp
                 ShowStatus($"用户【{user.id}】已忽略采集.");
                 return 0;
             }
-            if (PathUtil.CheckUserStatusExists(runninConfig.Name, user.id, status.bid))
+            if (PathUtil.CheckUserStatusPicsExists(runninConfig.Name, user.id, status.bid))
             {
                 ShowStatus($"跳过已缓存组图【{status.bid}】.");
                 return -1;
@@ -663,13 +693,6 @@ namespace SpiderTracker.Imp
                 if(runninConfig.IgnoreReadArchiveStatus == 1 && sinaStatus.archive == 1)
                 {
                     ShowStatus($"跳过已存档组图【{status.bid}】.");
-                    return -1;
-                }
-                if(runninConfig.IgnoreDeleteImageStatus == 1)
-                {
-                    Repository.IgnoreSinaStatus(status.bid);
-
-                    ShowStatus($"忽略已删除组图【{status.bid}】.");
                     return -1;
                 }
             }
@@ -713,6 +736,72 @@ namespace SpiderTracker.Imp
                 haveReadImageCount = 0;
             }
             return haveReadImageCount;
+        }
+
+        int GatherSinaStatusViedoByStatusResult(SpiderRunningConfig runninConfig, MWeiboStatus status)
+        {
+            var user = status.user;
+            if (user == null)
+            {
+                ShowStatus($"微博数据已删除.");
+                return -1;
+            }
+            if (Repository.CheckUserIgnore(user.id))
+            {
+                ShowStatus($"用户【{user.id}】已忽略采集.");
+                return 0;
+            }
+            if (PathUtil.CheckUserStatusViedoExists(runninConfig.Name, user.id, status.bid))
+            {
+                ShowStatus($"跳过已缓存视频【{status.bid}】.");
+                return -1;
+            }
+            var sinaStatus = Repository.GetUserStatus(status.bid);
+            if (sinaStatus != null)
+            {
+                if (sinaStatus.ignore > 0)
+                {
+                    ShowStatus($"跳过已忽略视频【{status.bid}】.");
+                    return -1;
+                }
+                if (runninConfig.IgnoreReadArchiveStatus == 1 && sinaStatus.archive == 1)
+                {
+                    ShowStatus($"跳过已存档视频【{status.bid}】.");
+                    return -1;
+                }
+                if (runninConfig.IgnoreDeleteSourceStatus == 1)
+                {
+                    Repository.IgnoreSinaStatus(status.bid);
+
+                    ShowStatus($"忽略已删除视频【{status.bid}】.");
+                    return -1;
+                }
+            }
+            if (status.page_info.urls == null || string.IsNullOrEmpty(status.page_info.urls.mp4_hd_mp4) || string.IsNullOrEmpty(status.page_info.urls.mp4_ld_mp4))
+            {
+                ShowStatus($"跳过无链接视频【{status.bid}】.");
+                return 0;
+            }
+            ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页视频【{status.bid}】...");
+            int haveReadVedioCount = 0, errorReadVedioCount = 0;
+            var vedioUrl = status.page_info.urls.mp4_hd_mp4;
+            if (string.IsNullOrEmpty(vedioUrl)) vedioUrl = status.page_info.urls.mp4_ld_mp4;
+
+            var succ = DownloadUserStatusVedio(runninConfig, user.id, status.bid, vedioUrl);
+            if (succ)
+            {
+                haveReadVedioCount++;
+            }
+            else
+            {
+                errorReadVedioCount++;
+            }
+            Thread.Sleep(500);
+            if (errorReadVedioCount > 0)
+            {
+                return -1;
+            }
+            return haveReadVedioCount;
         }
 
         MWeiboUserResult GetWeiboUserResult(string html)
@@ -820,6 +909,55 @@ namespace SpiderTracker.Imp
             }
             return true;
         }
+
+        /// <summary>
+        /// 读取微博用户视频原始路径
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <param name="cookie"></param>
+        /// <returns></returns>
+        bool DownloadUserStatusVedio(SpiderRunningConfig runningConfig, string userId, string arcId, string vedioUrl)
+        {
+            if (!Repository.ExistsSinaPicture(userId, arcId, vedioUrl))
+            {
+                var sinaPicture = new SinaPicture()
+                {
+                    uid = userId,
+                    bid = arcId,
+                    picurl = vedioUrl
+                };
+                var suc = Repository.CreateSinaPicture(sinaPicture);
+                if (!suc)
+                {
+                    ShowStatus($"创建本地微博图片错误!!!!!!");
+                    return false;
+                }
+            }
+            var filePath = PathUtil.GetStoreVedioUserPath(runningConfig.Name, userId, arcId);
+            var down = HttpUtil.GetHttpRequestVedioResult(vedioUrl, filePath, runningConfig);
+            if (!down)
+            {
+                ShowStatus($"下载视频【{arcId}】第【1】个文件错误!");
+                return false;
+            }
+            else
+            {
+                var fileInfo = new FileInfo(filePath);
+                if(!fileInfo.Exists)
+                {
+                    ShowStatus($"视频【{arcId}】第【1】文件不存在忽略");
+                    return false;
+                }
+                if (fileInfo.Length == 0)
+                {
+                    ShowStatus($"视频【{arcId}】第【1】文件太小忽略");
+                    return false;
+                }
+                ShowStatus($"下载视频【{arcId}】第【1】个文件OK).");
+                return true;
+            }
+        }
+
         #endregion
     }
 }

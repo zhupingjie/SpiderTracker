@@ -59,6 +59,13 @@ namespace SpiderTracker.Imp
             return path;
         }
 
+        public static string GetStoreVedioUserPath(string name, string user, string bid)
+        {
+            string path = GetStoreImageUserPath(name, user);
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+            return Path.Combine(path, $"{bid}.mp4");
+        }
+
         public static string GetStoreImageUserPath(string name, string user)
         {
             if (string.IsNullOrEmpty(name)) throw new Exception("采集类目未选择");
@@ -123,11 +130,18 @@ namespace SpiderTracker.Imp
             File.WriteAllLines(file, news);
         }
 
-        public static bool CheckUserStatusExists(string name, string user, string status)
+        public static bool CheckUserStatusPicsExists(string name, string user, string status)
         {
             if (string.IsNullOrEmpty(name)) throw new Exception("采集类目未选择");
             string path = PathUtil.GetStoreImageUserStatusPath(name, user, status);
             return Directory.Exists(path) && Directory.GetFiles(path).Where(c => c.EndsWith("jpg")).Count() > 0;
+        }
+
+        public static bool CheckUserStatusViedoExists(string name, string user, string status)
+        {
+            if (string.IsNullOrEmpty(name)) throw new Exception("采集类目未选择");
+            var fileName = GetStoreVedioUserPath(name, user, status);
+            return File.Exists(fileName);
         }
 
         public static string GetUserByPath(string path)

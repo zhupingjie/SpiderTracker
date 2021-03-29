@@ -109,7 +109,17 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 采集原创图集
         /// </summary>
-        public int OnlyReadOwnerUser { get; set; } = 0;
+        public int OnlyReadOwnerUser { get; set; } = 1;
+
+        /// <summary>
+        /// 采集原创视频
+        /// </summary>
+        public int ReadUserPics { get; set; } = 1;
+
+        /// <summary>
+        /// 采集视频
+        /// </summary>
+        public int ReadUserVideo { get; set; } = 1;
 
         /// <summary>
         /// 采集所有用户
@@ -132,7 +142,7 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 忽略已删图集
         /// </summary>
-        public int IgnoreDeleteImageStatus { get; set; } = 0;
+        public int IgnoreDeleteSourceStatus { get; set; } = 0;
 
 
         /// <summary>

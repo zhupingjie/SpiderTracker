@@ -21,6 +21,10 @@ namespace SpiderTracker.Imp.Model
         /// </summary>
         public string uid { get; set; }
         /// <summary>
+        /// 0：图片，1：视频
+        /// </summary>
+        public int mtype { get; set; }
+        /// <summary>
         /// 4230218891961645
         /// </summary>
         public string mid { get; set; }
@@ -29,8 +33,7 @@ namespace SpiderTracker.Imp.Model
         public string retuid { get; set; }
         public string retbid { get; set; }
         public string text { get; set; }
-        public int pics { get; set; }
-        public int getpics { get; set; }
+        public int qty { get; set; }
         public int focus { get; set; }
         public int ignore { get; set; }
         public int archive { get; set; }

@@ -113,10 +113,12 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.tbpReview = new System.Windows.Forms.TabPage();
-            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
+            this.tbpVideo = new System.Windows.Forms.TabPage();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
+            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -140,6 +142,7 @@
             this.panel18.SuspendLayout();
             this.panel19.SuspendLayout();
             this.tbpReview.SuspendLayout();
+            this.tbpVideo.SuspendLayout();
             this.panel12.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -447,6 +450,7 @@
             this.txtStatusFilter.Size = new System.Drawing.Size(240, 23);
             this.txtStatusFilter.TabIndex = 13;
             this.txtStatusFilter.TextChanged += new System.EventHandler(this.txtStatusFilter_TextChanged);
+            this.txtStatusFilter.DoubleClick += new System.EventHandler(this.txtStatusFilter_DoubleClick);
             // 
             // panel8
             // 
@@ -951,6 +955,7 @@
             this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Right;
             this.tabControl1.Controls.Add(this.tbpGatherLog);
             this.tabControl1.Controls.Add(this.tbpReview);
+            this.tabControl1.Controls.Add(this.tbpVideo);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tabControl1.Location = new System.Drawing.Point(242, 67);
@@ -1063,15 +1068,15 @@
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
             // 
-            // imagePreviewUC1
+            // tbpVideo
             // 
-            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
-            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
-            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(492, 531);
-            this.imagePreviewUC1.TabIndex = 0;
+            this.tbpVideo.Controls.Add(this.vedioPlayerUC1);
+            this.tbpVideo.Location = new System.Drawing.Point(4, 4);
+            this.tbpVideo.Name = "tbpVideo";
+            this.tbpVideo.Size = new System.Drawing.Size(492, 531);
+            this.tbpVideo.TabIndex = 2;
+            this.tbpVideo.Text = "视频预览";
+            this.tbpVideo.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -1101,6 +1106,25 @@
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
+            // 
+            // imagePreviewUC1
+            // 
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(492, 531);
+            this.imagePreviewUC1.TabIndex = 0;
+            // 
+            // vedioPlayerUC1
+            // 
+            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 271, 3, 271);
+            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
+            this.vedioPlayerUC1.Size = new System.Drawing.Size(492, 531);
+            this.vedioPlayerUC1.TabIndex = 0;
             // 
             // SpiderTrackerForm
             // 
@@ -1153,6 +1177,7 @@
             this.panel19.ResumeLayout(false);
             this.panel19.PerformLayout();
             this.tbpReview.ResumeLayout(false);
+            this.tbpVideo.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
             this.ResumeLayout(false);
@@ -1246,6 +1271,8 @@
         private System.Windows.Forms.Label lblLstNewImgCount;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RadioButton sltFocus;
+        private System.Windows.Forms.TabPage tbpVideo;
+        private UI.VedioPlayerUC vedioPlayerUC1;
     }
 }
 

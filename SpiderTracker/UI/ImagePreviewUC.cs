@@ -58,10 +58,6 @@ namespace SpiderTracker.UI
                     {
                         ShowImage(imageCtls[j], cacheImageFiles[j]);
                     }
-                    //for (var j = showCount; j < imageCount; j++)
-                    //{
-                    //    DispiseImage(imageCtls[j]);
-                    //}
                     this.resetEvent.Reset();
                 }
                 this.resetEvent.WaitOne();

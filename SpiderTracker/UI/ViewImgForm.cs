@@ -1,8 +1,10 @@
-﻿using System;
+﻿using SpiderTracker.Imp.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,9 +30,11 @@ namespace SpiderTracker.UI
                 {
                     this.imageCtl.BackgroundImage.Dispose();
                     this.imageCtl.BackgroundImage = null;
+                    this.imageCtl.Tag = null;
                 }
                 var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
                 this.imageCtl.BackgroundImage = image;
+                this.imageCtl.Tag = ViewImgPaths[ViewImgIndex];
             }
         }
 
@@ -44,9 +48,11 @@ namespace SpiderTracker.UI
                 {
                     this.imageCtl.BackgroundImage.Dispose();
                     this.imageCtl.BackgroundImage = null;
+                    this.imageCtl.Tag = null;
                 }
                 var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
                 this.imageCtl.BackgroundImage = image;
+                this.imageCtl.Tag = ViewImgPaths[ViewImgIndex];
             }
         }
 
@@ -60,9 +66,33 @@ namespace SpiderTracker.UI
                 {
                     this.imageCtl.BackgroundImage.Dispose();
                     this.imageCtl.BackgroundImage = null;
+                    this.imageCtl.Tag = null;
                 }
                 var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
                 this.imageCtl.BackgroundImage = image;
+                this.imageCtl.Tag = ViewImgPaths[ViewImgIndex];
+            }
+        }
+
+        void DeleteImage()
+        {
+            if (this.imageCtl.Tag != null)
+            {
+                var imageFile = this.imageCtl.Tag.ToString();
+
+                this.imageCtl.BackgroundImage.Dispose();
+                this.imageCtl.BackgroundImage = null;
+                this.imageCtl.Tag = null;
+
+                if (File.Exists(imageFile)) File.Delete(imageFile);
+
+                this.ViewImgPaths.Remove(imageFile);
+
+                if(this.ViewImgPaths.Count == 0)
+                {
+                    this.DialogResult = DialogResult.Yes;
+                    this.Close();
+                }
             }
         }
 
@@ -77,7 +107,12 @@ namespace SpiderTracker.UI
                     imageRight_Click(sender, e);
                     break;
                 case Keys.Escape:
+                    this.DialogResult = DialogResult.Cancel;
                     this.Close();
+                    break;
+                case Keys.Delete:
+                    this.DeleteImage();
+                    imageRight_Click(sender, e);
                     break;
             }
         }
@@ -88,6 +123,7 @@ namespace SpiderTracker.UI
             {
                 this.imageCtl.BackgroundImage.Dispose();
                 this.imageCtl.BackgroundImage = null;
+                this.imageCtl.Tag = null;
             }
         }
     }

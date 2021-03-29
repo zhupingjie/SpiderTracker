@@ -193,13 +193,14 @@ namespace SpiderTracker.Imp.Model
             }
             return null;
         }
-        public string StoreSinaStatus(MWeiboUser user, MWeiboStatus status, MWeiboStatus retweeted, int readStatusImageCount, out SinaStatus newStatus)
+        public string StoreSinaStatus(MWeiboUser user, MWeiboStatus status, MWeiboStatus retweeted, int mtype, int readSourceCount, int readStatusImageCount, out SinaStatus newStatus)
         {
             newStatus = null;
             var sinaStatus = new SinaStatus();
             sinaStatus.uid = user.id;
             sinaStatus.bid = status.bid;
             sinaStatus.mid = status.id;
+            sinaStatus.mtype = mtype;
             sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(status.bid);
             if (readStatusImageCount != -1)
             {
@@ -207,7 +208,7 @@ namespace SpiderTracker.Imp.Model
             }
             if (retweeted == null)
             {
-                sinaStatus.pics = status.pics != null ? status.pics.Length : 0;
+                sinaStatus.qty = readSourceCount;
             }
             else
             {
@@ -235,7 +236,7 @@ namespace SpiderTracker.Imp.Model
                 }
                 if (retweeted == null)
                 {
-                    extSinaStatus.pics = status.pics != null ? status.pics.Length : 0;
+                    extSinaStatus.qty = readSourceCount;
                 }
                 UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "pics" });
                 UpdateSinaUserQty(user.id);
@@ -248,8 +249,9 @@ namespace SpiderTracker.Imp.Model
                     sinaStatus.uid = retweeted.user.id;
                     sinaStatus.bid = retweeted.bid;
                     sinaStatus.mid = retweeted.id;
+                    sinaStatus.mtype = mtype;
                     sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(retweeted.bid);
-                    sinaStatus.pics = retweeted.pics != null ? retweeted.pics.Length : 0;
+                    sinaStatus.qty = readSourceCount;
                     if (readStatusImageCount != -1)
                     {
                         sinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);

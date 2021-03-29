@@ -57,7 +57,41 @@ namespace SpiderTracker.Imp
                 return null;
             }
         }
-        
+
+        public static bool GetHttpRequestVedioResult(string url, string filePath, SpiderRunningConfig runningConfig)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "GET";
+            request.Timeout = 60 * 1000;
+            if (!string.IsNullOrEmpty(runningConfig.LoginCookie))
+            {
+                request.Headers["Cookie"] = runningConfig.LoginCookie;
+            }
+            try
+            {
+                var response = request.GetResponse();
+                var stream = response.GetResponseStream();
+                using (Stream sos = new System.IO.FileStream(filePath, System.IO.FileMode.Create))
+                {
+                    byte[] img = new byte[1024];
+                    int total = stream.Read(img, 0, img.Length);
+                    while (total > 0)
+                    {
+                        //之后再输出内容
+                        sos.Write(img, 0, total);
+                        total = stream.Read(img, 0, img.Length);
+                    }
+                    stream.Close();
+                    stream.Dispose();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public static bool SinaLogin(SpiderRunningConfig runningConfig, string userName, string password)
         {
             var postApi = $"https://passport.weibo.cn/sso/login";
