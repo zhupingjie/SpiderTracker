@@ -20,6 +20,9 @@ namespace SpiderTracker.UI
         List<string> cacheImageFiles = null;
         int imageIndex = 0;
         int imageCount = 0;
+        string imageName = "";
+        string imageUser = "";
+        string imageStatus = "";
         Thread showImageThread = null;
         ManualResetEvent resetEvent = null;
 
@@ -64,13 +67,16 @@ namespace SpiderTracker.UI
             }
         }
         
-        public void ShowImages(string[] imageFiles, int showIndex, int showImageCount)
+        public void ShowImages(string[] imageFiles, int showIndex, int showImageCount, string showName, string showUser, string showStatus)
         {
             this.DispiseImage(imageFiles);
             this.cacheImageFiles.Clear();
             this.cacheImageFiles.AddRange(imageFiles);
             this.imageIndex = showIndex;
             this.imageCount = showImageCount;
+            this.imageName = showName;
+            this.imageUser = showUser;
+            this.imageStatus = showStatus;
             this.resetEvent.Set();
         }
 
@@ -140,8 +146,11 @@ namespace SpiderTracker.UI
             if (index >= cacheImageFiles.Count) return;
 
             ViewImgForm frm = new ViewImgForm();
-            frm.ViewImgPaths = cacheImageFiles;
+            frm.ViewThumbImgPaths = cacheImageFiles;
             frm.ViewImgIndex = index;
+            frm.ImageName = imageName;
+            frm.ImageUser = imageUser;
+            frm.ImageStatus = imageStatus;
             frm.ShowDialog();
         }
         

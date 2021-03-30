@@ -135,15 +135,8 @@
     <Compile Include="Imp\Util\SinaUrlUtil.cs" />
     <Compile Include="Imp\SpiderCacheService.cs" />
     <Compile Include="Imp\StoreConfigEnum.cs" />
-    <Compile Include="Imp\Util\UserUtil.cs" />
     <Compile Include="Imp\SpiderRunningConfig.cs" />
     <Compile Include="Imp\SinaUrlEnum.cs" />
-    <Compile Include="UI\CacheImageViewForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\CacheImageViewForm.Designer.cs">
-      <DependentUpon>CacheImageViewForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\ImagePreviewUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -176,9 +169,6 @@
     <Compile Include="UI\ViewImgForm.Designer.cs">
       <DependentUpon>ViewImgForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UI\CacheImageViewForm.resx">
-      <DependentUpon>CacheImageViewForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\ImagePreviewUC.resx">
       <DependentUpon>ImagePreviewUC.cs</DependentUpon>
     </EmbeddedResource>

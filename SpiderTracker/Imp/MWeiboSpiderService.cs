@@ -211,11 +211,9 @@ namespace SpiderTracker.Imp
             Repository = new SinaRepository();
         }
 
-        public void StartSpider(SpiderRunningConfig runningConfig, string groupName, IList<string> userIds, string startUrl)
+        public void StartSpider(SpiderRunningConfig runningConfig, IList<string> userIds, IList<string> statusIds)
         {
             this.RunningConfig = runningConfig;
-            this.RunningConfig.StartUrl = startUrl;
-            this.RunningConfig.Name = groupName;
             this.RunningConfig.Reset();
 
             if (string.IsNullOrEmpty(RunningConfig.Name))
@@ -228,14 +226,13 @@ namespace SpiderTracker.Imp
             {
                 SpiderStarted(userIds);
 
-                var userCount = GetUserCount();
-                if(userCount > 0)
+                if(RunningConfig.GatherType == GatherTypeEnum.GahterStatus)
                 {
-                    StartAutoGatherByUser();
+                    StartAutoGatherByStatus(statusIds);
                 }
                 else
                 {
-                    StartAutoGatherByStatus();
+                    StartAutoGatherByUser();
                 }
                 SpiderComplete();
             });
@@ -247,17 +244,23 @@ namespace SpiderTracker.Imp
             SpiderStoping();
         }
 
-        void StartAutoGatherByStatus()
+        void StartAutoGatherByStatus(IList<string> statusIds)
         {
-            var sinaUrlEnum = SinaUrlUtil.GetSinaUrlEnum(RunningConfig.StartUrl);
-            if (sinaUrlEnum == SinaUrlEnum.StatusUrl)
+            var threads = new List<Task>();
+            var task = Task.Factory.StartNew(() =>
             {
                 ShowStatus($"准备读取用户的微博数据...");
-
-                var readStatusImageCount = GatherSinaStatusByStatusUrl(RunningConfig);
-
+                int readStatusImageCount = 0;
+                foreach (var status in statusIds)
+                {
+                    var tempRuningConfig = RunningConfig.Clone();
+                    tempRuningConfig.StartUrl = $"https://m.weibo.cn/status/{status}";
+                    readStatusImageCount += GatherSinaStatusByStatusUrl(tempRuningConfig);
+                }
                 ShowStatus($"采集完成,共采集资源【{readStatusImageCount}】.");
-            }
+            });
+            threads.Add(task);
+            Task.WaitAll(threads.ToArray());
         }
 
         void StartAutoGatherByUser()
@@ -518,7 +521,7 @@ namespace SpiderTracker.Imp
 
                 if (StopSpiderWork)
                 {
-                    ShowStatus($"中止采集组图数据...");
+                    ShowStatus($"中止采集微博数据...");
                     break;
                 }
                 if (readStatusImageCount > 0)
@@ -677,9 +680,9 @@ namespace SpiderTracker.Imp
                 ShowStatus($"用户【{user.id}】已忽略采集.");
                 return 0;
             }
-            if (PathUtil.CheckUserStatusPicsExists(runninConfig.Name, user.id, status.bid))
+            if (PathUtil.CheckStoreUserImageExists(runninConfig.Name, user.id, status.bid))
             {
-                ShowStatus($"跳过已缓存组图【{status.bid}】.");
+                ShowStatus($"跳过已缓存微博【{status.bid}】.");
                 return -1;
             }
             var sinaStatus = Repository.GetUserStatus(status.bid);
@@ -687,26 +690,26 @@ namespace SpiderTracker.Imp
             {
                 if(sinaStatus.ignore > 0)
                 {
-                    ShowStatus($"跳过已忽略组图【{status.bid}】.");
+                    ShowStatus($"跳过已忽略微博【{status.bid}】.");
                     return -1;
                 }
                 if(runninConfig.IgnoreReadArchiveStatus == 1 && sinaStatus.archive == 1)
                 {
-                    ShowStatus($"跳过已存档组图【{status.bid}】.");
+                    ShowStatus($"跳过已存档微博【{status.bid}】.");
                     return -1;
                 }
             }
             if (status.pics == null || status.pics.Length < runninConfig.ReadMinOfImgCount)
             {
-                ShowStatus($"跳过不符合最小图数组图【{status.bid}】.");
+                ShowStatus($"跳过不符合最小图数微博【{status.bid}】.");
                 return 0;
             }
-            ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页组图【{status.bid}】...");
+            ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页微博【{status.bid}】...");
             int haveReadImageCount = 0, readImageIndex = 0, errorReadImageCount = 0;
             foreach (var pic in status.pics)
             {
                 bool err = false;
-                var succ = DownloadUserStatusImage(runninConfig, user.id, status.bid, pic.large.url, readImageIndex, out err);
+                var succ = DownloadUserStatusImage(runninConfig, user.id, status.bid, pic.large.url, ++readImageIndex, out err);
                 if (succ)
                 {
                     haveReadImageCount++;
@@ -715,7 +718,6 @@ namespace SpiderTracker.Imp
                 {
                     errorReadImageCount++;
                 }
-                readImageIndex++;
                 Thread.Sleep(500);
             }
             if(errorReadImageCount == status.pics.Length && errorReadImageCount > 0)
@@ -724,15 +726,13 @@ namespace SpiderTracker.Imp
             }
             if (haveReadImageCount == 0)
             {
-                ShowStatus($"组图【{status.bid}】已无符合尺寸的图片.");
-                var path = PathUtil.GetStoreImageUserStatusPath(runninConfig.Name, user.id, status.bid);
-                if(Directory.Exists(path)) Directory.Delete(path, true);
+                ShowStatus($"微博【{status.bid}】已无符合尺寸的图片.");
+                PathUtil.DeleteStoreUserImageFiles(runninConfig.Name, user.id, status.bid);
             }
             else if (haveReadImageCount < runninConfig.ReadMinOfImgCount)
             {
-                ShowStatus($"组图【{status.bid}】已下载图数不符合删除.");
-                var path = PathUtil.GetStoreImageUserStatusPath(runninConfig.Name, user.id, status.bid);
-                if (Directory.Exists(path)) Directory.Delete(path, true);
+                ShowStatus($"微博【{status.bid}】已下载图数不符合删除.");
+                PathUtil.DeleteStoreUserImageFiles(runninConfig.Name, user.id, status.bid);
 
                 haveReadImageCount = 0;
             }
@@ -752,7 +752,7 @@ namespace SpiderTracker.Imp
                 ShowStatus($"用户【{user.id}】已忽略采集.");
                 return 0;
             }
-            if (PathUtil.CheckUserStatusViedoExists(runninConfig.Name, user.id, status.bid))
+            if (PathUtil.CheckStoreUserVideoExists(runninConfig.Name, user.id, status.bid))
             {
                 ShowStatus($"跳过已缓存视频【{status.bid}】.");
                 return -1;
@@ -853,64 +853,107 @@ namespace SpiderTracker.Imp
         /// <param name="dto"></param>
         /// <param name="cookie"></param>
         /// <returns></returns>
-        bool DownloadUserStatusImage(SpiderRunningConfig runningConfig, string userId, string arcId, string imgUrl, int haveReadPageCount, out bool err)
+        bool DownloadUserStatusImage(SpiderRunningConfig runningConfig, string userId, string arcId, string imgUrl, int readImageIndex, out bool err)
         {
             err = false;
 
-            if (!Repository.ExistsSinaPicture(userId, arcId, imgUrl))
-            {
-                var sinaPicture = new SinaPicture()
-                {
-                    uid = userId,
-                    bid = arcId,
-                    picurl = imgUrl
-                };
-                var suc = Repository.CreateSinaPicture(sinaPicture);
-                if (!suc)
-                {
-                    ShowStatus($"创建本地微博图片错误!!!!!!");
-                    err = true;
-                    return false;
-                }
-            }
+            var path = PathUtil.GetStoreUserPath(runningConfig.Name, userId);
+            PathUtil.CheckCreateDirectory(path);
+            var imgPath = Path.Combine(path, $"{arcId}_{readImageIndex}.jpg");
+            var localPath = $"\\{userId}\\{arcId}_{readImageIndex}.jpg";
             var image = HttpUtil.GetHttpRequestImageResult(imgUrl, runningConfig);
             if (image == null)
             {
-                ShowStatus($"下载组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片错误!"); 
+                ShowStatus($"下载微博【{arcId}】第【{readImageIndex}】张图片错误!"); 
                 err = true;
                 return false;
             }
-            if (!CheckImageSize(runningConfig, image, arcId, haveReadPageCount)) return false;
+            if (!CheckImageSize(runningConfig, image, arcId, readImageIndex)) return false;
 
-            var path = PathUtil.GetStoreImageUserStatusPath(runningConfig.Name, userId, arcId);
-            PathUtil.CheckCreateDirectory(path);
-            var img = Path.Combine(path, $"{DateTime.Now.ToString("HHmmssffff")}.jpg");
+            var (thumbWidth, thumbHeight) = GetThumbImageSize(image, runningConfig.ThumbnailImageWidth, runningConfig.ThumbnailImageHeight);
+            var thumbImg = image.GetThumbnailImage(thumbWidth, thumbHeight, null, IntPtr.Zero);
+            var thunbPath = Path.Combine(path, "thumb");
+            PathUtil.CheckCreateDirectory(thunbPath);
+            var thumbnail = $"\\{userId}\\thumb\\{arcId}_{readImageIndex}.jpg";
+            var thumbPath = Path.Combine(thunbPath, $"{arcId}_{readImageIndex}.jpg");
+
             try
             {
-                image.Save(img);
-                image.Dispose();
-                ShowStatus($"下载组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片(OK).");
+                image.Save(imgPath);
+                thumbImg.Save(thumbPath);
+                ShowStatus($"下载微博【{arcId}】第【{readImageIndex}】张图片(OK).");
+
+                if (!Repository.ExistsSinaPicture(userId, arcId, imgUrl))
+                {
+                    var sinaPicture = new SinaPicture()
+                    {
+                        uid = userId,
+                        bid = arcId,
+                        url = imgUrl,
+                        localpath = localPath,
+                        thumbnail = thumbnail,
+                        width = image.Width,
+                        height = image.Height,
+                        downdate = DateTime.Now
+                    };
+                    var suc = Repository.CreateSinaPicture(sinaPicture);
+                    if (!suc)
+                    {
+                        if (File.Exists(imgPath)) File.Delete(imgPath);
+                        if (File.Exists(imgPath)) File.Delete(thumbPath);
+
+                        image.Dispose();
+                        thumbImg.Dispose();
+
+                        ShowStatus($"创建微博【{arcId}】第【{readImageIndex}】张图片错误!!!!!!");
+                        err = true;
+                        return false;
+                    }
+                }
                 return true;
             }
             catch(Exception ex)
             {
-                if (File.Exists(img)) File.Delete(img);
-                ShowStatus($"下载组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片错误!!!!!!");
+                if (File.Exists(imgPath)) File.Delete(imgPath);
+                if (File.Exists(imgPath)) File.Delete(thumbPath);
+                ShowStatus($"下载微博【{arcId}】第【{readImageIndex}】张图片错误!!!!!!");
                 err = true;
                 return false;
             }
+            finally
+            {
+                image.Dispose();
+                thumbImg.Dispose();
+            }
         }
 
-        bool CheckImageSize(SpiderRunningConfig runningConfig,Image image, string arcId, int haveReadPageCount)
+        (int width, int height) GetThumbImageSize(Image image, int thumbWidth, int thumbHeight)
+        {
+            var width = thumbWidth;
+            var height = thumbHeight;
+            var rate = image.Width * 1.0m / image.Height * 1.0m;
+
+            if (image.Width > image.Height)
+            {
+                height = (int)(width / rate);
+            }
+            else
+            {
+                width = (int)(height * rate);
+            }
+            return (width, height);
+        }
+
+        bool CheckImageSize(SpiderRunningConfig runningConfig,Image image, string arcId, int readImageIndex)
         {
             if(image.Width <= runningConfig.ReadMinOfImgSize || image.Height <= runningConfig.ReadMinOfImgSize)
             {
-                ShowStatus($"组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片尺寸太小忽略");
+                ShowStatus($"微博【{arcId}】第【{readImageIndex}】张图片尺寸太小忽略");
                 return false;
             }
             if (image.Width > runningConfig.ReadMaxOfImgSize || image.Height > runningConfig.ReadMaxOfImgSize)
             {
-                ShowStatus($"组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片尺寸太大忽略");
+                ShowStatus($"微博【{arcId}】第【{readImageIndex}】张图片尺寸太大忽略");
                 return false;
             }
             return true;
@@ -930,7 +973,7 @@ namespace SpiderTracker.Imp
                 {
                     uid = userId,
                     bid = arcId,
-                    picurl = vedioUrl
+                    url = vedioUrl
                 };
                 var suc = Repository.CreateSinaPicture(sinaPicture);
                 if (!suc)
@@ -939,7 +982,7 @@ namespace SpiderTracker.Imp
                     return false;
                 }
             }
-            var filePath = PathUtil.GetStoreVedioUserPath(runningConfig.Name, userId, arcId);
+            var filePath = PathUtil.GetStoreUserVideoFile(runningConfig.Name, userId, arcId);
             var down = HttpUtil.GetHttpRequestVedioResult(vedioUrl, filePath, runningConfig);
             if (!down)
             {

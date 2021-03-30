@@ -14,9 +14,11 @@ namespace SpiderTracker.Imp
         {
         }
 
-        public GatherTypeEnum GatherType { get; set; } = GatherTypeEnum.SingleGather;
+        public GatherTypeEnum GatherType { get; set; } = GatherTypeEnum.GatherUser;
 
         public long Id { get; set; }
+
+        public string Location = "home";
 
         public string Name { get; set; } = "default";
 
@@ -169,6 +171,10 @@ namespace SpiderTracker.Imp
         public string DefaultArchivePath { get; set; }
 
         public int LoadUserCount { get; set; } = 100;
+
+        public int ThumbnailImageWidth { get; set; } = 138;
+
+        public int ThumbnailImageHeight { get; set; } = 190;
 
         public void Reset()
         {

@@ -1,4 +1,5 @@
-﻿using SpiderTracker.Imp.Model;
+﻿using SpiderTracker.Imp;
+using SpiderTracker.Imp.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,11 +20,19 @@ namespace SpiderTracker.UI
             InitializeComponent();
         }
 
-        public List<string> ViewImgPaths { get; set; }
+        public List<string> ViewThumbImgPaths { get; set; }
+        List<string> ViewImgPaths { get; set; } = new List<string>();
         public int ViewImgIndex { get; set; }
+
+        public string ImageName { get; set; }
+        public string ImageUser { get; set; }
+        public string ImageStatus { get; set; }
 
         private void ViewImgForm_Load(object sender, EventArgs e)
         {
+            var files = PathUtil.GetStoreUserImageFiles(ImageName, ImageUser, ImageStatus);
+            ViewImgPaths.AddRange(files);
+
             if (ViewImgPaths != null && ViewImgPaths.Count > 0 && ViewImgIndex < ViewImgPaths.Count)
             {
                 if (this.imageCtl.BackgroundImage != null)
@@ -34,7 +43,7 @@ namespace SpiderTracker.UI
                 }
                 var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
                 this.imageCtl.BackgroundImage = image;
-                this.imageCtl.Tag = ViewImgPaths[ViewImgIndex];
+                this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
             }
         }
 
@@ -52,7 +61,7 @@ namespace SpiderTracker.UI
                 }
                 var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
                 this.imageCtl.BackgroundImage = image;
-                this.imageCtl.Tag = ViewImgPaths[ViewImgIndex];
+                this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
             }
         }
 
@@ -70,7 +79,7 @@ namespace SpiderTracker.UI
                 }
                 var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
                 this.imageCtl.BackgroundImage = image;
-                this.imageCtl.Tag = ViewImgPaths[ViewImgIndex];
+                this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
             }
         }
 
@@ -78,17 +87,23 @@ namespace SpiderTracker.UI
         {
             if (this.imageCtl.Tag != null)
             {
-                var imageFile = this.imageCtl.Tag.ToString();
+                var imageFiles = this.imageCtl.Tag.ToString().Split(new string[] { "," }, StringSplitOptions.None).ToArray();
+                if (imageFiles.Length != 2) return;
 
                 this.imageCtl.BackgroundImage.Dispose();
                 this.imageCtl.BackgroundImage = null;
                 this.imageCtl.Tag = null;
 
-                if (File.Exists(imageFile)) File.Delete(imageFile);
 
+                var imageFile = imageFiles[0];
+                if (File.Exists(imageFile)) File.Delete(imageFile);
                 this.ViewImgPaths.Remove(imageFile);
 
-                if(this.ViewImgPaths.Count == 0)
+                var thumbFile = imageFiles[1];
+                if (File.Exists(thumbFile)) File.Delete(thumbFile);
+                this.ViewThumbImgPaths.Remove(thumbFile);
+
+                if (this.ViewImgPaths.Count == 0)
                 {
                     this.DialogResult = DialogResult.Yes;
                     this.Close();

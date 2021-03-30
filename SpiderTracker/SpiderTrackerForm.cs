@@ -395,20 +395,17 @@ namespace SpiderTracker
                     var local = 0;
                     if (item.mtype == 0)
                     {
-                        var path = PathUtil.GetStoreImageUserStatusPathBySelect(LoadCacheName, user, item.bid);
-                        if (Directory.Exists(path))
+                        var files = PathUtil.GetStoreUserThumbnailImageFiles(LoadCacheName, user, item.bid);
+                        local = files.Length;
+                        if (local > 0)
                         {
-                            local = Directory.GetFiles(path).Where(c => c.EndsWith(".jpg")).Count();
-                            if (local > 0)
-                            {
-                                localImg += local;
-                                localStatus += 1;
-                            }
+                            localImg += local;
+                            localStatus += 1;
                         }
                     }
                     else if(item.mtype == 1)
                     {
-                        var file = PathUtil.GetStoreVedioUserPath(LoadCacheName, user, item.bid);
+                        var file = PathUtil.GetStoreUserVideoFile(LoadCacheName, user, item.bid);
                         if (File.Exists(file))
                         {
                             local = 1;
@@ -471,13 +468,22 @@ namespace SpiderTracker
         {
             if (!SinaSpiderService.IsSpiderStarted)
             {
+                var startUrl = this.txtStartUrl.Text;
                 var userIds = new List<string>();
                 foreach (ListViewItem item in this.lstUser.SelectedItems)
                 {
                     var uid = item.SubItems[0].Text.ToString();
                     userIds.Add(uid);
                 }
-                SinaSpiderService.StartSpider(this.RunningConfig, LoadCacheName, userIds, this.txtStartUrl.Text);
+                var statusIds = new List<string>();
+                if(SinaUrlUtil.GetSinaUrlEnum(startUrl) == SinaUrlEnum.StatusUrl)
+                {
+                    statusIds.Add(startUrl);
+
+                    this.RunningConfig.GatherType = GatherTypeEnum.GahterStatus;
+                }
+                this.RunningConfig.Name = LoadCacheName;
+                SinaSpiderService.StartSpider(this.RunningConfig, userIds, statusIds);
             }
             else
             {
@@ -512,7 +518,7 @@ namespace SpiderTracker
             var suc = rep.IgnoreSinaUser(userId);
             if (suc)
             {
-                var userPath = PathUtil.GetStoreImageUserPath(LoadCacheName, userId);
+                var userPath = PathUtil.GetStoreUserPath(LoadCacheName, userId);
                 if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
 
                 if (this.lstUser.Items.Count == 0) return;
@@ -569,13 +575,11 @@ namespace SpiderTracker
                 rep.IgnoreSinaStatus(item.bid);
                 if (item.mtype == 0)
                 {
-                    var userStatusPath = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, item.bid);
-                    if (Directory.Exists(userStatusPath)) Directory.Delete(userStatusPath, true);
+                    PathUtil.DeleteStoreUserImageFiles(LoadCacheName, uid, item.bid);
                 }
                 else if(item.mtype == 1)
                 {
-                    var file = PathUtil.GetStoreVedioUserPath(LoadCacheName, uid, item.bid);
-                    if (File.Exists(file)) File.Delete(file);
+                    PathUtil.DeleteStoreUserVideoFile(LoadCacheName, uid, item.bid);
                 }
                 if (this.lstArc.Items.Count > 0)
                 {
@@ -690,17 +694,14 @@ namespace SpiderTracker
                 {
                     ActiveImageCtl();
 
-                    var files = PathUtil.GetStoreImageFiles(LoadCacheName, uid, status.bid);
-                    if (files.Length > 0)
-                    { 
-                        this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount);
-                    }
+                    var files = PathUtil.GetStoreUserThumbnailImageFiles(LoadCacheName, uid, status.bid);
+                    this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount, LoadCacheName, uid, status.bid);
                 }
                 else if(status.mtype == 1)
                 {
                     ActiveVedioCtl();
 
-                    var file = PathUtil.GetStoreVedioUserPath(LoadCacheName, uid, status.bid);
+                    var file = PathUtil.GetStoreUserVideoFile(LoadCacheName, uid, status.bid);
                     if (File.Exists(file))
                     {
                         this.vedioPlayerUC1.ShowVideo(file);
@@ -797,7 +798,7 @@ namespace SpiderTracker
             var suc = rep.DeleteSinaUser(userId);
             if (suc)
             {
-                var userPath = PathUtil.GetStoreImageUserPath(LoadCacheName, userId);
+                var userPath = PathUtil.GetStoreUserPath(LoadCacheName, userId);
                 if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
 
                 if(this.lstUser.Items.Count > 0)
@@ -827,37 +828,32 @@ namespace SpiderTracker
 
             if (!string.IsNullOrEmpty(uid))
             {
-                var path = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, bid);
+                var path = PathUtil.GetStoreUserPath(LoadCacheName, uid);
                 if (Directory.Exists(path))
                 {
                     System.Diagnostics.Process.Start(path);
                 }
                 else
                 {
-                    path = PathUtil.GetStoreImageUserPath(LoadCacheName, uid);
-                    if (Directory.Exists(path))
-                    {
-                        System.Diagnostics.Process.Start(path);
-                    }
-                    else
-                    {
-                        path = PathUtil.BaseDirectory;
-                        System.Diagnostics.Process.Start(path);
-                    }
+                    path = PathUtil.BaseDirectory;
+                    System.Diagnostics.Process.Start(path);
                 }
             }
         }
 
         private void btnGetStatusByBid_Click(object sender, EventArgs e)
         {
+            var statusIds = new List<string>();
             var status = GetSelectStatuss();
             foreach(var item in status)
             {
-                if (!SinaSpiderService.IsSpiderStarted)
-                {
-                    this.txtStartUrl.Text = $"https://m.weibo.cn/status/{item.bid}";
-                    SinaSpiderService.StartSpider(this.RunningConfig, LoadCacheName, null, this.txtStartUrl.Text);
-                }
+                statusIds.Add(item.bid);
+            }
+            if (!SinaSpiderService.IsSpiderStarted)
+            {
+                this.RunningConfig.Name = LoadCacheName;
+                this.RunningConfig.GatherType = GatherTypeEnum.GahterStatus;
+                SinaSpiderService.StartSpider(this.RunningConfig, null, statusIds);
             }
         }
 
@@ -913,11 +909,8 @@ namespace SpiderTracker
             {
                 if (item.mtype == 0)
                 {
-                    var path = PathUtil.GetStoreImageUserStatusPath(LoadCacheName, uid, item.bid);
-                    if (!Directory.Exists(path)) continue;
-
-                    var files = Directory.GetFiles(path).Where(c => c.EndsWith(".jpg")).Select(c => new FileInfo(c)).ToArray();
-                    foreach (var file in files)
+                    var files = PathUtil.GetStoreUserImageFiles(LoadCacheName, uid, item.bid);
+                    foreach (var file in files.Select(c => new FileInfo(c)).ToArray())
                     {
                         var destFile = Path.Combine(archivePath, file.Name);
                         file.CopyTo(destFile, true);
@@ -925,7 +918,7 @@ namespace SpiderTracker
                 }
                 else if(item.mtype == 1)
                 {
-                    var path = PathUtil.GetStoreVedioUserPath(LoadCacheName, uid, item.bid);
+                    var path = PathUtil.GetStoreUserVideoFile(LoadCacheName, uid, item.bid);
                     if (File.Exists(path))
                     {
                         var destFile = Path.Combine(archivePath, new FileInfo(path).Name);
@@ -1085,14 +1078,6 @@ namespace SpiderTracker
                 this.btnLock.Tag = null;
                 LockImageCtl(true);
             }
-        }
-
-        private void btnManage_Click(object sender, EventArgs e)
-        {
-            CacheImageViewForm frm = new CacheImageViewForm();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.Size = new Size(1400, 768);
-            frm.Show();
         }
 
         #endregion
@@ -1277,6 +1262,17 @@ namespace SpiderTracker
             dt.Rows.Add(dr);
 
             //dr = dt.NewRow();
+            //dr["配置项"] = "缩略图宽度";
+            //dr["配置值"] = "140";
+            //dt.Rows.Add(dr);
+
+            //dr = dt.NewRow();
+            //dr["配置项"] = "缩略图高度";
+            //dr["配置值"] = "190";
+            //dt.Rows.Add(dr);
+
+            
+            //dr = dt.NewRow();
             //dr["配置项"] = "预览图片数量";
             //dr["配置值"] = "6";
             //dt.Rows.Add(dr);
@@ -1447,7 +1443,20 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue);
                     RunningConfig.LoadUserCount = intValue;
                 }
-                
+                else if (row.Cells["配置项"].Value.ToString() == "缩略图宽度")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    int intValue = 0;
+                    int.TryParse(strValue, out intValue);
+                    RunningConfig.ThumbnailImageWidth = intValue;
+                }
+                else if (row.Cells["配置项"].Value.ToString() == "缩略图高度")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    int intValue = 0;
+                    int.TryParse(strValue, out intValue);
+                    RunningConfig.ThumbnailImageHeight = intValue;
+                }
             }
             return RunningConfig;
         }

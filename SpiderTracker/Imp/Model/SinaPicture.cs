@@ -14,9 +14,10 @@ namespace SpiderTracker.Imp.Model
         }
         public string uid { get; set; }
         public string bid { get; set; }
-        public string picurl { get; set; }
+        public string url { get; set; }
 
         public string localpath { get; set; }
+        public string thumbnail { get; set; }
 
         public int width { get; set; }
 

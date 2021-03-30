@@ -76,7 +76,7 @@ namespace SpiderTracker.Imp.Model
 
         public bool ExistsSinaPicture(string uid, string bid, string imgurl)
         {
-            return DBHelper.ExistsEntity("sina_picture", $"`uid`='{uid}' and `bid`='{bid}' and `picurl`='{imgurl}'");
+            return DBHelper.ExistsEntity("sina_picture", $"`uid`='{uid}' and `bid`='{bid}' and `url`='{imgurl}'");
         }
 
         public int GetUserStatusCount(string uid)
