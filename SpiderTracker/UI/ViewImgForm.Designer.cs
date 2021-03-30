@@ -39,8 +39,6 @@
             // 
             // imageCtl
             // 
-            this.imageCtl.AutoScroll = true;
-            this.imageCtl.AutoSize = true;
             this.imageCtl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.imageCtl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageCtl.Location = new System.Drawing.Point(50, 0);
@@ -94,6 +92,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(904, 621);
             this.Controls.Add(this.imageCtl);
             this.Controls.Add(this.imageLeft);
@@ -108,7 +107,6 @@
             this.imageLeft.ResumeLayout(false);
             this.imageLeft.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

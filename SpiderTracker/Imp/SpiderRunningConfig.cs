@@ -168,6 +168,8 @@ namespace SpiderTracker.Imp
 
         public string DefaultArchivePath { get; set; }
 
+        public int LoadUserCount { get; set; } = 100;
+
         public void Reset()
         {
             this.DoUserIds = new ConcurrentQueue<string>();

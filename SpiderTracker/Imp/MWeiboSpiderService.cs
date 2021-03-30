@@ -211,9 +211,10 @@ namespace SpiderTracker.Imp
             Repository = new SinaRepository();
         }
 
-        public void StartSpider(SpiderRunningConfig runningConfig, string groupName, IList<string> userIds)
+        public void StartSpider(SpiderRunningConfig runningConfig, string groupName, IList<string> userIds, string startUrl)
         {
             this.RunningConfig = runningConfig;
+            this.RunningConfig.StartUrl = startUrl;
             this.RunningConfig.Name = groupName;
             this.RunningConfig.Reset();
 
@@ -226,7 +227,16 @@ namespace SpiderTracker.Imp
             Task.Factory.StartNew(() =>
             {
                 SpiderStarted(userIds);
-                StartAutoGatherTask();
+
+                var userCount = GetUserCount();
+                if(userCount > 0)
+                {
+                    StartAutoGatherByUser();
+                }
+                else
+                {
+                    StartAutoGatherByStatus();
+                }
                 SpiderComplete();
             });
         }
@@ -237,21 +247,25 @@ namespace SpiderTracker.Imp
             SpiderStoping();
         }
 
-        void StartAutoGatherTask()
+        void StartAutoGatherByStatus()
         {
-            var userCount = GetUserCount();
-            if(userCount == 0)
+            var sinaUrlEnum = SinaUrlUtil.GetSinaUrlEnum(RunningConfig.StartUrl);
+            if (sinaUrlEnum == SinaUrlEnum.StatusUrl)
             {
-                StartSpiderGatherTask(RunningConfig);
-                //ShowStatus($"无采集用户数据.");
-                return ;
+                ShowStatus($"准备读取用户的微博数据...");
+
+                var readStatusImageCount = GatherSinaStatusByStatusUrl(RunningConfig);
+
+                ShowStatus($"采集完成,共采集资源【{readStatusImageCount}】.");
             }
-            ShowStatus($"准备读取【{userCount}】个用户的微博数据...");
+        }
+
+        void StartAutoGatherByUser()
+        {
+            ShowStatus($"准备读取用户的微博数据...");
 
             var threads = new List<Task>();
             var maxReadUserCount = RunningConfig.MaxReadUserThreadCount;
-            //var doUserCount = runningConfig.DoUserIds.Count;
-            //var threadCount = (maxReadUserCount == 0 ? doUserCount : maxReadUserCount > doUserCount ? doUserCount : maxReadUserCount);
             for (var i = 0; i < maxReadUserCount; i++)
             {
                 var task = Task.Factory.StartNew(() =>
@@ -262,20 +276,6 @@ namespace SpiderTracker.Imp
                 threads.Add(task);
             }
             Task.WaitAll(threads.ToArray());
-        }
-
-        int StartSpiderGatherTask(SpiderRunningConfig runninConfig)
-        {
-            var sinaUrlEnum = SinaUrlUtil.GetSinaUrlEnum(runninConfig.StartUrl);
-            switch (sinaUrlEnum)
-            {
-                case SinaUrlEnum.UserUrl:
-                    return GatherSinaStatusByUserUrl(runninConfig);
-                case SinaUrlEnum.StatusUrl:
-                    return GatherSinaStatusByStatusUrl(runninConfig);
-                default:
-                    return 0;
-            }
         }
 
         public void StartSpiderGatherTaskThread(int taskIndex)
@@ -305,7 +305,7 @@ namespace SpiderTracker.Imp
 
                 var tempRuningConfig = RunningConfig.Clone();
                 tempRuningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user);
-                var readStatusImageCount = StartSpiderGatherTask(tempRuningConfig);
+                var readStatusImageCount = GatherSinaStatusByUserUrl(tempRuningConfig);
 
                 GatherUserComplete(user, readStatusImageCount);
 
@@ -587,7 +587,7 @@ namespace SpiderTracker.Imp
                     GatherStatusComplete(user.id, readStatusImageCount);
                 }
             }
-            if(status.page_info != null && runningConfig.ReadUserVideo == 1)
+            if(status.page_info != null && status.page_info.urls != null && runningConfig.ReadUserVideo == 1)
             {
                 SinaStatus newStatus = null;
                 readStatusImageCount = GatherSinaStatusViedoByStatusResult(runningConfig, status);
@@ -641,7 +641,7 @@ namespace SpiderTracker.Imp
                         GatherStatusComplete(user.id, readStatusImageCount);
                     }
                 }
-                if(status.retweeted_status.page_info != null && runningConfig.ReadUserVideo == 1)
+                if(status.retweeted_status.page_info != null && status.retweeted_status.page_info.urls != null  && runningConfig.ReadUserVideo == 1)
                 {
                     SinaStatus newStatus = null;
                     readStatusImageCount = GatherSinaStatusViedoByStatusResult(runningConfig, status.retweeted_status);
@@ -705,12 +705,13 @@ namespace SpiderTracker.Imp
             int haveReadImageCount = 0, readImageIndex = 0, errorReadImageCount = 0;
             foreach (var pic in status.pics)
             {
-                var succ = DownloadUserStatusImage(runninConfig, user.id, status.bid, pic.large.url, readImageIndex);
+                bool err = false;
+                var succ = DownloadUserStatusImage(runninConfig, user.id, status.bid, pic.large.url, readImageIndex, out err);
                 if (succ)
                 {
                     haveReadImageCount++;
                 }
-                else
+                if(err)
                 {
                     errorReadImageCount++;
                 }
@@ -852,8 +853,10 @@ namespace SpiderTracker.Imp
         /// <param name="dto"></param>
         /// <param name="cookie"></param>
         /// <returns></returns>
-        bool DownloadUserStatusImage(SpiderRunningConfig runningConfig, string userId, string arcId, string imgUrl, int haveReadPageCount)
+        bool DownloadUserStatusImage(SpiderRunningConfig runningConfig, string userId, string arcId, string imgUrl, int haveReadPageCount, out bool err)
         {
+            err = false;
+
             if (!Repository.ExistsSinaPicture(userId, arcId, imgUrl))
             {
                 var sinaPicture = new SinaPicture()
@@ -866,13 +869,15 @@ namespace SpiderTracker.Imp
                 if (!suc)
                 {
                     ShowStatus($"创建本地微博图片错误!!!!!!");
+                    err = true;
                     return false;
                 }
             }
             var image = HttpUtil.GetHttpRequestImageResult(imgUrl, runningConfig);
             if (image == null)
             {
-                ShowStatus($"下载组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片错误!");
+                ShowStatus($"下载组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片错误!"); 
+                err = true;
                 return false;
             }
             if (!CheckImageSize(runningConfig, image, arcId, haveReadPageCount)) return false;
@@ -891,6 +896,7 @@ namespace SpiderTracker.Imp
             {
                 if (File.Exists(img)) File.Delete(img);
                 ShowStatus($"下载组图【{arcId}】第【{(haveReadPageCount + 1)}】张图片错误!!!!!!");
+                err = true;
                 return false;
             }
         }

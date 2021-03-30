@@ -309,10 +309,8 @@ namespace SpiderTracker
 
         void LoadCacheUserList(string name, bool reload)
         {
-            if (reload)
-            {
-                ClearCacheUser();
-            }
+            if (reload) ClearCacheUser();
+
             var keyword = this.txtUserFilter.Text.Trim();
             var users = SinaSpiderService.Repository.GetUsers(name, keyword);
 
@@ -322,10 +320,13 @@ namespace SpiderTracker
             else if (this.sltNewQty.Checked) users = users.OrderByDescending(c => c.newcount).ToList();
             else if (this.sltFocus.Checked) users = users.OrderByDescending(c => c.focus).ToList();
 
+            //保留显示用户数
+            var showUsers = users.Take(RunningConfig.LoadUserCount).ToArray();
+
             var needUsers = new List<SinaUser>();
             if (CacheSinaUsers.Count > 0)
             {
-                foreach (var user in users)
+                foreach (var user in showUsers)
                 {
                     if (!CacheSinaUsers.Any(c=>c.uid == user.uid))
                     {
@@ -337,7 +338,7 @@ namespace SpiderTracker
             }
             else
             {
-                needUsers.AddRange(users);
+                needUsers.AddRange(showUsers);
 
                 CacheSinaUsers.AddRange(users);
             }
@@ -360,7 +361,7 @@ namespace SpiderTracker
                     this.lstUser.Items.Add(subItem);
                 }
                 this.lstUser.EndUpdate();
-                this.lblLstUserCount.Text = $"{this.lstUser.Items.Count}";
+                this.lblLstUserCount.Text = $"{users.Count}";
             }));
         }
         
@@ -476,7 +477,7 @@ namespace SpiderTracker
                     var uid = item.SubItems[0].Text.ToString();
                     userIds.Add(uid);
                 }
-                SinaSpiderService.StartSpider(this.RunningConfig, LoadCacheName, userIds);
+                SinaSpiderService.StartSpider(this.RunningConfig, LoadCacheName, userIds, this.txtStartUrl.Text);
             }
             else
             {
@@ -560,7 +561,7 @@ namespace SpiderTracker
             var uid = GetSelectUserId();
             var status = GetSelectStatuss();
 
-            if (confirm && MessageBox.Show($"确认拉黑当前选中的[{status.Length}]个图集?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+            if (confirm && MessageBox.Show($"确认拉黑当前选中的[{status.Length}]个微博?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             var rep = new SinaRepository();
             foreach (var item in status)
@@ -770,7 +771,7 @@ namespace SpiderTracker
         private void btnMarkUser_Click(object sender, EventArgs e)
         {
             var user = GetSelectUserId();
-            if (MessageBox.Show($"确认已存档当前用户的所有图集[{user}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+            if (MessageBox.Show($"确认已存档当前用户的所有微博[{user}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             if (!string.IsNullOrEmpty(user))
             {
@@ -855,8 +856,7 @@ namespace SpiderTracker
                 if (!SinaSpiderService.IsSpiderStarted)
                 {
                     this.txtStartUrl.Text = $"https://m.weibo.cn/status/{item.bid}";
-                    this.RunningConfig.StartUrl = this.txtStartUrl.Text;
-                    SinaSpiderService.StartSpider(this.RunningConfig, LoadCacheName, null);
+                    SinaSpiderService.StartSpider(this.RunningConfig, LoadCacheName, null, this.txtStartUrl.Text);
                 }
             }
         }
@@ -881,7 +881,7 @@ namespace SpiderTracker
             var status = GetSelectStatuss();
             if (status.Length == 0) return;
 
-            if (MessageBox.Show($"确认已存档当前选中的[{status.Length}]个图集?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+            if (MessageBox.Show($"确认已存档当前选中的[{status.Length}]个微博?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             var rep = new SinaRepository();
             foreach (var item in status)
@@ -1097,7 +1097,7 @@ namespace SpiderTracker
 
         #endregion
 
-        #region 图集功能操作
+        #region 微博功能操作
 
         void UpSelectStatus()
         {
@@ -1222,7 +1222,7 @@ namespace SpiderTracker
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
-            dr["配置项"] = "忽略存档图集";
+            dr["配置项"] = "忽略存档微博";
             dr["配置值"] = "1";
             dt.Rows.Add(dr);
 
@@ -1237,7 +1237,7 @@ namespace SpiderTracker
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
-            dr["配置项"] = "采集原创图集";
+            dr["配置项"] = "采集原创微博";
             dr["配置值"] = "1";
             dt.Rows.Add(dr);
 
@@ -1269,6 +1269,11 @@ namespace SpiderTracker
             dr = dt.NewRow();
             dr["配置项"] = "图片最大尺寸";
             dr["配置值"] = "9999";
+            dt.Rows.Add(dr);
+
+            dr = dt.NewRow();
+            dr["配置项"] = "显示用户数量";
+            dr["配置值"] = "100";
             dt.Rows.Add(dr);
 
             //dr = dt.NewRow();
@@ -1348,7 +1353,7 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue); ;
                     RunningConfig.ReadUserVideo = intValue;
                 }
-                else if (row.Cells["配置项"].Value.ToString() == "采集原创图集")
+                else if (row.Cells["配置项"].Value.ToString() == "采集原创微博")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     var intValue = 0;
@@ -1402,7 +1407,7 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue);
                     RunningConfig.ReadUserOfMyFocus = intValue;
                 }
-                else if (row.Cells["配置项"].Value.ToString() == "忽略存档图集")
+                else if (row.Cells["配置项"].Value.ToString() == "忽略存档微博")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     int intValue = 0;
@@ -1435,6 +1440,14 @@ namespace SpiderTracker
                     var strValue = row.Cells["配置值"].Value.ToString();
                     RunningConfig.DefaultArchivePath = strValue;
                 }
+                else if (row.Cells["配置项"].Value.ToString() == "显示用户数量")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    int intValue = 0;
+                    int.TryParse(strValue, out intValue);
+                    RunningConfig.LoadUserCount = intValue;
+                }
+                
             }
             return RunningConfig;
         }

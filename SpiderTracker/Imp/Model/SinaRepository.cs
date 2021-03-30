@@ -202,9 +202,9 @@ namespace SpiderTracker.Imp.Model
             sinaStatus.mid = status.id;
             sinaStatus.mtype = mtype;
             sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(status.bid);
-            if (readStatusImageCount != -1)
+            if(readStatusImageCount == 0)
             {
-                sinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
+                sinaStatus.ignore = 1;
             }
             if (retweeted == null)
             {
@@ -252,9 +252,9 @@ namespace SpiderTracker.Imp.Model
                     sinaStatus.mtype = mtype;
                     sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(retweeted.bid);
                     sinaStatus.qty = readSourceCount;
-                    if (readStatusImageCount != -1)
+                    if(readStatusImageCount == 0)
                     {
-                        sinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
+                        sinaStatus.ignore = 1;
                     }
                     var suc = CreateSinaStatus(sinaStatus);
                     if (!suc)
