@@ -70,6 +70,11 @@ namespace SpiderTracker.Imp
             {
                 File.Delete(file);
             }
+            files = GetStoreUserThumbnailImageFiles(name, user, status);
+            foreach (var file in files)
+            {
+                File.Delete(file);
+            }
         }
 
         public static void DeleteStoreUserVideoFile(string name, string user, string status)

@@ -41,15 +41,15 @@ namespace SpiderTracker.Imp
 
         public event SpiderStartedEventHander OnSpiderStarted;
 
-        public void SpiderStarted(IList<string> userIds)
+        public void SpiderStarted(IList<SinaUser> users)
         {
             IsSpiderStarted = true;
             StopSpiderWork = false;
 
             var readUsers = new List<SinaUser>();
-            if(userIds != null && userIds.Count> 0)
+            if(users != null && users.Count> 0)
             {
-                foreach(var user in userIds)
+                foreach(var user in users)
                 {
                     RunningConfig.AddUser(user);
                 }
@@ -63,7 +63,7 @@ namespace SpiderTracker.Imp
                 }
                 foreach (var user in readUsers)
                 {
-                    RunningConfig.AddUser(user.uid);
+                    RunningConfig.AddUser(user);
                 }
             }
             if(RunningConfig.ReadUserOfMyFocus == 1)
@@ -71,11 +71,11 @@ namespace SpiderTracker.Imp
                 readUsers = Repository.GetFocusUsers(RunningConfig.Name);
                 if (!string.IsNullOrEmpty(RunningConfig.ReadUserNameLike))
                 {
-                    readUsers = readUsers.Where(c => (c.name.Contains(RunningConfig.ReadUserNameLike) || c.desc.Contains(RunningConfig.ReadUserNameLike))).ToList();
+                    readUsers = FilterReadUser(readUsers, RunningConfig.ReadUserNameLike);
                 }
                 foreach (var user in readUsers)
                 {
-                    RunningConfig.AddUser(user.uid);
+                    RunningConfig.AddUser(user);
                 }
             }
             if (RunningConfig.ReadUserOfHeFocus == 1)
@@ -83,11 +83,11 @@ namespace SpiderTracker.Imp
                 var focusUser = GatherHeFocusUsers(RunningConfig);
                 if (!string.IsNullOrEmpty(RunningConfig.ReadUserNameLike))
                 {
-                    focusUser = focusUser.Where(c => (c.screen_name.Contains(RunningConfig.ReadUserNameLike) || c.description.Contains(RunningConfig.ReadUserNameLike))).ToArray();
+                    focusUser = FilterReadUser(focusUser, RunningConfig.ReadUserNameLike);
                 }
                 foreach (var user in focusUser)
                 {
-                    RunningConfig.AddUser(user.id);
+                    RunningConfig.AddUser(user);
                 }
             }
             if (OnSpiderStarted != null)
@@ -95,6 +95,24 @@ namespace SpiderTracker.Imp
                 OnSpiderStarted?.Invoke(RunningConfig);
             }
         }
+
+
+        List<SinaUser> FilterReadUser(IList<SinaUser> users, string filter)
+        {
+            var lst = new List<SinaUser>();
+            var keys = filter.Split(new string[] { "," }, StringSplitOptions.None);
+            foreach(var key in keys)
+            {
+                var us = users.Where(c => c.name.Contains(key) || c.desc.Contains(key)).ToArray();
+                foreach(var u in us)
+                {
+                    if (!lst.Any(c => c.uid == u.uid))
+                        lst.Add(u);
+                }
+            }
+            return lst;
+        }
+
 
         public delegate void SpiderCompleteEventHander();
 
@@ -143,48 +161,48 @@ namespace SpiderTracker.Imp
             OnGatherPageComplete?.Invoke(uid, pageIndex, readImageQty);
         }
 
-        public delegate void SpiderGatherUserCompleteEventHander(string uid, int readImageQty);
+        public delegate void SpiderGatherUserCompleteEventHander(SinaUser user, int readImageQty);
 
         public event SpiderGatherUserCompleteEventHander OnGatherUserComplete;
 
-        public void GatherUserComplete(string uid, int readImageQty)
+        public void GatherUserComplete(SinaUser user, int readImageQty)
         {
-            OnGatherUserComplete?.Invoke(uid, readImageQty);
+            OnGatherUserComplete?.Invoke(user, readImageQty);
         }
 
-        public delegate void SpiderGatherUserStartedEventHander(string uid);
+        public delegate void SpiderGatherUserStartedEventHander(SinaUser user);
 
         public event SpiderGatherUserStartedEventHander OnGatherUserStarted;
-        public void GatherUserStarted(string uid)
+        public void GatherUserStarted(SinaUser user)
         {
-            OnGatherUserStarted?.Invoke(uid);
+            OnGatherUserStarted?.Invoke(user);
         }
 
-        public delegate void SpiderGatherAppendUserEventHander(string uid);
+        public delegate void SpiderGatherAppendUserEventHander(SinaUser user);
 
         public event SpiderGatherAppendUserEventHander OnGatherAppendUser;
 
-        public void AppendUser(string uid)
+        public void AppendUser(SinaUser user)
         {
-            if (this.RunningConfig.AddUser(uid))
+            if (this.RunningConfig.AddUser(user))
             {
                 if (OnGatherAppendUser != null)
                 {
-                    OnGatherAppendUser?.Invoke(uid);
+                    OnGatherAppendUser?.Invoke(user);
                 }
             }
         }
 
-        public string PeekUser()
+        public SinaUser PeekUser()
         {
-            string user = null;
-            RunningConfig.DoUserIds.TryDequeue(out user);
+            SinaUser user = null;
+            RunningConfig.DoUsers.TryDequeue(out user);
             return user;
         }
 
         public int GetUserCount()
         {
-            return RunningConfig.DoUserIds.Count;
+            return RunningConfig.DoUsers.Count;
         }
 
         #endregion
@@ -211,7 +229,7 @@ namespace SpiderTracker.Imp
             Repository = new SinaRepository();
         }
 
-        public void StartSpider(SpiderRunningConfig runningConfig, IList<string> userIds, IList<string> statusIds)
+        public void StartSpider(SpiderRunningConfig runningConfig, IList<SinaUser> users, IList<string> statusIds)
         {
             this.RunningConfig = runningConfig;
             this.RunningConfig.Reset();
@@ -224,7 +242,7 @@ namespace SpiderTracker.Imp
 
             Task.Factory.StartNew(() =>
             {
-                SpiderStarted(userIds);
+                SpiderStarted(users);
 
                 if(RunningConfig.GatherType == GatherTypeEnum.GahterStatus)
                 {
@@ -285,8 +303,8 @@ namespace SpiderTracker.Imp
         {
             while (!StopSpiderWork)
             {
-                string user = PeekUser();
-                if (string.IsNullOrEmpty(user))
+                var user = PeekUser();
+                if (user == null)
                 {
                     if(!RunningConfig.DoTasks.Any(c=>c.Value == ThreadState.Running))
                     {
@@ -307,7 +325,7 @@ namespace SpiderTracker.Imp
                 GatherUserStarted(user);
 
                 var tempRuningConfig = RunningConfig.Clone();
-                tempRuningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user);
+                tempRuningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user.uid);
                 var readStatusImageCount = GatherSinaStatusByUserUrl(tempRuningConfig);
 
                 GatherUserComplete(user, readStatusImageCount);
@@ -325,11 +343,11 @@ namespace SpiderTracker.Imp
             return jsonResult;
         }
 
-        MWeiboUser[] GatherHeFocusUsers(SpiderRunningConfig runningConfig)
+        List<SinaUser> GatherHeFocusUsers(SpiderRunningConfig runningConfig)
         {
-            var focusUsers = new List<MWeiboUser>();
+            var focusUsers = new List<SinaUser>();
 
-            foreach(var userId in runningConfig.DoUserIds)
+            foreach(var userId in runningConfig.DoUsers)
             {
                 int page = 0;
                 while (++page > 0)
@@ -353,11 +371,17 @@ namespace SpiderTracker.Imp
                     {
                         break;
                     }
-                    var users = focusUserCard.card_group.Select(c => c.user).ToArray();
+                    var users = focusUserCard.card_group.Select(c => new SinaUser()
+                    {
+                        uid = c.user.id,
+                        name = c.user.screen_name,
+                        desc = c.user.description,
+                        groupname = runningConfig.Name
+                    }).ToArray();
                     focusUsers.AddRange(users);
                 }
             }
-            return focusUsers.Distinct().ToArray();
+            return focusUsers.ToList();
         }
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpiderTracker.Imp.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace SpiderTracker.Imp
     {
         bool IsSpiderStarted { get; set; }
 
-        void StartSpider(SpiderRunningConfig runninConfig, IList<string> userIds, IList<string> statusIds);
+        void StartSpider(SpiderRunningConfig runninConfig, IList<SinaUser> users, IList<string> statusIds);
 
         void StopSpider();
     }

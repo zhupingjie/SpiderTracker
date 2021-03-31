@@ -80,26 +80,27 @@ namespace SpiderTracker
 
         #region Spider Event
 
-        private void SinaSpiderService_OnGatherUserStarted(string uid)
+        private void SinaSpiderService_OnGatherUserStarted(SinaUser user)
         {
             InvokeControl(this.lstRunstate, new Action(() =>
             {
                 if (this.lstRunstate.Items.Count == 0) return;
 
-                var listItem = this.lstRunstate.FindItemWithText(uid);
+                var listItem = this.lstRunstate.FindItemWithText(user.uid);
                 if (listItem != null)
                 {
-                    listItem.SubItems[3].Text = "...";
+                    listItem.SubItems[4].Text = "...";
                 }
             }));
         }
 
-        private void SinaSpiderService_OnGatherAppendUser(string uid)
+        private void SinaSpiderService_OnGatherAppendUser(SinaUser user)
         {
             InvokeControl(this.lstRunstate, new Action(() =>
             {
                 var subItem = new ListViewItem();
-                subItem.Text = uid;
+                subItem.Text = user.uid;
+                subItem.SubItems.Add($"{user.name}");
                 subItem.SubItems.Add($"0");
                 subItem.SubItems.Add($"0");
                 subItem.SubItems.Add($"Waitting");
@@ -117,17 +118,17 @@ namespace SpiderTracker
             }
         }
 
-        private void SinaSpiderService_OnGatherUserComplete(string uid, int readImageQty)
+        private void SinaSpiderService_OnGatherUserComplete(SinaUser user, int readImageQty)
         {
             InvokeControl(this.lstRunstate, new Action(() =>
             {
                 if (this.lstRunstate.Items.Count == 0) return;
 
-                var listItem = this.lstRunstate.FindItemWithText(uid);
+                var listItem = this.lstRunstate.FindItemWithText(user.uid);
                 if (listItem != null)
                 {
-                    listItem.SubItems[2].Text = $"{readImageQty}";
-                    listItem.SubItems[3].Text = "OK";
+                    listItem.SubItems[3].Text = $"{readImageQty}";
+                    listItem.SubItems[4].Text = "OK";
                 }
             }));
         }
@@ -144,8 +145,8 @@ namespace SpiderTracker
                     var imageQty = 0;
                     int.TryParse(listItem.SubItems[2].Text, out imageQty);
                     imageQty += readImageQty;
-                    listItem.SubItems[2].Text = $"{imageQty}";
-                    listItem.SubItems[3].Text = "...";
+                    listItem.SubItems[3].Text = $"{imageQty}";
+                    listItem.SubItems[4].Text = "...";
                 }
             }));
         }
@@ -160,8 +161,8 @@ namespace SpiderTracker
                     var pageQty = 0;
                     int.TryParse(listItem.SubItems[1].Text, out pageQty);
                     pageQty += 1;
-                    listItem.SubItems[1].Text = $"{pageQty}";
-                    listItem.SubItems[3].Text = "...";
+                    listItem.SubItems[2].Text = $"{pageQty}";
+                    listItem.SubItems[4].Text = "...";
                 }
             }));
         }
@@ -191,10 +192,11 @@ namespace SpiderTracker
             InvokeControl(this.lstRunstate, new Action(() =>
             {
                 this.lstRunstate.Items.Clear();
-                foreach (var user in runningConfig.DoUserIds)
+                foreach (var user in runningConfig.DoUsers)
                 {
                     var subItem = new ListViewItem();
-                    subItem.Text = user;
+                    subItem.Text = user.uid;
+                    subItem.SubItems.Add($"{user.name}");
                     subItem.SubItems.Add($"0");
                     subItem.SubItems.Add($"0");
                     subItem.SubItems.Add($"Waitting");
@@ -469,11 +471,14 @@ namespace SpiderTracker
             if (!SinaSpiderService.IsSpiderStarted)
             {
                 var startUrl = this.txtStartUrl.Text;
-                var userIds = new List<string>();
+                var users = new List<SinaUser>();
                 foreach (ListViewItem item in this.lstUser.SelectedItems)
                 {
-                    var uid = item.SubItems[0].Text.ToString();
-                    userIds.Add(uid);
+                    var user = item.Tag;
+                    if (user != null)
+                    {
+                        users.Add(user as SinaUser);
+                    }
                 }
                 var statusIds = new List<string>();
                 if(SinaUrlUtil.GetSinaUrlEnum(startUrl) == SinaUrlEnum.StatusUrl)
@@ -483,7 +488,7 @@ namespace SpiderTracker
                     this.RunningConfig.GatherType = GatherTypeEnum.GahterStatus;
                 }
                 this.RunningConfig.Name = LoadCacheName;
-                SinaSpiderService.StartSpider(this.RunningConfig, userIds, statusIds);
+                SinaSpiderService.StartSpider(this.RunningConfig, users, statusIds);
             }
             else
             {
@@ -497,8 +502,11 @@ namespace SpiderTracker
             {
                 foreach (ListViewItem item in this.lstUser.SelectedItems)
                 {
-                    var uid = item.SubItems[0].Text.ToString();
-                    SinaSpiderService.AppendUser(uid);
+                    var user = item.Tag;
+                    if (user != null)
+                    {
+                        SinaSpiderService.AppendUser(user as SinaUser);
+                    }
                 }
             }
         }
@@ -1253,7 +1261,7 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "图片最大尺寸";
-            dr["配置值"] = "9999";
+            dr["配置值"] = "99999";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();

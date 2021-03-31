@@ -113,12 +113,13 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.tbpReview = new System.Windows.Forms.TabPage();
-            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.tbpVideo = new System.Windows.Forms.TabPage();
-            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
+            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -984,6 +985,7 @@
             this.lstRunstate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lstRunstate.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader10,
+            this.columnHeader5,
             this.columnHeader11,
             this.columnHeader12,
             this.columnHeader13});
@@ -1068,16 +1070,6 @@
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
             // 
-            // imagePreviewUC1
-            // 
-            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
-            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
-            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(492, 531);
-            this.imagePreviewUC1.TabIndex = 0;
-            // 
             // tbpVideo
             // 
             this.tbpVideo.Controls.Add(this.vedioPlayerUC1);
@@ -1087,15 +1079,6 @@
             this.tbpVideo.TabIndex = 2;
             this.tbpVideo.Text = "视频预览";
             this.tbpVideo.UseVisualStyleBackColor = true;
-            // 
-            // vedioPlayerUC1
-            // 
-            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 271, 3, 271);
-            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
-            this.vedioPlayerUC1.Size = new System.Drawing.Size(492, 531);
-            this.vedioPlayerUC1.TabIndex = 0;
             // 
             // label10
             // 
@@ -1125,6 +1108,30 @@
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
+            // 
+            // imagePreviewUC1
+            // 
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(492, 531);
+            this.imagePreviewUC1.TabIndex = 0;
+            // 
+            // vedioPlayerUC1
+            // 
+            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 771, 3, 771);
+            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
+            this.vedioPlayerUC1.Size = new System.Drawing.Size(492, 531);
+            this.vedioPlayerUC1.TabIndex = 0;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Name";
+            this.columnHeader5.Width = 80;
             // 
             // SpiderTrackerForm
             // 
@@ -1273,6 +1280,7 @@
         private System.Windows.Forms.RadioButton sltFocus;
         private System.Windows.Forms.TabPage tbpVideo;
         private UI.VedioPlayerUC vedioPlayerUC1;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
     }
 }
 

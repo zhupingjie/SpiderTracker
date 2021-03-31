@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpiderTracker.Imp.Model;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 待处理用户集合
         /// </summary>
-        public ConcurrentQueue<string> DoUserIds { get; set; } = new ConcurrentQueue<string>();
+        public ConcurrentQueue<SinaUser> DoUsers { get; set; } = new ConcurrentQueue<SinaUser>();
 
         public ConcurrentDictionary<int, ThreadState> DoTasks { get; set; } = new ConcurrentDictionary<int, ThreadState>();
 
@@ -178,19 +179,19 @@ namespace SpiderTracker.Imp
 
         public void Reset()
         {
-            this.DoUserIds = new ConcurrentQueue<string>();
+            this.DoUsers = new ConcurrentQueue<SinaUser>();
             this.RunUserIds.Clear();
             this.DoTasks.Clear();
         }
 
-        public bool AddUser(string uid, bool append = true)
+        public bool AddUser(SinaUser user, bool append = true)
         {
-            if (!string.IsNullOrEmpty(uid) && !this.DoUserIds.Contains(uid))
+            if (user != null && !this.DoUsers.Any(c=>c.uid == user.uid))
             {
-                if (!this.RunUserIds.Contains(uid))
+                if (!this.RunUserIds.Contains(user.uid))
                 {
-                    this.DoUserIds.Enqueue(uid);
-                    this.RunUserIds.Add(uid);
+                    this.DoUsers.Enqueue(user);
+                    this.RunUserIds.Add(user.uid);
                     return true;
                 }
             }
