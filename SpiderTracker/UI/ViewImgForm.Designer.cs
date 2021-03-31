@@ -28,23 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.imageCtl = new System.Windows.Forms.Panel();
             this.imageRight = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.imageLeft = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.imageCtl = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.imageRight.SuspendLayout();
             this.imageLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageCtl)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // imageCtl
-            // 
-            this.imageCtl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.imageCtl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageCtl.Location = new System.Drawing.Point(50, 0);
-            this.imageCtl.Name = "imageCtl";
-            this.imageCtl.Size = new System.Drawing.Size(804, 621);
-            this.imageCtl.TabIndex = 1;
             // 
             // imageRight
             // 
@@ -88,13 +82,34 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "<";
             // 
+            // imageCtl
+            // 
+            this.imageCtl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageCtl.Location = new System.Drawing.Point(0, 0);
+            this.imageCtl.Name = "imageCtl";
+            this.imageCtl.Size = new System.Drawing.Size(804, 621);
+            this.imageCtl.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imageCtl.TabIndex = 4;
+            this.imageCtl.TabStop = false;
+            this.imageCtl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.imageCtl_MouseDoubleClick);
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.imageCtl);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(50, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(804, 621);
+            this.panel1.TabIndex = 5;
+            // 
             // ViewImgForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(904, 621);
-            this.Controls.Add(this.imageCtl);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.imageLeft);
             this.Controls.Add(this.imageRight);
             this.Name = "ViewImgForm";
@@ -106,16 +121,18 @@
             this.imageRight.PerformLayout();
             this.imageLeft.ResumeLayout(false);
             this.imageLeft.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageCtl)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel imageCtl;
         private System.Windows.Forms.Panel imageRight;
         private System.Windows.Forms.Panel imageLeft;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox imageCtl;
+        private System.Windows.Forms.Panel panel1;
     }
 }

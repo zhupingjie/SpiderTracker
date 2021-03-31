@@ -35,14 +35,17 @@ namespace SpiderTracker.UI
 
             if (ViewImgPaths != null && ViewImgPaths.Count > 0 && ViewImgIndex < ViewImgPaths.Count)
             {
-                if (this.imageCtl.BackgroundImage != null)
+                if (this.imageCtl.Image != null)
                 {
-                    this.imageCtl.BackgroundImage.Dispose();
-                    this.imageCtl.BackgroundImage = null;
+                    this.imageCtl.Image.Dispose();
+                    this.imageCtl.Image = null;
                     this.imageCtl.Tag = null;
                 }
                 var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
-                this.imageCtl.BackgroundImage = image;
+                this.imageCtl.Image = image;
+                this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
+
+                this.imageCtl.Image = image;
                 this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
             }
         }
@@ -53,14 +56,14 @@ namespace SpiderTracker.UI
             if (ViewImgIndex < 0) ViewImgIndex = 0;
             if (ViewImgPaths != null && ViewImgPaths.Count > 0 && ViewImgIndex < ViewImgPaths.Count)
             {
-                if (this.imageCtl.BackgroundImage != null)
+                if (this.imageCtl.Image != null)
                 {
-                    this.imageCtl.BackgroundImage.Dispose();
-                    this.imageCtl.BackgroundImage = null;
+                    this.imageCtl.Image.Dispose();
+                    this.imageCtl.Image = null;
                     this.imageCtl.Tag = null;
                 }
                 var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
-                this.imageCtl.BackgroundImage = image;
+                this.imageCtl.Image = image;
                 this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
             }
         }
@@ -71,14 +74,14 @@ namespace SpiderTracker.UI
             if (ViewImgIndex >= ViewImgPaths.Count) ViewImgIndex = ViewImgPaths.Count - 1;
             if (ViewImgPaths != null && ViewImgPaths.Count > 0 && ViewImgIndex < ViewImgPaths.Count)
             {
-                if (this.imageCtl.BackgroundImage != null)
+                if (this.imageCtl.Image != null)
                 {
-                    this.imageCtl.BackgroundImage.Dispose();
-                    this.imageCtl.BackgroundImage = null;
+                    this.imageCtl.Image.Dispose();
+                    this.imageCtl.Image = null;
                     this.imageCtl.Tag = null;
                 }
                 var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
-                this.imageCtl.BackgroundImage = image;
+                this.imageCtl.Image = image;
                 this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
             }
         }
@@ -90,8 +93,8 @@ namespace SpiderTracker.UI
                 var imageFiles = this.imageCtl.Tag.ToString().Split(new string[] { "," }, StringSplitOptions.None).ToArray();
                 if (imageFiles.Length != 2) return;
 
-                this.imageCtl.BackgroundImage.Dispose();
-                this.imageCtl.BackgroundImage = null;
+                this.imageCtl.Image.Dispose();
+                this.imageCtl.Image = null;
                 this.imageCtl.Tag = null;
 
 
@@ -116,9 +119,11 @@ namespace SpiderTracker.UI
             switch(e.KeyCode)
             {
                 case Keys.Left:
+                    ResetImage();
                     imageLeft_Click(sender, e);
                     break;
                 case Keys.Right:
+                    ResetImage();
                     imageRight_Click(sender, e);
                     break;
                 case Keys.Escape:
@@ -132,13 +137,30 @@ namespace SpiderTracker.UI
             }
         }
 
+        private void ResetImage()
+        {
+            this.imageCtl.SizeMode = PictureBoxSizeMode.Zoom; 
+            this.imageCtl.Dock = DockStyle.Fill;
+            this.imageCtl.Width = this.panel1.Width;
+            this.imageCtl.Height = this.panel1.Height;
+        }
+
         private void ViewImgForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.imageCtl.BackgroundImage != null)
+            if (this.imageCtl.Image != null)
             {
-                this.imageCtl.BackgroundImage.Dispose();
-                this.imageCtl.BackgroundImage = null;
+                this.imageCtl.Image.Dispose();
+                this.imageCtl.Image = null;
                 this.imageCtl.Tag = null;
+            }
+        }
+
+        private void imageCtl_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+            {
+                this.imageCtl.SizeMode = PictureBoxSizeMode.AutoSize;
+                this.imageCtl.Dock = DockStyle.None;
             }
         }
     }
