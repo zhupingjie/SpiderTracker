@@ -169,7 +169,7 @@ namespace SpiderTracker.Imp
         /// </summary>
         public string ReadUserNameLike { get; set; }
 
-        public string DefaultArchivePath { get; set; }
+        public string DefaultArchivePath { get; set; } = "archive";
 
         public int LoadUserCount { get; set; } = 100;
 

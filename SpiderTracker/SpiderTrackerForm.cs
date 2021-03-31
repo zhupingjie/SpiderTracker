@@ -143,7 +143,7 @@ namespace SpiderTracker
                 if (listItem != null)
                 {
                     var imageQty = 0;
-                    int.TryParse(listItem.SubItems[2].Text, out imageQty);
+                    int.TryParse(listItem.SubItems[3].Text, out imageQty);
                     imageQty += readImageQty;
                     listItem.SubItems[3].Text = $"{imageQty}";
                     listItem.SubItems[4].Text = "...";
@@ -159,7 +159,7 @@ namespace SpiderTracker
                 if (listItem != null)
                 {
                     var pageQty = 0;
-                    int.TryParse(listItem.SubItems[1].Text, out pageQty);
+                    int.TryParse(listItem.SubItems[2].Text, out pageQty);
                     pageQty += 1;
                     listItem.SubItems[2].Text = $"{pageQty}";
                     listItem.SubItems[4].Text = "...";
@@ -703,7 +703,7 @@ namespace SpiderTracker
                     ActiveImageCtl();
 
                     var files = PathUtil.GetStoreUserThumbnailImageFiles(LoadCacheName, uid, status.bid);
-                    this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount, LoadCacheName, uid, status.bid);
+                    this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount, LoadCacheName, uid, status.bid, RunningConfig.DefaultArchivePath);
                 }
                 else if(status.mtype == 1)
                 {

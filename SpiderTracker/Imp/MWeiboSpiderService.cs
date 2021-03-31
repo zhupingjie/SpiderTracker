@@ -330,7 +330,7 @@ namespace SpiderTracker.Imp
 
                 GatherUserComplete(user, readStatusImageCount);
 
-                ShowStatus($"用户[{user}]采集完成,共采集资源【{readStatusImageCount}】.");
+                ShowStatus($"用户[{user.uid}]采集完成,共采集资源【{readStatusImageCount}】.");
             }
         }
 

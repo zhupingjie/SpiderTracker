@@ -23,6 +23,7 @@ namespace SpiderTracker.UI
         string imageName = "";
         string imageUser = "";
         string imageStatus = "";
+        string archivePath = "";
         Thread showImageThread = null;
         ManualResetEvent resetEvent = null;
 
@@ -67,7 +68,7 @@ namespace SpiderTracker.UI
             }
         }
         
-        public void ShowImages(string[] imageFiles, int showIndex, int showImageCount, string showName, string showUser, string showStatus)
+        public void ShowImages(string[] imageFiles, int showIndex, int showImageCount, string showName, string showUser, string showStatus, string showArchive)
         {
             this.DispiseImage(imageFiles);
             this.cacheImageFiles.Clear();
@@ -77,6 +78,7 @@ namespace SpiderTracker.UI
             this.imageName = showName;
             this.imageUser = showUser;
             this.imageStatus = showStatus;
+            this.archivePath = showArchive;
             this.resetEvent.Set();
         }
 
@@ -151,6 +153,7 @@ namespace SpiderTracker.UI
             frm.ImageName = imageName;
             frm.ImageUser = imageUser;
             frm.ImageStatus = imageStatus;
+            frm.ArchivePath = archivePath;
             frm.ShowDialog();
         }
         

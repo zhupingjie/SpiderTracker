@@ -28,6 +28,8 @@ namespace SpiderTracker.UI
         public string ImageUser { get; set; }
         public string ImageStatus { get; set; }
 
+        public string ArchivePath { get; set; }
+
         private void ViewImgForm_Load(object sender, EventArgs e)
         {
             var files = PathUtil.GetStoreUserImageFiles(ImageName, ImageUser, ImageStatus);
@@ -114,6 +116,26 @@ namespace SpiderTracker.UI
             }
         }
 
+        void ArchiveImage()
+        {
+            if (this.imageCtl.Tag != null)
+            {
+                var imageFiles = this.imageCtl.Tag.ToString().Split(new string[] { "," }, StringSplitOptions.None).ToArray();
+                if (imageFiles.Length != 2) return;
+
+                var imageFile = imageFiles[0];
+                var file = new FileInfo(imageFile);
+                var archivePath = Path.Combine(PathUtil.BaseDirectory, ArchivePath);
+                if (!Directory.Exists(archivePath)) Directory.CreateDirectory(archivePath);
+                var destFile = Path.Combine(archivePath, file.Name);
+
+                if (File.Exists(imageFile)) File.Copy(imageFile, destFile, true);
+
+                var rep = new SinaRepository();
+                rep.ArchiveSinaStatus(ImageStatus);
+            }
+        }
+
         private void ViewImgForm_KeyDown(object sender, KeyEventArgs e)
         {
             switch(e.KeyCode)
@@ -133,6 +155,9 @@ namespace SpiderTracker.UI
                 case Keys.Delete:
                     this.DeleteImage();
                     imageRight_Click(sender, e);
+                    break;
+                case Keys.Enter:
+                    this.ArchiveImage();
                     break;
             }
         }
