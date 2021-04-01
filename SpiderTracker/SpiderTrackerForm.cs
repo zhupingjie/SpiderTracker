@@ -354,6 +354,8 @@ namespace SpiderTracker
 
             InvokeControl(this.lstUser, new Action(() =>
             {
+                var user = GetSelectUser();
+
                 var showUsers = GetShowUsers(users);
 
                 this.lstUser.BeginUpdate();
@@ -382,6 +384,15 @@ namespace SpiderTracker
                 }
                 this.lstUser.EndUpdate();
                 this.lblLstUserCount.Text = $"{users.Count}";
+
+                if(user != null)
+                {
+                    var listItem = this.lstUser.FindItemWithText(user.uid);
+                    if (listItem != null)
+                    {
+                        this.lstUser.Items[listItem.Index].Selected = true;
+                    }
+                }
             }));
         }
 
