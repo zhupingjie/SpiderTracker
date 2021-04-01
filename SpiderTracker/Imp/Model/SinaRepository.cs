@@ -16,9 +16,9 @@ namespace SpiderTracker.Imp.Model
 
         }
 
-        public bool CreateSinaPicture(SinaPicture picture)
+        public bool CreateSinaSource(SinaSource picture)
         {
-            return DBHelper.CreateEntity(picture, "sina_picture");
+            return DBHelper.CreateEntity(picture, "sina_source");
         }
 
         public bool CreateSinaUser(SinaUser user)
@@ -33,7 +33,7 @@ namespace SpiderTracker.Imp.Model
 
         public bool DeleteSinaUserPicture(SinaUser user)
         {
-            return DBHelper.DeleteEntity("sina_picture", "uid", user.uid);
+            return DBHelper.DeleteEntity("sina_source", "uid", user.uid);
         }
 
         public bool UpdateSinaUser(SinaUser user, string[] columns)
@@ -74,21 +74,27 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.ExistsEntity("sina_status", "bid", bid);
         }
 
-        public bool ExistsSinaPicture(string uid, string bid, string imgurl)
+        public bool ExistsSinaSource(string uid, string bid, string imgUrl)
         {
-            return DBHelper.ExistsEntity("sina_picture", $"`uid`='{uid}' and `bid`='{bid}' and `url`='{imgurl}'");
+            return DBHelper.ExistsEntity("sina_source", $"`uid`='{uid}' and `bid`='{bid}' and `url`='{imgUrl}'");
         }
 
-        public int GetUserStatusCount(string uid)
+        public int GetUserStatusGetCount(string uid)
         {
-            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `ignore`=0 and `retweeted`=0");
+            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `retweet`=0 and `ignore`=0");
         }
-
-        public int GetUserStatusNewCount(string uid)
+        public int GetUserStatusFindCount(string uid)
         {
-            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `ignore`=0 and `retweeted`=0 and `archive`=0");
+            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid}");
         }
-
+        public int GetUserStatusIgnoreCount(string uid)
+        {
+            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `ignore`>0");
+        }
+        public int GetUserStatusRetweetCount(string uid)
+        {
+            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `retweet`>0");
+        }
         public SinaUser GetUser(string uid)
         {
             return DBHelper.GetEntity<SinaUser>("sina_user", $"`uid`='{uid}'");
@@ -96,21 +102,21 @@ namespace SpiderTracker.Imp.Model
 
         public string[] GetGroupNames()
         {
-            return DBHelper.GetGroupStrings("sina_user", "groupname", $"1=1").ToArray();
+            return DBHelper.GetGroupStrings("sina_user", "category", $"1=1").ToArray();
         }
 
-        public List<SinaUser> GetUsers(string groupname)
+        public List<SinaUser> GetUsers(string category)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `ignore=0`");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`category`='{category}' and `ignore=0`");
         }
 
-        public List<SinaUser> GetUsers(string groupname, string keyword)
+        public List<SinaUser> GetUsers(string category, string keyword)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `ignore`=0 and `uid` like '%{keyword}%'");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`category`='{category}' and 'retweet'=0 and `ignore`=0 and `uid` like '%{keyword}%'");
         }
-        public List<SinaUser> GetFocusUsers(string groupname)
+        public List<SinaUser> GetFocusUsers(string category)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`groupname`='{groupname}' and `ignore`=0 and `focus`=1");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`category`='{category}' and `ignore`=0 and `focus`=1");
         }
 
         public List<SinaUser> GetUsers(string[] uids)
@@ -125,23 +131,23 @@ namespace SpiderTracker.Imp.Model
 
         public List<SinaStatus> GetUserStatuses(string uid)
         {
-            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweeted`=0 and `ignore`=0");
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `ignore`=0");
         }
 
         public List<SinaStatus> GetUserStatuseOfNoArchives(string uid)
         {
-            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweeted`=0 and `ignore`=0 and `archive`=0");
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `ignore`=0 and `archive`=0");
         }
 
-        public List<SinaPicture> GetUserPictures(string uid)
+        public List<SinaSource> GetUserPictures(string uid)
         {
-            return DBHelper.GetEntitys<SinaPicture>("sinna_picture", $"`uid`='{uid}'");
+            return DBHelper.GetEntitys<SinaSource>("sina_source", $"`uid`='{uid}'");
         }
 
         public bool CheckUserFocus(string uid)
         {
             var user = GetUser(uid);
-            if (user != null && user.focus == 1) return true;
+            if (user != null && user.focus > 0) return true;
             return false;
         }
 
@@ -159,12 +165,10 @@ namespace SpiderTracker.Imp.Model
             return false;
         }
 
-        public string StoreSinaUser(SpiderRunningConfig runningConfig, MWeiboUser user, bool bUpdate, out SinaUser newUser)
+        public SinaUser StoreSinaUser(SpiderRunningConfig runningConfig, MWeiboUser user, bool bUpdate)
         {
-            newUser = null;
-
             var sinaUser = new SinaUser();
-            sinaUser.groupname = runningConfig.Name;
+            sinaUser.category = runningConfig.Category;
             sinaUser.uid = user.id;
             sinaUser.name = user.screen_name;
             sinaUser.avatar = user.avatar_hd;
@@ -173,97 +177,81 @@ namespace SpiderTracker.Imp.Model
             sinaUser.followers = user.followers_count;
             sinaUser.profile = SinaUrlUtil.GetSinaUserUrl(user.id);
             sinaUser.statuses = user.statuses_count.HasValue?user.statuses_count.Value : 0;
-            
-            if (!ExistsSinaUser(user.id))
+
+            var existsUser = GetUser(user.id);
+            if (existsUser == null)
             {
                 var suc = CreateSinaUser(sinaUser);
                 if (!suc)
                 {
-                    return $"创建本地用户错误!!!!!!";
+                    return null;
                 }
-                newUser = sinaUser;
             }
             else if (bUpdate)
             {
+                sinaUser.id = existsUser.id;
                 var suc = UpdateSinaUser(sinaUser, new string[] { "follows", "followers", "statuses", "name", "avatar", "desc", "profile" });
                 if (!suc)
                 {
-                    return $"更新本地用户错误!!!!!!";
+                    return null;
                 }
             }
-            return null;
+            return sinaUser;
         }
-        public string StoreSinaStatus(MWeiboUser user, MWeiboStatus status, MWeiboStatus retweeted, int mtype, int readSourceCount, int readStatusImageCount, out SinaStatus newStatus)
+
+        public void StoreSinaRetweetStatus(MWeiboUser user, MWeiboStatus status, MWeiboStatus retweet, int mtype)
         {
-            newStatus = null;
             var sinaStatus = new SinaStatus();
             sinaStatus.uid = user.id;
             sinaStatus.bid = status.bid;
             sinaStatus.mid = status.id;
             sinaStatus.mtype = mtype;
+            sinaStatus.text = status.status_title;
             sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(status.bid);
+            sinaStatus.retweet = 1;
+            sinaStatus.retuid = retweet.user.id;
+            sinaStatus.retbid = retweet.bid;
+            var extSinaStatus = GetUserStatus(status.bid);
+            if (extSinaStatus == null)
+            {
+                CreateSinaStatus(sinaStatus);
+            }
+        }
+
+        public void StoreSinaStatus(MWeiboUser user, MWeiboStatus status, int mtype, int readSourceCount, int readStatusImageCount)
+        {
+            var sinaStatus = new SinaStatus();
+            sinaStatus.uid = user.id;
+            sinaStatus.bid = status.bid;
+            sinaStatus.mid = status.id;
+            sinaStatus.mtype = mtype;
+            sinaStatus.text = status.status_title;
+            sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(status.bid);
+            sinaStatus.qty = readSourceCount;
+            sinaStatus.getqty = readStatusImageCount >= 0 ? readStatusImageCount : 0;
             if(readStatusImageCount == 0)
             {
                 sinaStatus.ignore = 1;
             }
-            if (retweeted == null)
-            {
-                sinaStatus.qty = readSourceCount;
-            }
-            else
-            {
-                sinaStatus.retweeted = 1;
-                sinaStatus.retuid = retweeted.user.id;
-                sinaStatus.retbid = retweeted.bid;
-            }
-
             var extSinaStatus = GetUserStatus(status.bid);
             if (extSinaStatus == null)
             {
-                var suc = CreateSinaStatus(sinaStatus);
-                if (!suc)
-                {
-                    return $"创建本地微博错误!!!!!!";
-                }
-                UpdateSinaUserQty(user.id);
-                newStatus = sinaStatus;
+                CreateSinaStatus(sinaStatus);
             }
             else
             {
-                if (readStatusImageCount != -1)
+                if (readStatusImageCount == 0)
                 {
-                    extSinaStatus.ignore = (readStatusImageCount == 0 ? 1 : 0);
+                    extSinaStatus.ignore = 1;
                 }
-                if (retweeted == null)
+                else
                 {
-                    extSinaStatus.qty = readSourceCount;
+                    extSinaStatus.ignore = 0;
                 }
-                UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "pics" });
-                UpdateSinaUserQty(user.id);
+                extSinaStatus.qty = readSourceCount;
+                extSinaStatus.getqty = readStatusImageCount;
+                UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "qty", "getqty" });
             }
-            if (retweeted != null)
-            {
-                if (!ExistsSinaStatus(retweeted.bid))
-                {
-                    sinaStatus = new SinaStatus();
-                    sinaStatus.uid = retweeted.user.id;
-                    sinaStatus.bid = retweeted.bid;
-                    sinaStatus.mid = retweeted.id;
-                    sinaStatus.mtype = mtype;
-                    sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(retweeted.bid);
-                    sinaStatus.qty = readSourceCount;
-                    if(readStatusImageCount == 0)
-                    {
-                        sinaStatus.ignore = 1;
-                    }
-                    var suc = CreateSinaStatus(sinaStatus);
-                    if (!suc)
-                    {
-                        return $"创建本地转发微博错误!!!!!!!";
-                    }
-                }
-            }
-            return null;
         }
 
         public bool DeleteSinaUser(string user)
@@ -307,22 +295,25 @@ namespace SpiderTracker.Imp.Model
 
             sinaUser.focus = sinaUser.focus == 0 ? 1 : 0;
             UpdateSinaUser(sinaUser, new string[] { "focus" });
-            return sinaUser.focus == 1 ? true : false;
+            return sinaUser.focus > 0 ? true : false;
         }
-        public bool UpdateSinaUserQty(string user)
-        {
-            var sinaUser = GetUser(user);
-            if (sinaUser == null) return true;
 
-            var picCount = GetUserStatusCount(user);
-            if (picCount >= 0)
-            {
-                var newCount = GetUserStatusNewCount(user);
-                sinaUser.piccount = picCount;
-                sinaUser.newcount = newCount;
-                return UpdateSinaUser(sinaUser, new string[] { "piccount", "newcount" });
-            }
-            return false;
+        public bool UpdateSinaUserQty(string uid)
+        {
+            var sinaUser = GetUser(uid);
+            UpdateSinaUserQty(sinaUser);
+            return true;
+        }
+
+        public SinaUser UpdateSinaUserQty(SinaUser sinaUser)
+        {
+            sinaUser.finds = GetUserStatusFindCount(sinaUser.uid);
+            sinaUser.gets = GetUserStatusGetCount(sinaUser.uid);
+            sinaUser.ignores = GetUserStatusIgnoreCount(sinaUser.uid);
+            sinaUser.retweets = GetUserStatusRetweetCount(sinaUser.uid);
+            sinaUser.originals = sinaUser.finds - sinaUser.retweets;
+            UpdateSinaUser(sinaUser, new string[] { "finds", "gets", "ignores", "retweets", "originals" });
+            return sinaUser;
         }
 
         public bool IgnoreSinaStatus(string status)
@@ -332,18 +323,9 @@ namespace SpiderTracker.Imp.Model
 
             sinaStatus.ignore = 1;
             UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
-
             return UpdateSinaUserQty(sinaStatus.uid);
         }
-        public bool FocusSinaStatus(string status)
-        {
-            var sinaStatus = GetUserStatus(status);
-            if (sinaStatus == null) return true;
-
-            sinaStatus.focus = 1;
-            return UpdateSinaStatus(sinaStatus, new string[] { "focus" });
-        }
-
+        
         public bool ArchiveSinaStatus(string status)
         {
             var sinaStatus = GetUserStatus(status);
@@ -362,8 +344,7 @@ namespace SpiderTracker.Imp.Model
                 sinaStatus.archive = 1;
                 UpdateSinaStatus(sinaStatus, new string[] { "archive" });
             }
-            UpdateSinaUserQty(user);
-            return true;
+            return UpdateSinaUserQty(user);
         }
     }
 }

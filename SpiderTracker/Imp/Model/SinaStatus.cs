@@ -29,12 +29,12 @@ namespace SpiderTracker.Imp.Model
         /// </summary>
         public string mid { get; set; }
         public string url { get; set; }
-        public int retweeted { get; set; }
+        public string text { get; set; }
+        public int retweet { get; set; }
         public string retuid { get; set; }
         public string retbid { get; set; }
-        public string text { get; set; }
         public int qty { get; set; }
-        public int focus { get; set; }
+        public int getqty { get; set; }
         public int ignore { get; set; }
         public int archive { get; set; }
     }

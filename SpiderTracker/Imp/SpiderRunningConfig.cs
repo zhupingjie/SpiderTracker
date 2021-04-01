@@ -19,9 +19,9 @@ namespace SpiderTracker.Imp
 
         public long Id { get; set; }
 
-        public string Location = "home";
+        public string Site = "home";
 
-        public string Name { get; set; } = "default";
+        public string Category { get; set; } = "default";
 
         /// <summary>
         /// 我的用户
@@ -113,16 +113,6 @@ namespace SpiderTracker.Imp
         /// 采集原创图集
         /// </summary>
         public int OnlyReadOwnerUser { get; set; } = 1;
-
-        /// <summary>
-        /// 采集原创视频
-        /// </summary>
-        public int ReadUserPics { get; set; } = 1;
-
-        /// <summary>
-        /// 采集视频
-        /// </summary>
-        public int ReadUserVideo { get; set; } = 1;
 
         /// <summary>
         /// 采集所有用户

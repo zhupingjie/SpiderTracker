@@ -12,6 +12,7 @@ namespace SpiderTracker.Imp.Model
         {
             lastdate = DateTime.Now;
         }
+        public string category { get; set; }
         public string uid { get; set; }
         public string name { get; set; }
         public string avatar { get; set; }
@@ -23,13 +24,10 @@ namespace SpiderTracker.Imp.Model
         public string verified { get; set; }
         public int focus { get; set; }
         public int ignore { get; set; }
-        public string groupname { get; set; }
-
-        public int getstatuses { get; set; }
         public int originals { get; set; }
         public int retweets { get; set; }
-        public int piccount { get; set; }
-
-        public int newcount { get; set; }
+        public int finds { get; set; }
+        public int gets { get; set; }
+        public int ignores { get; set; }
     }
 }

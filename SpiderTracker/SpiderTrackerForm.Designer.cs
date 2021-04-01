@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -43,16 +43,9 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel15 = new System.Windows.Forms.Panel();
             this.lstUser = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panel20 = new System.Windows.Forms.Panel();
-            this.sltFocus = new System.Windows.Forms.RadioButton();
-            this.sltNewQty = new System.Windows.Forms.RadioButton();
-            this.sltImageQty = new System.Windows.Forms.RadioButton();
-            this.sltUserID = new System.Windows.Forms.RadioButton();
-            this.sltLastDate = new System.Windows.Forms.RadioButton();
+            this.columnUID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnFind = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txtUserFilter = new System.Windows.Forms.TextBox();
             this.panel9 = new System.Windows.Forms.Panel();
             this.lstArc = new System.Windows.Forms.ListView();
@@ -90,7 +83,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.lblLstNewImgCount = new System.Windows.Forms.Label();
+            this.lblLstGetImgCount = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lblLstStatusImageCount = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -120,12 +113,23 @@
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.panel21 = new System.Windows.Forms.Panel();
+            this.cbxUserSort = new System.Windows.Forms.ComboBox();
+            this.cbxUserSortAsc = new System.Windows.Forms.ComboBox();
+            this.columnGet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnTAL = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnIgnore = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnFollow = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnLove = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colSite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel24 = new System.Windows.Forms.Panel();
+            this.panel25 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel15.SuspendLayout();
-            this.panel20.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel8.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -145,6 +149,10 @@
             this.tbpReview.SuspendLayout();
             this.tbpVideo.SuspendLayout();
             this.panel12.SuspendLayout();
+            this.panel6.SuspendLayout();
+            this.panel21.SuspendLayout();
+            this.panel24.SuspendLayout();
+            this.panel25.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -154,7 +162,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1015, 41);
+            this.panel1.Size = new System.Drawing.Size(1078, 41);
             this.panel1.TabIndex = 0;
             // 
             // txtStartUrl
@@ -167,7 +175,7 @@
             this.txtStartUrl.ForeColor = System.Drawing.Color.Blue;
             this.txtStartUrl.Location = new System.Drawing.Point(0, 0);
             this.txtStartUrl.Name = "txtStartUrl";
-            this.txtStartUrl.Size = new System.Drawing.Size(861, 41);
+            this.txtStartUrl.Size = new System.Drawing.Size(924, 41);
             this.txtStartUrl.TabIndex = 2;
             this.txtStartUrl.Text = "https://m.weibo.cn/u/1738733270";
             this.txtStartUrl.TextChanged += new System.EventHandler(this.txtStartUrl_TextChanged);
@@ -176,7 +184,7 @@
             // 
             this.panel4.Controls.Add(this.cbxName);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(861, 0);
+            this.panel4.Location = new System.Drawing.Point(924, 0);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(154, 41);
             this.panel4.TabIndex = 4;
@@ -218,7 +226,7 @@
             this.tplStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 606);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1015, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1078, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -237,28 +245,31 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 41);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(242, 565);
+            this.panel3.Size = new System.Drawing.Size(289, 565);
             this.panel3.TabIndex = 7;
             // 
             // panel15
             // 
             this.panel15.Controls.Add(this.lstUser);
-            this.panel15.Controls.Add(this.panel20);
-            this.panel15.Controls.Add(this.txtUserFilter);
+            this.panel15.Controls.Add(this.panel24);
             this.panel15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel15.Location = new System.Drawing.Point(0, 26);
+            this.panel15.Location = new System.Drawing.Point(0, 25);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(240, 304);
+            this.panel15.Size = new System.Drawing.Size(287, 305);
             this.panel15.TabIndex = 8;
             // 
             // lstUser
             // 
             this.lstUser.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lstUser.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4});
+            this.columnUID,
+            this.columnName,
+            this.columnTAL,
+            this.columnFind,
+            this.columnGet,
+            this.columnIgnore,
+            this.columnFollow,
+            this.columnLove});
             this.lstUser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstUser.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lstUser.FullRowSelect = true;
@@ -266,120 +277,39 @@
             this.lstUser.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lstUser.HideSelection = false;
             this.lstUser.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.lstUser.Location = new System.Drawing.Point(0, 23);
+            this.lstUser.Location = new System.Drawing.Point(0, 24);
             this.lstUser.Name = "lstUser";
-            this.lstUser.Size = new System.Drawing.Size(240, 256);
+            this.lstUser.Size = new System.Drawing.Size(287, 281);
             this.lstUser.TabIndex = 9;
             this.lstUser.UseCompatibleStateImageBehavior = false;
             this.lstUser.View = System.Windows.Forms.View.Details;
             this.lstUser.SelectedIndexChanged += new System.EventHandler(this.lstUser_SelectedIndexChanged);
             this.lstUser.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstUser_KeyUp);
             // 
-            // columnHeader1
+            // columnUID
             // 
-            this.columnHeader1.Text = "UID";
-            this.columnHeader1.Width = 80;
+            this.columnUID.Text = "UID";
+            this.columnUID.Width = 80;
             // 
-            // columnHeader2
+            // columnName
             // 
-            this.columnHeader2.Text = "Name";
-            this.columnHeader2.Width = 80;
+            this.columnName.Text = "名称";
+            this.columnName.Width = 80;
             // 
-            // columnHeader3
+            // columnFind
             // 
-            this.columnHeader3.Text = "QTY";
-            this.columnHeader3.Width = 38;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "F";
-            this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader4.Width = 25;
-            // 
-            // panel20
-            // 
-            this.panel20.Controls.Add(this.sltFocus);
-            this.panel20.Controls.Add(this.sltNewQty);
-            this.panel20.Controls.Add(this.sltImageQty);
-            this.panel20.Controls.Add(this.sltUserID);
-            this.panel20.Controls.Add(this.sltLastDate);
-            this.panel20.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel20.Location = new System.Drawing.Point(0, 279);
-            this.panel20.Name = "panel20";
-            this.panel20.Size = new System.Drawing.Size(240, 25);
-            this.panel20.TabIndex = 10;
-            // 
-            // sltFocus
-            // 
-            this.sltFocus.AutoSize = true;
-            this.sltFocus.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.sltFocus.Location = new System.Drawing.Point(193, 2);
-            this.sltFocus.Name = "sltFocus";
-            this.sltFocus.Size = new System.Drawing.Size(50, 21);
-            this.sltFocus.TabIndex = 4;
-            this.sltFocus.Text = "关注";
-            this.sltFocus.UseVisualStyleBackColor = true;
-            this.sltFocus.CheckedChanged += new System.EventHandler(this.sltFocus_CheckedChanged);
-            // 
-            // sltNewQty
-            // 
-            this.sltNewQty.AutoSize = true;
-            this.sltNewQty.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.sltNewQty.Location = new System.Drawing.Point(145, 2);
-            this.sltNewQty.Name = "sltNewQty";
-            this.sltNewQty.Size = new System.Drawing.Size(50, 21);
-            this.sltNewQty.TabIndex = 3;
-            this.sltNewQty.Text = "新增";
-            this.sltNewQty.UseVisualStyleBackColor = true;
-            this.sltNewQty.CheckedChanged += new System.EventHandler(this.sltNewQty_CheckedChanged);
-            // 
-            // sltImageQty
-            // 
-            this.sltImageQty.AutoSize = true;
-            this.sltImageQty.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.sltImageQty.Location = new System.Drawing.Point(97, 2);
-            this.sltImageQty.Name = "sltImageQty";
-            this.sltImageQty.Size = new System.Drawing.Size(50, 21);
-            this.sltImageQty.TabIndex = 1;
-            this.sltImageQty.Text = "微博";
-            this.sltImageQty.UseVisualStyleBackColor = true;
-            this.sltImageQty.CheckedChanged += new System.EventHandler(this.sltImageQty_CheckedChanged);
-            // 
-            // sltUserID
-            // 
-            this.sltUserID.AutoSize = true;
-            this.sltUserID.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.sltUserID.Location = new System.Drawing.Point(50, 2);
-            this.sltUserID.Name = "sltUserID";
-            this.sltUserID.Size = new System.Drawing.Size(50, 21);
-            this.sltUserID.TabIndex = 2;
-            this.sltUserID.Text = "用户";
-            this.sltUserID.UseVisualStyleBackColor = true;
-            this.sltUserID.CheckedChanged += new System.EventHandler(this.sltUserID_CheckedChanged);
-            // 
-            // sltLastDate
-            // 
-            this.sltLastDate.AutoSize = true;
-            this.sltLastDate.Checked = true;
-            this.sltLastDate.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.sltLastDate.Location = new System.Drawing.Point(3, 2);
-            this.sltLastDate.Name = "sltLastDate";
-            this.sltLastDate.Size = new System.Drawing.Size(50, 21);
-            this.sltLastDate.TabIndex = 0;
-            this.sltLastDate.TabStop = true;
-            this.sltLastDate.Text = "更新";
-            this.sltLastDate.UseVisualStyleBackColor = true;
-            this.sltLastDate.CheckedChanged += new System.EventHandler(this.sltLastDate_CheckedChanged);
+            this.columnFind.Text = "采集数";
+            this.columnFind.Width = 50;
             // 
             // txtUserFilter
             // 
             this.txtUserFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtUserFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtUserFilter.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtUserFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtUserFilter.Font = new System.Drawing.Font("微软雅黑", 9.25F);
             this.txtUserFilter.Location = new System.Drawing.Point(0, 0);
-            this.txtUserFilter.Margin = new System.Windows.Forms.Padding(0);
+            this.txtUserFilter.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.txtUserFilter.Name = "txtUserFilter";
-            this.txtUserFilter.Size = new System.Drawing.Size(240, 23);
+            this.txtUserFilter.Size = new System.Drawing.Size(185, 24);
             this.txtUserFilter.TabIndex = 8;
             this.txtUserFilter.TextChanged += new System.EventHandler(this.txtUserFilter_TextChanged);
             this.txtUserFilter.DoubleClick += new System.EventHandler(this.txtUserFilter_DoubleClick);
@@ -393,7 +323,7 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel9.Location = new System.Drawing.Point(0, 330);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(240, 233);
+            this.panel9.Size = new System.Drawing.Size(287, 233);
             this.panel9.TabIndex = 7;
             // 
             // lstArc
@@ -403,6 +333,7 @@
             this.colBid,
             this.colQty,
             this.colLoc,
+            this.colSite,
             this.colMrk});
             this.lstArc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstArc.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -413,7 +344,7 @@
             this.lstArc.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstArc.Location = new System.Drawing.Point(0, 49);
             this.lstArc.Name = "lstArc";
-            this.lstArc.Size = new System.Drawing.Size(240, 184);
+            this.lstArc.Size = new System.Drawing.Size(287, 184);
             this.lstArc.TabIndex = 12;
             this.lstArc.UseCompatibleStateImageBehavior = false;
             this.lstArc.View = System.Windows.Forms.View.Details;
@@ -448,7 +379,7 @@
             this.txtStatusFilter.Location = new System.Drawing.Point(0, 26);
             this.txtStatusFilter.Margin = new System.Windows.Forms.Padding(0);
             this.txtStatusFilter.Name = "txtStatusFilter";
-            this.txtStatusFilter.Size = new System.Drawing.Size(240, 23);
+            this.txtStatusFilter.Size = new System.Drawing.Size(287, 23);
             this.txtStatusFilter.TabIndex = 13;
             this.txtStatusFilter.TextChanged += new System.EventHandler(this.txtStatusFilter_TextChanged);
             this.txtStatusFilter.DoubleClick += new System.EventHandler(this.txtStatusFilter_DoubleClick);
@@ -457,23 +388,19 @@
             // 
             this.panel8.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel8.Controls.Add(this.btnGetStatusByBid);
-            this.panel8.Controls.Add(this.btnArchiveStatus);
-            this.panel8.Controls.Add(this.btnOpenStatus);
-            this.panel8.Controls.Add(this.btnIgnoreStatus);
-            this.panel8.Controls.Add(this.btnBrowseStatus);
+            this.panel8.Controls.Add(this.panel21);
             this.panel8.Controls.Add(this.label7);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(0, 0);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(240, 26);
+            this.panel8.Size = new System.Drawing.Size(287, 26);
             this.panel8.TabIndex = 11;
             // 
             // btnGetStatusByBid
             // 
             this.btnGetStatusByBid.BackColor = System.Drawing.SystemColors.Control;
             this.btnGetStatusByBid.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnGetStatusByBid.Location = new System.Drawing.Point(68, 2);
+            this.btnGetStatusByBid.Location = new System.Drawing.Point(0, 2);
             this.btnGetStatusByBid.Name = "btnGetStatusByBid";
             this.btnGetStatusByBid.Size = new System.Drawing.Size(35, 20);
             this.btnGetStatusByBid.TabIndex = 21;
@@ -485,7 +412,7 @@
             // 
             this.btnArchiveStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnArchiveStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnArchiveStatus.Location = new System.Drawing.Point(136, 2);
+            this.btnArchiveStatus.Location = new System.Drawing.Point(68, 2);
             this.btnArchiveStatus.Name = "btnArchiveStatus";
             this.btnArchiveStatus.Size = new System.Drawing.Size(35, 20);
             this.btnArchiveStatus.TabIndex = 20;
@@ -497,7 +424,7 @@
             // 
             this.btnOpenStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnOpenStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnOpenStatus.Location = new System.Drawing.Point(169, 2);
+            this.btnOpenStatus.Location = new System.Drawing.Point(101, 2);
             this.btnOpenStatus.Name = "btnOpenStatus";
             this.btnOpenStatus.Size = new System.Drawing.Size(35, 20);
             this.btnOpenStatus.TabIndex = 19;
@@ -509,7 +436,7 @@
             // 
             this.btnIgnoreStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnIgnoreStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnIgnoreStatus.Location = new System.Drawing.Point(102, 2);
+            this.btnIgnoreStatus.Location = new System.Drawing.Point(34, 2);
             this.btnIgnoreStatus.Name = "btnIgnoreStatus";
             this.btnIgnoreStatus.Size = new System.Drawing.Size(35, 20);
             this.btnIgnoreStatus.TabIndex = 11;
@@ -521,7 +448,7 @@
             // 
             this.btnBrowseStatus.BackColor = System.Drawing.SystemColors.Control;
             this.btnBrowseStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBrowseStatus.Location = new System.Drawing.Point(201, 2);
+            this.btnBrowseStatus.Location = new System.Drawing.Point(133, 2);
             this.btnBrowseStatus.Name = "btnBrowseStatus";
             this.btnBrowseStatus.Size = new System.Drawing.Size(35, 20);
             this.btnBrowseStatus.TabIndex = 7;
@@ -543,23 +470,19 @@
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.panel7.Controls.Add(this.btnMarkUser);
-            this.panel7.Controls.Add(this.btnFocusUser);
-            this.panel7.Controls.Add(this.btnFollwerUser);
-            this.panel7.Controls.Add(this.btnIgnoreUser);
-            this.panel7.Controls.Add(this.btnBrowseUser);
             this.panel7.Controls.Add(this.label5);
+            this.panel7.Controls.Add(this.panel6);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(240, 26);
+            this.panel7.Size = new System.Drawing.Size(287, 25);
             this.panel7.TabIndex = 4;
             // 
             // btnMarkUser
             // 
             this.btnMarkUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnMarkUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnMarkUser.Location = new System.Drawing.Point(137, 3);
+            this.btnMarkUser.Location = new System.Drawing.Point(68, 3);
             this.btnMarkUser.Name = "btnMarkUser";
             this.btnMarkUser.Size = new System.Drawing.Size(35, 20);
             this.btnMarkUser.TabIndex = 21;
@@ -571,7 +494,7 @@
             // 
             this.btnFocusUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnFocusUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnFocusUser.Location = new System.Drawing.Point(73, 3);
+            this.btnFocusUser.Location = new System.Drawing.Point(4, 3);
             this.btnFocusUser.Name = "btnFocusUser";
             this.btnFocusUser.Size = new System.Drawing.Size(35, 20);
             this.btnFocusUser.TabIndex = 12;
@@ -583,7 +506,7 @@
             // 
             this.btnFollwerUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnFollwerUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnFollwerUser.Location = new System.Drawing.Point(170, 3);
+            this.btnFollwerUser.Location = new System.Drawing.Point(100, 3);
             this.btnFollwerUser.Name = "btnFollwerUser";
             this.btnFollwerUser.Size = new System.Drawing.Size(35, 20);
             this.btnFollwerUser.TabIndex = 11;
@@ -595,7 +518,7 @@
             // 
             this.btnIgnoreUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnIgnoreUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnIgnoreUser.Location = new System.Drawing.Point(105, 3);
+            this.btnIgnoreUser.Location = new System.Drawing.Point(36, 3);
             this.btnIgnoreUser.Name = "btnIgnoreUser";
             this.btnIgnoreUser.Size = new System.Drawing.Size(35, 20);
             this.btnIgnoreUser.TabIndex = 10;
@@ -607,7 +530,7 @@
             // 
             this.btnBrowseUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnBrowseUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBrowseUser.Location = new System.Drawing.Point(203, 3);
+            this.btnBrowseUser.Location = new System.Drawing.Point(133, 3);
             this.btnBrowseUser.Name = "btnBrowseUser";
             this.btnBrowseUser.Size = new System.Drawing.Size(35, 20);
             this.btnBrowseUser.TabIndex = 8;
@@ -620,7 +543,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(0, 4);
+            this.label5.Location = new System.Drawing.Point(3, 5);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(32, 17);
             this.label5.TabIndex = 0;
@@ -650,7 +573,7 @@
             // 
             this.lblLstImgCount.AutoSize = true;
             this.lblLstImgCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstImgCount.Location = new System.Drawing.Point(177, 34);
+            this.lblLstImgCount.Location = new System.Drawing.Point(177, 59);
             this.lblLstImgCount.Name = "lblLstImgCount";
             this.lblLstImgCount.Size = new System.Drawing.Size(15, 17);
             this.lblLstImgCount.TabIndex = 5;
@@ -700,7 +623,7 @@
             // 
             this.lblLstImgCountTitle.AutoSize = true;
             this.lblLstImgCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstImgCountTitle.Location = new System.Drawing.Point(118, 34);
+            this.lblLstImgCountTitle.Location = new System.Drawing.Point(118, 59);
             this.lblLstImgCountTitle.Name = "lblLstImgCountTitle";
             this.lblLstImgCountTitle.Size = new System.Drawing.Size(59, 17);
             this.lblLstImgCountTitle.TabIndex = 0;
@@ -714,7 +637,7 @@
             this.panel10.Controls.Add(this.panel17);
             this.panel10.Controls.Add(this.panel14);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel10.Location = new System.Drawing.Point(764, 41);
+            this.panel10.Location = new System.Drawing.Point(827, 41);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(251, 565);
             this.panel10.TabIndex = 11;
@@ -732,27 +655,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle37.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle37.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle37;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle38.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle38.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle38.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle38.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle38.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle38.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle38;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle39.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle39;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -796,7 +719,7 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.lblLstNewImgCount);
+            this.panel2.Controls.Add(this.lblLstGetImgCount);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.lblLstStatusImageCount);
             this.panel2.Controls.Add(this.label3);
@@ -815,25 +738,25 @@
             this.panel2.Size = new System.Drawing.Size(249, 86);
             this.panel2.TabIndex = 17;
             // 
-            // lblLstNewImgCount
+            // lblLstGetImgCount
             // 
-            this.lblLstNewImgCount.AutoSize = true;
-            this.lblLstNewImgCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstNewImgCount.Location = new System.Drawing.Point(178, 59);
-            this.lblLstNewImgCount.Name = "lblLstNewImgCount";
-            this.lblLstNewImgCount.Size = new System.Drawing.Size(15, 17);
-            this.lblLstNewImgCount.TabIndex = 24;
-            this.lblLstNewImgCount.Text = "0";
+            this.lblLstGetImgCount.AutoSize = true;
+            this.lblLstGetImgCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLstGetImgCount.Location = new System.Drawing.Point(178, 34);
+            this.lblLstGetImgCount.Name = "lblLstGetImgCount";
+            this.lblLstGetImgCount.Size = new System.Drawing.Size(15, 17);
+            this.lblLstGetImgCount.TabIndex = 24;
+            this.lblLstGetImgCount.Text = "0";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(118, 59);
+            this.label4.Location = new System.Drawing.Point(118, 34);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(59, 17);
             this.label4.TabIndex = 23;
-            this.label4.Text = "新增图数:";
+            this.label4.Text = "采集图数:";
             // 
             // lblLstStatusImageCount
             // 
@@ -948,7 +871,7 @@
             this.lstLog.Location = new System.Drawing.Point(0, 26);
             this.lstLog.Margin = new System.Windows.Forms.Padding(0);
             this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(492, 206);
+            this.lstLog.Size = new System.Drawing.Size(508, 206);
             this.lstLog.TabIndex = 15;
             // 
             // tabControl1
@@ -959,13 +882,13 @@
             this.tabControl1.Controls.Add(this.tbpVideo);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tabControl1.Location = new System.Drawing.Point(242, 67);
+            this.tabControl1.Location = new System.Drawing.Point(289, 67);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(522, 539);
+            this.tabControl1.Size = new System.Drawing.Size(538, 539);
             this.tabControl1.TabIndex = 17;
             // 
             // tbpGatherLog
@@ -976,7 +899,7 @@
             this.tbpGatherLog.Location = new System.Drawing.Point(4, 4);
             this.tbpGatherLog.Margin = new System.Windows.Forms.Padding(0);
             this.tbpGatherLog.Name = "tbpGatherLog";
-            this.tbpGatherLog.Size = new System.Drawing.Size(492, 531);
+            this.tbpGatherLog.Size = new System.Drawing.Size(508, 531);
             this.tbpGatherLog.TabIndex = 0;
             this.tbpGatherLog.Text = "运行日志";
             // 
@@ -998,7 +921,7 @@
             this.lstRunstate.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstRunstate.Location = new System.Drawing.Point(0, 0);
             this.lstRunstate.Name = "lstRunstate";
-            this.lstRunstate.Size = new System.Drawing.Size(492, 303);
+            this.lstRunstate.Size = new System.Drawing.Size(508, 303);
             this.lstRunstate.TabIndex = 16;
             this.lstRunstate.UseCompatibleStateImageBehavior = false;
             this.lstRunstate.View = System.Windows.Forms.View.Details;
@@ -1038,7 +961,7 @@
             this.panel18.Location = new System.Drawing.Point(0, 303);
             this.panel18.Margin = new System.Windows.Forms.Padding(0);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(492, 228);
+            this.panel18.Size = new System.Drawing.Size(508, 228);
             this.panel18.TabIndex = 17;
             // 
             // panel19
@@ -1050,7 +973,7 @@
             this.panel19.Location = new System.Drawing.Point(0, 0);
             this.panel19.Margin = new System.Windows.Forms.Padding(0);
             this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(492, 26);
+            this.panel19.Size = new System.Drawing.Size(508, 26);
             this.panel19.TabIndex = 0;
             // 
             // label6
@@ -1121,9 +1044,9 @@
             this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel12.Controls.Add(this.label10);
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel12.Location = new System.Drawing.Point(242, 41);
+            this.panel12.Location = new System.Drawing.Point(289, 41);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(522, 26);
+            this.panel12.Size = new System.Drawing.Size(538, 26);
             this.panel12.TabIndex = 14;
             // 
             // notifyIcon1
@@ -1133,10 +1056,122 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.btnMarkUser);
+            this.panel6.Controls.Add(this.btnFocusUser);
+            this.panel6.Controls.Add(this.btnBrowseUser);
+            this.panel6.Controls.Add(this.btnFollwerUser);
+            this.panel6.Controls.Add(this.btnIgnoreUser);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel6.Location = new System.Drawing.Point(117, 0);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(170, 25);
+            this.panel6.TabIndex = 1;
+            // 
+            // panel21
+            // 
+            this.panel21.Controls.Add(this.btnGetStatusByBid);
+            this.panel21.Controls.Add(this.btnArchiveStatus);
+            this.panel21.Controls.Add(this.btnBrowseStatus);
+            this.panel21.Controls.Add(this.btnOpenStatus);
+            this.panel21.Controls.Add(this.btnIgnoreStatus);
+            this.panel21.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel21.Location = new System.Drawing.Point(116, 0);
+            this.panel21.Name = "panel21";
+            this.panel21.Size = new System.Drawing.Size(169, 24);
+            this.panel21.TabIndex = 1;
+            // 
+            // cbxUserSort
+            // 
+            this.cbxUserSort.BackColor = System.Drawing.Color.White;
+            this.cbxUserSort.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbxUserSort.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxUserSort.FormattingEnabled = true;
+            this.cbxUserSort.Items.AddRange(new object[] {
+            "更新",
+            "微博",
+            "采集",
+            "下载",
+            "忽略",
+            "关注"});
+            this.cbxUserSort.Location = new System.Drawing.Point(0, 0);
+            this.cbxUserSort.Margin = new System.Windows.Forms.Padding(0);
+            this.cbxUserSort.Name = "cbxUserSort";
+            this.cbxUserSort.Size = new System.Drawing.Size(49, 24);
+            this.cbxUserSort.TabIndex = 0;
+            this.cbxUserSort.Text = "更新";
+            this.cbxUserSort.SelectedIndexChanged += new System.EventHandler(this.cbxUserSort_SelectedIndexChanged);
+            // 
+            // cbxUserSortAsc
+            // 
+            this.cbxUserSortAsc.BackColor = System.Drawing.Color.White;
+            this.cbxUserSortAsc.Dock = System.Windows.Forms.DockStyle.Right;
+            this.cbxUserSortAsc.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxUserSortAsc.FormattingEnabled = true;
+            this.cbxUserSortAsc.Items.AddRange(new object[] {
+            "升序",
+            "降序"});
+            this.cbxUserSortAsc.Location = new System.Drawing.Point(49, 0);
+            this.cbxUserSortAsc.Name = "cbxUserSortAsc";
+            this.cbxUserSortAsc.Size = new System.Drawing.Size(53, 24);
+            this.cbxUserSortAsc.TabIndex = 1;
+            this.cbxUserSortAsc.Text = "降序";
+            this.cbxUserSortAsc.SelectedIndexChanged += new System.EventHandler(this.cbxUserSortAsc_SelectedIndexChanged);
+            // 
+            // columnGet
+            // 
+            this.columnGet.Text = "下载数";
+            this.columnGet.Width = 50;
+            // 
+            // columnTAL
+            // 
+            this.columnTAL.Text = "微博数";
+            this.columnTAL.Width = 50;
+            // 
+            // columnIgnore
+            // 
+            this.columnIgnore.Text = "忽略数";
+            this.columnIgnore.Width = 50;
+            // 
+            // columnFollow
+            // 
+            this.columnFollow.Text = "关注";
+            this.columnFollow.Width = 50;
+            // 
+            // columnLove
+            // 
+            this.columnLove.Text = "点赞";
+            this.columnLove.Width = 40;
+            // 
+            // colSite
+            // 
+            this.colSite.Text = "SITE";
+            // 
+            // panel24
+            // 
+            this.panel24.Controls.Add(this.txtUserFilter);
+            this.panel24.Controls.Add(this.panel25);
+            this.panel24.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel24.Location = new System.Drawing.Point(0, 0);
+            this.panel24.Name = "panel24";
+            this.panel24.Size = new System.Drawing.Size(287, 24);
+            this.panel24.TabIndex = 11;
+            // 
+            // panel25
+            // 
+            this.panel25.Controls.Add(this.cbxUserSort);
+            this.panel25.Controls.Add(this.cbxUserSortAsc);
+            this.panel25.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel25.Location = new System.Drawing.Point(185, 0);
+            this.panel25.Name = "panel25";
+            this.panel25.Size = new System.Drawing.Size(102, 24);
+            this.panel25.TabIndex = 9;
+            // 
             // SpiderTrackerForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1015, 628);
+            this.ClientSize = new System.Drawing.Size(1078, 628);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel12);
             this.Controls.Add(this.panel10);
@@ -1156,9 +1191,6 @@
             this.statusStrip1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel15.ResumeLayout(false);
-            this.panel15.PerformLayout();
-            this.panel20.ResumeLayout(false);
-            this.panel20.PerformLayout();
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
             this.panel8.ResumeLayout(false);
@@ -1187,6 +1219,11 @@
             this.tbpVideo.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel21.ResumeLayout(false);
+            this.panel24.ResumeLayout(false);
+            this.panel24.PerformLayout();
+            this.panel25.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1240,9 +1277,9 @@
         private System.Windows.Forms.Button btnFocusUser;
         private System.Windows.Forms.Label lblLstStatusCountTitle;
         private System.Windows.Forms.ListView lstUser;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnUID;
+        private System.Windows.Forms.ColumnHeader columnName;
+        private System.Windows.Forms.ColumnHeader columnFind;
         private System.Windows.Forms.ListView lstArc;
         private System.Windows.Forms.ColumnHeader colBid;
         private System.Windows.Forms.ColumnHeader colQty;
@@ -1252,7 +1289,6 @@
         private System.Windows.Forms.Button btnMarkUser;
         private System.Windows.Forms.TextBox txtStatusFilter;
         private System.Windows.Forms.Label lblLstUserCountTitle;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.Label lblLstUserCount;
         private System.Windows.Forms.Label lblLstImgCount;
         private System.Windows.Forms.Label lblLstStatusCount;
@@ -1267,20 +1303,26 @@
         private System.Windows.Forms.Panel panel18;
         private System.Windows.Forms.Panel panel19;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Panel panel20;
-        private System.Windows.Forms.RadioButton sltLastDate;
-        private System.Windows.Forms.RadioButton sltUserID;
-        private System.Windows.Forms.RadioButton sltImageQty;
-        private System.Windows.Forms.RadioButton sltNewQty;
         private System.Windows.Forms.Button btnAppendUser;
         private System.Windows.Forms.Label lblLstStatusImageCount;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lblLstNewImgCount;
+        private System.Windows.Forms.Label lblLstGetImgCount;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.RadioButton sltFocus;
         private System.Windows.Forms.TabPage tbpVideo;
         private UI.VedioPlayerUC vedioPlayerUC1;
         private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Panel panel21;
+        private System.Windows.Forms.ComboBox cbxUserSort;
+        private System.Windows.Forms.ComboBox cbxUserSortAsc;
+        private System.Windows.Forms.ColumnHeader columnGet;
+        private System.Windows.Forms.ColumnHeader columnTAL;
+        private System.Windows.Forms.ColumnHeader columnIgnore;
+        private System.Windows.Forms.ColumnHeader columnFollow;
+        private System.Windows.Forms.ColumnHeader columnLove;
+        private System.Windows.Forms.ColumnHeader colSite;
+        private System.Windows.Forms.Panel panel24;
+        private System.Windows.Forms.Panel panel25;
     }
 }
 

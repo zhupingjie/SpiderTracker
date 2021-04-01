@@ -353,6 +353,37 @@ namespace SpiderTracker.Imp
             }
         }
 
+        public int GetEntitySumCount(string table, string field, string where)
+        {
+            using (MySqlConnection con = new MySqlConnection(DBConnectionString))
+            {
+                con.Open();
+                var cmd = con.CreateCommand();
+
+                cmd.CommandText = $"select sum({field}) from {table} where {where}";
+                try
+                {
+                    var obj = cmd.ExecuteScalar();
+                    if (obj != DBNull.Value)
+                    {
+                        int count = 0;
+                        int.TryParse(obj.ToString(), out count);
+                        return count;
+                    }
+                    return -1;
+                }
+                catch (Exception ex)
+                {
+                    log4net.LogManager.GetLogger("logAppender").Error(ex);
+                    return -1;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
         public TEntity GetEntity<TEntity>(string table, string where) where TEntity : BaseEntity, new ()
         {
             return GetEntitys<TEntity>(table, where).FirstOrDefault();
