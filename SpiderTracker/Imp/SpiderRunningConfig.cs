@@ -133,9 +133,9 @@ namespace SpiderTracker.Imp
         public int IgnoreReadArchiveStatus { get; set; } = 0;
 
         /// <summary>
-        /// 忽略已删图集
+        /// 忽略采集图集
         /// </summary>
-        public int IgnoreDeleteSourceStatus { get; set; } = 0;
+        public int IgnoreReadSourceStatus { get; set; } = 0;
 
 
         /// <summary>

@@ -37,5 +37,6 @@ namespace SpiderTracker.Imp.Model
         public int getqty { get; set; }
         public int ignore { get; set; }
         public int archive { get; set; }
+        public string site { get; set; }
     }
 }

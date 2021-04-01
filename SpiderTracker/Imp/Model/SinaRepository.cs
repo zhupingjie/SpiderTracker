@@ -31,11 +31,6 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.DeleteEntity("sina_user", "uid", user.uid);
         }
 
-        public bool DeleteSinaUserPicture(SinaUser user)
-        {
-            return DBHelper.DeleteEntity("sina_source", "uid", user.uid);
-        }
-
         public bool UpdateSinaUser(SinaUser user, string[] columns)
         {
             return DBHelper.UpdateEntity(user, "sina_user", "uid", user.uid, columns);
@@ -107,12 +102,12 @@ namespace SpiderTracker.Imp.Model
 
         public List<SinaUser> GetUsers(string category)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`category`='{category}' and `ignore=0`");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`category`='{category}' and `ignore`=0");
         }
 
         public List<SinaUser> GetUsers(string category, string keyword)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`category`='{category}' and 'retweet'=0 and `ignore`=0 and `uid` like '%{keyword}%'");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`category`='{category}' and `ignore`=0 and `uid` like '%{keyword}%'");
         }
         public List<SinaUser> GetFocusUsers(string category)
         {
@@ -131,12 +126,17 @@ namespace SpiderTracker.Imp.Model
 
         public List<SinaStatus> GetUserStatuses(string uid)
         {
-            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `ignore`=0");
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweet`=0 and  `ignore`=0");
+        }
+
+        public List<SinaStatus> GetUserStatuseByIds(string uid, string keyword)
+        {
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `bid` like '%{keyword}%' and `retweet`=0 and  `ignore`=0");
         }
 
         public List<SinaStatus> GetUserStatuseOfNoArchives(string uid)
         {
-            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `ignore`=0 and `archive`=0");
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweet`=0 and `ignore`=0 and `archive`=0");
         }
 
         public List<SinaSource> GetUserPictures(string uid)
@@ -165,7 +165,7 @@ namespace SpiderTracker.Imp.Model
             return false;
         }
 
-        public SinaUser StoreSinaUser(SpiderRunningConfig runningConfig, MWeiboUser user, bool bUpdate)
+        public SinaUser StoreSinaUser(SpiderRunningConfig runningConfig, MWeiboUser user)
         {
             var sinaUser = new SinaUser();
             sinaUser.category = runningConfig.Category;
@@ -187,7 +187,7 @@ namespace SpiderTracker.Imp.Model
                     return null;
                 }
             }
-            else if (bUpdate)
+            else
             {
                 sinaUser.id = existsUser.id;
                 var suc = UpdateSinaUser(sinaUser, new string[] { "follows", "followers", "statuses", "name", "avatar", "desc", "profile" });
@@ -199,7 +199,7 @@ namespace SpiderTracker.Imp.Model
             return sinaUser;
         }
 
-        public void StoreSinaRetweetStatus(MWeiboUser user, MWeiboStatus status, MWeiboStatus retweet, int mtype)
+        public void StoreSinaRetweetStatus(SpiderRunningConfig runningConfig, MWeiboUser user, MWeiboStatus status, MWeiboStatus retweet, int mtype)
         {
             var sinaStatus = new SinaStatus();
             sinaStatus.uid = user.id;
@@ -211,6 +211,7 @@ namespace SpiderTracker.Imp.Model
             sinaStatus.retweet = 1;
             sinaStatus.retuid = retweet.user.id;
             sinaStatus.retbid = retweet.bid;
+            sinaStatus.site = runningConfig.Site;
             var extSinaStatus = GetUserStatus(status.bid);
             if (extSinaStatus == null)
             {
@@ -218,7 +219,7 @@ namespace SpiderTracker.Imp.Model
             }
         }
 
-        public void StoreSinaStatus(MWeiboUser user, MWeiboStatus status, int mtype, int readSourceCount, int readStatusImageCount)
+        public void StoreSinaStatus(SpiderRunningConfig runningConfig, MWeiboUser user, MWeiboStatus status, int mtype, int readSourceCount, int readStatusImageCount)
         {
             var sinaStatus = new SinaStatus();
             sinaStatus.uid = user.id;
@@ -229,7 +230,8 @@ namespace SpiderTracker.Imp.Model
             sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(status.bid);
             sinaStatus.qty = readSourceCount;
             sinaStatus.getqty = readStatusImageCount >= 0 ? readStatusImageCount : 0;
-            if(readStatusImageCount == 0)
+            sinaStatus.site = runningConfig.Site;
+            if (readStatusImageCount == 0)
             {
                 sinaStatus.ignore = 1;
             }
@@ -250,7 +252,8 @@ namespace SpiderTracker.Imp.Model
                 }
                 extSinaStatus.qty = readSourceCount;
                 extSinaStatus.getqty = readStatusImageCount;
-                UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "qty", "getqty" });
+                extSinaStatus.site = runningConfig.Site;
+                UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "qty", "getqty", "site" });
             }
         }
 

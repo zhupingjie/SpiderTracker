@@ -29,14 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.cbxName = new System.Windows.Forms.ComboBox();
+            this.cbxCategory = new System.Windows.Forms.ComboBox();
+            this.cbxSite = new System.Windows.Forms.ComboBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tplStatus = new System.Windows.Forms.ToolStripStatusLabel();
@@ -45,29 +46,47 @@
             this.lstUser = new System.Windows.Forms.ListView();
             this.columnUID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnTAL = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnFind = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnOrigin = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnRet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnGet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnIgnore = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnFollow = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnLove = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel24 = new System.Windows.Forms.Panel();
             this.txtUserFilter = new System.Windows.Forms.TextBox();
+            this.panel25 = new System.Windows.Forms.Panel();
+            this.cbxUserSort = new System.Windows.Forms.ComboBox();
+            this.cbxUserSortAsc = new System.Windows.Forms.ComboBox();
             this.panel9 = new System.Windows.Forms.Panel();
             this.lstArc = new System.Windows.Forms.ListView();
             this.colBid = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colQty = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colLoc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colMrk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colSite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel20 = new System.Windows.Forms.Panel();
             this.txtStatusFilter = new System.Windows.Forms.TextBox();
+            this.panel22 = new System.Windows.Forms.Panel();
+            this.cbxStatusSort = new System.Windows.Forms.ComboBox();
+            this.cbxStatusSortAsc = new System.Windows.Forms.ComboBox();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.panel21 = new System.Windows.Forms.Panel();
             this.btnGetStatusByBid = new System.Windows.Forms.Button();
             this.btnArchiveStatus = new System.Windows.Forms.Button();
+            this.btnBrowseStatus = new System.Windows.Forms.Button();
             this.btnOpenStatus = new System.Windows.Forms.Button();
             this.btnIgnoreStatus = new System.Windows.Forms.Button();
-            this.btnBrowseStatus = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
             this.btnMarkUser = new System.Windows.Forms.Button();
             this.btnFocusUser = new System.Windows.Forms.Button();
+            this.btnBrowseUser = new System.Windows.Forms.Button();
             this.btnFollwerUser = new System.Windows.Forms.Button();
             this.btnIgnoreUser = new System.Windows.Forms.Button();
-            this.btnBrowseUser = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
             this.lblLstArchiveCount = new System.Windows.Forms.Label();
             this.lblLstArchiveCountTitle = new System.Windows.Forms.Label();
             this.lblLstImgCount = new System.Windows.Forms.Label();
@@ -107,32 +126,26 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.tbpReview = new System.Windows.Forms.TabPage();
-            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.tbpVideo = new System.Windows.Forms.TabPage();
-            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.panel21 = new System.Windows.Forms.Panel();
-            this.cbxUserSort = new System.Windows.Forms.ComboBox();
-            this.cbxUserSortAsc = new System.Windows.Forms.ComboBox();
-            this.columnGet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnTAL = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnIgnore = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnFollow = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnLove = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panel24 = new System.Windows.Forms.Panel();
-            this.panel25 = new System.Windows.Forms.Panel();
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
+            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel15.SuspendLayout();
+            this.panel24.SuspendLayout();
+            this.panel25.SuspendLayout();
             this.panel9.SuspendLayout();
+            this.panel20.SuspendLayout();
+            this.panel22.SuspendLayout();
             this.panel8.SuspendLayout();
+            this.panel21.SuspendLayout();
             this.panel7.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.panel10.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -149,10 +162,6 @@
             this.tbpReview.SuspendLayout();
             this.tbpVideo.SuspendLayout();
             this.panel12.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.panel21.SuspendLayout();
-            this.panel24.SuspendLayout();
-            this.panel25.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -162,7 +171,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1078, 41);
+            this.panel1.Size = new System.Drawing.Size(1158, 41);
             this.panel1.TabIndex = 0;
             // 
             // txtStartUrl
@@ -175,36 +184,55 @@
             this.txtStartUrl.ForeColor = System.Drawing.Color.Blue;
             this.txtStartUrl.Location = new System.Drawing.Point(0, 0);
             this.txtStartUrl.Name = "txtStartUrl";
-            this.txtStartUrl.Size = new System.Drawing.Size(924, 41);
+            this.txtStartUrl.Size = new System.Drawing.Size(912, 41);
             this.txtStartUrl.TabIndex = 2;
             this.txtStartUrl.Text = "https://m.weibo.cn/u/1738733270";
             this.txtStartUrl.TextChanged += new System.EventHandler(this.txtStartUrl_TextChanged);
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.cbxName);
+            this.panel4.Controls.Add(this.cbxCategory);
+            this.panel4.Controls.Add(this.cbxSite);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(924, 0);
+            this.panel4.Location = new System.Drawing.Point(912, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(154, 41);
+            this.panel4.Size = new System.Drawing.Size(246, 41);
             this.panel4.TabIndex = 4;
             // 
-            // cbxName
+            // cbxCategory
             // 
-            this.cbxName.BackColor = System.Drawing.SystemColors.Control;
-            this.cbxName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbxName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbxName.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbxName.FormattingEnabled = true;
-            this.cbxName.ItemHeight = 31;
-            this.cbxName.Items.AddRange(new object[] {
+            this.cbxCategory.BackColor = System.Drawing.SystemColors.Control;
+            this.cbxCategory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbxCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbxCategory.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxCategory.FormattingEnabled = true;
+            this.cbxCategory.ItemHeight = 31;
+            this.cbxCategory.Items.AddRange(new object[] {
             ""});
-            this.cbxName.Location = new System.Drawing.Point(0, 0);
-            this.cbxName.Name = "cbxName";
-            this.cbxName.Size = new System.Drawing.Size(154, 39);
-            this.cbxName.TabIndex = 3;
-            this.cbxName.Text = "cosplay";
-            this.cbxName.Leave += new System.EventHandler(this.cbxName_Leave);
+            this.cbxCategory.Location = new System.Drawing.Point(0, 0);
+            this.cbxCategory.Name = "cbxCategory";
+            this.cbxCategory.Size = new System.Drawing.Size(125, 39);
+            this.cbxCategory.TabIndex = 3;
+            this.cbxCategory.Text = "cosplay";
+            this.cbxCategory.Leave += new System.EventHandler(this.cbxName_Leave);
+            // 
+            // cbxSite
+            // 
+            this.cbxSite.BackColor = System.Drawing.SystemColors.Control;
+            this.cbxSite.Dock = System.Windows.Forms.DockStyle.Right;
+            this.cbxSite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbxSite.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxSite.FormattingEnabled = true;
+            this.cbxSite.ItemHeight = 31;
+            this.cbxSite.Items.AddRange(new object[] {
+            "home",
+            "comany"});
+            this.cbxSite.Location = new System.Drawing.Point(125, 0);
+            this.cbxSite.Name = "cbxSite";
+            this.cbxSite.Size = new System.Drawing.Size(121, 39);
+            this.cbxSite.TabIndex = 4;
+            this.cbxSite.Text = "home";
+            this.cbxSite.SelectedIndexChanged += new System.EventHandler(this.cbxSite_SelectedIndexChanged);
             // 
             // btnSearch
             // 
@@ -226,7 +254,7 @@
             this.tplStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 606);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1078, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1158, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -245,7 +273,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 41);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(289, 565);
+            this.panel3.Size = new System.Drawing.Size(313, 565);
             this.panel3.TabIndex = 7;
             // 
             // panel15
@@ -255,7 +283,7 @@
             this.panel15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel15.Location = new System.Drawing.Point(0, 25);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(287, 305);
+            this.panel15.Size = new System.Drawing.Size(311, 305);
             this.panel15.TabIndex = 8;
             // 
             // lstUser
@@ -266,6 +294,8 @@
             this.columnName,
             this.columnTAL,
             this.columnFind,
+            this.columnOrigin,
+            this.columnRet,
             this.columnGet,
             this.columnIgnore,
             this.columnFollow,
@@ -279,7 +309,7 @@
             this.lstUser.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstUser.Location = new System.Drawing.Point(0, 24);
             this.lstUser.Name = "lstUser";
-            this.lstUser.Size = new System.Drawing.Size(287, 281);
+            this.lstUser.Size = new System.Drawing.Size(311, 281);
             this.lstUser.TabIndex = 9;
             this.lstUser.UseCompatibleStateImageBehavior = false;
             this.lstUser.View = System.Windows.Forms.View.Details;
@@ -296,10 +326,55 @@
             this.columnName.Text = "名称";
             this.columnName.Width = 80;
             // 
+            // columnTAL
+            // 
+            this.columnTAL.Text = "微博数";
+            this.columnTAL.Width = 50;
+            // 
             // columnFind
             // 
             this.columnFind.Text = "采集数";
             this.columnFind.Width = 50;
+            // 
+            // columnOrigin
+            // 
+            this.columnOrigin.Text = "原创数";
+            this.columnOrigin.Width = 50;
+            // 
+            // columnRet
+            // 
+            this.columnRet.Text = "转发数";
+            this.columnRet.Width = 50;
+            // 
+            // columnGet
+            // 
+            this.columnGet.Text = "下载数";
+            this.columnGet.Width = 50;
+            // 
+            // columnIgnore
+            // 
+            this.columnIgnore.Text = "忽略数";
+            this.columnIgnore.Width = 50;
+            // 
+            // columnFollow
+            // 
+            this.columnFollow.Text = "关注";
+            this.columnFollow.Width = 50;
+            // 
+            // columnLove
+            // 
+            this.columnLove.Text = "点赞";
+            this.columnLove.Width = 40;
+            // 
+            // panel24
+            // 
+            this.panel24.Controls.Add(this.txtUserFilter);
+            this.panel24.Controls.Add(this.panel25);
+            this.panel24.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel24.Location = new System.Drawing.Point(0, 0);
+            this.panel24.Name = "panel24";
+            this.panel24.Size = new System.Drawing.Size(311, 24);
+            this.panel24.TabIndex = 11;
             // 
             // txtUserFilter
             // 
@@ -309,21 +384,69 @@
             this.txtUserFilter.Location = new System.Drawing.Point(0, 0);
             this.txtUserFilter.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.txtUserFilter.Name = "txtUserFilter";
-            this.txtUserFilter.Size = new System.Drawing.Size(185, 24);
+            this.txtUserFilter.Size = new System.Drawing.Size(209, 24);
             this.txtUserFilter.TabIndex = 8;
-            this.txtUserFilter.TextChanged += new System.EventHandler(this.txtUserFilter_TextChanged);
             this.txtUserFilter.DoubleClick += new System.EventHandler(this.txtUserFilter_DoubleClick);
             this.txtUserFilter.Leave += new System.EventHandler(this.txtUserFilter_Leave);
+            // 
+            // panel25
+            // 
+            this.panel25.Controls.Add(this.cbxUserSort);
+            this.panel25.Controls.Add(this.cbxUserSortAsc);
+            this.panel25.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel25.Location = new System.Drawing.Point(209, 0);
+            this.panel25.Name = "panel25";
+            this.panel25.Size = new System.Drawing.Size(102, 24);
+            this.panel25.TabIndex = 9;
+            // 
+            // cbxUserSort
+            // 
+            this.cbxUserSort.BackColor = System.Drawing.Color.White;
+            this.cbxUserSort.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbxUserSort.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxUserSort.FormattingEnabled = true;
+            this.cbxUserSort.Items.AddRange(new object[] {
+            "更新",
+            "微博",
+            "采集",
+            "原创",
+            "转发",
+            "下载",
+            "忽略",
+            "关注"});
+            this.cbxUserSort.Location = new System.Drawing.Point(0, 0);
+            this.cbxUserSort.Margin = new System.Windows.Forms.Padding(0);
+            this.cbxUserSort.Name = "cbxUserSort";
+            this.cbxUserSort.Size = new System.Drawing.Size(49, 24);
+            this.cbxUserSort.TabIndex = 0;
+            this.cbxUserSort.Text = "更新";
+            this.cbxUserSort.SelectedIndexChanged += new System.EventHandler(this.cbxUserSort_SelectedIndexChanged);
+            // 
+            // cbxUserSortAsc
+            // 
+            this.cbxUserSortAsc.BackColor = System.Drawing.Color.White;
+            this.cbxUserSortAsc.Dock = System.Windows.Forms.DockStyle.Right;
+            this.cbxUserSortAsc.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxUserSortAsc.FormattingEnabled = true;
+            this.cbxUserSortAsc.Items.AddRange(new object[] {
+            "升序",
+            "降序"});
+            this.cbxUserSortAsc.Location = new System.Drawing.Point(49, 0);
+            this.cbxUserSortAsc.Name = "cbxUserSortAsc";
+            this.cbxUserSortAsc.Size = new System.Drawing.Size(53, 24);
+            this.cbxUserSortAsc.TabIndex = 1;
+            this.cbxUserSortAsc.Text = "降序";
+            this.cbxUserSortAsc.SelectedIndexChanged += new System.EventHandler(this.cbxUserSortAsc_SelectedIndexChanged);
             // 
             // panel9
             // 
             this.panel9.Controls.Add(this.lstArc);
-            this.panel9.Controls.Add(this.txtStatusFilter);
+            this.panel9.Controls.Add(this.panel20);
             this.panel9.Controls.Add(this.panel8);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel9.Location = new System.Drawing.Point(0, 330);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(287, 233);
+            this.panel9.Size = new System.Drawing.Size(311, 233);
             this.panel9.TabIndex = 7;
             // 
             // lstArc
@@ -333,8 +456,8 @@
             this.colBid,
             this.colQty,
             this.colLoc,
-            this.colSite,
-            this.colMrk});
+            this.colMrk,
+            this.colSite});
             this.lstArc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstArc.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lstArc.FullRowSelect = true;
@@ -342,9 +465,9 @@
             this.lstArc.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lstArc.HideSelection = false;
             this.lstArc.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.lstArc.Location = new System.Drawing.Point(0, 49);
+            this.lstArc.Location = new System.Drawing.Point(0, 50);
             this.lstArc.Name = "lstArc";
-            this.lstArc.Size = new System.Drawing.Size(287, 184);
+            this.lstArc.Size = new System.Drawing.Size(311, 183);
             this.lstArc.TabIndex = 12;
             this.lstArc.UseCompatibleStateImageBehavior = false;
             this.lstArc.View = System.Windows.Forms.View.Details;
@@ -368,21 +491,80 @@
             // 
             // colMrk
             // 
-            this.colMrk.Text = "MRK";
+            this.colMrk.Text = "SAV";
             this.colMrk.Width = 40;
+            // 
+            // colSite
+            // 
+            this.colSite.Text = "SITE";
+            // 
+            // panel20
+            // 
+            this.panel20.Controls.Add(this.txtStatusFilter);
+            this.panel20.Controls.Add(this.panel22);
+            this.panel20.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel20.Location = new System.Drawing.Point(0, 26);
+            this.panel20.Name = "panel20";
+            this.panel20.Size = new System.Drawing.Size(311, 24);
+            this.panel20.TabIndex = 12;
             // 
             // txtStatusFilter
             // 
             this.txtStatusFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtStatusFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtStatusFilter.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtStatusFilter.Location = new System.Drawing.Point(0, 26);
-            this.txtStatusFilter.Margin = new System.Windows.Forms.Padding(0);
+            this.txtStatusFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtStatusFilter.Font = new System.Drawing.Font("微软雅黑", 9.25F);
+            this.txtStatusFilter.Location = new System.Drawing.Point(0, 0);
+            this.txtStatusFilter.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.txtStatusFilter.Name = "txtStatusFilter";
-            this.txtStatusFilter.Size = new System.Drawing.Size(287, 23);
-            this.txtStatusFilter.TabIndex = 13;
-            this.txtStatusFilter.TextChanged += new System.EventHandler(this.txtStatusFilter_TextChanged);
-            this.txtStatusFilter.DoubleClick += new System.EventHandler(this.txtStatusFilter_DoubleClick);
+            this.txtStatusFilter.Size = new System.Drawing.Size(209, 24);
+            this.txtStatusFilter.TabIndex = 8;
+            this.txtStatusFilter.DoubleClick += new System.EventHandler(this.txtUserFilter_DoubleClick);
+            this.txtStatusFilter.Leave += new System.EventHandler(this.txtStatusFilter_Leave);
+            // 
+            // panel22
+            // 
+            this.panel22.Controls.Add(this.cbxStatusSort);
+            this.panel22.Controls.Add(this.cbxStatusSortAsc);
+            this.panel22.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel22.Location = new System.Drawing.Point(209, 0);
+            this.panel22.Name = "panel22";
+            this.panel22.Size = new System.Drawing.Size(102, 24);
+            this.panel22.TabIndex = 9;
+            // 
+            // cbxStatusSort
+            // 
+            this.cbxStatusSort.BackColor = System.Drawing.Color.White;
+            this.cbxStatusSort.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbxStatusSort.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxStatusSort.FormattingEnabled = true;
+            this.cbxStatusSort.Items.AddRange(new object[] {
+            "更新",
+            "数量",
+            "存档",
+            "场所"});
+            this.cbxStatusSort.Location = new System.Drawing.Point(0, 0);
+            this.cbxStatusSort.Margin = new System.Windows.Forms.Padding(0);
+            this.cbxStatusSort.Name = "cbxStatusSort";
+            this.cbxStatusSort.Size = new System.Drawing.Size(49, 24);
+            this.cbxStatusSort.TabIndex = 0;
+            this.cbxStatusSort.Text = "更新";
+            this.cbxStatusSort.SelectedIndexChanged += new System.EventHandler(this.cbxStatusSort_SelectedIndexChanged);
+            // 
+            // cbxStatusSortAsc
+            // 
+            this.cbxStatusSortAsc.BackColor = System.Drawing.Color.White;
+            this.cbxStatusSortAsc.Dock = System.Windows.Forms.DockStyle.Right;
+            this.cbxStatusSortAsc.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxStatusSortAsc.FormattingEnabled = true;
+            this.cbxStatusSortAsc.Items.AddRange(new object[] {
+            "升序",
+            "降序"});
+            this.cbxStatusSortAsc.Location = new System.Drawing.Point(49, 0);
+            this.cbxStatusSortAsc.Name = "cbxStatusSortAsc";
+            this.cbxStatusSortAsc.Size = new System.Drawing.Size(53, 24);
+            this.cbxStatusSortAsc.TabIndex = 1;
+            this.cbxStatusSortAsc.Text = "降序";
+            this.cbxStatusSortAsc.SelectedIndexChanged += new System.EventHandler(this.cbxStatusSortAsc_SelectedIndexChanged);
             // 
             // panel8
             // 
@@ -393,8 +575,21 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(0, 0);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(287, 26);
+            this.panel8.Size = new System.Drawing.Size(311, 26);
             this.panel8.TabIndex = 11;
+            // 
+            // panel21
+            // 
+            this.panel21.Controls.Add(this.btnGetStatusByBid);
+            this.panel21.Controls.Add(this.btnArchiveStatus);
+            this.panel21.Controls.Add(this.btnBrowseStatus);
+            this.panel21.Controls.Add(this.btnOpenStatus);
+            this.panel21.Controls.Add(this.btnIgnoreStatus);
+            this.panel21.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel21.Location = new System.Drawing.Point(140, 0);
+            this.panel21.Name = "panel21";
+            this.panel21.Size = new System.Drawing.Size(169, 24);
+            this.panel21.TabIndex = 1;
             // 
             // btnGetStatusByBid
             // 
@@ -416,9 +611,21 @@
             this.btnArchiveStatus.Name = "btnArchiveStatus";
             this.btnArchiveStatus.Size = new System.Drawing.Size(35, 20);
             this.btnArchiveStatus.TabIndex = 20;
-            this.btnArchiveStatus.Text = "MRK";
+            this.btnArchiveStatus.Text = "SAV";
             this.btnArchiveStatus.UseVisualStyleBackColor = false;
             this.btnArchiveStatus.Click += new System.EventHandler(this.btnArchiveStatus_Click);
+            // 
+            // btnBrowseStatus
+            // 
+            this.btnBrowseStatus.BackColor = System.Drawing.SystemColors.Control;
+            this.btnBrowseStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBrowseStatus.Location = new System.Drawing.Point(133, 2);
+            this.btnBrowseStatus.Name = "btnBrowseStatus";
+            this.btnBrowseStatus.Size = new System.Drawing.Size(35, 20);
+            this.btnBrowseStatus.TabIndex = 7;
+            this.btnBrowseStatus.Text = "BWE";
+            this.btnBrowseStatus.UseVisualStyleBackColor = false;
+            this.btnBrowseStatus.Click += new System.EventHandler(this.btnBrowseStatus_Click);
             // 
             // btnOpenStatus
             // 
@@ -444,18 +651,6 @@
             this.btnIgnoreStatus.UseVisualStyleBackColor = false;
             this.btnIgnoreStatus.Click += new System.EventHandler(this.btnIgnoreStatus_Click);
             // 
-            // btnBrowseStatus
-            // 
-            this.btnBrowseStatus.BackColor = System.Drawing.SystemColors.Control;
-            this.btnBrowseStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBrowseStatus.Location = new System.Drawing.Point(133, 2);
-            this.btnBrowseStatus.Name = "btnBrowseStatus";
-            this.btnBrowseStatus.Size = new System.Drawing.Size(35, 20);
-            this.btnBrowseStatus.TabIndex = 7;
-            this.btnBrowseStatus.Text = "BWE";
-            this.btnBrowseStatus.UseVisualStyleBackColor = false;
-            this.btnBrowseStatus.Click += new System.EventHandler(this.btnBrowseStatus_Click);
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -475,8 +670,32 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(287, 25);
+            this.panel7.Size = new System.Drawing.Size(311, 25);
             this.panel7.TabIndex = 4;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(3, 5);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(32, 17);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "用户";
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.btnMarkUser);
+            this.panel6.Controls.Add(this.btnFocusUser);
+            this.panel6.Controls.Add(this.btnBrowseUser);
+            this.panel6.Controls.Add(this.btnFollwerUser);
+            this.panel6.Controls.Add(this.btnIgnoreUser);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel6.Location = new System.Drawing.Point(141, 0);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(170, 25);
+            this.panel6.TabIndex = 1;
             // 
             // btnMarkUser
             // 
@@ -486,7 +705,7 @@
             this.btnMarkUser.Name = "btnMarkUser";
             this.btnMarkUser.Size = new System.Drawing.Size(35, 20);
             this.btnMarkUser.TabIndex = 21;
-            this.btnMarkUser.Text = "MRK";
+            this.btnMarkUser.Text = "SAV";
             this.btnMarkUser.UseVisualStyleBackColor = false;
             this.btnMarkUser.Click += new System.EventHandler(this.btnMarkUser_Click);
             // 
@@ -501,6 +720,18 @@
             this.btnFocusUser.Text = "FCS";
             this.btnFocusUser.UseVisualStyleBackColor = false;
             this.btnFocusUser.Click += new System.EventHandler(this.btnFocusUser_Click);
+            // 
+            // btnBrowseUser
+            // 
+            this.btnBrowseUser.BackColor = System.Drawing.SystemColors.Control;
+            this.btnBrowseUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBrowseUser.Location = new System.Drawing.Point(133, 3);
+            this.btnBrowseUser.Name = "btnBrowseUser";
+            this.btnBrowseUser.Size = new System.Drawing.Size(35, 20);
+            this.btnBrowseUser.TabIndex = 8;
+            this.btnBrowseUser.Text = "BWE";
+            this.btnBrowseUser.UseVisualStyleBackColor = false;
+            this.btnBrowseUser.Click += new System.EventHandler(this.btnBrowseUser_Click);
             // 
             // btnFollwerUser
             // 
@@ -525,29 +756,6 @@
             this.btnIgnoreUser.Text = "IGN";
             this.btnIgnoreUser.UseVisualStyleBackColor = false;
             this.btnIgnoreUser.Click += new System.EventHandler(this.btnIgnoreUser_Click);
-            // 
-            // btnBrowseUser
-            // 
-            this.btnBrowseUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnBrowseUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBrowseUser.Location = new System.Drawing.Point(133, 3);
-            this.btnBrowseUser.Name = "btnBrowseUser";
-            this.btnBrowseUser.Size = new System.Drawing.Size(35, 20);
-            this.btnBrowseUser.TabIndex = 8;
-            this.btnBrowseUser.Text = "BWE";
-            this.btnBrowseUser.UseVisualStyleBackColor = false;
-            this.btnBrowseUser.Click += new System.EventHandler(this.btnBrowseUser_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(3, 5);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 17);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "用户";
             // 
             // lblLstArchiveCount
             // 
@@ -637,7 +845,7 @@
             this.panel10.Controls.Add(this.panel17);
             this.panel10.Controls.Add(this.panel14);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel10.Location = new System.Drawing.Point(827, 41);
+            this.panel10.Location = new System.Drawing.Point(907, 41);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(251, 565);
             this.panel10.TabIndex = 11;
@@ -655,27 +863,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle37.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle37.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle38.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle38.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle38.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle38.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle38.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle38.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle39.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -871,7 +1079,7 @@
             this.lstLog.Location = new System.Drawing.Point(0, 26);
             this.lstLog.Margin = new System.Windows.Forms.Padding(0);
             this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(508, 206);
+            this.lstLog.Size = new System.Drawing.Size(564, 206);
             this.lstLog.TabIndex = 15;
             // 
             // tabControl1
@@ -882,13 +1090,13 @@
             this.tabControl1.Controls.Add(this.tbpVideo);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tabControl1.Location = new System.Drawing.Point(289, 67);
+            this.tabControl1.Location = new System.Drawing.Point(313, 67);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(538, 539);
+            this.tabControl1.Size = new System.Drawing.Size(594, 539);
             this.tabControl1.TabIndex = 17;
             // 
             // tbpGatherLog
@@ -899,7 +1107,7 @@
             this.tbpGatherLog.Location = new System.Drawing.Point(4, 4);
             this.tbpGatherLog.Margin = new System.Windows.Forms.Padding(0);
             this.tbpGatherLog.Name = "tbpGatherLog";
-            this.tbpGatherLog.Size = new System.Drawing.Size(508, 531);
+            this.tbpGatherLog.Size = new System.Drawing.Size(564, 531);
             this.tbpGatherLog.TabIndex = 0;
             this.tbpGatherLog.Text = "运行日志";
             // 
@@ -921,7 +1129,7 @@
             this.lstRunstate.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstRunstate.Location = new System.Drawing.Point(0, 0);
             this.lstRunstate.Name = "lstRunstate";
-            this.lstRunstate.Size = new System.Drawing.Size(508, 303);
+            this.lstRunstate.Size = new System.Drawing.Size(564, 303);
             this.lstRunstate.TabIndex = 16;
             this.lstRunstate.UseCompatibleStateImageBehavior = false;
             this.lstRunstate.View = System.Windows.Forms.View.Details;
@@ -961,7 +1169,7 @@
             this.panel18.Location = new System.Drawing.Point(0, 303);
             this.panel18.Margin = new System.Windows.Forms.Padding(0);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(508, 228);
+            this.panel18.Size = new System.Drawing.Size(564, 228);
             this.panel18.TabIndex = 17;
             // 
             // panel19
@@ -973,7 +1181,7 @@
             this.panel19.Location = new System.Drawing.Point(0, 0);
             this.panel19.Margin = new System.Windows.Forms.Padding(0);
             this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(508, 26);
+            this.panel19.Size = new System.Drawing.Size(564, 26);
             this.panel19.TabIndex = 0;
             // 
             // label6
@@ -994,38 +1202,19 @@
             this.tbpReview.Location = new System.Drawing.Point(4, 4);
             this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
             this.tbpReview.Name = "tbpReview";
-            this.tbpReview.Size = new System.Drawing.Size(492, 531);
+            this.tbpReview.Size = new System.Drawing.Size(514, 531);
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
-            // 
-            // imagePreviewUC1
-            // 
-            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
-            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
-            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(492, 531);
-            this.imagePreviewUC1.TabIndex = 0;
             // 
             // tbpVideo
             // 
             this.tbpVideo.Controls.Add(this.vedioPlayerUC1);
             this.tbpVideo.Location = new System.Drawing.Point(4, 4);
             this.tbpVideo.Name = "tbpVideo";
-            this.tbpVideo.Size = new System.Drawing.Size(492, 531);
+            this.tbpVideo.Size = new System.Drawing.Size(514, 531);
             this.tbpVideo.TabIndex = 2;
             this.tbpVideo.Text = "视频预览";
             this.tbpVideo.UseVisualStyleBackColor = true;
-            // 
-            // vedioPlayerUC1
-            // 
-            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 771, 3, 771);
-            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
-            this.vedioPlayerUC1.Size = new System.Drawing.Size(492, 531);
-            this.vedioPlayerUC1.TabIndex = 0;
             // 
             // label10
             // 
@@ -1044,9 +1233,9 @@
             this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel12.Controls.Add(this.label10);
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel12.Location = new System.Drawing.Point(289, 41);
+            this.panel12.Location = new System.Drawing.Point(313, 41);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(538, 26);
+            this.panel12.Size = new System.Drawing.Size(594, 26);
             this.panel12.TabIndex = 14;
             // 
             // notifyIcon1
@@ -1056,122 +1245,29 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
-            // panel6
+            // imagePreviewUC1
             // 
-            this.panel6.Controls.Add(this.btnMarkUser);
-            this.panel6.Controls.Add(this.btnFocusUser);
-            this.panel6.Controls.Add(this.btnBrowseUser);
-            this.panel6.Controls.Add(this.btnFollwerUser);
-            this.panel6.Controls.Add(this.btnIgnoreUser);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel6.Location = new System.Drawing.Point(117, 0);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(170, 25);
-            this.panel6.TabIndex = 1;
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(514, 531);
+            this.imagePreviewUC1.TabIndex = 0;
             // 
-            // panel21
+            // vedioPlayerUC1
             // 
-            this.panel21.Controls.Add(this.btnGetStatusByBid);
-            this.panel21.Controls.Add(this.btnArchiveStatus);
-            this.panel21.Controls.Add(this.btnBrowseStatus);
-            this.panel21.Controls.Add(this.btnOpenStatus);
-            this.panel21.Controls.Add(this.btnIgnoreStatus);
-            this.panel21.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel21.Location = new System.Drawing.Point(116, 0);
-            this.panel21.Name = "panel21";
-            this.panel21.Size = new System.Drawing.Size(169, 24);
-            this.panel21.TabIndex = 1;
-            // 
-            // cbxUserSort
-            // 
-            this.cbxUserSort.BackColor = System.Drawing.Color.White;
-            this.cbxUserSort.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbxUserSort.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbxUserSort.FormattingEnabled = true;
-            this.cbxUserSort.Items.AddRange(new object[] {
-            "更新",
-            "微博",
-            "采集",
-            "下载",
-            "忽略",
-            "关注"});
-            this.cbxUserSort.Location = new System.Drawing.Point(0, 0);
-            this.cbxUserSort.Margin = new System.Windows.Forms.Padding(0);
-            this.cbxUserSort.Name = "cbxUserSort";
-            this.cbxUserSort.Size = new System.Drawing.Size(49, 24);
-            this.cbxUserSort.TabIndex = 0;
-            this.cbxUserSort.Text = "更新";
-            this.cbxUserSort.SelectedIndexChanged += new System.EventHandler(this.cbxUserSort_SelectedIndexChanged);
-            // 
-            // cbxUserSortAsc
-            // 
-            this.cbxUserSortAsc.BackColor = System.Drawing.Color.White;
-            this.cbxUserSortAsc.Dock = System.Windows.Forms.DockStyle.Right;
-            this.cbxUserSortAsc.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbxUserSortAsc.FormattingEnabled = true;
-            this.cbxUserSortAsc.Items.AddRange(new object[] {
-            "升序",
-            "降序"});
-            this.cbxUserSortAsc.Location = new System.Drawing.Point(49, 0);
-            this.cbxUserSortAsc.Name = "cbxUserSortAsc";
-            this.cbxUserSortAsc.Size = new System.Drawing.Size(53, 24);
-            this.cbxUserSortAsc.TabIndex = 1;
-            this.cbxUserSortAsc.Text = "降序";
-            this.cbxUserSortAsc.SelectedIndexChanged += new System.EventHandler(this.cbxUserSortAsc_SelectedIndexChanged);
-            // 
-            // columnGet
-            // 
-            this.columnGet.Text = "下载数";
-            this.columnGet.Width = 50;
-            // 
-            // columnTAL
-            // 
-            this.columnTAL.Text = "微博数";
-            this.columnTAL.Width = 50;
-            // 
-            // columnIgnore
-            // 
-            this.columnIgnore.Text = "忽略数";
-            this.columnIgnore.Width = 50;
-            // 
-            // columnFollow
-            // 
-            this.columnFollow.Text = "关注";
-            this.columnFollow.Width = 50;
-            // 
-            // columnLove
-            // 
-            this.columnLove.Text = "点赞";
-            this.columnLove.Width = 40;
-            // 
-            // colSite
-            // 
-            this.colSite.Text = "SITE";
-            // 
-            // panel24
-            // 
-            this.panel24.Controls.Add(this.txtUserFilter);
-            this.panel24.Controls.Add(this.panel25);
-            this.panel24.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel24.Location = new System.Drawing.Point(0, 0);
-            this.panel24.Name = "panel24";
-            this.panel24.Size = new System.Drawing.Size(287, 24);
-            this.panel24.TabIndex = 11;
-            // 
-            // panel25
-            // 
-            this.panel25.Controls.Add(this.cbxUserSort);
-            this.panel25.Controls.Add(this.cbxUserSortAsc);
-            this.panel25.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel25.Location = new System.Drawing.Point(185, 0);
-            this.panel25.Name = "panel25";
-            this.panel25.Size = new System.Drawing.Size(102, 24);
-            this.panel25.TabIndex = 9;
+            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 2192, 3, 2192);
+            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
+            this.vedioPlayerUC1.Size = new System.Drawing.Size(514, 531);
+            this.vedioPlayerUC1.TabIndex = 0;
             // 
             // SpiderTrackerForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1078, 628);
+            this.ClientSize = new System.Drawing.Size(1158, 628);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel12);
             this.Controls.Add(this.panel10);
@@ -1191,12 +1287,19 @@
             this.statusStrip1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel15.ResumeLayout(false);
+            this.panel24.ResumeLayout(false);
+            this.panel24.PerformLayout();
+            this.panel25.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
-            this.panel9.PerformLayout();
+            this.panel20.ResumeLayout(false);
+            this.panel20.PerformLayout();
+            this.panel22.ResumeLayout(false);
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
+            this.panel21.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
+            this.panel6.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -1219,11 +1322,6 @@
             this.tbpVideo.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
-            this.panel6.ResumeLayout(false);
-            this.panel21.ResumeLayout(false);
-            this.panel24.ResumeLayout(false);
-            this.panel24.PerformLayout();
-            this.panel25.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1264,7 +1362,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btnLock;
-        private System.Windows.Forms.ComboBox cbxName;
+        private System.Windows.Forms.ComboBox cbxCategory;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel17;
         private System.Windows.Forms.Button btnIgnoreUser;
@@ -1287,7 +1385,6 @@
         private System.Windows.Forms.ColumnHeader colMrk;
         private System.Windows.Forms.Button btnGetStatusByBid;
         private System.Windows.Forms.Button btnMarkUser;
-        private System.Windows.Forms.TextBox txtStatusFilter;
         private System.Windows.Forms.Label lblLstUserCountTitle;
         private System.Windows.Forms.Label lblLstUserCount;
         private System.Windows.Forms.Label lblLstImgCount;
@@ -1323,6 +1420,14 @@
         private System.Windows.Forms.ColumnHeader colSite;
         private System.Windows.Forms.Panel panel24;
         private System.Windows.Forms.Panel panel25;
+        private System.Windows.Forms.Panel panel20;
+        private System.Windows.Forms.TextBox txtStatusFilter;
+        private System.Windows.Forms.Panel panel22;
+        private System.Windows.Forms.ComboBox cbxStatusSort;
+        private System.Windows.Forms.ComboBox cbxStatusSortAsc;
+        private System.Windows.Forms.ComboBox cbxSite;
+        private System.Windows.Forms.ColumnHeader columnOrigin;
+        private System.Windows.Forms.ColumnHeader columnRet;
     }
 }
 
