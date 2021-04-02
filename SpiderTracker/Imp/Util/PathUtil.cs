@@ -37,6 +37,14 @@ namespace SpiderTracker.Imp
             path = Path.Combine(path, user);
             return path;
         }
+        public static string[] GetStoreUserVideoFiles(string name, string uid)
+        {
+            if (string.IsNullOrEmpty(name)) return new string[] { };
+            var path = GetStoreUserPath(name, uid);
+            path = Path.Combine(path, "video");
+            if (!Directory.Exists(path)) return new string[] { };
+            return Directory.GetFiles(path).ToArray();
+        }
 
         public static string GetStoreUserVideoFile(string name, string user, string bid)
         {

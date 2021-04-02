@@ -981,6 +981,8 @@ namespace SpiderTracker
             var suc = rep.IgnoreSinaUser(user.uid);
             if (suc)
             {
+                this.vedioPlayerUC1.CloseVideo();
+
                 var userPath = PathUtil.GetStoreUserPath(RunningConfig.Category, user.uid);
                 if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
 

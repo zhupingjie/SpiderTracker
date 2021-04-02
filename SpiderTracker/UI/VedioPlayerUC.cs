@@ -30,5 +30,13 @@ namespace SpiderTracker.UI
                 this.axWindowsMediaPlayer1.URL = file;
             }
         }
+
+        public void CloseVideo()
+        {
+            if (this.axWindowsMediaPlayer1.URL != null)
+            {
+                this.axWindowsMediaPlayer1.close();
+            }
+        }
     }
 }
