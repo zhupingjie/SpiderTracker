@@ -107,7 +107,7 @@ namespace SpiderTracker.Imp.Model
 
         public List<SinaUser> GetUsers(string category, string keyword)
         {
-            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`category`='{category}' and `ignore`=0 and `uid` like '%{keyword}%'");
+            return DBHelper.GetEntitys<SinaUser>("sina_user", $"`category`='{category}' and `ignore`=0 and (`uid` like '%{keyword}%' or `name` like '%{keyword}%')");
         }
         public List<SinaUser> GetFocusUsers(string category)
         {
@@ -209,7 +209,7 @@ namespace SpiderTracker.Imp.Model
             sinaStatus.text = status.status_title;
             sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(status.bid);
             sinaStatus.retweet = 1;
-            sinaStatus.retuid = retweet.user.id;
+            sinaStatus.retuid = retweet.user != null ? retweet.user.id : "Unauthorization";
             sinaStatus.retbid = retweet.bid;
             sinaStatus.site = runningConfig.Site;
             var extSinaStatus = GetUserStatus(status.bid);
@@ -219,7 +219,7 @@ namespace SpiderTracker.Imp.Model
             }
         }
 
-        public void StoreSinaStatus(SpiderRunningConfig runningConfig, MWeiboUser user, MWeiboStatus status, int mtype, int readSourceCount, int readStatusImageCount)
+        public void StoreSinaStatus(SpiderRunningConfig runningConfig, MWeiboUser user, MWeiboStatus status, int mtype, int readSourceCount, int readStatusImageCount, bool ignore)
         {
             var sinaStatus = new SinaStatus();
             sinaStatus.uid = user.id;
@@ -229,12 +229,9 @@ namespace SpiderTracker.Imp.Model
             sinaStatus.text = status.status_title;
             sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(status.bid);
             sinaStatus.qty = readSourceCount;
-            sinaStatus.getqty = readStatusImageCount >= 0 ? readStatusImageCount : 0;
+            sinaStatus.getqty = readStatusImageCount;
             sinaStatus.site = runningConfig.Site;
-            if (readStatusImageCount == 0)
-            {
-                sinaStatus.ignore = 1;
-            }
+            sinaStatus.ignore = ignore ? 1 : 0;
             var extSinaStatus = GetUserStatus(status.bid);
             if (extSinaStatus == null)
             {
@@ -242,14 +239,7 @@ namespace SpiderTracker.Imp.Model
             }
             else
             {
-                if (readStatusImageCount == 0)
-                {
-                    extSinaStatus.ignore = 1;
-                }
-                else
-                {
-                    extSinaStatus.ignore = 0;
-                }
+                extSinaStatus.ignore = ignore ? 1 : 0;
                 extSinaStatus.qty = readSourceCount;
                 extSinaStatus.getqty = readStatusImageCount;
                 extSinaStatus.site = runningConfig.Site;

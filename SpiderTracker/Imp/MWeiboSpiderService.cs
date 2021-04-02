@@ -57,10 +57,10 @@ namespace SpiderTracker.Imp
             if (RunningConfig.ReadAllOfUser == 1)
             {
                 readUsers = Repository.GetUsers(RunningConfig.Category);
-                if (!string.IsNullOrEmpty(RunningConfig.ReadUserNameLike))
-                {
-                    readUsers = readUsers.Where(c => (c.name.Contains(RunningConfig.ReadUserNameLike) || c.desc.Contains(RunningConfig.ReadUserNameLike))).ToList();
-                }
+                //if (!string.IsNullOrEmpty(RunningConfig.ReadUserNameLike))
+                //{
+                //    readUsers = readUsers.Where(c => (c.name.Contains(RunningConfig.ReadUserNameLike) || c.desc.Contains(RunningConfig.ReadUserNameLike))).ToList();
+                //}
                 foreach (var user in readUsers.OrderBy(c=>c.lastdate).ToArray())
                 {
                     RunningConfig.AddUser(user);
@@ -69,10 +69,10 @@ namespace SpiderTracker.Imp
             if(RunningConfig.ReadUserOfMyFocus == 1)
             {
                 readUsers = Repository.GetFocusUsers(RunningConfig.Category);
-                if (!string.IsNullOrEmpty(RunningConfig.ReadUserNameLike))
-                {
-                    readUsers = FilterReadUser(readUsers, RunningConfig.ReadUserNameLike);
-                }
+                //if (!string.IsNullOrEmpty(RunningConfig.ReadUserNameLike))
+                //{
+                //    readUsers = FilterReadUser(readUsers, RunningConfig.ReadUserNameLike);
+                //}
                 foreach (var user in readUsers)
                 {
                     RunningConfig.AddUser(user);
@@ -111,6 +111,18 @@ namespace SpiderTracker.Imp
                 }
             }
             return lst;
+        }
+
+        bool CheckReadUser(MWeiboUser user, string filter)
+        {
+            if (string.IsNullOrEmpty(filter)) return true;
+
+            var keys = filter.Split(new string[] { "," }, StringSplitOptions.None);
+            foreach (var key in keys)
+            {
+                if (user.screen_name.Contains(key) || user.screen_name.Contains(key)) return true;
+            }
+            return false;
         }
 
 
@@ -350,23 +362,23 @@ namespace SpiderTracker.Imp
         {
             var focusUsers = new List<SinaUser>();
 
-            foreach(var userId in runningConfig.DoUsers)
+            foreach(var user in runningConfig.DoUsers)
             {
                 int page = 0;
                 while (++page > 0)
                 {
-                    ShowStatus($"开始读取{userId}关注的第{page}页用户信息...", true);
-                    var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231051_-_followers_-_{userId}_-_1042015%253AtagCategory_039&luicode=10000011&lfid=1076033810669779&page={page}";
+                    ShowStatus($"开始读取{user.uid}关注的第{page}页用户信息...", true);
+                    var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231051_-_followers_-_{user.uid}_-_1042015%253AtagCategory_039&luicode=10000011&lfid=1076033810669779&page={page}";
                     var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
                     if (html == null)
                     {
-                        ShowStatus($"读取{userId}关注的第{page}页用户信息错误!");
+                        ShowStatus($"读取{user.uid}关注的第{page}页用户信息错误!");
                         return null;
                     }
                     var result = GetWeiboFocusResult(html);
                     if (result == null || result.data == null)
                     {
-                        ShowStatus($"解析{userId}关注的第{page}页用户错误!");
+                        ShowStatus($"解析{user.uid}关注的第{page}页用户错误!");
                         return null;
                     }
                     var focusUserCard = result.data.cards.FirstOrDefault(c => c.card_type == 11 && c.card_style != 1);
@@ -533,6 +545,7 @@ namespace SpiderTracker.Imp
             }
             if(result.data.cards.Length == 0)
             {
+                ShowStatus($"解析用户微博列表为空!!!!!!");
                 stopReadNextPage = true;
                 return 0;
             }
@@ -640,7 +653,7 @@ namespace SpiderTracker.Imp
                     ShowStatus($"跳过非本用户【{status.retweeted_status.user.id}】转发数据.");
                     return 0;
                 }
-                if(!string.IsNullOrEmpty(runningConfig.ReadUserNameLike) && (!status.retweeted_status.user.description.Contains(runningConfig.ReadUserNameLike) && !status.retweeted_status.user.screen_name.Contains(runningConfig.ReadUserNameLike)))
+                if(!CheckReadUser(status.retweeted_status.user, runningConfig.ReadUserNameLike))
                 {
                     ShowStatus($"跳过未包含关键字用户【{status.retweeted_status.user.id}】转发数据.");
                     return 0;
@@ -704,11 +717,6 @@ namespace SpiderTracker.Imp
                 ShowStatus($"用户【{user.id}】已忽略采集.");
                 return 0;
             }
-            if (PathUtil.CheckStoreUserImageExists(runninConfig.Category, user.id, status.bid))
-            {
-                ShowStatus($"跳过已缓存微博【{status.bid}】.");
-                return 0;
-            }
             if (status.pics == null || status.pics.Length < runninConfig.ReadMinOfImgCount)
             {
                 ShowStatus($"跳过不符合最小图数微博【{status.bid}】.");
@@ -730,46 +738,64 @@ namespace SpiderTracker.Imp
                 if (runninConfig.IgnoreReadSourceStatus == 1 && sinaStatus.getqty > 0)
                 {
                     ShowStatus($"跳过已采集微博【{status.bid}】.");
-                    return -1;
+                    return 0;
                 }
             }
-            ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页微博【{status.bid}】...");
-            int haveReadImageCount = 0, readImageIndex = 0, errorReadImageCount = 0;
-
-            foreach (var pic in status.pics)
+            if (runninConfig.IgnoreDownloadSource == 1)
             {
-                bool err = false;
-                var succ = DownloadUserStatusImage(runninConfig, user.id, status.bid, pic.large.url, ++readImageIndex, out err);
-                if (succ)
-                {
-                    haveReadImageCount++;
-                }
-                if(err)
-                {
-                    errorReadImageCount++;
-                }
-                Thread.Sleep(200);
-            }
-            if(errorReadImageCount == status.pics.Length && errorReadImageCount > 0)
-            {
+                ShowStatus($"跳过下载微博资源【{status.bid}】.");
+                //存储微博
+                Repository.StoreSinaStatus(runninConfig, user, status, 0, status.pics.Length, 0, false);
                 return 0;
             }
-            if (haveReadImageCount == 0)
+            else
             {
-                ShowStatus($"微博【{status.bid}】已无符合尺寸的图片.");
-                PathUtil.DeleteStoreUserImageFiles(runninConfig.Category, user.id, status.bid);                
-            }
-            else if (haveReadImageCount < runninConfig.ReadMinOfImgCount)
-            {
-                ShowStatus($"微博【{status.bid}】已下载图数不符合删除.");
-                PathUtil.DeleteStoreUserImageFiles(runninConfig.Category, user.id, status.bid);
+                var readCount = PathUtil.GetStoreUserImageFileCount(runninConfig.Category, user.id, status.bid);
+                if (readCount > 0)
+                {
+                    ShowStatus($"跳过已缓存微博【{status.bid}】.");
+                    Repository.StoreSinaStatus(runninConfig, user, status, 0, status.pics.Length, readCount, false);
+                    return 0;
+                }
+                else
+                {
+                    ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页微博【{status.bid}】...");
+                    int haveReadImageCount = 0, readImageIndex = 0, errorReadImageCount = 0;
+                    foreach (var pic in status.pics)
+                    {
+                        bool err = false;
+                        var succ = DownloadUserStatusImage(runninConfig, user.id, status.bid, pic.large.url, ++readImageIndex, out err);
+                        if (succ)
+                        {
+                            haveReadImageCount++;
+                        }
+                        if (err)
+                        {
+                            errorReadImageCount++;
+                        }
+                        Thread.Sleep(200);
+                    }
+                    if (errorReadImageCount == status.pics.Length && errorReadImageCount > 0)
+                    {
+                        haveReadImageCount = -1;
+                    }
+                    if (haveReadImageCount == 0)
+                    {
+                        ShowStatus($"微博【{status.bid}】已无符合尺寸的图片.");
+                        PathUtil.DeleteStoreUserImageFiles(runninConfig.Category, user.id, status.bid);
+                    }
+                    else if (haveReadImageCount < runninConfig.ReadMinOfImgCount)
+                    {
+                        ShowStatus($"微博【{status.bid}】已下载图数不符合删除.");
+                        PathUtil.DeleteStoreUserImageFiles(runninConfig.Category, user.id, status.bid);
 
-                haveReadImageCount = 0;
-            }
-            //存储微博
-            Repository.StoreSinaStatus(runninConfig, user, status, 0, status.pics.Length, haveReadImageCount);
-
-            return haveReadImageCount;
+                        haveReadImageCount = 0;
+                    }
+                    //存储微博
+                    Repository.StoreSinaStatus(runninConfig, user, status, 0, status.pics.Length, haveReadImageCount, haveReadImageCount == 0);
+                    return haveReadImageCount;
+                }
+            }           
         }
 
         int GatherSinaStatusViedoByStatusResult(SpiderRunningConfig runninConfig, MWeiboStatus status)
@@ -809,32 +835,47 @@ namespace SpiderTracker.Imp
                     return 0;
                 }
             }
-            if (PathUtil.CheckStoreUserVideoExists(runninConfig.Category, user.id, status.bid))
+            if (runninConfig.IgnoreDownloadSource == 1)
             {
-                ShowStatus($"跳过已缓存视频【{status.bid}】.");
+                ShowStatus($"跳过下载微博资源【{status.bid}】.");
+                //存储微博
+                Repository.StoreSinaStatus(runninConfig, user, status, 1, 1, 0, false);
                 return 0;
-            }
-            ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页视频【{status.bid}】...");
-            int haveReadVedioCount = 0, errorReadVedioCount = 0;
-            var vedioUrl = status.page_info.urls.mp4_hd_mp4;
-            if (string.IsNullOrEmpty(vedioUrl)) vedioUrl = status.page_info.urls.mp4_ld_mp4;
-
-            var succ = DownloadUserStatusVedio(runninConfig, user.id, status.bid, vedioUrl);
-            if (succ)
-            {
-                haveReadVedioCount++;
             }
             else
             {
-                errorReadVedioCount++;
+                var readCount = PathUtil.GetStoreUserVideoCount(runninConfig.Category, user.id, status.bid);
+                if (readCount > 0)
+                {
+                    ShowStatus($"跳过已缓存视频【{status.bid}】.");
+                    Repository.StoreSinaStatus(runninConfig, user, status, 1, 1, readCount, false);
+                    return 0;
+                }
+                else
+                {
+                    ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页视频【{status.bid}】...");
+                    int haveReadVedioCount = 0, errorReadVedioCount = 0;
+                    var vedioUrl = status.page_info.urls.mp4_hd_mp4;
+                    if (string.IsNullOrEmpty(vedioUrl)) vedioUrl = status.page_info.urls.mp4_ld_mp4;
+
+                    var succ = DownloadUserStatusVedio(runninConfig, user.id, status.bid, vedioUrl);
+                    if (succ)
+                    {
+                        haveReadVedioCount++;
+                    }
+                    else
+                    {
+                        errorReadVedioCount++;
+                    }
+                    Thread.Sleep(500);
+                    if (errorReadVedioCount == 0)
+                    {
+                        //存储微博
+                        Repository.StoreSinaStatus(runninConfig, user, status, 1, 1, haveReadVedioCount, haveReadVedioCount == 0);
+                    }
+                    return haveReadVedioCount;
+                }
             }
-            Thread.Sleep(500);
-            if (errorReadVedioCount == 0)
-            {
-                //存储微博
-                Repository.StoreSinaStatus(runninConfig, user, status, 1, 1, haveReadVedioCount);
-            }
-            return haveReadVedioCount;
         }
 
         MWeiboUserResult GetWeiboUserResult(string html)
@@ -921,7 +962,7 @@ namespace SpiderTracker.Imp
                     if (!suc)
                     {
                         if (File.Exists(imgPath)) File.Delete(imgPath);
-                        if (File.Exists(imgPath)) File.Delete(thumbPath);
+                        if (File.Exists(thumbPath)) File.Delete(thumbPath);
 
                         image.Dispose();
                         thumbImg.Dispose();

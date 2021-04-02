@@ -84,19 +84,20 @@ namespace SpiderTracker.Imp
         }
 
 
-        public static bool CheckStoreUserImageExists(string name, string user, string status)
+        public static int GetStoreUserImageFileCount(string name, string user, string status)
         {
-            if (string.IsNullOrEmpty(name)) return false;
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(user) || string.IsNullOrEmpty(status)) return 0;
             string path = PathUtil.GetStoreUserPath(name, user);
-            return Directory.Exists(path) && Directory.GetFiles(path, $"{status}_*").Where(c => c.EndsWith("jpg")).Count() > 0;
+            if (!Directory.Exists(path)) return 0;
+            return Directory.GetFiles(path, $"{status}_*").Where(c => c.EndsWith("jpg")).Count();
         }
 
-        public static bool CheckStoreUserVideoExists(string name, string user, string status)
+        public static int GetStoreUserVideoCount(string name, string user, string status)
         {
-            if (string.IsNullOrEmpty(name)) return false;
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(user) || string.IsNullOrEmpty(status)) return 0;
             var fileName = GetStoreUserVideoFile(name, user, status);
-            return File.Exists(fileName);
+            if (!File.Exists(fileName)) return 0;
+            return 1;
         }
-
     }
 }

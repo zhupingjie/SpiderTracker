@@ -279,7 +279,7 @@ namespace SpiderTracker
                 }
                 if (names.Length > 0)
                 {
-                    LoadCacheName = names.FirstOrDefault();
+                    RunningConfig.Category = names.FirstOrDefault();
 
                     Task.Factory.StartNew(() =>
                     {
@@ -299,6 +299,18 @@ namespace SpiderTracker
                         users = users.OrderByDescending(c => c.lastdate).ToArray();
                     else
                         users = users.OrderBy(c => c.lastdate).ToArray();
+                    break;
+                case "用户":
+                    if (this.cbxUserSortAsc.Text == "降序")
+                        users = users.OrderByDescending(c => c.uid).ToArray();
+                    else
+                        users = users.OrderBy(c => c.uid).ToArray();
+                    break;
+                case "名称":
+                    if (this.cbxUserSortAsc.Text == "降序")
+                        users = users.OrderByDescending(c => c.name).ToArray();
+                    else
+                        users = users.OrderBy(c => c.name).ToArray();
                     break;
                 case "微博":
                     if (this.cbxUserSortAsc.Text == "降序")
@@ -338,19 +350,29 @@ namespace SpiderTracker
                     break;
                 case "关注":
                     if (this.cbxUserSortAsc.Text == "降序")
+                        users = users.OrderByDescending(c => c.follows).ToArray();
+                    else
+                        users = users.OrderBy(c => c.follows).ToArray();
+                    break;
+                case "点赞":
+                    if (this.cbxUserSortAsc.Text == "降序")
                         users = users.OrderByDescending(c => c.focus).ToArray();
                     else
                         users = users.OrderBy(c => c.focus).ToArray();
                     break;
             }
-
-            //保留显示用户数
-            return users.Take(RunningConfig.LoadUserCount).ToArray();
+            var pageCount = 0;
+            int.TryParse(this.cbxUserSortPage.Text, out pageCount);
+            if (pageCount == 0) 
+                return users.ToArray();
+            else 
+                return users.Take(pageCount).ToArray();
         }
+
         void LoadCacheUserList(bool reload)
         {
             var keyword = this.txtUserFilter.Text.Trim();
-            var users = SinaSpiderService.Repository.GetUsers(LoadCacheName, keyword);
+            var users = SinaSpiderService.Repository.GetUsers(RunningConfig.Category, keyword);
 
             InvokeControl(this.lstUser, new Action(() =>
             {
@@ -425,7 +447,12 @@ namespace SpiderTracker
                         status = status.OrderBy(c => c.site).ToArray();
                     break;
             }
-            return status.ToArray();
+            var pageCount = 0;
+            int.TryParse(this.cbxStatusSortPage.Text, out pageCount);
+            if (pageCount == 0) 
+                return status.ToArray();
+            else 
+                return status.Take(pageCount).ToArray();
         }
         void LoadCacheUserStatusList(SinaUser user)
         {
@@ -448,15 +475,14 @@ namespace SpiderTracker
                     var local = 0;
                     if (item.mtype == 0)
                     {
-                        var files = PathUtil.GetStoreUserThumbnailImageFiles(LoadCacheName, user.uid, item.bid);
+                        var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, item.bid);
                         local = files.Length;
-                        localImg += files.Length;
+                        localImg += local;
                     }
                     else if (item.mtype == 1)
                     {
-                        var file = PathUtil.GetStoreUserVideoFile(LoadCacheName, user.uid, item.bid);
-                        local = 1;
-                        localImg += 1;
+                        local = PathUtil.GetStoreUserVideoCount(RunningConfig.Category, user.uid, item.bid);
+                        localImg += local;
                     }
                     subItem.SubItems.Add($"{local}");
                     subItem.SubItems.Add($"{item.archive}");
@@ -480,6 +506,12 @@ namespace SpiderTracker
             this.RunningConfig = GetSpiderRunningConfig();
         }
 
+        private void btnRefreshConfig_Click(object sender, EventArgs e)
+        {
+            this.InitSpiderRunningConfig();
+            this.RunningConfig = GetSpiderRunningConfig();
+        }
+
         private void cbxUserSort_SelectedIndexChanged(object sender, EventArgs e)
         {
             Task.Factory.StartNew(() =>
@@ -489,6 +521,14 @@ namespace SpiderTracker
         }
 
         private void cbxUserSortAsc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                LoadCacheUserList(true);
+            });
+        }
+
+        private void cbxUserSortPage_SelectedIndexChanged(object sender, EventArgs e)
         {
             Task.Factory.StartNew(() =>
             {
@@ -550,14 +590,14 @@ namespace SpiderTracker
                 {
                     ActiveImageCtl();
 
-                    var files = PathUtil.GetStoreUserThumbnailImageFiles(LoadCacheName, user.uid, status.bid);
-                    this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount, LoadCacheName, user.uid, status.bid, RunningConfig.DefaultArchivePath);
+                    var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, status.bid);
+                    this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount, RunningConfig.Category, user.uid, status.bid, RunningConfig.DefaultArchivePath);
                 }
                 else if (status.mtype == 1)
                 {
                     ActiveVedioCtl();
 
-                    var file = PathUtil.GetStoreUserVideoFile(LoadCacheName, user.uid, status.bid);
+                    var file = PathUtil.GetStoreUserVideoFile(RunningConfig.Category, user.uid, status.bid);
                     if (File.Exists(file))
                     {
                         this.vedioPlayerUC1.ShowVideo(file);
@@ -571,14 +611,10 @@ namespace SpiderTracker
 
         }
 
-
-        string LoadCacheName = string.Empty;
         private void cbxName_Leave(object sender, EventArgs e)
         {
-            var selectName = this.cbxCategory.Text.Trim();
-            if (string.IsNullOrEmpty(selectName)) return;
-
-            LoadCacheName = selectName;
+            this.InitSpiderRunningConfig();
+            this.RunningConfig = GetSpiderRunningConfig();
 
             Task.Factory.StartNew(() =>
             {
@@ -586,9 +622,10 @@ namespace SpiderTracker
             });
         }
 
-        private void cbxSite_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbxSite_Leave(object sender, EventArgs e)
         {
-            this.RunningConfig.Site = this.cbxSite.Text;
+            this.InitSpiderRunningConfig();
+            this.RunningConfig = GetSpiderRunningConfig();
         }
 
         private void btnBrowseUser_Click(object sender, EventArgs e)
@@ -633,7 +670,7 @@ namespace SpiderTracker
 
             if (!string.IsNullOrEmpty(user.uid))
             {
-                var path = PathUtil.GetStoreUserPath(LoadCacheName, user.uid);
+                var path = PathUtil.GetStoreUserPath(RunningConfig.Category, user.uid);
                 if (Directory.Exists(path))
                 {
                     System.Diagnostics.Process.Start(path);
@@ -656,7 +693,7 @@ namespace SpiderTracker
             }
             if (!SinaSpiderService.IsSpiderStarted)
             {
-                this.RunningConfig.Category = LoadCacheName;
+                this.RunningConfig.Category = RunningConfig.Category;
                 this.RunningConfig.GatherType = GatherTypeEnum.GahterStatus;
                 SinaSpiderService.StartSpider(this.RunningConfig, null, statusIds);
             }
@@ -745,7 +782,7 @@ namespace SpiderTracker
                     sinaUser = new SinaUser()
                     {
                         uid = user,
-                        category = LoadCacheName
+                        category = RunningConfig.Category
                     };
                     rep.CreateSinaUser(sinaUser);
                 }
@@ -806,6 +843,18 @@ namespace SpiderTracker
         }
 
         private void cbxStatusSortAsc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var user = GetSelectUser();
+            if (user != null)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    LoadCacheUserStatusList(user);
+                });
+            }
+        }
+
+        private void cbxStatusSortPage_SelectedIndexChanged(object sender, EventArgs e)
         {
             var user = GetSelectUser();
             if (user != null)
@@ -894,7 +943,7 @@ namespace SpiderTracker
 
                     this.RunningConfig.GatherType = GatherTypeEnum.GahterStatus;
                 }
-                this.RunningConfig.Category = LoadCacheName;
+                this.RunningConfig.Category = RunningConfig.Category;
                 SinaSpiderService.StartSpider(this.RunningConfig, users, statusIds);
             }
             else
@@ -932,7 +981,7 @@ namespace SpiderTracker
             var suc = rep.IgnoreSinaUser(user.uid);
             if (suc)
             {
-                var userPath = PathUtil.GetStoreUserPath(LoadCacheName, user.uid);
+                var userPath = PathUtil.GetStoreUserPath(RunningConfig.Category, user.uid);
                 if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
 
                 if (this.lstUser.Items.Count == 0) return;
@@ -990,11 +1039,11 @@ namespace SpiderTracker
                 rep.IgnoreSinaStatus(item.bid);
                 if (item.mtype == 0)
                 {
-                    PathUtil.DeleteStoreUserImageFiles(LoadCacheName, user.uid, item.bid);
+                    PathUtil.DeleteStoreUserImageFiles(RunningConfig.Category, user.uid, item.bid);
                 }
                 else if(item.mtype == 1)
                 {
-                    PathUtil.DeleteStoreUserVideoFile(LoadCacheName, user.uid, item.bid);
+                    PathUtil.DeleteStoreUserVideoFile(RunningConfig.Category, user.uid, item.bid);
                 }
                 if (this.lstArc.Items.Count > 0)
                 {
@@ -1094,7 +1143,7 @@ namespace SpiderTracker
             {
                 if (item.mtype == 0)
                 {
-                    var files = PathUtil.GetStoreUserImageFiles(LoadCacheName, uid, item.bid);
+                    var files = PathUtil.GetStoreUserImageFiles(RunningConfig.Category, uid, item.bid);
                     foreach (var file in files.Select(c => new FileInfo(c)).ToArray())
                     {
                         var destFile = Path.Combine(archivePath, file.Name);
@@ -1103,7 +1152,7 @@ namespace SpiderTracker
                 }
                 else if(item.mtype == 1)
                 {
-                    var path = PathUtil.GetStoreUserVideoFile(LoadCacheName, uid, item.bid);
+                    var path = PathUtil.GetStoreUserVideoFile(RunningConfig.Category, uid, item.bid);
                     if (File.Exists(path))
                     {
                         var destFile = Path.Combine(archivePath, new FileInfo(path).Name);
@@ -1224,16 +1273,6 @@ namespace SpiderTracker
             dr["配置值"] = "10";
             dt.Rows.Add(dr);
 
-            //dr = dt.NewRow();
-            //dr["配置项"] = "每页等待秒数";
-            //dr["配置值"] = "5";
-            //dt.Rows.Add(dr);
-
-            //dr = dt.NewRow();
-            //dr["配置项"] = "每条等待秒数";
-            //dr["配置值"] = "5";
-            //dt.Rows.Add(dr);
-
             dr = dt.NewRow();
             dr["配置项"] = "最少图片数量";
             dr["配置值"] = "1";
@@ -1244,10 +1283,31 @@ namespace SpiderTracker
             dr["配置值"] = "1";
             dt.Rows.Add(dr);
 
-            dr = dt.NewRow();
-            dr["配置项"] = "忽略采集微博";
-            dr["配置值"] = "0";
-            dt.Rows.Add(dr);
+            //当场所不等于home时，默认不下载资源
+            if (!this.cbxSite.Text.Equals("home", StringComparison.CurrentCultureIgnoreCase))
+            {
+                dr = dt.NewRow();
+                dr["配置项"] = "忽略下载资源";
+                dr["配置值"] = "1";
+                dt.Rows.Add(dr);
+
+                dr = dt.NewRow();
+                dr["配置项"] = "忽略采集微博";
+                dr["配置值"] = "1";
+                dt.Rows.Add(dr);
+            }
+            else
+            {
+                dr = dt.NewRow();
+                dr["配置项"] = "忽略下载资源";
+                dr["配置值"] = "0";
+                dt.Rows.Add(dr);
+
+                dr = dt.NewRow();
+                dr["配置项"] = "忽略采集微博";
+                dr["配置值"] = "0";
+                dt.Rows.Add(dr);
+            }
 
             dr = dt.NewRow();
             dr["配置项"] = "采集原创微博";
@@ -1260,7 +1320,7 @@ namespace SpiderTracker
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
-            dr["配置项"] = "采集所有关注";
+            dr["配置项"] = "采集我的关注";
             dr["配置值"] = "0";
             dt.Rows.Add(dr);
 
@@ -1271,9 +1331,9 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "采集用户名称";
-            dr["配置值"] = "";
+            dr["配置值"] = "jk,ol,cos,leg,stock,腿,丝,袜,萌,酱,萝莉,制服,私房,写真,约拍";
             dt.Rows.Add(dr);
-
+            
             dr = dt.NewRow();
             dr["配置项"] = "图片最小尺寸";
             dr["配置值"] = "600";
@@ -1282,11 +1342,6 @@ namespace SpiderTracker
             dr = dt.NewRow();
             dr["配置项"] = "图片最大尺寸";
             dr["配置值"] = "99999";
-            dt.Rows.Add(dr);
-
-            dr = dt.NewRow();
-            dr["配置项"] = "显示用户数量";
-            dr["配置值"] = "100";
             dt.Rows.Add(dr);
 
             //dr = dt.NewRow();
@@ -1299,15 +1354,9 @@ namespace SpiderTracker
             //dr["配置值"] = "190";
             //dt.Rows.Add(dr);
 
-            
             //dr = dt.NewRow();
             //dr["配置项"] = "预览图片数量";
             //dr["配置值"] = "6";
-            //dt.Rows.Add(dr);
-
-            //dr = dt.NewRow();
-            //dr["配置项"] = "预览显示资源";
-            //dr["配置值"] = "1";
             //dt.Rows.Add(dr);
 
             //dr = dt.NewRow();
@@ -1324,14 +1373,13 @@ namespace SpiderTracker
         {
             if (this.RunningConfig == null)
             {
-                RunningConfig = new SpiderRunningConfig()
-                {
-                    StartUrl = this.txtStartUrl.Text.Trim(),
-                    Category = this.cbxCategory.Text.Trim(),
-                    Site = this.cbxSite.Text.Trim(),
-                    Id = DateTime.Now.Ticks
-                };
+                this.RunningConfig = new SpiderRunningConfig();
             }
+            RunningConfig.StartUrl = this.txtStartUrl.Text.Trim();
+            RunningConfig.Category = this.cbxCategory.Text.Trim();
+            RunningConfig.Site = this.cbxSite.Text.Trim();
+            RunningConfig.Id = DateTime.Now.Ticks;
+
             foreach (DataGridViewRow row in this.dataGridView1.Rows)
             {
                 if (row.Cells["配置项"].Value == null) continue;
@@ -1411,7 +1459,7 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue);
                     RunningConfig.ReadUserOfHeFocus = intValue;
                 }
-                else if (row.Cells["配置项"].Value.ToString() == "采集所有关注")
+                else if (row.Cells["配置项"].Value.ToString() == "采集我的关注")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     var intValue = 0;
@@ -1458,12 +1506,12 @@ namespace SpiderTracker
                     var strValue = row.Cells["配置值"].Value.ToString();
                     RunningConfig.DefaultArchivePath = strValue;
                 }
-                else if (row.Cells["配置项"].Value.ToString() == "显示用户数量")
+                else if (row.Cells["配置项"].Value.ToString() == "忽略下载资源")
                 {
                     var strValue = row.Cells["配置值"].Value.ToString();
                     int intValue = 0;
                     int.TryParse(strValue, out intValue);
-                    RunningConfig.LoadUserCount = intValue;
+                    RunningConfig.IgnoreDownloadSource = intValue;
                 }
                 else if (row.Cells["配置项"].Value.ToString() == "缩略图宽度")
                 {

@@ -393,6 +393,7 @@ namespace SpiderTracker.Imp
         {
             using (MySqlConnection con = new MySqlConnection(DBConnectionString))
             {
+                var lst = new List<TEntity>();
                 try
                 {
                     con.Open();
@@ -402,7 +403,6 @@ namespace SpiderTracker.Imp
                     var dt = new DataTable(table);
                     ada.Fill(dt);
 
-                    var lst = new List<TEntity>();
                     for(var i=0; i<dt.Rows.Count; i++)
                     {
                         DataRow dr = dt.Rows[i];
@@ -430,7 +430,6 @@ namespace SpiderTracker.Imp
                                 field.SetValue(item, obj);
                             }
                         }
-
                         lst.Add(item);
                     }
                     return lst;
@@ -438,7 +437,7 @@ namespace SpiderTracker.Imp
                 catch (Exception ex)
                 {
                     log4net.LogManager.GetLogger("logAppender").Error(ex);
-                    return null;
+                    return lst;
                 }
                 finally
                 {
