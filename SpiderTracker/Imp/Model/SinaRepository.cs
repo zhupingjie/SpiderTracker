@@ -76,7 +76,7 @@ namespace SpiderTracker.Imp.Model
 
         public int GetUserStatusGetCount(string uid)
         {
-            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `retweet`=0 and `ignore`=0");
+            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `retweeted`=0 and `ignore`=0");
         }
         public int GetUserStatusFindCount(string uid)
         {
@@ -88,7 +88,7 @@ namespace SpiderTracker.Imp.Model
         }
         public int GetUserStatusRetweetCount(string uid)
         {
-            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `retweet`>0");
+            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `retweeted`>0");
         }
         public SinaUser GetUser(string uid)
         {
@@ -126,17 +126,17 @@ namespace SpiderTracker.Imp.Model
 
         public List<SinaStatus> GetUserStatuses(string uid)
         {
-            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweet`=0 and  `ignore`=0");
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweeted`=0 and  `ignore`=0");
         }
 
         public List<SinaStatus> GetUserStatuseByIds(string uid, string keyword)
         {
-            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `bid` like '%{keyword}%' and `retweet`=0 and  `ignore`=0");
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `bid` like '%{keyword}%' and `retweeted`=0 and  `ignore`=0");
         }
 
         public List<SinaStatus> GetUserStatuseOfNoArchives(string uid)
         {
-            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweet`=0 and `ignore`=0 and `archive`=0");
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweeted`=0 and `ignore`=0 and `archive`=0");
         }
 
         public List<SinaSource> GetUserPictures(string uid)
@@ -208,7 +208,7 @@ namespace SpiderTracker.Imp.Model
             sinaStatus.mtype = mtype;
             sinaStatus.text = status.status_title;
             sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(status.bid);
-            sinaStatus.retweet = 1;
+            sinaStatus.retweeted = 1;
             sinaStatus.retuid = retweet.user != null ? retweet.user.id : "Unauthorization";
             sinaStatus.retbid = retweet.bid;
             sinaStatus.site = runningConfig.Site;

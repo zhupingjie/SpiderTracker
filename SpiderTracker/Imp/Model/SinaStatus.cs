@@ -30,7 +30,7 @@ namespace SpiderTracker.Imp.Model
         public string mid { get; set; }
         public string url { get; set; }
         public string text { get; set; }
-        public int retweet { get; set; }
+        public int retweeted { get; set; }
         public string retuid { get; set; }
         public string retbid { get; set; }
         public int qty { get; set; }

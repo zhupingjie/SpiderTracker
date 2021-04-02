@@ -49,7 +49,7 @@ namespace SpiderTracker.Imp
             //CreateDB(dbName);
 
             var columns = new List<SQLiteColumn>();
-            columns.Add(new SQLiteColumn("groupname", "nvarchar", 20));
+            columns.Add(new SQLiteColumn("category", "nvarchar", 20));
             columns.Add(new SQLiteColumn("uid", "nvarchar", 16));
             columns.Add(new SQLiteColumn("name", "nvarchar", 50));
             columns.Add(new SQLiteColumn("avatar", "nvarchar", 250));
@@ -59,41 +59,47 @@ namespace SpiderTracker.Imp
             columns.Add(new SQLiteColumn("followers", "int"));
             columns.Add(new SQLiteColumn("statuses", "int"));
             columns.Add(new SQLiteColumn("verified", "varchar", 50));
-            columns.Add(new SQLiteColumn("lastdate", "datetime"));
             columns.Add(new SQLiteColumn("focus", "int"));
             columns.Add(new SQLiteColumn("ignore", "int"));
-            columns.Add(new SQLiteColumn("getstatuses", "int"));
             columns.Add(new SQLiteColumn("originals", "int"));
             columns.Add(new SQLiteColumn("retweets", "int"));
+            columns.Add(new SQLiteColumn("finds", "int"));
+            columns.Add(new SQLiteColumn("gets", "int"));
+            columns.Add(new SQLiteColumn("ignores", "int"));
+            columns.Add(new SQLiteColumn("lastdate", "datetime"));
             CreateTable("sina_user", columns.ToArray());
 
             columns = new List<SQLiteColumn>();
             columns.Add(new SQLiteColumn("uid", "nvarchar", 16));
             columns.Add(new SQLiteColumn("bid", "nvarchar", 16));
             columns.Add(new SQLiteColumn("mid", "nvarchar", 50));
+            columns.Add(new SQLiteColumn("mtype", "int"));
             columns.Add(new SQLiteColumn("url", "nvarchar", 250));
             columns.Add(new SQLiteColumn("retweeted", "int"));
             columns.Add(new SQLiteColumn("retuid", "nvarchar", 16));
             columns.Add(new SQLiteColumn("retbid", "nvarchar", 16));
             columns.Add(new SQLiteColumn("text", "nvarchar", 4000));
-            columns.Add(new SQLiteColumn("pics", "int"));
-            columns.Add(new SQLiteColumn("getpics", "int"));
-            columns.Add(new SQLiteColumn("lastdate", "datetime"));
+            columns.Add(new SQLiteColumn("qty", "int"));
+            columns.Add(new SQLiteColumn("getqty", "int"));
             columns.Add(new SQLiteColumn("focus", "int"));
             columns.Add(new SQLiteColumn("ignore", "int"));
+            columns.Add(new SQLiteColumn("archive", "int"));
+            columns.Add(new SQLiteColumn("site", "nvarchar", 200));
+            columns.Add(new SQLiteColumn("lastdate", "datetime"));
             CreateTable("sina_status", columns.ToArray());
 
             columns = new List<SQLiteColumn>();
             columns.Add(new SQLiteColumn("uid", "nvarchar", 16));
             columns.Add(new SQLiteColumn("bid", "nvarchar", 16));
-            columns.Add(new SQLiteColumn("picurl", "nvarchar", 250));
-            columns.Add(new SQLiteColumn("localpath", "nvarchar", 250));
+            columns.Add(new SQLiteColumn("url", "nvarchar", 250));
+            columns.Add(new SQLiteColumn("name", "nvarchar", 250));
             columns.Add(new SQLiteColumn("width", "int"));
             columns.Add(new SQLiteColumn("height", "int"));
             columns.Add(new SQLiteColumn("size", "bigint"));
+            columns.Add(new SQLiteColumn("archive", "bigint"));
             columns.Add(new SQLiteColumn("downdate", "datetime"));
             columns.Add(new SQLiteColumn("lastdate", "datetime"));
-            CreateTable("sina_picture", columns.ToArray());
+            CreateTable("sina_source", columns.ToArray());
         }
 
         void CreateDB(string dbName)
