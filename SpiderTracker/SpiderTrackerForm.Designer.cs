@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
@@ -84,6 +84,7 @@
             this.panel7 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.btnChange = new System.Windows.Forms.Button();
             this.btnMarkUser = new System.Windows.Forms.Button();
             this.btnFocusUser = new System.Windows.Forms.Button();
             this.btnBrowseUser = new System.Windows.Forms.Button();
@@ -132,10 +133,10 @@
             this.tbpVideo = new System.Windows.Forms.TabPage();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.btnChange = new System.Windows.Forms.Button();
             this.panel23 = new System.Windows.Forms.Panel();
             this.btnCancelUser = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.columnLastPage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.panel1.SuspendLayout();
@@ -306,7 +307,8 @@
             this.columnGet,
             this.columnIgnore,
             this.columnFollow,
-            this.columnLove});
+            this.columnLove,
+            this.columnLastPage});
             this.lstUser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstUser.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lstUser.FullRowSelect = true;
@@ -440,7 +442,8 @@
             "下载",
             "忽略",
             "关注",
-            "点赞"});
+            "点赞",
+            "末页"});
             this.cbxUserSort.Location = new System.Drawing.Point(0, 0);
             this.cbxUserSort.Margin = new System.Windows.Forms.Padding(0);
             this.cbxUserSort.Name = "cbxUserSort";
@@ -598,7 +601,7 @@
             this.cbxStatusSortPage.Name = "cbxStatusSortPage";
             this.cbxStatusSortPage.Size = new System.Drawing.Size(49, 24);
             this.cbxStatusSortPage.TabIndex = 3;
-            this.cbxStatusSortPage.Text = "100";
+            this.cbxStatusSortPage.Text = "50";
             this.cbxStatusSortPage.SelectedIndexChanged += new System.EventHandler(this.cbxStatusSortPage_SelectedIndexChanged);
             // 
             // cbxStatusSort
@@ -751,6 +754,18 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(202, 25);
             this.panel6.TabIndex = 1;
+            // 
+            // btnChange
+            // 
+            this.btnChange.BackColor = System.Drawing.SystemColors.Control;
+            this.btnChange.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnChange.Location = new System.Drawing.Point(4, 3);
+            this.btnChange.Name = "btnChange";
+            this.btnChange.Size = new System.Drawing.Size(35, 20);
+            this.btnChange.TabIndex = 22;
+            this.btnChange.Text = "CHG";
+            this.btnChange.UseVisualStyleBackColor = false;
+            this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
             // 
             // btnMarkUser
             // 
@@ -918,27 +933,27 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 26);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -1308,25 +1323,6 @@
             this.panel12.Size = new System.Drawing.Size(594, 26);
             this.panel12.TabIndex = 14;
             // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "notifyIcon1";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
-            // 
-            // btnChange
-            // 
-            this.btnChange.BackColor = System.Drawing.SystemColors.Control;
-            this.btnChange.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnChange.Location = new System.Drawing.Point(4, 3);
-            this.btnChange.Name = "btnChange";
-            this.btnChange.Size = new System.Drawing.Size(35, 20);
-            this.btnChange.TabIndex = 22;
-            this.btnChange.Text = "CHG";
-            this.btnChange.UseVisualStyleBackColor = false;
-            this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
-            // 
             // panel23
             // 
             this.panel23.Controls.Add(this.btnCancelUser);
@@ -1348,6 +1344,18 @@
             this.btnCancelUser.UseVisualStyleBackColor = false;
             this.btnCancelUser.Click += new System.EventHandler(this.btnCancelUser_Click);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
+            // 
+            // columnLastPage
+            // 
+            this.columnLastPage.Text = "末页";
+            this.columnLastPage.Width = 50;
+            // 
             // imagePreviewUC1
             // 
             this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
@@ -1362,7 +1370,7 @@
             // 
             this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 4663863, 3, 4663863);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 9360113, 3, 9360113);
             this.vedioPlayerUC1.Name = "vedioPlayerUC1";
             this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
             this.vedioPlayerUC1.TabIndex = 0;
@@ -1538,6 +1546,7 @@
         private System.Windows.Forms.Button btnChange;
         private System.Windows.Forms.Panel panel23;
         private System.Windows.Forms.Button btnCancelUser;
+        private System.Windows.Forms.ColumnHeader columnLastPage;
     }
 }
 

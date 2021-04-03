@@ -196,6 +196,7 @@ namespace SpiderTracker.Imp
 
         #endregion
 
+        #region 内部属性
         /// <summary>
         /// 标记是否已经启动
         /// </summary>
@@ -218,12 +219,19 @@ namespace SpiderTracker.Imp
 
         public SpiderRunningConfig RunningConfig { get; set; }
 
+        #endregion
+
+        #region 构造函数
         public MWeiboSpiderService()
         {
             Repository = new SinaRepository();
 
             CancelUsers = new List<string>();
         }
+
+        #endregion
+
+        #region 开始&结束&追加&取消采集
 
         public void StartSpider(SpiderRunningConfig runningConfig, IList<SinaUser> users, IList<string> statusIds)
         {
@@ -372,56 +380,7 @@ namespace SpiderTracker.Imp
             }
         }
 
-        MWeiboFocusResult GetWeiboFocusResult(string html)
-        {
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(html);
-
-            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboFocusResult>(doc.DocumentNode.InnerText) as MWeiboFocusResult;
-            return jsonResult;
-        }
-
-        List<SinaUser> GatherHeFocusUsers(SpiderRunningConfig runningConfig)
-        {
-            var focusUsers = new List<SinaUser>();
-
-            foreach(var user in runningConfig.DoUsers)
-            {
-                int page = 0;
-                while (++page > 0)
-                {
-                    ShowStatus($"开始读取{user.uid}关注的第{page}页用户信息...", true);
-                    var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231051_-_followers_-_{user.uid}_-_1042015%253AtagCategory_039&luicode=10000011&lfid=1076033810669779&page={page}";
-                    var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
-                    if (html == null)
-                    {
-                        ShowStatus($"读取{user.uid}关注的第{page}页用户信息错误!");
-                        return null;
-                    }
-                    var result = GetWeiboFocusResult(html);
-                    if (result == null || result.data == null)
-                    {
-                        ShowStatus($"解析{user.uid}关注的第{page}页用户错误!");
-                        return null;
-                    }
-                    var focusUserCard = result.data.cards.FirstOrDefault(c => c.card_type == 11 && c.card_style != 1);
-                    if (focusUserCard == null)
-                    {
-                        break;
-                    }
-                    var users = focusUserCard.card_group.Select(c => new SinaUser()
-                    {
-                        uid = c.user.id,
-                        name = c.user.screen_name,
-                        desc = c.user.description,
-                        category = runningConfig.Category
-                    }).ToArray();
-                    focusUsers.AddRange(users);
-                }
-            }
-            return focusUsers.ToList();
-        }
-
+        #endregion
 
         #region 采集并解析微博
 
@@ -435,11 +394,15 @@ namespace SpiderTracker.Imp
             var user = GatherSinaUserByUserUrl(runningConfig, userId);
             if (user == null) return 0;
 
-            if (Repository.CheckUserIgnore(user.id))
+            var sinaUser = Repository.GetUser(user.id);
+            if (sinaUser != null && sinaUser.ignore > 0)
             {
                 ShowStatus($"用户【{user.id}】已忽略采集.");
                 return 0;
             }
+
+            bool hasReadLastPage = false;
+            if (sinaUser != null && sinaUser.lastpage > 0) hasReadLastPage = true;
 
             int readUserImageCount = 0, readPageIndex = 0, emptyPageCount = 0;
             int readPageCount = (runningConfig.ReadPageCount == 0 ? int.MaxValue : runningConfig.StartPageIndex + runningConfig.ReadPageCount);
@@ -456,18 +419,28 @@ namespace SpiderTracker.Imp
                     break;
                 }
 
-                bool stopReadNextPage = false;
-                int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningConfig, user, readPageIndex, readPageCount, out stopReadNextPage);
+                bool readPageEmpty = false, stopReadNextPage = false;
+                int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningConfig, user, readPageIndex, readPageCount, hasReadLastPage, out readPageEmpty, out stopReadNextPage);
                 readUserImageCount += readPageImageCount;
 
                 GatherPageComplete(user.id, readPageIndex, readUserImageCount);
 
-                if (stopReadNextPage) emptyPageCount++;
+                if (stopReadNextPage)
+                {
+                    ShowStatus($"结束采集用户微博数据(下页已采集)...");
+                    break;
+                }
+
+                if (readPageEmpty) emptyPageCount++;
                 else emptyPageCount = 0;
 
-                if (emptyPageCount > 10)
+                if (emptyPageCount > 3)
                 {
-                    ShowStatus($"连续超过10页无数据中止采集...");
+                    if (runningConfig.ReadPageCount == 0)
+                    {
+                        Repository.UpdateUserLastpage(userId);
+                    }
+                    ShowStatus($"中止采集用户微博数据(连续超过3页无数据)...");
                     break;
                 }
 
@@ -525,34 +498,6 @@ namespace SpiderTracker.Imp
             return user;
         }
 
-        void FocusSinaUser(SpiderRunningConfig runningConfig, MWeiboUser user)
-        {
-            ShowStatus($"开始关注用户【{user.id}】的微博信息...", true);
-            var getApi = $"https://m.weibo.cn/api/friendships/create";
-
-            var paramData = $"uid={user.id}&st={runningConfig.LoginToken}";
-            var html = HttpUtil.PostHttpRequest(getApi, paramData, runningConfig);
-            if (html == null)
-            {
-                ShowStatus($"关注用户信息错误!!!!!!");
-                return;
-            }
-            var result = GetWeiboFocusUserResult(html);
-            if (result == null || result.ok != 1)
-            {
-                ShowStatus($"关注用户信息错误!!!!!!");
-                return;
-            }
-        }
-
-        MWeiboFoucsUserResult GetWeiboFocusUserResult(string html)
-        {
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(html);
-
-            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboFoucsUserResult>(doc.DocumentNode.InnerText) as MWeiboFoucsUserResult;
-            return jsonResult;
-        }
 
         /// <summary>
         /// 采集用户微博列表数据
@@ -562,12 +507,13 @@ namespace SpiderTracker.Imp
         /// <param name="readPageIndex"></param>
         /// <param name="readPageCount"></param>
         /// <returns></returns>
-        int GatherSinaStatusByStatusPageUrl(SpiderRunningConfig runningConfig, MWeiboUser user, int readPageIndex, int readPageCount, out bool stopReadNextPage)
+        int GatherSinaStatusByStatusPageUrl(SpiderRunningConfig runningConfig, MWeiboUser user, int readPageIndex, int readPageCount, bool hasReadLastPage, out bool readPageEmpty, out bool stopReadNextPage)
         {
+            readPageEmpty = false;
             stopReadNextPage = false;
             runningConfig.CurrentPageIndex = readPageIndex;
             RefreshConfig(runningConfig);
-            
+
             ShowStatus($"开始读取用户【{user.id}】的第【{readPageIndex}】页微博数据...", true);
             var getApi = $"https://m.weibo.cn/api/container/getIndex?type=uid&value={user.id}&containerid=107603{user.id}&page={readPageIndex}";
             var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
@@ -582,10 +528,10 @@ namespace SpiderTracker.Imp
                 ShowStatus($"解析用户微博列表错误!!!!!!");
                 return 0;
             }
-            if(result.data.cards.Length == 0)
+            if (result.data.cards.Length == 0)
             {
-                ShowStatus($"解析用户微博列表为空!!!!!!");
-                stopReadNextPage = true;
+                ShowStatus($"解析用户微博列表为空...");
+                readPageEmpty = true;
                 return 0;
             }
             int readPageImageCount = 0;
@@ -604,7 +550,8 @@ namespace SpiderTracker.Imp
                     ShowStatus($"取消采集微博数据...");
                     break;
                 }
-                var readStatusImageCount = GatherSinaStatusByStatusOrRetweeted(runningConfig, card.mblog, user);
+                bool ignoreSourceReaded = false;
+                var readStatusImageCount = GatherSinaStatusByStatusOrRetweeted(runningConfig, card.mblog, user, out ignoreSourceReaded);
                 readPageImageCount += readStatusImageCount;
 
                 if (StopSpiderWork)
@@ -615,6 +562,12 @@ namespace SpiderTracker.Imp
                 if (CheckUserCanceled(user.id))
                 {
                     ShowStatus($"取消采集微博数据...");
+                    break;
+                }
+                if (ignoreSourceReaded && hasReadLastPage)
+                {
+                    stopReadNextPage = true;
+                    ShowStatus($"结束采集微博数据(下页已采集)...");
                     break;
                 }
                 if (readStatusImageCount > 0)
@@ -636,6 +589,7 @@ namespace SpiderTracker.Imp
         /// <param name="runningConfig"></param>
         int GatherSinaStatusByStatusUrl(SpiderRunningConfig runningConfig)
         {
+            bool ignoreSourceReaded = false;
             var html = HttpUtil.GetHttpRequestHtmlResult(runningConfig.StartUrl, runningConfig);
             if (html == null)
             {
@@ -649,7 +603,7 @@ namespace SpiderTracker.Imp
                 return 0;
             }
             var user = result.status.user;
-            if(user == null)
+            if (user == null)
             {
                 ShowStatus($"微博数据已删除.");
                 return 0;
@@ -659,7 +613,7 @@ namespace SpiderTracker.Imp
                 ShowStatus($"用户【{user.id}】已忽略采集.");
                 return 0;
             }
-            return GatherSinaStatusByStatusOrRetweeted(runningConfig, result.status, result.status.user);
+            return GatherSinaStatusByStatusOrRetweeted(runningConfig, result.status, result.status.user, out ignoreSourceReaded);
         }
 
         /// <summary>
@@ -669,15 +623,16 @@ namespace SpiderTracker.Imp
         /// <param name="status"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        int GatherSinaStatusByStatusOrRetweeted(SpiderRunningConfig runningConfig, MWeiboStatus status, MWeiboUser user)
+        int GatherSinaStatusByStatusOrRetweeted(SpiderRunningConfig runningConfig, MWeiboStatus status, MWeiboUser user, out bool ignoreSourceReaded)
         {
+            ignoreSourceReaded = false;
             int readStatusImageCount = 0;
             //非转发微博
             if (status.retweeted_status == null)
             {
                 if (status.pics != null)
                 {
-                    readStatusImageCount = GatherSinaStatusPicsByStatusResult(runningConfig, status);
+                    readStatusImageCount = GatherSinaStatusPicsByStatusResult(runningConfig, status, out ignoreSourceReaded);
                     if (readStatusImageCount > 0)
                     {
                         GatherStatusComplete(user.id, readStatusImageCount);
@@ -685,7 +640,7 @@ namespace SpiderTracker.Imp
                 }
                 else if (status.page_info != null && status.page_info.urls != null)
                 {
-                    readStatusImageCount = GatherSinaStatusViedoByStatusResult(runningConfig, status);
+                    readStatusImageCount = GatherSinaStatusViedoByStatusResult(runningConfig, status, out ignoreSourceReaded);
                     if (readStatusImageCount > 0)
                     {
                         GatherStatusComplete(user.id, readStatusImageCount);
@@ -707,7 +662,7 @@ namespace SpiderTracker.Imp
                     ShowStatus($"跳过非本用户【{status.retweeted_status.user.id}】转发数据.");
                     return 0;
                 }
-                if(!CheckReadUser(status.retweeted_status.user, runningConfig.ReadUserNameLike))
+                if (!CheckReadUser(status.retweeted_status.user, runningConfig.ReadUserNameLike))
                 {
                     ShowStatus($"跳过未包含关键字用户【{status.retweeted_status.user.id}】转发数据.");
                     return 0;
@@ -731,15 +686,15 @@ namespace SpiderTracker.Imp
 
                 if (status.retweeted_status.pics != null)
                 {
-                    readStatusImageCount = GatherSinaStatusPicsByStatusResult(runningConfig, status.retweeted_status);
+                    readStatusImageCount = GatherSinaStatusPicsByStatusResult(runningConfig, status.retweeted_status, out ignoreSourceReaded);
                     if (readStatusImageCount > 0)
                     {
                         GatherStatusComplete(user.id, readStatusImageCount);
                     }
                 }
-                else if(status.retweeted_status.page_info != null && status.retweeted_status.page_info.urls != null)
+                else if (status.retweeted_status.page_info != null && status.retweeted_status.page_info.urls != null)
                 {
-                    readStatusImageCount = GatherSinaStatusViedoByStatusResult(runningConfig, status.retweeted_status);
+                    readStatusImageCount = GatherSinaStatusViedoByStatusResult(runningConfig, status.retweeted_status, out ignoreSourceReaded);
                     if (readStatusImageCount > 0)
                     {
                         GatherStatusComplete(user.id, readStatusImageCount);
@@ -758,8 +713,10 @@ namespace SpiderTracker.Imp
         /// -1:忽略
         /// 0:未采集到有效图片,需忽略
         /// </returns>
-        int GatherSinaStatusPicsByStatusResult(SpiderRunningConfig runninConfig, MWeiboStatus status)
+        int GatherSinaStatusPicsByStatusResult(SpiderRunningConfig runninConfig, MWeiboStatus status, out bool ignoreSourceReaded)
         {
+            ignoreSourceReaded = false;
+
             var user = status.user;
             if (user == null)
             {
@@ -777,20 +734,21 @@ namespace SpiderTracker.Imp
                 return 0;
             }
             var sinaStatus = Repository.GetUserStatus(status.bid);
-            if(sinaStatus != null)
+            if (sinaStatus != null)
             {
-                if(sinaStatus.ignore > 0)
+                if (sinaStatus.ignore > 0)
                 {
                     ShowStatus($"跳过已忽略微博【{status.bid}】.");
                     return 0;
                 }
-                if(runninConfig.IgnoreReadArchiveStatus == 1 && sinaStatus.archive == 1)
+                if (runninConfig.IgnoreReadArchiveStatus == 1 && sinaStatus.archive == 1)
                 {
                     ShowStatus($"跳过已存档微博【{status.bid}】.");
                     return 0;
                 }
                 if (runninConfig.IgnoreReadSourceStatus == 1 && sinaStatus.getqty > 0)
                 {
+                    ignoreSourceReaded = true;
                     ShowStatus($"跳过已采集微博【{status.bid}】.");
                     return 0;
                 }
@@ -807,6 +765,7 @@ namespace SpiderTracker.Imp
                 var readCount = PathUtil.GetStoreUserImageFileCount(runninConfig.Category, user.id, status.bid);
                 if (readCount > 0)
                 {
+                    ignoreSourceReaded = true;
                     ShowStatus($"跳过已缓存微博【{status.bid}】.");
                     Repository.StoreSinaStatus(runninConfig, user, status, 0, status.pics.Length, readCount, false);
                     return 0;
@@ -849,11 +808,12 @@ namespace SpiderTracker.Imp
                     Repository.StoreSinaStatus(runninConfig, user, status, 0, status.pics.Length, haveReadImageCount, haveReadImageCount == 0);
                     return haveReadImageCount;
                 }
-            }           
+            }
         }
 
-        int GatherSinaStatusViedoByStatusResult(SpiderRunningConfig runninConfig, MWeiboStatus status)
+        int GatherSinaStatusViedoByStatusResult(SpiderRunningConfig runninConfig, MWeiboStatus status, out bool ignoreSourceReaded)
         {
+            ignoreSourceReaded = false;
             var user = status.user;
             if (user == null)
             {
@@ -883,8 +843,9 @@ namespace SpiderTracker.Imp
                     ShowStatus($"跳过已存档视频【{status.bid}】.");
                     return 0;
                 }
-                if(runninConfig.IgnoreReadSourceStatus == 1 && sinaStatus.getqty > 0)
+                if (runninConfig.IgnoreReadSourceStatus == 1 && sinaStatus.getqty > 0)
                 {
+                    ignoreSourceReaded = true;
                     ShowStatus($"跳过已采集视频【{status.bid}】.");
                     return 0;
                 }
@@ -901,6 +862,7 @@ namespace SpiderTracker.Imp
                 var readCount = PathUtil.GetStoreUserVideoCount(runninConfig.Category, user.id, status.bid);
                 if (readCount > 0)
                 {
+                    ignoreSourceReaded = true;
                     ShowStatus($"跳过已缓存视频【{status.bid}】.");
                     Repository.StoreSinaStatus(runninConfig, user, status, 1, 1, readCount, false);
                     return 0;
@@ -930,6 +892,65 @@ namespace SpiderTracker.Imp
                     return haveReadVedioCount;
                 }
             }
+        }
+
+        List<SinaUser> GatherHeFocusUsers(SpiderRunningConfig runningConfig)
+        {
+            var focusUsers = new List<SinaUser>();
+
+            foreach (var user in runningConfig.DoUsers)
+            {
+                int page = 0;
+                while (++page > 0)
+                {
+                    ShowStatus($"开始读取{user.uid}关注的第{page}页用户信息...", true);
+                    var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=231051_-_followers_-_{user.uid}_-_1042015%253AtagCategory_039&luicode=10000011&lfid=1076033810669779&page={page}";
+                    var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
+                    if (html == null)
+                    {
+                        ShowStatus($"读取{user.uid}关注的第{page}页用户信息错误!");
+                        return null;
+                    }
+                    var result = GetWeiboFocusResult(html);
+                    if (result == null || result.data == null)
+                    {
+                        ShowStatus($"解析{user.uid}关注的第{page}页用户错误!");
+                        return null;
+                    }
+                    var focusUserCard = result.data.cards.FirstOrDefault(c => c.card_type == 11 && c.card_style != 1);
+                    if (focusUserCard == null)
+                    {
+                        break;
+                    }
+                    var users = focusUserCard.card_group.Select(c => new SinaUser()
+                    {
+                        uid = c.user.id,
+                        name = c.user.screen_name,
+                        desc = c.user.description,
+                        category = runningConfig.Category
+                    }).ToArray();
+                    focusUsers.AddRange(users);
+                }
+            }
+            return focusUsers.ToList();
+        }
+
+        MWeiboFocusResult GetWeiboFocusResult(string html)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html);
+
+            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboFocusResult>(doc.DocumentNode.InnerText) as MWeiboFocusResult;
+            return jsonResult;
+        }
+
+        MWeiboFoucsUserResult GetWeiboFocusUserResult(string html)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html);
+
+            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboFoucsUserResult>(doc.DocumentNode.InnerText) as MWeiboFoucsUserResult;
+            return jsonResult;
         }
 
         MWeiboUserResult GetWeiboUserResult(string html)

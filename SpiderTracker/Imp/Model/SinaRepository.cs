@@ -175,6 +175,15 @@ namespace SpiderTracker.Imp.Model
             return false;
         }
 
+        public bool UpdateUserLastpage(string uid)
+        {
+            var user = GetUser(uid);
+            if (user == null) return false;
+
+            user.lastpage = 1;
+            return UpdateSinaUser(user, new string[] { "lastpage" });
+        }
+
         public SinaUser StoreSinaUser(SpiderRunningConfig runningConfig, MWeiboUser user)
         {
             var sinaUser = new SinaUser();

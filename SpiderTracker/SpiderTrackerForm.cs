@@ -366,6 +366,12 @@ namespace SpiderTracker
                     else
                         users = users.OrderBy(c => c.focus).ToArray();
                     break;
+                case "末页":
+                    if (this.cbxUserSortAsc.Text == "降序")
+                        users = users.OrderByDescending(c => c.lastpage).ToArray();
+                    else
+                        users = users.OrderBy(c => c.lastpage).ToArray();
+                    break;
             }
             var pageCount = 0;
             int.TryParse(this.cbxUserSortPage.Text, out pageCount);
@@ -407,6 +413,7 @@ namespace SpiderTracker
                     subItem.SubItems.Add($"{item.ignores}");
                     subItem.SubItems.Add($"{item.follows}");
                     subItem.SubItems.Add($"{(item.focus > 0 ? "◉" : "")}");
+                    subItem.SubItems.Add($"{(item.lastpage > 0 ? "✔" : "")}");
                     subItem.Tag = item;
                     this.lstUser.Items.Add(subItem);
                 }
@@ -478,17 +485,18 @@ namespace SpiderTracker
                     subItem.Tag = item;
                     subItem.Text = $"{item.bid}";
                     subItem.SubItems.Add($"{item.qty}");
-                    var local = 0;
+                    var local = "";
                     if (item.mtype == 0)
                     {
                         var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, item.bid);
-                        local = files.Length;
-                        localImg += local;
+                        local = $"{files.Length}";
+                        localImg += files.Length;
                     }
                     else if (item.mtype == 1)
                     {
-                        local = PathUtil.GetStoreUserVideoCount(RunningConfig.Category, user.uid, item.bid);
-                        localImg += local;
+                        //local = PathUtil.GetStoreUserVideoCount(RunningConfig.Category, user.uid, item.bid);
+                        //localImg += 1;
+                        local = "◉";
                     }
                     subItem.SubItems.Add($"{local}");
                     subItem.SubItems.Add($"{item.archive}");
