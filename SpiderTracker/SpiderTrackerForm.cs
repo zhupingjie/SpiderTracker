@@ -1428,6 +1428,12 @@ namespace SpiderTracker
             dr["配置值"] = "99999";
             dt.Rows.Add(dr);
 
+            dr = dt.NewRow();
+            dr["配置项"] = "采集完成关机";
+            dr["配置值"] = "0";
+            dt.Rows.Add(dr);
+            
+
             //dr = dt.NewRow();
             //dr["配置项"] = "缩略图宽度";
             //dr["配置值"] = "140";
@@ -1610,6 +1616,13 @@ namespace SpiderTracker
                     int intValue = 0;
                     int.TryParse(strValue, out intValue);
                     RunningConfig.ThumbnailImageHeight = intValue;
+                }
+                else if (row.Cells["配置项"].Value.ToString() == "采集完成关机")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    int intValue = 0;
+                    int.TryParse(strValue, out intValue);
+                    RunningConfig.GatherCompleteShutdown = intValue;
                 }
             }
             return RunningConfig;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -126,6 +127,19 @@ namespace SpiderTracker.Imp
                 Directory.Move(destPath, backPath);
             }
             Directory.Move(userPath, destPath);
+        }
+
+        public static void Shutdown(int time = 30)
+        {
+            try
+            {
+                //启动本地程序并执行命令
+                Process.Start("Shutdown.exe", $" -s -t {time}");
+            }
+            catch (Exception)
+            {
+                
+            }
         }
     }
 }

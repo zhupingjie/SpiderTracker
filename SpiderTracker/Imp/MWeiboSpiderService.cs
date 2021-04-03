@@ -133,7 +133,7 @@ namespace SpiderTracker.Imp
         public void SpiderComplete()
         {
             IsSpiderStarted = false;
-
+            StopSpiderWork = true;
             OnSpiderComplete?.Invoke();
         }
 
@@ -258,6 +258,11 @@ namespace SpiderTracker.Imp
                     StartAutoGatherByUser();
                 }
                 SpiderComplete();
+
+                if (RunningConfig.GatherCompleteShutdown > 0)
+                {
+                    PathUtil.Shutdown();
+                }
             });
         }
         public void StopSpider()
