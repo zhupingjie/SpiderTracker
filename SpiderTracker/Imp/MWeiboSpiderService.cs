@@ -194,29 +194,6 @@ namespace SpiderTracker.Imp
 
         public event SpiderGatherAppendUserEventHander OnGatherAppendUser;
 
-        public void AppendUser(SinaUser user)
-        {
-            if (this.RunningConfig.AddUser(user))
-            {
-                if (OnGatherAppendUser != null)
-                {
-                    OnGatherAppendUser?.Invoke(user);
-                }
-            }
-        }
-
-        public SinaUser PeekUser()
-        {
-            SinaUser user = null;
-            RunningConfig.DoUsers.TryDequeue(out user);
-            return user;
-        }
-
-        public int GetUserCount()
-        {
-            return RunningConfig.DoUsers.Count;
-        }
-
         #endregion
 
         /// <summary>
@@ -230,6 +207,11 @@ namespace SpiderTracker.Imp
         protected bool StopSpiderWork { get; set; } = false;
 
         /// <summary>
+        /// 停止采集用户
+        /// </summary>
+        protected List<string> CancelUsers { get; set; }
+
+        /// <summary>
         /// 负责存储数据
         /// </summary>
         public SinaRepository Repository { get; set; }
@@ -239,10 +221,13 @@ namespace SpiderTracker.Imp
         public MWeiboSpiderService()
         {
             Repository = new SinaRepository();
+
+            CancelUsers = new List<string>();
         }
 
         public void StartSpider(SpiderRunningConfig runningConfig, IList<SinaUser> users, IList<string> statusIds)
         {
+            this.CancelUsers.Clear();
             this.RunningConfig = runningConfig;
             this.RunningConfig.Reset();
 
@@ -272,6 +257,37 @@ namespace SpiderTracker.Imp
             StopSpiderWork = true;
 
             SpiderStoping();
+        }
+
+        public void CancelUser(string uid)
+        {
+            if (!CancelUsers.Contains(uid))
+            {
+                CancelUsers.Add(uid);
+            }
+        }
+
+        protected bool CheckUserCanceled(string uid)
+        {
+            return this.CancelUsers.Contains(uid);
+        }
+
+        public void AppendUser(SinaUser user)
+        {
+            if (this.RunningConfig.AddUser(user))
+            {
+                if (OnGatherAppendUser != null)
+                {
+                    OnGatherAppendUser?.Invoke(user);
+                }
+            }
+        }
+
+        protected SinaUser PeekUser()
+        {
+            SinaUser user = null;
+            RunningConfig.DoUsers.TryDequeue(out user);
+            return user;
         }
 
         void StartAutoGatherByStatus(IList<string> statusIds)
@@ -335,17 +351,24 @@ namespace SpiderTracker.Imp
                 }
 
                 GatherUserStarted(user);
+                
+                if (!CheckUserCanceled(user.uid))
+                {
+                    var tempRuningConfig = RunningConfig.Clone();
+                    tempRuningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user.uid);
+                    var readStatusImageCount = GatherSinaStatusByUserUrl(tempRuningConfig);
 
-                var tempRuningConfig = RunningConfig.Clone();
-                tempRuningConfig.StartUrl = SinaUrlUtil.GetSinaUserUrl(user.uid);
-                var readStatusImageCount = GatherSinaStatusByUserUrl(tempRuningConfig);
+                    //更新用户微博信息
+                    user = Repository.UpdateSinaUserQty(user);
 
-                //更新用户微博信息
-                user = Repository.UpdateSinaUserQty(user);
+                    GatherUserComplete(user, readStatusImageCount);
 
-                GatherUserComplete(user, readStatusImageCount);
-
-                ShowStatus($"用户[{user.uid}]采集完成,共采集资源【{readStatusImageCount}】.");
+                    ShowStatus($"用户[{user.uid}]采集完成,共采集资源【{readStatusImageCount}】.");
+                }
+                else
+                {
+                    GatherUserComplete(user, 0);
+                }
             }
         }
 
@@ -422,6 +445,17 @@ namespace SpiderTracker.Imp
             int readPageCount = (runningConfig.ReadPageCount == 0 ? int.MaxValue : runningConfig.StartPageIndex + runningConfig.ReadPageCount);
             for (readPageIndex = runningConfig.StartPageIndex; readPageIndex < readPageCount; readPageIndex++)
             {
+                if (StopSpiderWork)
+                {
+                    ShowStatus($"中止采集用户微博数据...");
+                    break;
+                }
+                if (CheckUserCanceled(userId))
+                {
+                    ShowStatus($"取消采集用户微博数据...");
+                    break;
+                }
+
                 bool stopReadNextPage = false;
                 int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningConfig, user, readPageIndex, readPageCount, out stopReadNextPage);
                 readUserImageCount += readPageImageCount;
@@ -440,6 +474,11 @@ namespace SpiderTracker.Imp
                 if (StopSpiderWork)
                 {
                     ShowStatus($"中止采集用户微博数据...");
+                    break;
+                }
+                if (CheckUserCanceled(userId))
+                {
+                    ShowStatus($"取消采集用户微博数据...");
                     break;
                 }
                 if (readPageIndex + 1 < readPageCount && readPageImageCount > 0)
@@ -555,12 +594,27 @@ namespace SpiderTracker.Imp
                 //非微博数据，跳过
                 if (card.card_type != 9) continue;
 
+                if (StopSpiderWork)
+                {
+                    ShowStatus($"中止采集微博数据...");
+                    break;
+                }
+                if (CheckUserCanceled(user.id))
+                {
+                    ShowStatus($"取消采集微博数据...");
+                    break;
+                }
                 var readStatusImageCount = GatherSinaStatusByStatusOrRetweeted(runningConfig, card.mblog, user);
                 readPageImageCount += readStatusImageCount;
 
                 if (StopSpiderWork)
                 {
                     ShowStatus($"中止采集微博数据...");
+                    break;
+                }
+                if (CheckUserCanceled(user.id))
+                {
+                    ShowStatus($"取消采集微博数据...");
                     break;
                 }
                 if (readStatusImageCount > 0)

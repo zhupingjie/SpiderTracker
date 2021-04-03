@@ -98,6 +98,12 @@ namespace SpiderTracker
         {
             InvokeControl(this.lstRunstate, new Action(() =>
             {
+                if (this.lstRunstate.Items.Count > 0)
+                {
+                    var listItem = this.lstRunstate.FindItemWithText(user.uid);
+                    if (listItem != null) return;
+                }
+
                 var subItem = new ListViewItem();
                 subItem.Text = user.uid;
                 subItem.SubItems.Add($"{user.name}");
@@ -541,6 +547,11 @@ namespace SpiderTracker
             this.FocusUser();
         }
 
+        private void btnChange_Click(object sender, EventArgs e)
+        {
+            this.ChageUser();
+        }
+
         private void btnIgnoreUser_Click(object sender, EventArgs e)
         {
             this.IgnoreUser(true);
@@ -955,6 +966,8 @@ namespace SpiderTracker
         {
             if (SinaSpiderService.IsSpiderStarted)
             {
+                if (this.lstUser.SelectedItems.Count == 0) return;
+
                 foreach (ListViewItem item in this.lstUser.SelectedItems)
                 {
                     var user = item.Tag;
@@ -966,6 +979,23 @@ namespace SpiderTracker
             }
         }
 
+        private void btnCancelUser_Click(object sender, EventArgs e)
+        {
+            if(SinaSpiderService.IsSpiderStarted)
+            {
+                if (this.lstRunstate.SelectedItems.Count == 0) return;
+
+                foreach (ListViewItem item in this.lstRunstate.SelectedItems)
+                {
+                    var uid = item.SubItems[0].Text;
+                    if (!string.IsNullOrEmpty(uid))
+                    {
+                        SinaSpiderService.CancelUser(uid);
+                    }
+                    item.SubItems[4].Text = "Cancel...";
+                }
+            }
+        }
         #endregion
 
         #region 用户及微博功能操作
@@ -983,8 +1013,10 @@ namespace SpiderTracker
             {
                 this.vedioPlayerUC1.CloseVideo();
 
-                var userPath = PathUtil.GetStoreUserPath(RunningConfig.Category, user.uid);
-                if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
+                Task.Factory.StartNew(() =>
+                {
+                    PathUtil.DeleteStoreUserSource(RunningConfig.Category, user.uid);
+                });
 
                 if (this.lstUser.Items.Count == 0) return;
 
@@ -1004,7 +1036,45 @@ namespace SpiderTracker
                             this.lstUser.Items[index].Selected = true;
                         }
                     }
-                    this.lblLstUserCount.Text = $"{this.lstUser.Items.Count}";
+                }
+            }
+        }
+
+        void ChageUser()
+        {
+            var user = GetSelectUser();
+            if (user == null) return;
+
+            var frm = new ChangeUserCategoryForm();
+            frm.StartPosition = FormStartPosition.CenterParent;
+            if(frm.ShowDialog() == DialogResult.OK)
+            {
+                var rep = new SinaRepository();
+                var suc = rep.ChangeUserCategory(user.uid, frm.ChangeCategory);
+                if (suc)
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        PathUtil.MoveStoreUserSource(RunningConfig.Category, frm.ChangeCategory, user.uid);
+                    });
+
+                    var lstItem = this.lstUser.FindItemWithText(user.uid);
+                    if (lstItem != null)
+                    {
+                        var index = lstItem.Index;
+                        this.lstUser.Items.Remove(lstItem);
+                        if (this.lstUser.Items.Count > 0)
+                        {
+                            if (this.lstUser.Items.Count <= index)
+                            {
+                                this.lstUser.Items[this.lstUser.Items.Count - 1].Selected = true;
+                            }
+                            else
+                            {
+                                this.lstUser.Items[index].Selected = true;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -1039,14 +1109,18 @@ namespace SpiderTracker
             foreach (var item in status)
             {
                 rep.IgnoreSinaStatus(item.bid);
-                if (item.mtype == 0)
+
+                Task.Factory.StartNew(() =>
                 {
-                    PathUtil.DeleteStoreUserImageFiles(RunningConfig.Category, user.uid, item.bid);
-                }
-                else if(item.mtype == 1)
-                {
-                    PathUtil.DeleteStoreUserVideoFile(RunningConfig.Category, user.uid, item.bid);
-                }
+                    if (item.mtype == 0)
+                    {
+                        PathUtil.DeleteStoreUserImageFiles(RunningConfig.Category, user.uid, item.bid);
+                    }
+                    else if (item.mtype == 1)
+                    {
+                        PathUtil.DeleteStoreUserVideoFile(RunningConfig.Category, user.uid, item.bid);
+                    }
+                });
                 if (this.lstArc.Items.Count > 0)
                 {
                     var listItem = this.lstArc.FindItemWithText(item.bid);

@@ -144,6 +144,16 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.GetEntitys<SinaSource>("sina_source", $"`uid`='{uid}'");
         }
 
+        public bool ChangeUserCategory(string uid, string category)
+        {
+            var user = GetUser(uid);
+            if (user == null) return false;
+
+            if (user.category == category) return false;
+            user.category = category;
+            return UpdateSinaUser(user, new string[] { "category" });
+        }
+
         public bool CheckUserFocus(string uid)
         {
             var user = GetUser(uid);

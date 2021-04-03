@@ -137,6 +137,12 @@
     <Compile Include="Imp\StoreConfigEnum.cs" />
     <Compile Include="Imp\SpiderRunningConfig.cs" />
     <Compile Include="Imp\SinaUrlEnum.cs" />
+    <Compile Include="UI\ChangeUserCategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChangeUserCategoryForm.Designer.cs">
+      <DependentUpon>ChangeUserCategoryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ImagePreviewUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -169,6 +175,9 @@
     <Compile Include="UI\ViewImgForm.Designer.cs">
       <DependentUpon>ViewImgForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UI\ChangeUserCategoryForm.resx">
+      <DependentUpon>ChangeUserCategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ImagePreviewUC.resx">
       <DependentUpon>ImagePreviewUC.cs</DependentUpon>
     </EmbeddedResource>

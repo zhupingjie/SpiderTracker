@@ -71,6 +71,12 @@ namespace SpiderTracker.Imp
             return Directory.GetFiles(path, $"{bid}_*").Where(c => c.EndsWith(".jpg")).ToArray();
         }
 
+        public static void DeleteStoreUserSource(string name, string user)
+        {
+            var userPath = PathUtil.GetStoreUserPath(name, user);
+            if (Directory.Exists(userPath)) Directory.Delete(userPath, true);
+        }
+
         public static void DeleteStoreUserImageFiles(string name, string user, string status)
         {
             var files = GetStoreUserImageFiles(name, user, status);
@@ -106,6 +112,20 @@ namespace SpiderTracker.Imp
             var fileName = GetStoreUserVideoFile(name, user, status);
             if (!File.Exists(fileName)) return 0;
             return 1;
+        }
+
+        public static void MoveStoreUserSource(string fromName, string toName, string user)
+        {
+            var userPath = GetStoreUserPath(fromName, user);
+            if (!Directory.Exists(userPath)) return;
+
+            var destPath = GetStoreUserPath(toName, user);
+            if (Directory.Exists(destPath))
+            {
+                var backPath = GetStoreUserPath(toName, $"{user}_bak");
+                Directory.Move(destPath, backPath);
+            }
+            Directory.Move(userPath, destPath);
         }
     }
 }
