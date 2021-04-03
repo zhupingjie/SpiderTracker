@@ -962,8 +962,8 @@ namespace SpiderTracker
 
                     this.RunningConfig.GatherType = GatherTypeEnum.GahterStatus;
                 }
-                this.RunningConfig.Category = RunningConfig.Category;
-                SinaSpiderService.StartSpider(this.RunningConfig, users, statusIds);
+                var tempConfig = this.RunningConfig.Clone();
+                SinaSpiderService.StartSpider(tempConfig, users, statusIds);
             }
             else
             {

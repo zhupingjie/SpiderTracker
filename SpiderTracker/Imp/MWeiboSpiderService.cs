@@ -133,7 +133,6 @@ namespace SpiderTracker.Imp
         public void SpiderComplete()
         {
             IsSpiderStarted = false;
-            StopSpiderWork = true;
             OnSpiderComplete?.Invoke();
         }
 
@@ -259,7 +258,7 @@ namespace SpiderTracker.Imp
                 }
                 SpiderComplete();
 
-                if (RunningConfig.GatherCompleteShutdown > 0)
+                if (RunningConfig.GatherCompleteShutdown > 0 && !StopSpiderWork)
                 {
                     PathUtil.Shutdown();
                 }
@@ -461,6 +460,8 @@ namespace SpiderTracker.Imp
                 }
                 if (readPageIndex + 1 < readPageCount && readPageImageCount > 0)
                 {
+                    Repository.UpdateSinaUserQty(userId);
+
                     ShowStatus($"等待【{runningConfig.ReadNextPageWaitSecond}】秒读取用户【{userId}】下一页微博数据...");
                     Thread.Sleep(runningConfig.ReadNextPageWaitSecond * 1000);
                 }
