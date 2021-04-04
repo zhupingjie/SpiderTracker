@@ -373,12 +373,14 @@ namespace SpiderTracker
                         users = users.OrderBy(c => c.lastpage).ToArray();
                     break;
             }
+            var pageIndex = 0;
+            int.TryParse(this.cbxUserSortIndex.Text, out pageIndex);
             var pageCount = 0;
             int.TryParse(this.cbxUserSortPage.Text, out pageCount);
-            if (pageCount == 0) 
+            if (pageCount == 0)
                 return users.ToArray();
-            else 
-                return users.Take(pageCount).ToArray();
+            else
+                return users.Skip((pageIndex - 1) * pageCount).Take(pageCount).ToArray();
         }
 
         void LoadCacheUserList(bool reload)
@@ -418,9 +420,11 @@ namespace SpiderTracker
                     this.lstUser.Items.Add(subItem);
                 }
                 this.lstUser.EndUpdate();
-                this.lblLstUserCount.Text = $"{users.Count}";
+                this.lbUserCount.Text = $"{users.Count}";
 
-                if(user != null)
+                this.LoadUserPageIndex(users.Count);
+
+                if (user != null)
                 {
                     var listItem = this.lstUser.FindItemWithText(user.uid);
                     if (listItem != null)
@@ -429,6 +433,20 @@ namespace SpiderTracker
                     }
                 }
             }));
+        }
+
+        void LoadUserPageIndex(int userCount)
+        {
+            var pageCount = 0;
+            int.TryParse(this.cbxUserSortPage.Text, out pageCount);
+
+            if (pageCount == 0) return;
+            var pageNum = (int)Math.Ceiling(1.0 * userCount / pageCount);
+            this.cbxUserSortIndex.Items.Clear();
+            for (var i = 1; i <= pageNum; i++)
+            {
+                this.cbxUserSortIndex.Items.Add(i);
+            }
         }
 
         SinaStatus[] GetShowStatus(IList<SinaStatus> status)
@@ -454,18 +472,20 @@ namespace SpiderTracker
                         status = status.OrderBy(c => c.archive).ToArray();
                     break;
                 case "场所":
-                    if (this.cbxStatusSortAsc.Text == "下载")
+                    if (this.cbxStatusSortAsc.Text == "降序")
                         status = status.OrderByDescending(c => c.site).ToArray();
                     else
                         status = status.OrderBy(c => c.site).ToArray();
                     break;
             }
+            var pageIndex = 0;
+            int.TryParse(this.cbxStatusSortIndex.Text, out pageIndex);
             var pageCount = 0;
             int.TryParse(this.cbxStatusSortPage.Text, out pageCount);
             if (pageCount == 0) 
                 return status.ToArray();
             else 
-                return status.Take(pageCount).ToArray();
+                return status.Skip((pageIndex - 1) * pageCount).Take(pageCount).ToArray();
         }
         void LoadCacheUserStatusList(SinaUser user)
         {
@@ -474,6 +494,8 @@ namespace SpiderTracker
 
             InvokeControl(this.lstArc, new Action(() =>
             {
+                var status = GetSelectStatus();
+
                 var showStatus = GetShowStatus(sinaStatus);
 
                 this.lstArc.BeginUpdate();
@@ -504,12 +526,37 @@ namespace SpiderTracker
                     this.lstArc.Items.Add(subItem);
                 }
                 this.lstArc.EndUpdate();
-                this.lblLstStatusCount.Text = $"{sinaStatus.Count}";
-                this.lblLstImgCount.Text = $"{localImg}";
-                this.lblLstArchiveCount.Text = $"{sinaStatus.Sum(c => c.archive)}";
-                this.lblLstStatusImageCount.Text = $"{sinaStatus.Sum(c => c.qty)}";
-                this.lblLstGetImgCount.Text = $"{sinaStatus.Sum(c => c.getqty)}";
+                this.lblStatusCount.Text = $"{sinaStatus.Count}";
+                this.lblLocalImgCount.Text = $"{localImg}";
+                this.lblArchiveCount.Text = $"{sinaStatus.Sum(c => c.archive)}";
+                this.lblStatusImageCount.Text = $"{sinaStatus.Sum(c => c.qty)}";
+                this.lblGetImgCount.Text = $"{sinaStatus.Sum(c => c.getqty)}";
+
+                this.LoadStatusPageIndex(sinaStatus.Count);
+
+                if (status != null)
+                {
+                    var listItem = this.lstArc.FindItemWithText(status.bid);
+                    if (listItem != null)
+                    {
+                        this.lstArc.Items[listItem.Index].Selected = true;
+                    }
+                }
             }));
+        }
+
+        void LoadStatusPageIndex(int userCount)
+        {
+            var pageCount = 0;
+            int.TryParse(this.cbxStatusSortPage.Text, out pageCount);
+
+            if (pageCount == 0) return;
+            var pageNum = (int)Math.Ceiling(1.0 * userCount / pageCount);
+            this.cbxStatusSortIndex.Items.Clear();
+            for (var i = 1; i <= pageNum; i++)
+            {
+                this.cbxStatusSortIndex.Items.Add(i);
+            }
         }
 
         #endregion
@@ -543,6 +590,15 @@ namespace SpiderTracker
         }
 
         private void cbxUserSortPage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                LoadCacheUserList(true);
+            });
+        }
+
+
+        private void cbxUserSortIndex_SelectedIndexChanged(object sender, EventArgs e)
         {
             Task.Factory.StartNew(() =>
             {
@@ -588,6 +644,7 @@ namespace SpiderTracker
             var userUrl = SinaUrlUtil.GetSinaUserUrl(user.uid);
 
             this.txtStartUrl.Text = userUrl;
+            this.cbxStatusSortIndex.Text = $"1";
 
             Task.Factory.StartNew(() =>
             {
@@ -634,6 +691,8 @@ namespace SpiderTracker
         {
             this.InitSpiderRunningConfig();
             this.RunningConfig = GetSpiderRunningConfig();
+
+            this.cbxUserSortIndex.Text = $"1";
 
             Task.Factory.StartNew(() =>
             {
@@ -755,9 +814,9 @@ namespace SpiderTracker
                         listItem.SubItems[3].Text = "✔";
                     }
                     var archiveQty = 0;
-                    int.TryParse(this.lblLstArchiveCount.Text, out archiveQty);
+                    int.TryParse(this.lblArchiveCount.Text, out archiveQty);
                     archiveQty += 1;
-                    this.lblLstArchiveCount.Text = $"{archiveQty} ";
+                    this.lblArchiveCount.Text = $"{archiveQty} ";
                 }
             }
             ArchiveStatus(user.uid, status);
@@ -874,6 +933,18 @@ namespace SpiderTracker
         }
 
         private void cbxStatusSortPage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var user = GetSelectUser();
+            if (user != null)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    LoadCacheUserStatusList(user);
+                });
+            }
+        }
+
+        private void cbxStatusSortIndex_SelectedIndexChanged(object sender, EventArgs e)
         {
             var user = GetSelectUser();
             if (user != null)
@@ -1152,20 +1223,20 @@ namespace SpiderTracker
                             }
                         }
                         var localStatus = 0;
-                        int.TryParse(this.lblLstStatusCount.Text, out localStatus);
+                        int.TryParse(this.lblStatusCount.Text, out localStatus);
                         localStatus -= 1;
-                        this.lblLstStatusCount.Text = $"{localStatus} ";
+                        this.lblStatusCount.Text = $"{localStatus} ";
                         var localImg = 0;
-                        int.TryParse(this.lblLstImgCount.Text, out localImg);
+                        int.TryParse(this.lblLocalImgCount.Text, out localImg);
                         localImg -= local;
-                        this.lblLstImgCount.Text = $"{localImg} ";
+                        this.lblLocalImgCount.Text = $"{localImg} ";
 
                         if (archive == "✔")
                         {
                             var archiveQty = 0;
-                            int.TryParse(this.lblLstArchiveCount.Text, out archiveQty);
+                            int.TryParse(this.lblArchiveCount.Text, out archiveQty);
                             archiveQty -= 1;
-                            this.lblLstArchiveCount.Text = $"{archiveQty} ";
+                            this.lblArchiveCount.Text = $"{archiveQty} ";
                         }
                     }
                 }
