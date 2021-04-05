@@ -56,11 +56,12 @@
             this.columnLove = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLastPage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel24 = new System.Windows.Forms.Panel();
-            this.txtUserFilter = new System.Windows.Forms.TextBox();
             this.panel25 = new System.Windows.Forms.Panel();
             this.cbxUserSortAsc = new System.Windows.Forms.ComboBox();
             this.cbxUserSort = new System.Windows.Forms.ComboBox();
             this.cbxUserSortPage = new System.Windows.Forms.ComboBox();
+            this.txtUserFilter = new System.Windows.Forms.TextBox();
+            this.cbxUserSortIndex = new System.Windows.Forms.ComboBox();
             this.panel9 = new System.Windows.Forms.Panel();
             this.lstArc = new System.Windows.Forms.ListView();
             this.colBid = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -69,11 +70,12 @@
             this.colMrk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel20 = new System.Windows.Forms.Panel();
-            this.txtStatusFilter = new System.Windows.Forms.TextBox();
             this.panel22 = new System.Windows.Forms.Panel();
             this.cbxStatusSortAsc = new System.Windows.Forms.ComboBox();
             this.cbxStatusSortPage = new System.Windows.Forms.ComboBox();
             this.cbxStatusSort = new System.Windows.Forms.ComboBox();
+            this.txtStatusFilter = new System.Windows.Forms.TextBox();
+            this.cbxStatusSortIndex = new System.Windows.Forms.ComboBox();
             this.panel8 = new System.Windows.Forms.Panel();
             this.panel21 = new System.Windows.Forms.Panel();
             this.btnGetStatusByBid = new System.Windows.Forms.Button();
@@ -131,16 +133,15 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.tbpReview = new System.Windows.Forms.TabPage();
-            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.tbpVideo = new System.Windows.Forms.TabPage();
-            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.panel23 = new System.Windows.Forms.Panel();
             this.btnCancelUser = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.cbxUserSortIndex = new System.Windows.Forms.ComboBox();
-            this.cbxStatusSortIndex = new System.Windows.Forms.ComboBox();
+            this.columnReadPage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
+            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -309,6 +310,7 @@
             this.columnGet,
             this.columnIgnore,
             this.columnFollow,
+            this.columnReadPage,
             this.columnLove,
             this.columnLastPage});
             this.lstUser.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -393,19 +395,6 @@
             this.panel24.Size = new System.Drawing.Size(311, 24);
             this.panel24.TabIndex = 11;
             // 
-            // txtUserFilter
-            // 
-            this.txtUserFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtUserFilter.Dock = System.Windows.Forms.DockStyle.Left;
-            this.txtUserFilter.Font = new System.Drawing.Font("微软雅黑", 9.25F);
-            this.txtUserFilter.Location = new System.Drawing.Point(0, 0);
-            this.txtUserFilter.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            this.txtUserFilter.Name = "txtUserFilter";
-            this.txtUserFilter.Size = new System.Drawing.Size(144, 24);
-            this.txtUserFilter.TabIndex = 8;
-            this.txtUserFilter.DoubleClick += new System.EventHandler(this.txtUserFilter_DoubleClick);
-            this.txtUserFilter.Leave += new System.EventHandler(this.txtUserFilter_Leave);
-            // 
             // panel25
             // 
             this.panel25.Controls.Add(this.cbxUserSortAsc);
@@ -450,6 +439,7 @@
             "下载",
             "忽略",
             "关注",
+            "页码",
             "点赞",
             "末页"});
             this.cbxUserSort.Location = new System.Drawing.Point(0, 0);
@@ -480,6 +470,43 @@
             this.cbxUserSortPage.TabIndex = 2;
             this.cbxUserSortPage.Text = "100";
             this.cbxUserSortPage.SelectedIndexChanged += new System.EventHandler(this.cbxUserSortPage_SelectedIndexChanged);
+            // 
+            // txtUserFilter
+            // 
+            this.txtUserFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtUserFilter.Dock = System.Windows.Forms.DockStyle.Left;
+            this.txtUserFilter.Font = new System.Drawing.Font("微软雅黑", 9.25F);
+            this.txtUserFilter.Location = new System.Drawing.Point(0, 0);
+            this.txtUserFilter.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.txtUserFilter.Name = "txtUserFilter";
+            this.txtUserFilter.Size = new System.Drawing.Size(144, 24);
+            this.txtUserFilter.TabIndex = 8;
+            this.txtUserFilter.DoubleClick += new System.EventHandler(this.txtUserFilter_DoubleClick);
+            this.txtUserFilter.Leave += new System.EventHandler(this.txtUserFilter_Leave);
+            // 
+            // cbxUserSortIndex
+            // 
+            this.cbxUserSortIndex.BackColor = System.Drawing.Color.White;
+            this.cbxUserSortIndex.Dock = System.Windows.Forms.DockStyle.Right;
+            this.cbxUserSortIndex.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxUserSortIndex.FormattingEnabled = true;
+            this.cbxUserSortIndex.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"});
+            this.cbxUserSortIndex.Location = new System.Drawing.Point(271, 0);
+            this.cbxUserSortIndex.Margin = new System.Windows.Forms.Padding(0);
+            this.cbxUserSortIndex.Name = "cbxUserSortIndex";
+            this.cbxUserSortIndex.Size = new System.Drawing.Size(40, 24);
+            this.cbxUserSortIndex.TabIndex = 10;
+            this.cbxUserSortIndex.Text = "1";
+            this.cbxUserSortIndex.SelectedIndexChanged += new System.EventHandler(this.cbxUserSortIndex_SelectedIndexChanged);
             // 
             // panel9
             // 
@@ -552,19 +579,6 @@
             this.panel20.Size = new System.Drawing.Size(311, 24);
             this.panel20.TabIndex = 12;
             // 
-            // txtStatusFilter
-            // 
-            this.txtStatusFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtStatusFilter.Dock = System.Windows.Forms.DockStyle.Left;
-            this.txtStatusFilter.Font = new System.Drawing.Font("微软雅黑", 9.25F);
-            this.txtStatusFilter.Location = new System.Drawing.Point(0, 0);
-            this.txtStatusFilter.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            this.txtStatusFilter.Name = "txtStatusFilter";
-            this.txtStatusFilter.Size = new System.Drawing.Size(144, 24);
-            this.txtStatusFilter.TabIndex = 8;
-            this.txtStatusFilter.DoubleClick += new System.EventHandler(this.txtStatusFilter_DoubleClick);
-            this.txtStatusFilter.Leave += new System.EventHandler(this.txtStatusFilter_Leave);
-            // 
             // panel22
             // 
             this.panel22.Controls.Add(this.cbxStatusSortAsc);
@@ -631,6 +645,43 @@
             this.cbxStatusSort.TabIndex = 0;
             this.cbxStatusSort.Text = "更新";
             this.cbxStatusSort.SelectedIndexChanged += new System.EventHandler(this.cbxStatusSort_SelectedIndexChanged);
+            // 
+            // txtStatusFilter
+            // 
+            this.txtStatusFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtStatusFilter.Dock = System.Windows.Forms.DockStyle.Left;
+            this.txtStatusFilter.Font = new System.Drawing.Font("微软雅黑", 9.25F);
+            this.txtStatusFilter.Location = new System.Drawing.Point(0, 0);
+            this.txtStatusFilter.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.txtStatusFilter.Name = "txtStatusFilter";
+            this.txtStatusFilter.Size = new System.Drawing.Size(144, 24);
+            this.txtStatusFilter.TabIndex = 8;
+            this.txtStatusFilter.DoubleClick += new System.EventHandler(this.txtStatusFilter_DoubleClick);
+            this.txtStatusFilter.Leave += new System.EventHandler(this.txtStatusFilter_Leave);
+            // 
+            // cbxStatusSortIndex
+            // 
+            this.cbxStatusSortIndex.BackColor = System.Drawing.Color.White;
+            this.cbxStatusSortIndex.Dock = System.Windows.Forms.DockStyle.Right;
+            this.cbxStatusSortIndex.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxStatusSortIndex.FormattingEnabled = true;
+            this.cbxStatusSortIndex.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"});
+            this.cbxStatusSortIndex.Location = new System.Drawing.Point(271, 0);
+            this.cbxStatusSortIndex.Margin = new System.Windows.Forms.Padding(0);
+            this.cbxStatusSortIndex.Name = "cbxStatusSortIndex";
+            this.cbxStatusSortIndex.Size = new System.Drawing.Size(40, 24);
+            this.cbxStatusSortIndex.TabIndex = 11;
+            this.cbxStatusSortIndex.Text = "1";
+            this.cbxStatusSortIndex.SelectedIndexChanged += new System.EventHandler(this.cbxStatusSortIndex_SelectedIndexChanged);
             // 
             // panel8
             // 
@@ -1299,16 +1350,6 @@
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
             // 
-            // imagePreviewUC1
-            // 
-            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
-            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
-            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(564, 531);
-            this.imagePreviewUC1.TabIndex = 0;
-            // 
             // tbpVideo
             // 
             this.tbpVideo.Controls.Add(this.vedioPlayerUC1);
@@ -1318,15 +1359,6 @@
             this.tbpVideo.TabIndex = 2;
             this.tbpVideo.Text = "视频预览";
             this.tbpVideo.UseVisualStyleBackColor = true;
-            // 
-            // vedioPlayerUC1
-            // 
-            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 9360113, 3, 9360113);
-            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
-            this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
-            this.vedioPlayerUC1.TabIndex = 0;
             // 
             // label10
             // 
@@ -1379,53 +1411,29 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
-            // cbxUserSortIndex
+            // columnReadPage
             // 
-            this.cbxUserSortIndex.BackColor = System.Drawing.Color.White;
-            this.cbxUserSortIndex.Dock = System.Windows.Forms.DockStyle.Right;
-            this.cbxUserSortIndex.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbxUserSortIndex.FormattingEnabled = true;
-            this.cbxUserSortIndex.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"});
-            this.cbxUserSortIndex.Location = new System.Drawing.Point(271, 0);
-            this.cbxUserSortIndex.Margin = new System.Windows.Forms.Padding(0);
-            this.cbxUserSortIndex.Name = "cbxUserSortIndex";
-            this.cbxUserSortIndex.Size = new System.Drawing.Size(40, 24);
-            this.cbxUserSortIndex.TabIndex = 10;
-            this.cbxUserSortIndex.Text = "1";
-            this.cbxUserSortIndex.SelectedIndexChanged += new System.EventHandler(this.cbxUserSortIndex_SelectedIndexChanged);
+            this.columnReadPage.Text = "页码";
+            this.columnReadPage.Width = 50;
             // 
-            // cbxStatusSortIndex
+            // imagePreviewUC1
             // 
-            this.cbxStatusSortIndex.BackColor = System.Drawing.Color.White;
-            this.cbxStatusSortIndex.Dock = System.Windows.Forms.DockStyle.Right;
-            this.cbxStatusSortIndex.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbxStatusSortIndex.FormattingEnabled = true;
-            this.cbxStatusSortIndex.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"});
-            this.cbxStatusSortIndex.Location = new System.Drawing.Point(271, 0);
-            this.cbxStatusSortIndex.Margin = new System.Windows.Forms.Padding(0);
-            this.cbxStatusSortIndex.Name = "cbxStatusSortIndex";
-            this.cbxStatusSortIndex.Size = new System.Drawing.Size(40, 24);
-            this.cbxStatusSortIndex.TabIndex = 11;
-            this.cbxStatusSortIndex.Text = "1";
-            this.cbxStatusSortIndex.SelectedIndexChanged += new System.EventHandler(this.cbxStatusSortIndex_SelectedIndexChanged);
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(564, 531);
+            this.imagePreviewUC1.TabIndex = 0;
+            // 
+            // vedioPlayerUC1
+            // 
+            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 18785226, 3, 18785226);
+            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
+            this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
+            this.vedioPlayerUC1.TabIndex = 0;
             // 
             // SpiderTrackerForm
             // 
@@ -1601,6 +1609,7 @@
         private System.Windows.Forms.ColumnHeader columnLastPage;
         private System.Windows.Forms.ComboBox cbxUserSortIndex;
         private System.Windows.Forms.ComboBox cbxStatusSortIndex;
+        private System.Windows.Forms.ColumnHeader columnReadPage;
     }
 }
 

@@ -29,7 +29,7 @@ namespace SpiderTracker.Imp.Model
         public int finds { get; set; }
         public int gets { get; set; }
         public int ignores { get; set; }
-
+        public int readpage { get; set; }
         public int lastpage { get; set; }
     }
 }

@@ -13,6 +13,8 @@ namespace SpiderTracker.Imp.MWeiboJson
         public string text { get; set; }
         public string status_title { get; set; }
 
+        public string created_at { get; set; }
+
         public MWeiboStatusMedia page_info { get; set; }
         public MWeiboPic[] pics { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using SpiderTracker.Imp.MWeiboJson;
+using SpiderTracker.Imp.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -231,6 +232,7 @@ namespace SpiderTracker.Imp.Model
             sinaStatus.retuid = retweet.user != null ? retweet.user.id : "Unauthorization";
             sinaStatus.retbid = retweet.bid;
             sinaStatus.site = runningConfig.Site;
+            sinaStatus.createtime = ObjectUtil.GetCreateTime(status.created_at);
             var extSinaStatus = GetUserStatus(status.bid);
             if (extSinaStatus == null)
             {
@@ -251,6 +253,7 @@ namespace SpiderTracker.Imp.Model
             sinaStatus.getqty = readStatusImageCount;
             sinaStatus.site = runningConfig.Site;
             sinaStatus.ignore = ignore ? 1 : 0;
+            sinaStatus.createtime = ObjectUtil.GetCreateTime(status.created_at);
             var extSinaStatus = GetUserStatus(status.bid);
             if (extSinaStatus == null)
             {
@@ -310,21 +313,22 @@ namespace SpiderTracker.Imp.Model
             return sinaUser.focus > 0 ? true : false;
         }
 
-        public bool UpdateSinaUserQty(string uid)
+        public bool UpdateSinaUserInfo(string uid, int readPageIndex)
         {
             var sinaUser = GetUser(uid);
-            UpdateSinaUserQty(sinaUser);
+            UpdateSinaUserInfo(sinaUser, readPageIndex);
             return true;
         }
 
-        public SinaUser UpdateSinaUserQty(SinaUser sinaUser)
+        public SinaUser UpdateSinaUserInfo(SinaUser sinaUser, int readPageIndex)
         {
             sinaUser.finds = GetUserStatusFindCount(sinaUser.uid);
             sinaUser.gets = GetUserStatusGetCount(sinaUser.uid);
             sinaUser.ignores = GetUserStatusIgnoreCount(sinaUser.uid);
             sinaUser.retweets = GetUserStatusRetweetCount(sinaUser.uid);
             sinaUser.originals = sinaUser.finds - sinaUser.retweets;
-            UpdateSinaUser(sinaUser, new string[] { "finds", "gets", "ignores", "retweets", "originals" });
+            if (readPageIndex > 0) sinaUser.readpage = readPageIndex;
+            UpdateSinaUser(sinaUser, new string[] { "finds", "gets", "ignores", "retweets", "originals", "readpage" });
             return sinaUser;
         }
 
@@ -335,7 +339,7 @@ namespace SpiderTracker.Imp.Model
 
             sinaStatus.ignore = 1;
             UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
-            return UpdateSinaUserQty(sinaStatus.uid);
+            return UpdateSinaUserInfo(sinaStatus.uid, 0);
         }
         
         public bool ArchiveSinaStatus(string status)
@@ -345,7 +349,7 @@ namespace SpiderTracker.Imp.Model
 
             sinaStatus.archive = 1;
             UpdateSinaStatus(sinaStatus, new string[] { "archive" });
-            return UpdateSinaUserQty(sinaStatus.uid);
+            return UpdateSinaUserInfo(sinaStatus.uid, 0);
         }
 
         public bool ArchiveSinaUser(string user)
@@ -356,7 +360,7 @@ namespace SpiderTracker.Imp.Model
                 sinaStatus.archive = 1;
                 UpdateSinaStatus(sinaStatus, new string[] { "archive" });
             }
-            return UpdateSinaUserQty(user);
+            return UpdateSinaUserInfo(user, 0);
         }
     }
 }

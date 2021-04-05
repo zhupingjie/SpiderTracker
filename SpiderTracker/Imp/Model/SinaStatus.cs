@@ -38,5 +38,7 @@ namespace SpiderTracker.Imp.Model
         public int ignore { get; set; }
         public int archive { get; set; }
         public string site { get; set; }
+
+        public DateTime? createtime { get; set; }
     }
 }

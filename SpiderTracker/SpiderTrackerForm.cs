@@ -366,6 +366,12 @@ namespace SpiderTracker
                     else
                         users = users.OrderBy(c => c.focus).ToArray();
                     break;
+                case "页码":
+                    if (this.cbxUserSortAsc.Text == "降序")
+                        users = users.OrderByDescending(c => c.readpage).ToArray();
+                    else
+                        users = users.OrderBy(c => c.readpage).ToArray();
+                    break;
                 case "末页":
                     if (this.cbxUserSortAsc.Text == "降序")
                         users = users.OrderByDescending(c => c.lastpage).ToArray();
@@ -414,6 +420,7 @@ namespace SpiderTracker
                     subItem.SubItems.Add($"{item.gets}");
                     subItem.SubItems.Add($"{item.ignores}");
                     subItem.SubItems.Add($"{item.follows}");
+                    subItem.SubItems.Add($"{item.readpage}");
                     subItem.SubItems.Add($"{(item.focus > 0 ? "◉" : "")}");
                     subItem.SubItems.Add($"{(item.lastpage > 0 ? "✔" : "")}");
                     subItem.Tag = item;
