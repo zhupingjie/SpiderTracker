@@ -778,8 +778,9 @@ namespace SpiderTracker.Imp
             if (runningConfig.IgnoreDownloadSource == 1)
             {
                 ShowStatus($"跳过下载微博资源【{status.bid}】.");
+                var readCount = PathUtil.GetStoreUserImageFileCount(runningConfig.Category, user.id, status.bid);
                 //存储微博
-                Repository.StoreSinaStatus(runningConfig, user, status, 0, status.pics.Length, 0, false);
+                Repository.StoreSinaStatus(runningConfig, user, status, 0, status.pics.Length, readCount, false);
                 return 0;
             }
             else
@@ -888,8 +889,9 @@ namespace SpiderTracker.Imp
             if (runningConfig.IgnoreDownloadSource == 1)
             {
                 ShowStatus($"跳过下载微博资源【{status.bid}】.");
+                var readCount = PathUtil.GetStoreUserVideoCount(runningConfig.Category, user.id, status.bid);
                 //存储微博
-                Repository.StoreSinaStatus(runningConfig, user, status, 1, 1, 0, false);
+                Repository.StoreSinaStatus(runningConfig, user, status, 1, 1, readCount, false);
                 return 0;
             }
             else
