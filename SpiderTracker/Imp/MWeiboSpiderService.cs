@@ -61,7 +61,7 @@ namespace SpiderTracker.Imp
                 //{
                 //    readUsers = readUsers.Where(c => (c.name.Contains(RunningConfig.ReadUserNameLike) || c.desc.Contains(RunningConfig.ReadUserNameLike))).ToList();
                 //}
-                foreach (var user in readUsers.OrderBy(c=>c.lastdate).ToArray())
+                foreach (var user in readUsers.OrderByDescending(c => c.focus).ThenByDescending(c => c.lastdate).ToArray())
                 {
                     RunningConfig.AddUser(user);
                 }
@@ -73,7 +73,7 @@ namespace SpiderTracker.Imp
                 //{
                 //    readUsers = FilterReadUser(readUsers, RunningConfig.ReadUserNameLike);
                 //}
-                foreach (var user in readUsers)
+                foreach (var user in readUsers.OrderByDescending(c => c.focus).ThenByDescending(c => c.lastdate).ToArray())
                 {
                     RunningConfig.AddUser(user);
                 }
