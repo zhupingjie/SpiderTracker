@@ -21,7 +21,10 @@ namespace SpiderTracker.Imp.Util
 
             if (!mons.Contains(arrs[1])) return null;
 
-            return $"{arrs[5]}-{Array.IndexOf(mons, arrs[1]) + 1}-{arrs[2]} {arrs[3]}";
+            var strTime = $"{arrs[5]}-{Array.IndexOf(mons, arrs[1]) + 1}-{arrs[2]} {arrs[3]}";
+            DateTime time = DateTime.Now;
+            if (!DateTime.TryParse(strTime, out time)) return null;
+            return time.ToString("yyyy/MM/hh HH:mm");
         }
     }
 }

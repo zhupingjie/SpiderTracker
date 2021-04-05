@@ -161,7 +161,7 @@ namespace SpiderTracker.Imp
 
         public string DefaultArchivePath { get; set; } = "archive";
 
-        public int IgnoreDownloadSource { get; set; } = 100;
+        public int IgnoreDownloadSource { get; set; } = 0;
 
         public int ThumbnailImageWidth { get; set; } = 138;
 
