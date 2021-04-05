@@ -591,7 +591,7 @@ namespace SpiderTracker.Imp
                 }
                 else
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(600);
                 }
             }
             return readPageImageCount;
@@ -788,7 +788,7 @@ namespace SpiderTracker.Imp
                 var readCount = PathUtil.GetStoreUserImageFileCount(runningConfig.Category, user.id, status.bid);
                 if (readCount > 0)
                 {
-                    ignoreSourceReaded = true;
+                    //ignoreSourceReaded = true;
                     ShowStatus($"跳过已缓存微博【{status.bid}】.");
                     Repository.StoreSinaStatus(runningConfig, user, status, 0, status.pics.Length, readCount, false);
                     return 0;
@@ -899,7 +899,7 @@ namespace SpiderTracker.Imp
                 var readCount = PathUtil.GetStoreUserVideoCount(runningConfig.Category, user.id, status.bid);
                 if (readCount > 0)
                 {
-                    ignoreSourceReaded = true;
+                    //ignoreSourceReaded = true;
                     ShowStatus($"跳过已缓存视频【{status.bid}】.");
                     Repository.StoreSinaStatus(runningConfig, user, status, 1, 1, readCount, false);
                     return 0;

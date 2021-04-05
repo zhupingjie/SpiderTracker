@@ -265,7 +265,8 @@ namespace SpiderTracker.Imp.Model
                 extSinaStatus.qty = readSourceCount;
                 extSinaStatus.getqty = readStatusImageCount;
                 extSinaStatus.site = runningConfig.Site;
-                UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "qty", "getqty", "site" });
+                extSinaStatus.createtime = ObjectUtil.GetCreateTime(status.created_at);
+                UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "qty", "getqty", "site", "createtime" });
             }
         }
 
