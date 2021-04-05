@@ -478,6 +478,12 @@ namespace SpiderTracker
                     else
                         status = status.OrderBy(c => c.archive).ToArray();
                     break;
+                case "日期":
+                    if (this.cbxStatusSortAsc.Text == "降序")
+                        status = status.OrderByDescending(c => c.createtime).ToArray();
+                    else
+                        status = status.OrderBy(c => c.createtime).ToArray();
+                    break;
                 case "场所":
                     if (this.cbxStatusSortAsc.Text == "降序")
                         status = status.OrderByDescending(c => c.site).ToArray();
@@ -529,6 +535,7 @@ namespace SpiderTracker
                     }
                     subItem.SubItems.Add($"{local}");
                     subItem.SubItems.Add($"{item.archive}");
+                    subItem.SubItems.Add($"{item.createtime}");
                     subItem.SubItems.Add($"{item.site}");
                     this.lstArc.Items.Add(subItem);
                 }
@@ -1238,7 +1245,7 @@ namespace SpiderTracker
                         localImg -= local;
                         this.lblLocalImgCount.Text = $"{localImg} ";
 
-                        if (archive == "✔")
+                        if (archive.CompareTo("0") > 0)
                         {
                             var archiveQty = 0;
                             int.TryParse(this.lblArchiveCount.Text, out archiveQty);
