@@ -432,7 +432,7 @@ namespace SpiderTracker.Imp
                                 {
                                     obj = DateTime.Parse(dr[field.Name].ToString());
                                 }
-                                else
+                                else if(dr[field.Name] != DBNull.Value)
                                 {
                                     obj = dr[field.Name].ToString();
                                 }

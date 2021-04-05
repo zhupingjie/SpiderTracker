@@ -818,7 +818,7 @@ namespace SpiderTracker
                     var listItem = this.lstArc.FindItemWithText(item.bid);
                     if (listItem != null)
                     {
-                        listItem.SubItems[3].Text = "✔";
+                        listItem.SubItems[3].Text = $"{item.qty}";
                     }
                     var archiveQty = 0;
                     int.TryParse(this.lblArchiveCount.Text, out archiveQty);
@@ -1179,7 +1179,7 @@ namespace SpiderTracker
             var listItem = this.lstUser.FindItemWithText(user.uid);
             if (listItem != null)
             {
-                listItem.SubItems[3].Text = (focus ? "◉" : "");
+                listItem.SubItems[10].Text = (focus ? "◉" : "");
             }
         }
 
@@ -1437,7 +1437,7 @@ namespace SpiderTracker
 
             dr = dt.NewRow();
             dr["配置项"] = "最少图片数量";
-            dr["配置值"] = "1";
+            dr["配置值"] = "3";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
@@ -1495,7 +1495,17 @@ namespace SpiderTracker
             dr["配置项"] = "采集用户名称";
             dr["配置值"] = "jk,ol,cos,leg,stock,腿,丝,袜,萌,酱,萝莉,制服,私房,写真,约拍";
             dt.Rows.Add(dr);
-            
+
+            dr = dt.NewRow();
+            dr["配置项"] = "断点续传采集";
+            dr["配置值"] = "0";
+            dt.Rows.Add(dr);
+
+            dr = dt.NewRow();
+            dr["配置项"] = "采集完成关机";
+            dr["配置值"] = "0";
+            dt.Rows.Add(dr);
+
             dr = dt.NewRow();
             dr["配置项"] = "图片最小尺寸";
             dr["配置值"] = "600";
@@ -1505,12 +1515,6 @@ namespace SpiderTracker
             dr["配置项"] = "图片最大尺寸";
             dr["配置值"] = "99999";
             dt.Rows.Add(dr);
-
-            dr = dt.NewRow();
-            dr["配置项"] = "采集完成关机";
-            dr["配置值"] = "0";
-            dt.Rows.Add(dr);
-            
 
             //dr = dt.NewRow();
             //dr["配置项"] = "缩略图宽度";
@@ -1702,6 +1706,14 @@ namespace SpiderTracker
                     int.TryParse(strValue, out intValue);
                     RunningConfig.GatherCompleteShutdown = intValue;
                 }
+                else if (row.Cells["配置项"].Value.ToString() == "断点续传采集")
+                {
+                    var strValue = row.Cells["配置值"].Value.ToString();
+                    int intValue = 0;
+                    int.TryParse(strValue, out intValue);
+                    RunningConfig.GatherContinueLastPage = intValue;
+                }
+                
             }
             return RunningConfig;
         }

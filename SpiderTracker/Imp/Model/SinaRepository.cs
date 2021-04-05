@@ -306,29 +306,39 @@ namespace SpiderTracker.Imp.Model
         public bool FocusSinaUser(string user)
         {
             var sinaUser = GetUser(user);
-            if (sinaUser == null) return true;
+            if (sinaUser == null) return false;
 
             sinaUser.focus = sinaUser.focus == 0 ? 1 : 0;
             UpdateSinaUser(sinaUser, new string[] { "focus" });
             return sinaUser.focus > 0 ? true : false;
         }
 
-        public bool UpdateSinaUserInfo(string uid, int readPageIndex)
+        public bool UpdateSinaUserQty(string uid)
         {
             var sinaUser = GetUser(uid);
-            UpdateSinaUserInfo(sinaUser, readPageIndex);
+            if (sinaUser == null) return false;
+
+            UpdateSinaUserInfo(sinaUser);
             return true;
         }
 
-        public SinaUser UpdateSinaUserInfo(SinaUser sinaUser, int readPageIndex)
+        public bool UpdateSinaUserPage(string uid, int readPageIndex)
+        {
+            var sinaUser = GetUser(uid);
+            if (sinaUser == null) return false;
+
+            if (readPageIndex > 0 && readPageIndex > sinaUser.readpage) sinaUser.readpage = readPageIndex;
+            return UpdateSinaUser(sinaUser, new string[] { "readpage" });
+        }
+
+        public SinaUser UpdateSinaUserInfo(SinaUser sinaUser)
         {
             sinaUser.finds = GetUserStatusFindCount(sinaUser.uid);
             sinaUser.gets = GetUserStatusGetCount(sinaUser.uid);
             sinaUser.ignores = GetUserStatusIgnoreCount(sinaUser.uid);
             sinaUser.retweets = GetUserStatusRetweetCount(sinaUser.uid);
             sinaUser.originals = sinaUser.finds - sinaUser.retweets;
-            if (readPageIndex > 0) sinaUser.readpage = readPageIndex;
-            UpdateSinaUser(sinaUser, new string[] { "finds", "gets", "ignores", "retweets", "originals", "readpage" });
+            UpdateSinaUser(sinaUser, new string[] { "finds", "gets", "ignores", "retweets", "originals" });
             return sinaUser;
         }
 
@@ -339,7 +349,7 @@ namespace SpiderTracker.Imp.Model
 
             sinaStatus.ignore = 1;
             UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
-            return UpdateSinaUserInfo(sinaStatus.uid, 0);
+            return UpdateSinaUserQty(sinaStatus.uid);
         }
         
         public bool ArchiveSinaStatus(string status)
@@ -349,7 +359,7 @@ namespace SpiderTracker.Imp.Model
 
             sinaStatus.archive = 1;
             UpdateSinaStatus(sinaStatus, new string[] { "archive" });
-            return UpdateSinaUserInfo(sinaStatus.uid, 0);
+            return UpdateSinaUserQty(sinaStatus.uid);
         }
 
         public bool ArchiveSinaUser(string user)
@@ -360,7 +370,7 @@ namespace SpiderTracker.Imp.Model
                 sinaStatus.archive = 1;
                 UpdateSinaStatus(sinaStatus, new string[] { "archive" });
             }
-            return UpdateSinaUserInfo(user, 0);
+            return UpdateSinaUserQty(user);
         }
     }
 }

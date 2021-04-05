@@ -169,6 +169,8 @@ namespace SpiderTracker.Imp
 
         public void GatherPageComplete(string uid, int pageIndex, int readImageQty)
         {
+            Repository.UpdateSinaUserPage(uid, pageIndex);
+
             OnGatherPageComplete?.Invoke(uid, pageIndex, readImageQty);
         }
 
@@ -371,7 +373,7 @@ namespace SpiderTracker.Imp
                     var readStatusImageCount = GatherSinaStatusByUserUrl(tempRuningConfig);
 
                     //更新用户微博信息
-                    user = Repository.UpdateSinaUserInfo(user, 0);
+                    user = Repository.UpdateSinaUserInfo(user);
 
                     GatherUserComplete(user, readStatusImageCount);
 
@@ -406,11 +408,18 @@ namespace SpiderTracker.Imp
             }
 
             bool hasReadLastPage = false;
-            if (sinaUser != null && sinaUser.lastpage > 0) hasReadLastPage = true;
+            int lastReadPageIndex = 0;
+            if (sinaUser != null)
+            {
+                if (sinaUser.lastpage > 0) hasReadLastPage = true;
+                if (sinaUser.readpage > 0) lastReadPageIndex = sinaUser.readpage;
+            }
 
             int readUserImageCount = 0, readPageIndex = 0, emptyPageCount = 0;
-            int readPageCount = (runningConfig.ReadPageCount == 0 ? int.MaxValue : runningConfig.StartPageIndex + runningConfig.ReadPageCount);
-            for (readPageIndex = runningConfig.StartPageIndex; readPageIndex < readPageCount; readPageIndex++)
+            int startPageIndex = runningConfig.StartPageIndex;
+            if (runningConfig.GatherContinueLastPage > 0 && lastReadPageIndex > 0) startPageIndex = lastReadPageIndex;
+            int readPageCount = (runningConfig.ReadPageCount == 0 ? int.MaxValue : startPageIndex + runningConfig.ReadPageCount);
+            for (readPageIndex = startPageIndex; readPageIndex < readPageCount; readPageIndex++)
             {
                 if (StopSpiderWork)
                 {
@@ -422,7 +431,6 @@ namespace SpiderTracker.Imp
                     ShowStatus($"取消采集用户微博数据...");
                     break;
                 }
-
                 bool readPageEmpty = false, stopReadNextPage = false;
                 int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningConfig, user, readPageIndex, readPageCount, hasReadLastPage, out readPageEmpty, out stopReadNextPage);
                 readUserImageCount += readPageImageCount;
@@ -460,7 +468,7 @@ namespace SpiderTracker.Imp
                 }
                 if (readPageIndex + 1 < readPageCount && readPageImageCount > 0)
                 {
-                    Repository.UpdateSinaUserInfo(userId, readPageIndex + 1);
+                    Repository.UpdateSinaUserQty(userId);
 
                     ShowStatus($"等待【{runningConfig.ReadNextPageWaitSecond}】秒读取用户【{userId}】下一页微博数据...");
                     Thread.Sleep(runningConfig.ReadNextPageWaitSecond * 1000);

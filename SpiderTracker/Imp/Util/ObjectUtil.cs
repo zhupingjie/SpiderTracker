@@ -11,7 +11,7 @@ namespace SpiderTracker.Imp.Util
         public static DateTime? GetCreateTime(string create)
         {
             //Sun Oct 07 20:10:48 +0800 2018
-            var mons = new string[] { "Jan", "Feb", "Mar", "Apr ", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec" };
+            var mons = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec" };
             var weeks = new string[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
 
             if (string.IsNullOrEmpty(create)) return null;

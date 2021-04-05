@@ -168,6 +168,7 @@ namespace SpiderTracker.Imp
         public int ThumbnailImageHeight { get; set; } = 190;
 
         public int GatherCompleteShutdown { get; set; } = 0;
+        public int GatherContinueLastPage { get; set; } = 0;
 
         public void Reset()
         {
