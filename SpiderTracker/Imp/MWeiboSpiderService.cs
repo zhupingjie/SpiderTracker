@@ -779,31 +779,44 @@ namespace SpiderTracker.Imp
                 else
                 {
                     ShowStatus($"开始采集用户【{user.id}】第【{runninConfig.CurrentPageIndex}】页微博【{status.bid}】...");
-                    int haveReadImageCount = 0, readImageIndex = 0, errorReadImageCount = 0;
+                    int haveReadImageCount = 0, readImageIndex = 0, errorReadImageCount = 0, errorSaveImageCount = 0;
                     foreach (var pic in status.pics)
                     {
-                        bool err = false;
-                        var succ = DownloadUserStatusImage(runninConfig, user.id, status.bid, pic.large.url, ++readImageIndex, out err);
+                        //1:下载图片错误,2:保存数据错误,3:保存图片错误,
+                        int errType = 0;
+                        var succ = DownloadUserStatusImage(runninConfig, user.id, status.bid, pic.large.url, ++readImageIndex, out errType);
                         if (succ)
                         {
                             haveReadImageCount++;
                         }
-                        if (err)
+                        if (errType > 0)
                         {
                             errorReadImageCount++;
+
+                            if (errType == 3)
+                            {
+                                errorSaveImageCount++;
+                            }
                         }
                         Thread.Sleep(200);
+                    }
+                    if (errorSaveImageCount > 0)
+                    {
+                        StopSpiderWork = true;
+                        ShowStatus($"微博【{status.bid}】保存图片错误,停止采集!!!!!!");
+                        return 0;
                     }
                     if (errorReadImageCount == status.pics.Length && errorReadImageCount > 0)
                     {
                         haveReadImageCount = -1;
+                        ShowStatus($"微博【{status.bid}】已下载图片全部错误.");
                     }
                     if (haveReadImageCount == 0)
                     {
                         ShowStatus($"微博【{status.bid}】已无符合尺寸的图片.");
                         PathUtil.DeleteStoreUserImageFiles(runninConfig.Category, user.id, status.bid);
                     }
-                    else if (haveReadImageCount < runninConfig.ReadMinOfImgCount)
+                    else if (haveReadImageCount > 0 && haveReadImageCount < runninConfig.ReadMinOfImgCount)
                     {
                         ShowStatus($"微博【{status.bid}】已下载图数不符合删除.");
                         PathUtil.DeleteStoreUserImageFiles(runninConfig.Category, user.id, status.bid);
@@ -1007,9 +1020,9 @@ namespace SpiderTracker.Imp
         /// <param name="dto"></param>
         /// <param name="cookie"></param>
         /// <returns></returns>
-        bool DownloadUserStatusImage(SpiderRunningConfig runningConfig, string userId, string arcId, string imgUrl, int readImageIndex, out bool err)
+        bool DownloadUserStatusImage(SpiderRunningConfig runningConfig, string userId, string arcId, string imgUrl, int readImageIndex, out int errType)
         {
-            err = false;
+            errType = 0;
 
             var path = PathUtil.GetStoreUserPath(runningConfig.Category, userId);
             PathUtil.CheckCreateDirectory(path);
@@ -1018,8 +1031,8 @@ namespace SpiderTracker.Imp
             var image = HttpUtil.GetHttpRequestImageResult(imgUrl, runningConfig);
             if (image == null)
             {
-                ShowStatus($"下载微博【{arcId}】第【{readImageIndex}】张图片错误!"); 
-                err = true;
+                ShowStatus($"下载微博【{arcId}】第【{readImageIndex}】张图片错误!");
+                errType = 1;
                 return false;
             }
             if (!CheckImageSize(runningConfig, image, arcId, readImageIndex)) return false;
@@ -1049,7 +1062,7 @@ namespace SpiderTracker.Imp
                         thumbImg.Dispose();
 
                         ShowStatus($"创建微博【{arcId}】第【{readImageIndex}】张图片错误!!!!!!");
-                        err = true;
+                        errType = 2;
                         return false;
                     }
                 }
@@ -1057,10 +1070,10 @@ namespace SpiderTracker.Imp
             }
             catch(Exception ex)
             {
+                errType = 3;
                 if (File.Exists(imgPath)) File.Delete(imgPath);
                 if (File.Exists(imgPath)) File.Delete(thumbPath);
-                ShowStatus($"下载微博【{arcId}】第【{readImageIndex}】张图片错误!!!!!!");
-                err = true;
+                ShowStatus($"保存微博【{arcId}】第【{readImageIndex}】张图片错误!(未知错误)");
                 return false;
             }
             finally
