@@ -814,9 +814,13 @@ namespace SpiderTracker
             }
             if (!SinaSpiderService.IsSpiderStarted)
             {
-                this.RunningConfig.Category = RunningConfig.Category;
-                this.RunningConfig.GatherType = GatherTypeEnum.GahterStatus;
-                SinaSpiderService.StartSpider(this.RunningConfig, null, statusIds);
+                var tempConfig = this.RunningConfig.Clone();
+                var option = new MWeiboSpiderStartOption()
+                {
+                    GatherType = GatherTypeEnum.GahterStatus,
+                    StatusIds = statusIds.ToArray()
+                };
+                SinaSpiderService.StartSpider(tempConfig, option);
             }
         }
 
@@ -1059,7 +1063,6 @@ namespace SpiderTracker
         {
             if (!SinaSpiderService.IsSpiderStarted)
             {
-                var startUrl = this.txtStartUrl.Text;
                 var users = new List<SinaUser>();
                 foreach (ListViewItem item in this.lstUser.SelectedItems)
                 {
@@ -1069,15 +1072,14 @@ namespace SpiderTracker
                         users.Add(user as SinaUser);
                     }
                 }
-                var statusIds = new List<string>();
-                if(SinaUrlUtil.GetSinaUrlEnum(startUrl) == SinaUrlEnum.StatusUrl)
-                {
-                    statusIds.Add(startUrl);
-
-                    this.RunningConfig.GatherType = GatherTypeEnum.GahterStatus;
-                }
                 var tempConfig = this.RunningConfig.Clone();
-                SinaSpiderService.StartSpider(tempConfig, users, statusIds);
+                var option = new MWeiboSpiderStartOption()
+                {
+                    GatherType = GatherTypeEnum.GatherUser,
+                    SelectUsers = users.ToArray(),
+                    UserId = this.txtStartUrl.Text
+                };
+                SinaSpiderService.StartSpider(tempConfig, option);
             }
             else
             {

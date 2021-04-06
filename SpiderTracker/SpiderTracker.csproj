@@ -121,6 +121,7 @@
     <Compile Include="Imp\MWeiboJson\MWeiboStatusMedia.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboUserData.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboUserResult.cs" />
+    <Compile Include="Imp\MWeiboSpiderStartOption.cs" />
     <Compile Include="Imp\Util\HttpUtil.cs" />
     <Compile Include="Imp\ISpiderService.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboStatusListCard.cs" />

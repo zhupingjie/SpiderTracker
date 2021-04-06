@@ -11,7 +11,7 @@ namespace SpiderTracker.Imp
     {
         bool IsSpiderStarted { get; set; }
 
-        void StartSpider(SpiderRunningConfig runninConfig, IList<SinaUser> users, IList<string> statusIds);
+        void StartSpider(SpiderRunningConfig runninConfig, MWeiboSpiderStartOption option);
 
         void StopSpider();
     }

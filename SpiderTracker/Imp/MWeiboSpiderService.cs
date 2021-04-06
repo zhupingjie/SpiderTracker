@@ -41,15 +41,23 @@ namespace SpiderTracker.Imp
 
         public event SpiderStartedEventHander OnSpiderStarted;
 
-        public void SpiderStarted(IList<SinaUser> users)
+        public void SpiderStarted()
         {
             IsSpiderStarted = true;
             StopSpiderWork = false;
 
-            var readUsers = new List<SinaUser>();
-            if(users != null && users.Count> 0)
+            if (OnSpiderStarted != null)
             {
-                foreach(var user in users)
+                OnSpiderStarted?.Invoke(RunningConfig);
+            }
+        }
+
+        void MakeGatherUsers(IList<SinaUser> users, string startUser)
+        {
+            var readUsers = new List<SinaUser>();
+            if (users != null && users.Count > 0)
+            {
+                foreach (var user in users)
                 {
                     RunningConfig.AddUser(user);
                 }
@@ -66,7 +74,7 @@ namespace SpiderTracker.Imp
                     RunningConfig.AddUser(user);
                 }
             }
-            if(RunningConfig.ReadUserOfMyFocus == 1)
+            else if (RunningConfig.ReadUserOfMyFocus == 1)
             {
                 readUsers = Repository.GetFocusUsers(RunningConfig.Category);
                 //if (!string.IsNullOrEmpty(RunningConfig.ReadUserNameLike))
@@ -75,6 +83,23 @@ namespace SpiderTracker.Imp
                 //}
                 foreach (var user in readUsers.OrderByDescending(c => c.focus).ThenByDescending(c => c.lastdate).ToArray())
                 {
+                    RunningConfig.AddUser(user);
+                }
+            }
+            if(RunningConfig.DoUsers.Count == 0)
+            {
+                if (!string.IsNullOrEmpty(startUser) && startUser.Length == 10)
+                {
+                    var user = Repository.GetUser(startUser);
+                    if (user == null)
+                    {
+                        user = new SinaUser()
+                        {
+                            uid = startUser,
+                            category = RunningConfig.Category
+                        };
+                        Repository.CreateSinaUser(user);
+                    }
                     RunningConfig.AddUser(user);
                 }
             }
@@ -89,10 +114,6 @@ namespace SpiderTracker.Imp
                 {
                     RunningConfig.AddUser(user);
                 }
-            }
-            if (OnSpiderStarted != null)
-            {
-                OnSpiderStarted?.Invoke(RunningConfig);
             }
         }
 
@@ -237,7 +258,7 @@ namespace SpiderTracker.Imp
 
         #region 开始&结束&追加&取消采集
 
-        public void StartSpider(SpiderRunningConfig runningConfig, IList<SinaUser> users, IList<string> statusIds)
+        public void StartSpider(SpiderRunningConfig runningConfig, MWeiboSpiderStartOption option)
         {
             this.CancelUsers.Clear();
             this.RunningConfig = runningConfig;
@@ -251,16 +272,27 @@ namespace SpiderTracker.Imp
 
             Task.Factory.StartNew(() =>
             {
-                SpiderStarted(users);
+                SpiderStarted();
 
-                if(RunningConfig.GatherType == GatherTypeEnum.GahterStatus)
+                if (option.GatherType == GatherTypeEnum.GatherUser)
                 {
-                    StartAutoGatherByStatus(statusIds);
+                    MakeGatherUsers(option.SelectUsers, option.UserId);
+
+                    StartAutoGatherByUser();
+                }
+                else if (option.GatherType == GatherTypeEnum.GahterStatus)
+                {
+                    StartAutoGatherByStatus(option.StatusIds);
+                }
+                else if (option.GatherType == GatherTypeEnum.GatherTopic)
+                {
+                    StartAutoGatherByTopic(option.Topic);
                 }
                 else
                 {
-                    StartAutoGatherByUser();
+                    StartAutoGatherBySuper(option.ContainserId);
                 }
+
                 SpiderComplete();
 
                 if (RunningConfig.GatherCompleteShutdown > 0 && !StopSpiderWork)
@@ -388,6 +420,41 @@ namespace SpiderTracker.Imp
             }
         }
 
+        void StartAutoGatherByTopic(string topic)
+        {
+            ShowStatus($"准备读取话题的微博数据...");
+
+            var threads = new List<Task>();
+            var task = Task.Factory.StartNew(() =>
+            {
+                ShowStatus($"准备读取#{topic}#的微博数据...");
+                int readStatusImageCount = 0;
+                var tempRuningConfig = RunningConfig.Clone();
+                tempRuningConfig.StartUrl = SinaUrlUtil.GetSinaUserTopicUrl(topic);
+                readStatusImageCount += GatherSinaStatusByTopicUrl(tempRuningConfig);
+                ShowStatus($"采集完成,共采集资源【{readStatusImageCount}】.");
+            });
+            threads.Add(task);
+            Task.WaitAll(threads.ToArray());
+        }
+
+        void StartAutoGatherBySuper(string containerid)
+        {
+            ShowStatus($"准备读取话题的微博数据...");
+
+            var threads = new List<Task>();
+            var task = Task.Factory.StartNew(() =>
+            {
+                ShowStatus($"准备读取#{containerid}#的微博数据...");
+                int readStatusImageCount = 0;
+                var tempRuningConfig = RunningConfig.Clone();
+                tempRuningConfig.StartUrl = SinaUrlUtil.GetSinaUserSuperUrl(containerid);
+                readStatusImageCount += GatherSinaStatusBySuperUrl(tempRuningConfig);
+                ShowStatus($"采集完成,共采集资源【{readStatusImageCount}】.");
+            });
+            threads.Add(task);
+            Task.WaitAll(threads.ToArray());
+        }
         #endregion
 
         #region 采集并解析微博
@@ -931,6 +998,69 @@ namespace SpiderTracker.Imp
                     return haveReadVedioCount;
                 }
             }
+        }
+
+        /// <summary>
+        /// 采集微博详细数据（通过URL）
+        /// </summary>
+        /// <param name="runningConfig"></param>
+        int GatherSinaStatusByTopicUrl(SpiderRunningConfig runningConfig)
+        {
+            bool ignoreSourceReaded = false;
+            var html = HttpUtil.GetHttpRequestHtmlResult(runningConfig.StartUrl, runningConfig);
+            if (html == null)
+            {
+                ShowStatus($"获取用户微博列表错误!!!!!!");
+                return 0;
+            }
+            var result = GetWeiboStatusResult(html);
+            if (result == null || result.status == null)
+            {
+                ShowStatus($"解析用户微博列表错误!!!!!!");
+                return 0;
+            }
+            var user = result.status.user;
+            if (user == null)
+            {
+                ShowStatus($"微博数据已删除.");
+                return 0;
+            }
+            if (Repository.CheckUserIgnore(user.id))
+            {
+                ShowStatus($"用户【{user.id}】已忽略采集.");
+                return 0;
+            }
+            return GatherSinaStatusByStatusOrRetweeted(runningConfig, result.status, result.status.user, out ignoreSourceReaded);
+        }
+
+
+        int GatherSinaStatusBySuperUrl(SpiderRunningConfig runningConfig)
+        {
+            bool ignoreSourceReaded = false;
+            var html = HttpUtil.GetHttpRequestHtmlResult(runningConfig.StartUrl, runningConfig);
+            if (html == null)
+            {
+                ShowStatus($"获取用户微博列表错误!!!!!!");
+                return 0;
+            }
+            var result = GetWeiboStatusResult(html);
+            if (result == null || result.status == null)
+            {
+                ShowStatus($"解析用户微博列表错误!!!!!!");
+                return 0;
+            }
+            var user = result.status.user;
+            if (user == null)
+            {
+                ShowStatus($"微博数据已删除.");
+                return 0;
+            }
+            if (Repository.CheckUserIgnore(user.id))
+            {
+                ShowStatus($"用户【{user.id}】已忽略采集.");
+                return 0;
+            }
+            return GatherSinaStatusByStatusOrRetweeted(runningConfig, result.status, result.status.user, out ignoreSourceReaded);
         }
 
         List<SinaUser> GatherHeFocusUsers(SpiderRunningConfig runningConfig)
