@@ -56,6 +56,7 @@
             this.columnReadPage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLove = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLastPage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel24 = new System.Windows.Forms.Panel();
             this.panel25 = new System.Windows.Forms.Panel();
             this.cbxUserSortAsc = new System.Windows.Forms.ComboBox();
@@ -136,15 +137,14 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.tbpReview = new System.Windows.Forms.TabPage();
-            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.tbpVideo = new System.Windows.Forms.TabPage();
-            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.panel23 = new System.Windows.Forms.Panel();
             this.btnCancelUser = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.columnTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
+            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -198,9 +198,9 @@
             this.txtStartUrl.ForeColor = System.Drawing.Color.Blue;
             this.txtStartUrl.Location = new System.Drawing.Point(0, 0);
             this.txtStartUrl.Name = "txtStartUrl";
-            this.txtStartUrl.Size = new System.Drawing.Size(912, 41);
+            this.txtStartUrl.Size = new System.Drawing.Size(930, 41);
             this.txtStartUrl.TabIndex = 2;
-            this.txtStartUrl.Text = "https://m.weibo.cn/u/1738733270";
+            this.txtStartUrl.Text = "1738733270";
             this.txtStartUrl.TextChanged += new System.EventHandler(this.txtStartUrl_TextChanged);
             // 
             // panel4
@@ -208,9 +208,9 @@
             this.panel4.Controls.Add(this.cbxCategory);
             this.panel4.Controls.Add(this.cbxSite);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(912, 0);
+            this.panel4.Location = new System.Drawing.Point(930, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(246, 41);
+            this.panel4.Size = new System.Drawing.Size(228, 41);
             this.panel4.TabIndex = 4;
             // 
             // cbxCategory
@@ -223,9 +223,9 @@
             this.cbxCategory.ItemHeight = 31;
             this.cbxCategory.Items.AddRange(new object[] {
             ""});
-            this.cbxCategory.Location = new System.Drawing.Point(0, 0);
+            this.cbxCategory.Location = new System.Drawing.Point(97, 0);
             this.cbxCategory.Name = "cbxCategory";
-            this.cbxCategory.Size = new System.Drawing.Size(125, 39);
+            this.cbxCategory.Size = new System.Drawing.Size(131, 39);
             this.cbxCategory.TabIndex = 3;
             this.cbxCategory.Text = "cosplay";
             this.cbxCategory.Leave += new System.EventHandler(this.cbxName_Leave);
@@ -233,19 +233,21 @@
             // cbxSite
             // 
             this.cbxSite.BackColor = System.Drawing.SystemColors.Control;
-            this.cbxSite.Dock = System.Windows.Forms.DockStyle.Right;
+            this.cbxSite.Dock = System.Windows.Forms.DockStyle.Left;
             this.cbxSite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbxSite.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cbxSite.FormattingEnabled = true;
             this.cbxSite.ItemHeight = 31;
             this.cbxSite.Items.AddRange(new object[] {
-            "home",
-            "comp"});
-            this.cbxSite.Location = new System.Drawing.Point(125, 0);
+            "user",
+            "status",
+            "topic",
+            "super"});
+            this.cbxSite.Location = new System.Drawing.Point(0, 0);
             this.cbxSite.Name = "cbxSite";
-            this.cbxSite.Size = new System.Drawing.Size(121, 39);
+            this.cbxSite.Size = new System.Drawing.Size(97, 39);
             this.cbxSite.TabIndex = 4;
-            this.cbxSite.Text = "home";
+            this.cbxSite.Text = "user";
             this.cbxSite.Leave += new System.EventHandler(this.cbxSite_Leave);
             // 
             // btnSearch
@@ -392,6 +394,11 @@
             // 
             this.columnLastPage.Text = "末页";
             this.columnLastPage.Width = 50;
+            // 
+            // columnTime
+            // 
+            this.columnTime.Text = "TIME";
+            this.columnTime.Width = 130;
             // 
             // panel24
             // 
@@ -1373,16 +1380,6 @@
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
             // 
-            // imagePreviewUC1
-            // 
-            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
-            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
-            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(564, 531);
-            this.imagePreviewUC1.TabIndex = 0;
-            // 
             // tbpVideo
             // 
             this.tbpVideo.Controls.Add(this.vedioPlayerUC1);
@@ -1392,15 +1389,6 @@
             this.tbpVideo.TabIndex = 2;
             this.tbpVideo.Text = "视频预览";
             this.tbpVideo.UseVisualStyleBackColor = true;
-            // 
-            // vedioPlayerUC1
-            // 
-            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 26612403, 3, 26612403);
-            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
-            this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
-            this.vedioPlayerUC1.TabIndex = 0;
             // 
             // label10
             // 
@@ -1453,10 +1441,24 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
-            // columnTime
+            // imagePreviewUC1
             // 
-            this.columnTime.Text = "TIME";
-            this.columnTime.Width = 130;
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(564, 531);
+            this.imagePreviewUC1.TabIndex = 0;
+            // 
+            // vedioPlayerUC1
+            // 
+            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 431743095, 3, 431743095);
+            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
+            this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
+            this.vedioPlayerUC1.TabIndex = 0;
             // 
             // SpiderTrackerForm
             // 

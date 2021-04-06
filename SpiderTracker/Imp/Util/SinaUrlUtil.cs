@@ -22,6 +22,18 @@ namespace SpiderTracker.Imp
         {
             return $"{SinaUrlUtil.GetSinaHost()}/status/{status}";
         }
+
+        public static string GetSinaUserTopicUrl(string topic)
+        {
+            return $"{SinaUrlUtil.GetSinaHost()}/api/container/getIndex?containerid=231522type=61&t=10&q=#{topic}#";
+        }
+
+        public static string GetSinaUserSuperUrl(string containerid)
+        {
+            return $"{SinaUrlUtil.GetSinaHost()}/api/container/getIndex?containerid={containerid}";
+        }
+
+
         public static string GetSinaUserFollowerUrl(string uid)
         {
             return $"{SinaUrlUtil.GetSinaHost()}/p/index?containerid=231051_-_followers_-_{uid}_-_1042015%253AtagCategory_039&luicode=10000011&lfid=107603{uid}";

@@ -599,6 +599,12 @@ namespace SpiderTracker
         #endregion
 
         #region 用户列表及用户微博事件
+
+        private void cbxGatherType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+               
+        }
+
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             this.RunningConfig = GetSpiderRunningConfig();

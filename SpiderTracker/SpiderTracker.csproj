@@ -108,6 +108,7 @@
     <Compile Include="Imp\Model\SinaSource.cs" />
     <Compile Include="Imp\Model\SinaRepository.cs" />
     <Compile Include="Imp\Model\SinaStatus.cs" />
+    <Compile Include="Imp\Model\SinaTopic.cs" />
     <Compile Include="Imp\Model\SinaUser.cs" />
     <Compile Include="Imp\Model\SQLiteDBHelper.cs" />
     <Compile Include="Imp\Model\SQLiteColumn.cs" />
