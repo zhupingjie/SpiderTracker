@@ -450,7 +450,7 @@ namespace SpiderTracker.Imp
 
                 if (emptyPageCount > 3)
                 {
-                    if (runningConfig.ReadPageCount == 0 && runningConfig.IgnoreDownloadSource == 0)
+                    if (runningConfig.ReadPageCount == 0)
                     {
                         Repository.UpdateUserLastpage(userId);
                     }
