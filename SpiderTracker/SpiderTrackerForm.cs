@@ -423,6 +423,7 @@ namespace SpiderTracker
                     subItem.SubItems.Add($"{item.readpage}");
                     subItem.SubItems.Add($"{(item.focus > 0 ? "◉" : "")}");
                     subItem.SubItems.Add($"{(item.lastpage > 0 ? "✔" : "")}");
+                    subItem.SubItems.Add($"{(item.lastdate.ToString("yyyy/MM/dd HH:mm"))}");
                     subItem.Tag = item;
                     this.lstUser.Items.Add(subItem);
                 }
@@ -472,6 +473,12 @@ namespace SpiderTracker
                     else
                         status = status.OrderBy(c => c.qty).ToArray();
                     break;
+                case "采集":
+                    if (this.cbxStatusSortAsc.Text == "降序")
+                        status = status.OrderByDescending(c => c.gets).ToArray();
+                    else
+                        status = status.OrderBy(c => c.gets).ToArray();
+                    break;
                 case "存档":
                     if (this.cbxStatusSortAsc.Text == "降序")
                         status = status.OrderByDescending(c => c.archive).ToArray();
@@ -500,7 +507,7 @@ namespace SpiderTracker
             else 
                 return status.Skip((pageIndex - 1) * pageCount).Take(pageCount).ToArray();
         }
-        void LoadCacheUserStatusList(SinaUser user)
+        void LoadCacheUserStatusList(SinaUser user, bool reload)
         {
             var keyword = this.txtStatusFilter.Text.Trim();
             var sinaStatus = SinaSpiderService.Repository.GetUserStatuseByIds(user.uid, keyword);
@@ -511,27 +518,42 @@ namespace SpiderTracker
 
                 var showStatus = GetShowStatus(sinaStatus);
 
+                var imageFiles = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid);
+                var videoFiles = PathUtil.GetStoreUserVideoFiles(RunningConfig.Category, user.uid);
+
                 this.lstArc.BeginUpdate();
-                this.lstArc.Items.Clear();
+                if(reload) this.lstArc.Items.Clear();
                 var localImg = 0;
                 foreach (var item in showStatus)
                 {
+                    if (this.lstArc.Items.Count > 0 && !reload)
+                    {
+                        var listItem = this.lstArc.FindItemWithText(item.bid);
+                        if (listItem != null) continue;
+                    }
+
                     var subItem = new ListViewItem();
                     subItem.Tag = item;
                     subItem.Text = $"{item.bid}";
-                    subItem.SubItems.Add($"{item.qty}");
                     var local = "";
                     if (item.mtype == 0)
                     {
-                        var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, item.bid);
+                        subItem.SubItems.Add($"{item.qty}");
+                        subItem.SubItems.Add($"{item.gets}");
+                        //var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, item.bid);
+                        var files = imageFiles.Where(c => c.Contains($"{item.bid}")).ToArray();
                         local = $"{files.Length}";
                         localImg += files.Length;
                     }
                     else if (item.mtype == 1)
                     {
+                        subItem.SubItems.Add($"{item.qty}✦");
+                        subItem.SubItems.Add($"{item.gets}");
                         //local = PathUtil.GetStoreUserVideoCount(RunningConfig.Category, user.uid, item.bid);
                         //localImg += 1;
-                        local = "◉";
+                        var files = videoFiles.Where(c => c.Contains($"{item.bid}")).ToArray();
+                        local = $"{files.Length}";
+                        localImg += files.Length;
                     }
                     subItem.SubItems.Add($"{local}");
                     subItem.SubItems.Add($"{item.archive}");
@@ -540,11 +562,12 @@ namespace SpiderTracker
                     this.lstArc.Items.Add(subItem);
                 }
                 this.lstArc.EndUpdate();
+
                 this.lblStatusCount.Text = $"{sinaStatus.Count}";
                 this.lblLocalImgCount.Text = $"{localImg}";
                 this.lblArchiveCount.Text = $"{sinaStatus.Sum(c => c.archive)}";
                 this.lblStatusImageCount.Text = $"{sinaStatus.Sum(c => c.qty)}";
-                this.lblGetImgCount.Text = $"{sinaStatus.Sum(c => c.getqty)}";
+                this.lblGetImgCount.Text = $"{sinaStatus.Sum(c => c.gets)}";
 
                 this.LoadStatusPageIndex(sinaStatus.Count);
 
@@ -662,7 +685,7 @@ namespace SpiderTracker
 
             Task.Factory.StartNew(() =>
             {
-                LoadCacheUserStatusList(user);
+                LoadCacheUserStatusList(user, true);
             });
         }
 
@@ -825,7 +848,7 @@ namespace SpiderTracker
                     var listItem = this.lstArc.FindItemWithText(item.bid);
                     if (listItem != null)
                     {
-                        listItem.SubItems[3].Text = $"{item.qty}";
+                        listItem.SubItems[4].Text = $"{item.qty}";
                     }
                     var archiveQty = 0;
                     int.TryParse(this.lblArchiveCount.Text, out archiveQty);
@@ -917,7 +940,7 @@ namespace SpiderTracker
             {
                 Task.Factory.StartNew(() =>
                 {
-                    LoadCacheUserStatusList(user);
+                    LoadCacheUserStatusList(user, false);
                 });
             }
         }
@@ -929,7 +952,7 @@ namespace SpiderTracker
             {
                 Task.Factory.StartNew(() =>
                 {
-                    LoadCacheUserStatusList(user);
+                    LoadCacheUserStatusList(user, true);
                 });
             }
         }
@@ -941,7 +964,7 @@ namespace SpiderTracker
             {
                 Task.Factory.StartNew(() =>
                 {
-                    LoadCacheUserStatusList(user);
+                    LoadCacheUserStatusList(user, true);
                 });
             }
         }
@@ -953,7 +976,7 @@ namespace SpiderTracker
             {
                 Task.Factory.StartNew(() =>
                 {
-                    LoadCacheUserStatusList(user);
+                    LoadCacheUserStatusList(user, true);
                 });
             }
         }
@@ -965,7 +988,7 @@ namespace SpiderTracker
             {
                 Task.Factory.StartNew(() =>
                 {
-                    LoadCacheUserStatusList(user);
+                    LoadCacheUserStatusList(user, true);
                 });
             }
         }
@@ -979,7 +1002,7 @@ namespace SpiderTracker
             {
                 Task.Factory.StartNew(() =>
                 {
-                    LoadCacheUserStatusList(user);
+                    LoadCacheUserStatusList(user, true);
                 });
             }
         }

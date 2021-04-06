@@ -82,7 +82,7 @@ namespace SpiderTracker.Imp
             columns.Add(new SQLiteColumn("retbid", "nvarchar", 16));
             columns.Add(new SQLiteColumn("text", "nvarchar", 4000));
             columns.Add(new SQLiteColumn("qty", "int"));
-            columns.Add(new SQLiteColumn("getqty", "int"));
+            columns.Add(new SQLiteColumn("gets", "int"));
             columns.Add(new SQLiteColumn("focus", "int"));
             columns.Add(new SQLiteColumn("ignore", "int"));
             columns.Add(new SQLiteColumn("archive", "int"));

@@ -34,7 +34,7 @@ namespace SpiderTracker.Imp.Model
         public string retuid { get; set; }
         public string retbid { get; set; }
         public int qty { get; set; }
-        public int getqty { get; set; }
+        public int gets { get; set; }
         public int ignore { get; set; }
         public int archive { get; set; }
         public string site { get; set; }

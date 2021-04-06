@@ -38,14 +38,6 @@ namespace SpiderTracker.Imp
             path = Path.Combine(path, user);
             return path;
         }
-        public static string[] GetStoreUserVideoFiles(string name, string uid)
-        {
-            if (string.IsNullOrEmpty(name)) return new string[] { };
-            var path = GetStoreUserPath(name, uid);
-            path = Path.Combine(path, "video");
-            if (!Directory.Exists(path)) return new string[] { };
-            return Directory.GetFiles(path).ToArray();
-        }
 
         public static string GetStoreUserVideoFile(string name, string user, string bid)
         {
@@ -54,6 +46,26 @@ namespace SpiderTracker.Imp
             PathUtil.CheckCreateDirectory(path);
             return Path.Combine(path, $"{bid}.mp4");
         }
+
+        public static string[] GetStoreUserVideoFiles(string name, string uid)
+        {
+            if (string.IsNullOrEmpty(name)) return new string[] { };
+            var path = GetStoreUserPath(name, uid);
+            path = Path.Combine(path, "video");
+            if (!Directory.Exists(path)) return new string[] { };
+            return Directory.GetFiles(path, "*.mp4").ToArray();
+        }
+
+        public static string[] GetStoreUserThumbnailImageFiles(string name, string uid)
+        {
+            if (string.IsNullOrEmpty(name)) return new string[] { };
+            var path = GetStoreUserPath(name, uid);
+            if (!Directory.Exists(path)) return new string[] { };
+            path = Path.Combine(path, "thumb");
+            if (!Directory.Exists(path)) return new string[] { };
+            return Directory.GetFiles(path, "*.jpg").ToArray();
+        }
+
         public static string[] GetStoreUserThumbnailImageFiles(string name, string uid, string bid)
         {
             if (string.IsNullOrEmpty(name)) return new string[] { };
@@ -103,6 +115,7 @@ namespace SpiderTracker.Imp
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(user) || string.IsNullOrEmpty(status)) return 0;
             string path = PathUtil.GetStoreUserPath(name, user);
+            path = Path.Combine(path, "thumb");
             if (!Directory.Exists(path)) return 0;
             return Directory.GetFiles(path, $"{status}_*").Where(c => c.EndsWith("jpg")).Count();
         }

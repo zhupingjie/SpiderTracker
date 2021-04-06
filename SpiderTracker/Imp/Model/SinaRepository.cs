@@ -238,9 +238,17 @@ namespace SpiderTracker.Imp.Model
             {
                 CreateSinaStatus(sinaStatus);
             }
+            else
+            {
+                sinaStatus.retweeted = 1;
+                sinaStatus.retuid = retweet.user != null ? retweet.user.id : "Unauthorization";
+                sinaStatus.retbid = retweet.bid;
+                extSinaStatus.createtime = ObjectUtil.GetCreateTime(status.created_at);
+                UpdateSinaStatus(extSinaStatus, new string[] { "retweeted", "retuid", "retbid", "createtime" });
+            }
         }
 
-        public void StoreSinaStatus(SpiderRunningConfig runningConfig, MWeiboUser user, MWeiboStatus status, int mtype, int readSourceCount, int readStatusImageCount, bool ignore)
+        public void StoreSinaStatus(SpiderRunningConfig runningConfig, MWeiboUser user, MWeiboStatus status, int mtype, int readSourceCount, int getSourceCount, bool ignore)
         {
             var sinaStatus = new SinaStatus();
             sinaStatus.uid = user.id;
@@ -250,7 +258,7 @@ namespace SpiderTracker.Imp.Model
             sinaStatus.text = status.status_title;
             sinaStatus.url = SinaUrlUtil.GetSinaUserStatusUrl(status.bid);
             sinaStatus.qty = readSourceCount;
-            sinaStatus.getqty = readStatusImageCount;
+            sinaStatus.gets = getSourceCount;
             sinaStatus.site = runningConfig.Site;
             sinaStatus.ignore = ignore ? 1 : 0;
             sinaStatus.createtime = ObjectUtil.GetCreateTime(status.created_at);
@@ -261,9 +269,9 @@ namespace SpiderTracker.Imp.Model
             }
             else
             {
+                if (runningConfig.IgnoreDownloadSource == 0) extSinaStatus.gets = getSourceCount;
                 extSinaStatus.ignore = ignore ? 1 : 0;
                 extSinaStatus.qty = readSourceCount;
-                extSinaStatus.getqty = readStatusImageCount;
                 extSinaStatus.site = runningConfig.Site;
                 extSinaStatus.createtime = ObjectUtil.GetCreateTime(status.created_at);
                 UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "qty", "getqty", "site", "createtime" });

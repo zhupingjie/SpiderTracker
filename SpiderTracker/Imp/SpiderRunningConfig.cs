@@ -64,6 +64,10 @@ namespace SpiderTracker.Imp
 
         public ConcurrentDictionary<int, ThreadState> DoTasks { get; set; } = new ConcurrentDictionary<int, ThreadState>();
 
+        public string[] ExistsImageLocalFiles { get; set; } = new string[] { };
+
+        public string[] ExistsVideoLocalFiles { get; set; } = new string[] { };
+
         /// <summary>
         /// 微博路径集合
         /// </summary>

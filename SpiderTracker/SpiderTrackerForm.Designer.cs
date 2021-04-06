@@ -67,6 +67,7 @@
             this.lstArc = new System.Windows.Forms.ListView();
             this.colBid = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colQty = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colGets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colLoc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colMrk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -143,6 +144,7 @@
             this.panel23 = new System.Windows.Forms.Panel();
             this.btnCancelUser = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.columnTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -313,7 +315,8 @@
             this.columnFollow,
             this.columnReadPage,
             this.columnLove,
-            this.columnLastPage});
+            this.columnLastPage,
+            this.columnTime});
             this.lstUser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstUser.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lstUser.FullRowSelect = true;
@@ -531,6 +534,7 @@
             this.lstArc.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colBid,
             this.colQty,
+            this.colGets,
             this.colLoc,
             this.colMrk,
             this.colTime,
@@ -560,6 +564,11 @@
             // 
             this.colQty.Text = "QTY";
             this.colQty.Width = 40;
+            // 
+            // colGets
+            // 
+            this.colGets.Text = "GET";
+            this.colGets.Width = 40;
             // 
             // colLoc
             // 
@@ -648,6 +657,7 @@
             this.cbxStatusSort.Items.AddRange(new object[] {
             "更新",
             "数量",
+            "采集",
             "存档",
             "日期",
             "场所"});
@@ -1387,7 +1397,7 @@
             // 
             this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 18785226, 3, 18785226);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 26612403, 3, 26612403);
             this.vedioPlayerUC1.Name = "vedioPlayerUC1";
             this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
             this.vedioPlayerUC1.TabIndex = 0;
@@ -1442,6 +1452,11 @@
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
+            // 
+            // columnTime
+            // 
+            this.columnTime.Text = "TIME";
+            this.columnTime.Width = 130;
             // 
             // SpiderTrackerForm
             // 
@@ -1619,6 +1634,8 @@
         private System.Windows.Forms.ComboBox cbxStatusSortIndex;
         private System.Windows.Forms.ColumnHeader columnReadPage;
         private System.Windows.Forms.ColumnHeader colTime;
+        private System.Windows.Forms.ColumnHeader colGets;
+        private System.Windows.Forms.ColumnHeader columnTime;
     }
 }
 
