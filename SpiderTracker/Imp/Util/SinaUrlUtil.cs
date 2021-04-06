@@ -28,9 +28,9 @@ namespace SpiderTracker.Imp
             return $"{SinaUrlUtil.GetSinaHost()}/api/container/getIndex?containerid=231522type=61&t=10&q=#{topic}#";
         }
 
-        public static string GetSinaUserSuperUrl(string containerid)
+        public static string GetSinaUserSuperUrl(string containerid, int page = 0)
         {
-            return $"{SinaUrlUtil.GetSinaHost()}/api/container/getIndex?containerid={containerid}";
+            return $"{SinaUrlUtil.GetSinaHost()}/api/container/getIndex?containerid={containerid}&page={page}";
         }
 
 

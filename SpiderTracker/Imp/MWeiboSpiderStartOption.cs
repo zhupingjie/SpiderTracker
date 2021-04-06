@@ -9,16 +9,31 @@ namespace SpiderTracker.Imp
 {
     public class MWeiboSpiderStartOption
     {
-        public GatherTypeEnum GatherType { get; set; }
+        public string GatherName { get; set; }
+        public GatherTypeEnum GatherType
+        {
+            get
+            {
+                switch (GatherName)
+                {
+                    case "user":
+                        return GatherTypeEnum.GatherUser;
+                    case "status":
+                        return GatherTypeEnum.GahterStatus;
+                    case "topic":
+                        return GatherTypeEnum.GatherTopic;
+                    case "super":
+                        return GatherTypeEnum.GatherSuper;
+                    default:
+                        return GatherTypeEnum.GatherUser;
+                }
+            }
+        }
 
         public SinaUser[] SelectUsers { get; set; }
 
         public string[] StatusIds { get; set; }
 
-        public string StatusId { get; set; }
-
-        public string UserId { get; set; }
-        public string Topic { get; set; }
-        public string ContainserId { get; set; }
+        public string StartUrl { get; set; }
     }
 }

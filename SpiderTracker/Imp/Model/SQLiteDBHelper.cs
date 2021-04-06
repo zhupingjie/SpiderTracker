@@ -103,6 +103,18 @@ namespace SpiderTracker.Imp
             columns.Add(new SQLiteColumn("downdate", "datetime"));
             columns.Add(new SQLiteColumn("lastdate", "datetime"));
             CreateTable("sina_source", columns.ToArray());
+
+            columns = new List<SQLiteColumn>();
+            columns.Add(new SQLiteColumn("category", "nvarchar", 50));
+            columns.Add(new SQLiteColumn("type", "int", 16));
+            columns.Add(new SQLiteColumn("containerid", "nvarchar", 250));
+            columns.Add(new SQLiteColumn("name", "nvarchar", 250));
+            columns.Add(new SQLiteColumn("profile", "nvarchar", 250));
+            columns.Add(new SQLiteColumn("desc", "nvarchar", 2000));
+            columns.Add(new SQLiteColumn("readpage", "int"));
+            columns.Add(new SQLiteColumn("lastpage", "int"));
+            columns.Add(new SQLiteColumn("lastdate", "datetime"));
+            CreateTable("sina_topic", columns.ToArray());
         }
 
         void CreateDB(string dbName)

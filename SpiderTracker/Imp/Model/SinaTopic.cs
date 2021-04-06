@@ -12,12 +12,14 @@ namespace SpiderTracker.Imp.Model
         {
             this.lastdate = DateTime.Now;
         }
-        public bool super { get; set; }
+        public int type { get; set; }
         public string category { get; set; }
         public string containerid { get; set; }
         public string name { get; set; }
         public string profile { get; set; }
         public string desc { get; set; }
+        public int readpage { get; set; }
+        public int lastpage { get; set; }
 
     }
 }

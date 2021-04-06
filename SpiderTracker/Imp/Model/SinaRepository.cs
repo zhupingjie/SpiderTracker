@@ -27,6 +27,15 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.CreateEntity(user, "sina_user");
         }
 
+        public bool CreateSinaSuper(SinaTopic super)
+        {
+            return DBHelper.CreateEntity(super, "sina_topic");
+        }
+        public bool UpdateSinaSuper(SinaTopic super, string[] columns)
+        {
+            return DBHelper.UpdateEntity(super, "sina_topic", "containerid", super.containerid, columns);
+        }
+
         public bool DeleteSinaUser(SinaUser user)
         {
             return DBHelper.DeleteEntity("sina_user", "uid", user.uid);
@@ -94,6 +103,14 @@ namespace SpiderTracker.Imp.Model
         public SinaUser GetUser(string uid)
         {
             return DBHelper.GetEntity<SinaUser>("sina_user", $"`uid`='{uid}'");
+        }
+        public SinaTopic GetSinaTopic(string containerid)
+        {
+            return DBHelper.GetEntity<SinaTopic>("sina_topic", $"`containerid`='{containerid}' and `type`=0");
+        }
+        public SinaTopic GetSinaSuper(string containerid)
+        {
+            return DBHelper.GetEntity<SinaTopic>("sina_topic", $"`containerid`='{containerid}' and `type`=1");
         }
 
         public string[] GetGroupNames()

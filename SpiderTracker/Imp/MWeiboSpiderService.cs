@@ -276,7 +276,7 @@ namespace SpiderTracker.Imp
 
                 if (option.GatherType == GatherTypeEnum.GatherUser)
                 {
-                    MakeGatherUsers(option.SelectUsers, option.UserId);
+                    MakeGatherUsers(option.SelectUsers, option.StartUrl);
 
                     StartAutoGatherByUser();
                 }
@@ -286,11 +286,11 @@ namespace SpiderTracker.Imp
                 }
                 else if (option.GatherType == GatherTypeEnum.GatherTopic)
                 {
-                    StartAutoGatherByTopic(option.Topic);
+                    StartAutoGatherByTopic(option.StartUrl);
                 }
                 else
                 {
-                    StartAutoGatherBySuper(option.ContainserId);
+                    StartAutoGatherBySuper(option.StartUrl);
                 }
 
                 SpiderComplete();
@@ -440,7 +440,7 @@ namespace SpiderTracker.Imp
 
         void StartAutoGatherBySuper(string containerid)
         {
-            ShowStatus($"准备读取话题的微博数据...");
+            ShowStatus($"准备读取超话的微博数据...");
 
             var threads = new List<Task>();
             var task = Task.Factory.StartNew(() =>
@@ -448,7 +448,7 @@ namespace SpiderTracker.Imp
                 ShowStatus($"准备读取#{containerid}#的微博数据...");
                 int readStatusImageCount = 0;
                 var tempRuningConfig = RunningConfig.Clone();
-                tempRuningConfig.StartUrl = SinaUrlUtil.GetSinaUserSuperUrl(containerid);
+                tempRuningConfig.StartUrl = SinaUrlUtil.GetSinaUserSuperUrl(containerid, 0);
                 readStatusImageCount += GatherSinaStatusBySuperUrl(tempRuningConfig);
                 ShowStatus($"采集完成,共采集资源【{readStatusImageCount}】.");
             });
@@ -1004,37 +1004,211 @@ namespace SpiderTracker.Imp
         /// 采集微博详细数据（通过URL）
         /// </summary>
         /// <param name="runningConfig"></param>
-        int GatherSinaStatusByTopicUrl(SpiderRunningConfig runningConfig)
+        int GatherSinaStatusBySuperUrl(SpiderRunningConfig runningConfig)
         {
-            bool ignoreSourceReaded = false;
-            var html = HttpUtil.GetHttpRequestHtmlResult(runningConfig.StartUrl, runningConfig);
-            if (html == null)
+            var sinaTopic = GatherSinaSuperBySuperUrl(runningConfig, runningConfig.StartUrl);
+            if (sinaTopic == null) return 0;
+
+            bool hasReadLastPage = false;
+            int lastReadPageIndex = 0;
+            if (sinaTopic != null)
             {
-                ShowStatus($"获取用户微博列表错误!!!!!!");
-                return 0;
+                if (sinaTopic.lastpage > 0) hasReadLastPage = true;
+                if (sinaTopic.readpage > 0) lastReadPageIndex = sinaTopic.readpage;
             }
-            var result = GetWeiboStatusResult(html);
-            if (result == null || result.status == null)
+
+            int readUserImageCount = 0, readPageIndex = 0, emptyPageCount = 0;
+            int startPageIndex = runningConfig.StartPageIndex;
+            if (runningConfig.GatherContinueLastPage > 0 && lastReadPageIndex > 0) startPageIndex = lastReadPageIndex;
+            int readPageCount = (runningConfig.ReadPageCount == 0 ? int.MaxValue : startPageIndex + runningConfig.ReadPageCount);
+            for (readPageIndex = startPageIndex; readPageIndex < readPageCount; readPageIndex++)
             {
-                ShowStatus($"解析用户微博列表错误!!!!!!");
-                return 0;
+                if (StopSpiderWork)
+                {
+                    ShowStatus($"中止采集超话微博数据...");
+                    break;
+                }
+                bool readPageEmpty = false, stopReadNextPage = false;
+                int readPageImageCount = GatherSinaStatusBySuperPageUrl(runningConfig, sinaTopic, readPageIndex, readPageCount, hasReadLastPage, out readPageEmpty, out stopReadNextPage);
+                readUserImageCount += readPageImageCount;
+
+                //GatherPageComplete(user.id, readPageIndex, readUserImageCount);
+
+                if (stopReadNextPage)
+                {
+                    ShowStatus($"结束采集超话微博数据(下页已采集)...");
+                    break;
+                }
+
+                if (readPageEmpty) emptyPageCount++;
+                else emptyPageCount = 0;
+
+                if (emptyPageCount > 3)
+                {
+                    //if (runningConfig.ReadPageCount == 0)
+                    //{
+                    //    Repository.UpdateUserLastpage(userId);
+                    //}
+                    ShowStatus($"中止采集超话微博数据(连续超过3页无数据)...");
+                    break;
+                }
+
+                if (StopSpiderWork)
+                {
+                    ShowStatus($"中止采集超话微博数据...");
+                    break;
+                }
+                if (readPageIndex + 1 < readPageCount && readPageImageCount > 0)
+                {
+                    //Repository.UpdateSinaUserQty(userId);
+
+                    ShowStatus($"等待【{runningConfig.ReadNextPageWaitSecond}】秒读取超话【{sinaTopic.name}】下一页微博数据...");
+                    Thread.Sleep(runningConfig.ReadNextPageWaitSecond * 1000);
+                }
+                else
+                {
+                    Thread.Sleep(500);
+                }
             }
-            var user = result.status.user;
-            if (user == null)
-            {
-                ShowStatus($"微博数据已删除.");
-                return 0;
-            }
-            if (Repository.CheckUserIgnore(user.id))
-            {
-                ShowStatus($"用户【{user.id}】已忽略采集.");
-                return 0;
-            }
-            return GatherSinaStatusByStatusOrRetweeted(runningConfig, result.status, result.status.user, out ignoreSourceReaded);
+            return readUserImageCount;
         }
 
+        SinaTopic GatherSinaSuperBySuperUrl(SpiderRunningConfig runningConfig, string startUrl)
+        {
+            var html = HttpUtil.GetHttpRequestHtmlResult(startUrl, runningConfig);
+            if (html == null)
+            {
+                ShowStatus($"获取超话基本信息错误!!!!!!");
+                return null;
+            }
+            var result = GetSinaSuperResult(html);
+            if (result == null || result.data == null || result.data.pageInfo == null)
+            {
+                ShowStatus($"解析超话基本信息错误!!!!!!");
+                return null;
+            }
+            var pageInfo = result.data.pageInfo;
+            var sinaTopic = Repository.GetSinaSuper(pageInfo.containerid);
+            if(sinaTopic == null)
+            {
+                sinaTopic = new SinaTopic()
+                {
+                    type = 1,
+                    containerid = pageInfo.containerid,
+                    name = pageInfo.page_type_name,
+                    desc = pageInfo.desc,
+                    category = runningConfig.Category,
+                    profile = pageInfo.page_url,
+                };
+                Repository.CreateSinaSuper(sinaTopic);
+            }
+            else
+            {
+                sinaTopic.name = pageInfo.page_type_name;
+                sinaTopic.desc = pageInfo.desc;
+                Repository.UpdateSinaSuper(sinaTopic, new string[] { "name", "desc" });
+            }
+            return sinaTopic;
+        }
 
-        int GatherSinaStatusBySuperUrl(SpiderRunningConfig runningConfig)
+        int GatherSinaStatusBySuperPageUrl(SpiderRunningConfig runningConfig, SinaTopic sinaTopic, int readPageIndex, int readPageCount, bool hasReadLastPage, out bool readPageEmpty, out bool stopReadNextPage)
+        {
+            readPageEmpty = false;
+            stopReadNextPage = false;
+            runningConfig.CurrentPageIndex = readPageIndex;
+            RefreshConfig(runningConfig);
+
+            ShowStatus($"开始读取超话【{sinaTopic.name}】的第【{readPageIndex}】页微博数据...", true);
+            var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid={sinaTopic.containerid}_-_sort_time&page={readPageIndex}";
+            var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
+            if (html == null)
+            {
+                ShowStatus($"获取超话微博列表错误!!!!!!");
+                return 0;
+            }
+            var result = GetSinaSuperResult(html);
+            if (result == null || result.data == null)
+            {
+                ShowStatus($"解析超话微博列表错误!!!!!!");
+                return 0;
+            }
+            if (result.data.cards.Length == 0)
+            {
+                ShowStatus($"解析超话微博列表为空...");
+                readPageEmpty = true;
+                return 0;
+            }
+            int readPageImageCount = 0;
+            foreach (var card in result.data.cards)
+            {
+                //非微博数据，跳过
+                if (card.card_type != 11) continue;
+                if (card.card_group == null) continue;
+
+                foreach (var cardGroup in card.card_group)
+                {
+                    if (cardGroup.card_type != 9) continue;
+                    if (cardGroup.card_type_name != "微博") continue;
+                    if (cardGroup.mblog == null) continue;
+                    if (cardGroup.mblog.user == null) continue;
+
+                    if (StopSpiderWork)
+                    {
+                        ShowStatus($"中止采集微博数据...");
+                        break;
+                    }
+
+                    var user = cardGroup.mblog.user;
+                    
+                    bool ignoreSourceReaded = false;
+                    var readStatusImageCount = GatherSinaStatusByStatusOrRetweeted(runningConfig, cardGroup.mblog, user, out ignoreSourceReaded);
+                    readPageImageCount += readStatusImageCount;
+
+                    if (StopSpiderWork)
+                    {
+                        ShowStatus($"中止采集微博数据...");
+                        break;
+                    }
+                    if (CheckUserCanceled(user.id))
+                    {
+                        ShowStatus($"取消采集微博数据...");
+                        break;
+                    }
+                    if(readStatusImageCount > 0)
+                    {
+                        var sinaUser = Repository.StoreSinaUser(runningConfig, user);
+                        if (sinaUser == null)
+                        {
+                            ShowStatus($"存储用户信息错误!!!!!!");
+                            continue;
+                        }
+                        if (sinaUser.id == 0)
+                        {
+                            GatherNewUser(sinaUser);
+                        }
+                        Repository.UpdateSinaUserQty(user.id);
+                    }
+                    if (ignoreSourceReaded && hasReadLastPage)
+                    {
+                        stopReadNextPage = true;
+                        ShowStatus($"结束采集微博数据(下页已采集)...");
+                        break;
+                    }
+                    if (readStatusImageCount > 0)
+                    {
+                        ShowStatus($"等待【{runningConfig.ReadNextStatusWaitSecond}】秒读取用户【{user.id}】下一条微博数据...");
+                        Thread.Sleep(runningConfig.ReadNextStatusWaitSecond * 1000);
+                    }
+                    else
+                    {
+                        Thread.Sleep(600);
+                    }
+                }
+            }
+            return readPageImageCount;
+        }
+
+        int GatherSinaStatusByTopicUrl(SpiderRunningConfig runningConfig)
         {
             bool ignoreSourceReaded = false;
             var html = HttpUtil.GetHttpRequestHtmlResult(runningConfig.StartUrl, runningConfig);
@@ -1164,6 +1338,15 @@ namespace SpiderTracker.Imp
             return null;
         }
 
+        MWeiboSuperResult GetSinaSuperResult(string html)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html);
+
+            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboSuperResult>(doc.DocumentNode.InnerText) as MWeiboSuperResult;
+            return jsonResult;
+        }
+
         /// <summary>
         /// 读取微博用户图片原始路径
         /// </summary>
@@ -1187,8 +1370,8 @@ namespace SpiderTracker.Imp
             }
             if (!CheckImageSize(runningConfig, image, arcId, readImageIndex)) return false;
 
-            var (thumbWidth, thumbHeight) = GetThumbImageSize(image, runningConfig.ThumbnailImageWidth, runningConfig.ThumbnailImageHeight);
-            var thumbImg = image.GetThumbnailImage(thumbWidth, thumbHeight, null, IntPtr.Zero);
+            var thumbSize = GetThumbImageSize(image, runningConfig.ThumbnailImageWidth, runningConfig.ThumbnailImageHeight);
+            var thumbImg = image.GetThumbnailImage(thumbSize.Width, thumbSize.Height, null, IntPtr.Zero);
             var thunbPath = Path.Combine(path, "thumb");
             PathUtil.CheckCreateDirectory(thunbPath);
             var thumbPath = Path.Combine(thunbPath, fileName);
@@ -1247,7 +1430,7 @@ namespace SpiderTracker.Imp
             };
         }
 
-        (int width, int height) GetThumbImageSize(Image image, int thumbWidth, int thumbHeight)
+        Size GetThumbImageSize(Image image, int thumbWidth, int thumbHeight)
         {
             var width = thumbWidth;
             var height = thumbHeight;
@@ -1261,7 +1444,7 @@ namespace SpiderTracker.Imp
             {
                 width = (int)(height * rate);
             }
-            return (width, height);
+            return new Size(width, height);
         }
 
         bool CheckImageSize(SpiderRunningConfig runningConfig,Image image, string arcId, int readImageIndex)

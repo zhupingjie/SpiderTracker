@@ -19,7 +19,7 @@ namespace SpiderTracker.Imp
 
         public long Id { get; set; }
 
-        public string Site = "home";
+        public string Site { get; set; } = "user";
 
         public string Category { get; set; } = "default";
 

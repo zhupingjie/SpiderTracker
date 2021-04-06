@@ -18,6 +18,7 @@ namespace SpiderTracker.Imp
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
             request.Timeout = 10 * 1000;
+            request.ContentType = "application/json; charset=utf-8";
             if (!string.IsNullOrEmpty(runningConfig.LoginCookie))
             {
                 request.Headers["Cookie"] = runningConfig.LoginCookie;

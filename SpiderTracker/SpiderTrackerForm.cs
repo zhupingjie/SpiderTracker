@@ -684,9 +684,9 @@ namespace SpiderTracker
             var user = GetSelectUser();
             if (user == null) return;
 
-            var userUrl = SinaUrlUtil.GetSinaUserUrl(user.uid);
+            //var userUrl = SinaUrlUtil.GetSinaUserUrl(user.uid);
 
-            this.txtStartUrl.Text = userUrl;
+            this.txtStartUrl.Text = user.uid;
             this.cbxStatusSortIndex.Text = $"1";
 
             Task.Factory.StartNew(() =>
@@ -815,9 +815,10 @@ namespace SpiderTracker
             if (!SinaSpiderService.IsSpiderStarted)
             {
                 var tempConfig = this.RunningConfig.Clone();
+                tempConfig.Site = "status";
                 var option = new MWeiboSpiderStartOption()
                 {
-                    GatherType = GatherTypeEnum.GahterStatus,
+                    GatherName = tempConfig.Site,
                     StatusIds = statusIds.ToArray()
                 };
                 SinaSpiderService.StartSpider(tempConfig, option);
@@ -924,7 +925,7 @@ namespace SpiderTracker
                     LoadCacheUserList(true);
                 });
             }
-            else
+            else if(user.Length > 0)
             {
                 Task.Factory.StartNew(() =>
                 {
@@ -945,12 +946,13 @@ namespace SpiderTracker
 
         private void txtStatusFilter_Leave(object sender, EventArgs e)
         {
+            var status = this.txtStatusFilter.Text.Trim();
             var user = GetSelectUser();
-            if (user != null)
+            if (user != null && status.Length > 0)
             {
                 Task.Factory.StartNew(() =>
                 {
-                    LoadCacheUserStatusList(user, false);
+                    LoadCacheUserStatusList(user, true);
                 });
             }
         }
@@ -1075,9 +1077,9 @@ namespace SpiderTracker
                 var tempConfig = this.RunningConfig.Clone();
                 var option = new MWeiboSpiderStartOption()
                 {
-                    GatherType = GatherTypeEnum.GatherUser,
+                    GatherName = tempConfig.Site,
                     SelectUsers = users.ToArray(),
-                    UserId = this.txtStartUrl.Text
+                    StartUrl = this.txtStartUrl.Text
                 };
                 SinaSpiderService.StartSpider(tempConfig, option);
             }
@@ -1483,31 +1485,15 @@ namespace SpiderTracker
             dr["配置值"] = "1";
             dt.Rows.Add(dr);
 
-            //当场所不等于home时，默认不下载资源
-            if (!this.cbxSite.Text.Equals("home", StringComparison.CurrentCultureIgnoreCase))
-            {
-                dr = dt.NewRow();
-                dr["配置项"] = "忽略下载资源";
-                dr["配置值"] = "1";
-                dt.Rows.Add(dr);
+            dr = dt.NewRow();
+            dr["配置项"] = "忽略下载资源";
+            dr["配置值"] = "0";
+            dt.Rows.Add(dr);
 
-                dr = dt.NewRow();
-                dr["配置项"] = "忽略采集微博";
-                dr["配置值"] = "1";
-                dt.Rows.Add(dr);
-            }
-            else
-            {
-                dr = dt.NewRow();
-                dr["配置项"] = "忽略下载资源";
-                dr["配置值"] = "0";
-                dt.Rows.Add(dr);
-
-                dr = dt.NewRow();
-                dr["配置项"] = "忽略采集微博";
-                dr["配置值"] = "0";
-                dt.Rows.Add(dr);
-            }
+            dr = dt.NewRow();
+            dr["配置项"] = "忽略采集微博";
+            dr["配置值"] = "0";
+            dt.Rows.Add(dr);
 
             dr = dt.NewRow();
             dr["配置项"] = "采集原创微博";
@@ -1544,15 +1530,15 @@ namespace SpiderTracker
             dr["配置值"] = "0";
             dt.Rows.Add(dr);
 
-            dr = dt.NewRow();
-            dr["配置项"] = "图片最小尺寸";
-            dr["配置值"] = "600";
-            dt.Rows.Add(dr);
+            //dr = dt.NewRow();
+            //dr["配置项"] = "图片最小尺寸";
+            //dr["配置值"] = "600";
+            //dt.Rows.Add(dr);
 
-            dr = dt.NewRow();
-            dr["配置项"] = "图片最大尺寸";
-            dr["配置值"] = "99999";
-            dt.Rows.Add(dr);
+            //dr = dt.NewRow();
+            //dr["配置项"] = "图片最大尺寸";
+            //dr["配置值"] = "99999";
+            //dt.Rows.Add(dr);
 
             //dr = dt.NewRow();
             //dr["配置项"] = "缩略图宽度";
