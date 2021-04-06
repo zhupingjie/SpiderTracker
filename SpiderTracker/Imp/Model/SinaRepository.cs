@@ -270,11 +270,12 @@ namespace SpiderTracker.Imp.Model
             else
             {
                 if (runningConfig.IgnoreDownloadSource == 0) extSinaStatus.gets = getSourceCount;
+                else if (runningConfig.IgnoreDownloadSource > 0 && getSourceCount > 0) extSinaStatus.gets = getSourceCount;
                 extSinaStatus.ignore = ignore ? 1 : 0;
                 extSinaStatus.qty = readSourceCount;
                 extSinaStatus.site = runningConfig.Site;
                 extSinaStatus.createtime = ObjectUtil.GetCreateTime(status.created_at);
-                UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "qty", "getqty", "site", "createtime" });
+                UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "qty", "gets", "site", "createtime" });
             }
         }
 
