@@ -936,6 +936,9 @@ namespace SpiderTracker
         private void btnGetStatusByBid_Click(object sender, EventArgs e)
         {
             var statusIds = new List<string>();
+            var user = GetSelectUser();
+            if (user == null) return;
+
             var status = GetSelectStatuss();
             foreach (var item in status)
             {
@@ -948,7 +951,8 @@ namespace SpiderTracker
                 var option = new MWeiboSpiderStartOption()
                 {
                     GatherName = tempConfig.Site,
-                    StatusIds = statusIds.ToArray()
+                    StatusIds = statusIds.ToArray(),
+                    StartUrl = user.uid
                 };
                 SinaSpiderService.StartSpider(tempConfig, option);
             }
@@ -1577,15 +1581,13 @@ namespace SpiderTracker
             if (onlyRead)
             {
                 this.RunningConfig.IgnoreDownloadSource = true;
-                this.RunningConfig.GatherContinueLastPage = true;
-                this.RunningConfig.IgnoreReadGetStatus = false;
+                this.RunningConfig.IgnoreReadGetStatus = true;
+                this.RunningConfig.IgnoreReadArchiveStatus = true;
                 this.RunningConfig.MaxReadPageCount = 0;
             }
             else
             {
                 this.RunningConfig.IgnoreDownloadSource = false;
-                this.RunningConfig.GatherContinueLastPage = false;
-                this.RunningConfig.IgnoreReadGetStatus = true;
                 this.RunningConfig.MaxReadPageCount = 3;
             }
             this.spiderConfigUC1.Initialize(this.RunningConfig);

@@ -120,13 +120,13 @@ namespace SpiderTracker.Imp
         /// 忽略已采图集
         /// </summary>
         [OptionAttribute]
-        public bool IgnoreReadGetStatus { get; set; } = false;
+        public bool IgnoreReadGetStatus { get; set; } = true;
 
         /// <summary>
         /// 忽略本地图集
         /// </summary>
         [OptionAttribute]
-        public bool IgnoreReadDownStatus { get; set; } = true;
+        public bool IgnoreReadDownStatus { get; set; } = false;
 
         /// <summary>
         /// 忽略下载资源
@@ -164,7 +164,7 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 读取图片最小尺寸
         /// </summary>
-        public int MinReadImageSize { get; set; } = 600;
+        public int MinReadImageSize { get; set; } = 480;
 
         /// <summary>
         /// 读取图片最大尺寸

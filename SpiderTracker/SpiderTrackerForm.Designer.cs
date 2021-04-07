@@ -111,6 +111,7 @@
             this.btnReadConfig = new System.Windows.Forms.Button();
             this.btnRefreshConfig = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
+            this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblGetImgCount = new System.Windows.Forms.Label();
@@ -131,7 +132,9 @@
             this.btnCancelUser = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tbpVideo = new System.Windows.Forms.TabPage();
+            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.tbpReview = new System.Windows.Forms.TabPage();
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.lstRunstate = new System.Windows.Forms.ListView();
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -144,9 +147,6 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
-            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
-            this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
             this.panel1.SuspendLayout();
             this.panel26.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -1112,6 +1112,15 @@
             this.label11.TabIndex = 2;
             this.label11.Text = "采集参数配置";
             // 
+            // spiderConfigUC1
+            // 
+            this.spiderConfigUC1.AutoScroll = true;
+            this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
+            this.spiderConfigUC1.Name = "spiderConfigUC1";
+            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 378);
+            this.spiderConfigUC1.TabIndex = 19;
+            // 
             // panel17
             // 
             this.panel17.Controls.Add(this.panel2);
@@ -1337,6 +1346,15 @@
             this.tbpVideo.Text = "视频预览";
             this.tbpVideo.UseVisualStyleBackColor = true;
             // 
+            // vedioPlayerUC1
+            // 
+            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
+            this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
+            this.vedioPlayerUC1.TabIndex = 0;
+            // 
             // tbpReview
             // 
             this.tbpReview.BackColor = System.Drawing.Color.Transparent;
@@ -1347,6 +1365,16 @@
             this.tbpReview.Size = new System.Drawing.Size(564, 531);
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
+            // 
+            // imagePreviewUC1
+            // 
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(564, 531);
+            this.imagePreviewUC1.TabIndex = 0;
             // 
             // tbpGatherLog
             // 
@@ -1476,34 +1504,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(594, 539);
             this.tabControl1.TabIndex = 17;
-            // 
-            // imagePreviewUC1
-            // 
-            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
-            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
-            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(564, 531);
-            this.imagePreviewUC1.TabIndex = 0;
-            // 
-            // vedioPlayerUC1
-            // 
-            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
-            this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
-            this.vedioPlayerUC1.TabIndex = 0;
-            // 
-            // spiderConfigUC1
-            // 
-            this.spiderConfigUC1.AutoScroll = true;
-            this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
-            this.spiderConfigUC1.Name = "spiderConfigUC1";
-            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 378);
-            this.spiderConfigUC1.TabIndex = 19;
             // 
             // SpiderTrackerForm
             // 

@@ -44,12 +44,12 @@ namespace SpiderTracker.UI
 
         private void SpiderConfigUC_TextChanged(object sender, EventArgs e)
         {
-
+            RefreshConfig(GetRunningConfig(_runningConfig));
         }
 
         private void SpiderConfigUC_ValueChanged(object sender, EventArgs e)
         {
-
+            RefreshConfig(GetRunningConfig(_runningConfig));
         }
 
         private void SpiderConfigUC_CheckedChanged(object sender, EventArgs e)
@@ -66,9 +66,13 @@ namespace SpiderTracker.UI
             OnRefreshConfig?.Invoke(spiderRunninConfig);
         }
 
+        /// <summary>
+        /// TODO:初始化后变量值丢掉
+        /// </summary>
+        /// <param name="runningConfig"></param>
         public void Initialize(SpiderRunningConfig runningConfig)
         {
-            _runningConfig = runningConfig;
+            _runningConfig = runningConfig.Clone();
 
             var configs = GetConfigFields();
             foreach (var config in configs)
@@ -115,6 +119,7 @@ namespace SpiderTracker.UI
                     ObjectUtil.SetPropertyValue(runningConfig, config, (findCtl as TextBox).Text);
                 }
             }
+            _runningConfig = runningConfig.Clone();
             return runningConfig;
         }
 

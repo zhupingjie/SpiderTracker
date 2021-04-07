@@ -285,7 +285,7 @@ namespace SpiderTracker.Imp
                 else if (option.GatherType == GatherTypeEnum.GahterStatus)
                 {
                     SpiderStarted();
-                    StartAutoGatherByStatus(option.StatusIds);
+                    StartAutoGatherByStatus(option.StatusIds, option.StartUrl);
                 }
                 else if (option.GatherType == GatherTypeEnum.GatherTopic)
                 {
@@ -339,7 +339,7 @@ namespace SpiderTracker.Imp
             return user;
         }
 
-        void StartAutoGatherByStatus(IList<string> statusIds)
+        void StartAutoGatherByStatus(IList<string> statusIds, string userId)
         {
             var threads = new List<Task>();
             var task = Task.Factory.StartNew(() =>
@@ -350,6 +350,8 @@ namespace SpiderTracker.Imp
                 {
                     var tempRuningConfig = RunningConfig.Clone();
                     tempRuningConfig.StartUrl = $"https://m.weibo.cn/status/{status}";
+                    tempRuningConfig.ExistsImageLocalFiles = PathUtil.GetStoreUserThumbnailImageFiles(tempRuningConfig.Category, userId);
+                    tempRuningConfig.ExistsVideoLocalFiles = PathUtil.GetStoreUserVideoFiles(tempRuningConfig.Category, userId);
                     readStatusImageCount += GatherSinaStatusByStatusUrl(tempRuningConfig);
                 }
                 ShowStatus($"采集完成,共采集资源【{readStatusImageCount}】.");
