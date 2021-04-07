@@ -106,7 +106,7 @@ namespace SpiderTracker.Imp.Model
         }
         public SinaTopic GetSinaTopic(string containerid)
         {
-            return DBHelper.GetEntity<SinaTopic>("sina_topic", $"`containerid`='{containerid}' and `type`=0");
+            return DBHelper.GetEntity<SinaTopic>("sina_topic", $"`containerid`='{containerid}'");
         }
 
         public List<SinaTopic> GetSinaTopics(string category)
@@ -118,11 +118,6 @@ namespace SpiderTracker.Imp.Model
         {
             return DBHelper.GetEntitys<SinaTopic>("sina_topic", $"`type`=1 and `category`='{category}'");
         }
-        public SinaTopic GetSinaSuper(string containerid)
-        {
-            return DBHelper.GetEntity<SinaTopic>("sina_topic", $"`containerid`='{containerid}' and `type`=1");
-        }
-
         public string[] GetGroupNames()
         {
             return DBHelper.GetGroupStrings("sina_user", "category", $"1=1").ToArray();
@@ -376,6 +371,15 @@ namespace SpiderTracker.Imp.Model
 
             if (readPageIndex > 0 && readPageIndex > sinaUser.readpage) sinaUser.readpage = readPageIndex;
             return UpdateSinaUser(sinaUser, new string[] { "readpage" });
+        }
+
+        public bool UpdateSinaTopicPage(string containerid, int readPageIndex)
+        {
+            var topic = GetSinaTopic(containerid);
+            if (topic == null) return false;
+
+            if (readPageIndex > 0 && readPageIndex > topic.readpage) topic.readpage = readPageIndex;
+            return UpdateSinaTopic(topic, new string[] { "readpage" });
         }
 
         public SinaUser UpdateSinaUserInfo(SinaUser sinaUser)

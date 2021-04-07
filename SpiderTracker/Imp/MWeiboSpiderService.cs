@@ -1033,6 +1033,8 @@ namespace SpiderTracker.Imp
                 int readPageImageCount = GatherSinaStatusBySuperPageUrl(runningConfig, sinaTopic, readPageIndex, readPageCount, hasReadLastPage, out readPageEmpty, out stopReadNextPage);
                 readUserImageCount += readPageImageCount;
 
+                Repository.UpdateSinaTopicPage(sinaTopic.containerid, readPageIndex);
+
                 if (stopReadNextPage)
                 {
                     ShowStatus($"结束采集超话微博数据(下页已采集)...");
@@ -1085,17 +1087,18 @@ namespace SpiderTracker.Imp
                 return null;
             }
             var pageInfo = result.data.pageInfo;
-            var sinaTopic = Repository.GetSinaSuper(pageInfo.containerid);
+            var containerid = pageInfo.containerid.Replace("_-_sort_time", "");
+            var sinaTopic = Repository.GetSinaTopic(containerid);
             if(sinaTopic == null)
             {
                 sinaTopic = new SinaTopic()
                 {
                     type = 1,
-                    containerid = pageInfo.containerid,
+                    containerid = containerid,
                     name = pageInfo.page_type_name,
                     desc = pageInfo.desc,
                     category = runningConfig.Category,
-                    profile = pageInfo.page_url,
+                    profile = SinaUrlUtil.GetSinaUserSuperWebUrl(containerid),
                 };
                 Repository.CreateSinaTopic(sinaTopic);
             }
@@ -1104,7 +1107,8 @@ namespace SpiderTracker.Imp
                 sinaTopic.category = runningConfig.Category;
                 sinaTopic.name = pageInfo.page_type_name;
                 sinaTopic.desc = pageInfo.desc;
-                Repository.UpdateSinaTopic(sinaTopic, new string[] { "name", "desc", "category" });
+                sinaTopic.profile = SinaUrlUtil.GetSinaUserSuperWebUrl(containerid);
+                Repository.UpdateSinaTopic(sinaTopic, new string[] { "name", "desc", "category", "profile" });
             }
             return sinaTopic;
         }
@@ -1238,6 +1242,8 @@ namespace SpiderTracker.Imp
                 int readPageImageCount = GatherSinaStatusByTopicPageUrl(runningConfig, sinaTopic, readPageIndex, readPageCount, hasReadLastPage, out readPageEmpty, out stopReadNextPage);
                 readUserImageCount += readPageImageCount;
 
+                Repository.UpdateSinaTopicPage(sinaTopic.containerid, readPageIndex);
+
                 if (stopReadNextPage)
                 {
                     ShowStatus($"结束采集话题微博数据(下页已采集)...");
@@ -1290,6 +1296,7 @@ namespace SpiderTracker.Imp
                 return null;
             }
             var pageInfo = result.data.cardlistInfo;
+            var name = pageInfo.cardlist_title.Replace("#", "");
             var sinaTopic = Repository.GetSinaTopic(pageInfo.containerid);
             if (sinaTopic == null)
             {
@@ -1297,19 +1304,20 @@ namespace SpiderTracker.Imp
                 {
                     type = 0,
                     containerid = pageInfo.containerid,
-                    name = pageInfo.cardlist_title.Replace("#",""),
+                    name = name,
                     desc = pageInfo.desc,
                     category = runningConfig.Category,
-                    profile = startUrl,
+                    profile = SinaUrlUtil.GetSinaUserTopicWebUrl(name),
                 };
                 Repository.CreateSinaTopic(sinaTopic);
             }
             else
             {
                 sinaTopic.category = runningConfig.Category;
-                sinaTopic.name = pageInfo.cardlist_title.Replace("#", "");
+                sinaTopic.name = name;
                 sinaTopic.desc = pageInfo.desc;
-                Repository.UpdateSinaTopic(sinaTopic, new string[] { "name", "desc", "category" });
+                sinaTopic.profile = SinaUrlUtil.GetSinaUserTopicWebUrl(name);
+                Repository.UpdateSinaTopic(sinaTopic, new string[] { "name", "desc", "category", "profile" });
             }
             return sinaTopic;
         }

@@ -872,6 +872,15 @@ namespace SpiderTracker
             }
         }
 
+        private void btnBweTopic_Click(object sender, EventArgs e)
+        {
+            var selectItem = this.cbxSelect.SelectedItem;
+            if (selectItem == null) return;
+
+            var topic = selectItem as SinaTopic;
+            System.Diagnostics.Process.Start(topic.profile);
+        }
+
         private void btnBrowseUser_Click(object sender, EventArgs e)
         {
             var user = GetSelectUser();

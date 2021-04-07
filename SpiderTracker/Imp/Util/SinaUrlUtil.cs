@@ -37,6 +37,15 @@ namespace SpiderTracker.Imp
             return $"{SinaUrlUtil.GetSinaHost()}/api/container/getIndex?containerid={containerid}_-_sort_time&page={page}";
         }
 
+        public static string GetSinaUserTopicWebUrl(string topic)
+        {
+            return $"{SinaUrlUtil.GetSinaHost()}/search?containerid=231522type=61%26t=20%26q=%23{topic}%23";
+        }
+
+        public static string GetSinaUserSuperWebUrl(string containerid)
+        {
+            return $"{SinaUrlUtil.GetSinaHost()}/p/index?containerid={containerid}";
+        }
 
         public static string GetSinaUserFollowerUrl(string uid)
         {
