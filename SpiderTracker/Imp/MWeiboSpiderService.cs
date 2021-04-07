@@ -857,7 +857,7 @@ namespace SpiderTracker.Imp
             {
                 //var readCount = PathUtil.GetStoreUserImageFileCount(runningConfig.Category, user.id, status.bid);
                 var readCount = runningConfig.ExistsImageLocalFiles.Where(c => c.Contains($"{status.bid}_")).Count();
-                if (readCount > 0)
+                if (!runningConfig.IgnoreReadDownStatus && readCount > 0)
                 {
                     //ignoreSourceReaded = true;
                     ShowStatus($"跳过已缓存微博【{status.bid}】.");
@@ -970,7 +970,7 @@ namespace SpiderTracker.Imp
             {
                 //var readCount = PathUtil.GetStoreUserVideoCount(runningConfig.Category, user.id, status.bid);
                 var readCount = runningConfig.ExistsVideoLocalFiles.Where(c => c.Contains($"{status.bid}")).Count();
-                if (readCount > 0)
+                if (!runningConfig.IgnoreReadDownStatus && readCount > 0)
                 {
                     //ignoreSourceReaded = true;
                     ShowStatus($"跳过已缓存视频【{status.bid}】.");

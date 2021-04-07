@@ -55,6 +55,7 @@ namespace SpiderTracker.UI
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
+            this.IgnoreReadDownStatus = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.GatherThreadCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartPageIndex)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxReadPageCount)).BeginInit();
@@ -167,7 +168,7 @@ namespace SpiderTracker.UI
             // 
             this.GatherCompleteShutdown.AutoSize = true;
             this.GatherCompleteShutdown.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.GatherCompleteShutdown.Location = new System.Drawing.Point(6, 32);
+            this.GatherCompleteShutdown.Location = new System.Drawing.Point(12, 32);
             this.GatherCompleteShutdown.Name = "GatherCompleteShutdown";
             this.GatherCompleteShutdown.Size = new System.Drawing.Size(99, 21);
             this.GatherCompleteShutdown.TabIndex = 35;
@@ -178,7 +179,7 @@ namespace SpiderTracker.UI
             // 
             this.GatherContinueLastPage.AutoSize = true;
             this.GatherContinueLastPage.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.GatherContinueLastPage.Location = new System.Drawing.Point(119, 111);
+            this.GatherContinueLastPage.Location = new System.Drawing.Point(120, 32);
             this.GatherContinueLastPage.Name = "GatherContinueLastPage";
             this.GatherContinueLastPage.Size = new System.Drawing.Size(99, 21);
             this.GatherContinueLastPage.TabIndex = 36;
@@ -201,7 +202,7 @@ namespace SpiderTracker.UI
             // 
             this.IgnoreDownloadSource.AutoSize = true;
             this.IgnoreDownloadSource.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IgnoreDownloadSource.Location = new System.Drawing.Point(12, 111);
+            this.IgnoreDownloadSource.Location = new System.Drawing.Point(120, 111);
             this.IgnoreDownloadSource.Name = "IgnoreDownloadSource";
             this.IgnoreDownloadSource.Size = new System.Drawing.Size(99, 21);
             this.IgnoreDownloadSource.TabIndex = 38;
@@ -272,8 +273,9 @@ namespace SpiderTracker.UI
             // 
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.GatherCompleteShutdown);
+            this.panel1.Controls.Add(this.GatherContinueLastPage);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 285);
+            this.panel1.Location = new System.Drawing.Point(0, 314);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(248, 59);
             this.panel1.TabIndex = 44;
@@ -300,9 +302,9 @@ namespace SpiderTracker.UI
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.IgnoreReadDownStatus);
             this.panel3.Controls.Add(this.panel5);
             this.panel3.Controls.Add(this.IgnoreReadArchiveStatus);
-            this.panel3.Controls.Add(this.GatherContinueLastPage);
             this.panel3.Controls.Add(this.IgnoreReadGetStatus);
             this.panel3.Controls.Add(this.ReadUserOfHeFocus);
             this.panel3.Controls.Add(this.ReadUserOfMyFocus);
@@ -312,7 +314,7 @@ namespace SpiderTracker.UI
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 149);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(248, 136);
+            this.panel3.Size = new System.Drawing.Size(248, 165);
             this.panel3.TabIndex = 45;
             // 
             // panel5
@@ -372,6 +374,17 @@ namespace SpiderTracker.UI
             this.label7.TabIndex = 0;
             this.label7.Text = "基本选项";
             // 
+            // IgnoreReadDownStatus
+            // 
+            this.IgnoreReadDownStatus.AutoSize = true;
+            this.IgnoreReadDownStatus.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.IgnoreReadDownStatus.Location = new System.Drawing.Point(12, 111);
+            this.IgnoreReadDownStatus.Name = "IgnoreReadDownStatus";
+            this.IgnoreReadDownStatus.Size = new System.Drawing.Size(99, 21);
+            this.IgnoreReadDownStatus.TabIndex = 45;
+            this.IgnoreReadDownStatus.Text = "忽略本地资源";
+            this.IgnoreReadDownStatus.UseVisualStyleBackColor = true;
+            // 
             // SpiderConfigUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -380,7 +393,7 @@ namespace SpiderTracker.UI
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel1);
             this.Name = "SpiderConfigUC";
-            this.Size = new System.Drawing.Size(248, 344);
+            this.Size = new System.Drawing.Size(248, 373);
             ((System.ComponentModel.ISupportInitialize)(this.GatherThreadCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartPageIndex)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxReadPageCount)).EndInit();
@@ -429,5 +442,6 @@ namespace SpiderTracker.UI
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox IgnoreReadDownStatus;
     }
 }

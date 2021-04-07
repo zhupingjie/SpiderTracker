@@ -117,10 +117,16 @@ namespace SpiderTracker.Imp
         public bool IgnoreReadArchiveStatus { get; set; } = true;
 
         /// <summary>
-        /// 忽略采集图集
+        /// 忽略已采图集
         /// </summary>
         [OptionAttribute]
         public bool IgnoreReadGetStatus { get; set; } = false;
+
+        /// <summary>
+        /// 忽略本地图集
+        /// </summary>
+        [OptionAttribute]
+        public bool IgnoreReadDownStatus { get; set; } = true;
 
         /// <summary>
         /// 忽略下载资源
