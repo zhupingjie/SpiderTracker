@@ -22,6 +22,10 @@ namespace SpiderTracker.Imp
         {
             return $"{SinaUrlUtil.GetSinaHost()}/status/{status}";
         }
+        public static string GetSinaUserStatusWebUrl(string user, string status)
+        {
+            return $"https://weibo.com/{user}/{status}";
+        }
 
         public static string GetSinaUserTopicUrl(string topic)
         {

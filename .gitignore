@@ -9,3 +9,5 @@
 /SpiderTracker/obj/Debug
 /SpiderTracker/bin/Release
 /SpiderTracker/obj/Release
+/SpiderTracker/bin
+/SpiderTracker/obj/x64/Debug

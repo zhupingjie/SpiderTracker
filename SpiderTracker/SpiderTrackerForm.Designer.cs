@@ -124,8 +124,14 @@
             this.btnAppendUser = new System.Windows.Forms.Button();
             this.panel11 = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
-            this.lstLog = new System.Windows.Forms.ListBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.label10 = new System.Windows.Forms.Label();
+            this.panel12 = new System.Windows.Forms.Panel();
+            this.panel23 = new System.Windows.Forms.Panel();
+            this.btnCancelUser = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.tbpPreview = new System.Windows.Forms.TabPage();
+            this.tbpVideo = new System.Windows.Forms.TabPage();
+            this.tbpReview = new System.Windows.Forms.TabPage();
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.lstRunstate = new System.Windows.Forms.ListView();
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -134,17 +140,13 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel18 = new System.Windows.Forms.Panel();
+            this.lstLog = new System.Windows.Forms.ListBox();
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
-            this.tbpReview = new System.Windows.Forms.TabPage();
-            this.tbpVideo = new System.Windows.Forms.TabPage();
-            this.label10 = new System.Windows.Forms.Label();
-            this.panel12 = new System.Windows.Forms.Panel();
-            this.panel23 = new System.Windows.Forms.Panel();
-            this.btnCancelUser = new System.Windows.Forms.Button();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
+            this.webBrowerUC1 = new SpiderTracker.UI.WebBrowerUC();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -168,14 +170,15 @@
             this.panel13.SuspendLayout();
             this.panel14.SuspendLayout();
             this.panel11.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.panel12.SuspendLayout();
+            this.panel23.SuspendLayout();
+            this.tbpPreview.SuspendLayout();
+            this.tbpVideo.SuspendLayout();
+            this.tbpReview.SuspendLayout();
             this.tbpGatherLog.SuspendLayout();
             this.panel18.SuspendLayout();
             this.panel19.SuspendLayout();
-            this.tbpReview.SuspendLayout();
-            this.tbpVideo.SuspendLayout();
-            this.panel12.SuspendLayout();
-            this.panel23.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -1168,7 +1171,7 @@
             this.btnLock.Name = "btnLock";
             this.btnLock.Size = new System.Drawing.Size(16, 86);
             this.btnLock.TabIndex = 20;
-            this.btnLock.Text = "Lock";
+            this.btnLock.Text = "Image";
             this.btnLock.UseVisualStyleBackColor = false;
             this.btnLock.Click += new System.EventHandler(this.btnLock_Click);
             // 
@@ -1240,38 +1243,87 @@
             this.label15.TabIndex = 0;
             this.label15.Text = "采集功能操作";
             // 
-            // lstLog
+            // label10
             // 
-            this.lstLog.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.lstLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lstLog.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lstLog.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lstLog.FormattingEnabled = true;
-            this.lstLog.ItemHeight = 17;
-            this.lstLog.Items.AddRange(new object[] {
-            "..."});
-            this.lstLog.Location = new System.Drawing.Point(0, 26);
-            this.lstLog.Margin = new System.Windows.Forms.Padding(0);
-            this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(564, 206);
-            this.lstLog.TabIndex = 15;
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(6, 4);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(164, 17);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "采集运行日志 | 预览图集详情";
             // 
-            // tabControl1
+            // panel12
             // 
-            this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Right;
-            this.tabControl1.Controls.Add(this.tbpGatherLog);
-            this.tabControl1.Controls.Add(this.tbpReview);
-            this.tabControl1.Controls.Add(this.tbpVideo);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tabControl1.Location = new System.Drawing.Point(313, 67);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.tabControl1.Multiline = true;
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.Padding = new System.Drawing.Point(0, 0);
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(594, 539);
-            this.tabControl1.TabIndex = 17;
+            this.panel12.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel12.Controls.Add(this.panel23);
+            this.panel12.Controls.Add(this.label10);
+            this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel12.Location = new System.Drawing.Point(313, 41);
+            this.panel12.Name = "panel12";
+            this.panel12.Size = new System.Drawing.Size(594, 26);
+            this.panel12.TabIndex = 14;
+            // 
+            // panel23
+            // 
+            this.panel23.Controls.Add(this.btnCancelUser);
+            this.panel23.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel23.Location = new System.Drawing.Point(534, 0);
+            this.panel23.Name = "panel23";
+            this.panel23.Size = new System.Drawing.Size(58, 24);
+            this.panel23.TabIndex = 2;
+            // 
+            // btnCancelUser
+            // 
+            this.btnCancelUser.BackColor = System.Drawing.SystemColors.Control;
+            this.btnCancelUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnCancelUser.Location = new System.Drawing.Point(1, 3);
+            this.btnCancelUser.Name = "btnCancelUser";
+            this.btnCancelUser.Size = new System.Drawing.Size(56, 20);
+            this.btnCancelUser.TabIndex = 18;
+            this.btnCancelUser.Text = "CANCEL";
+            this.btnCancelUser.UseVisualStyleBackColor = false;
+            this.btnCancelUser.Click += new System.EventHandler(this.btnCancelUser_Click);
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
+            // 
+            // tbpPreview
+            // 
+            this.tbpPreview.Controls.Add(this.webBrowerUC1);
+            this.tbpPreview.Location = new System.Drawing.Point(4, 4);
+            this.tbpPreview.Name = "tbpPreview";
+            this.tbpPreview.Size = new System.Drawing.Size(564, 531);
+            this.tbpPreview.TabIndex = 3;
+            this.tbpPreview.Text = "在线预览";
+            this.tbpPreview.UseVisualStyleBackColor = true;
+            // 
+            // tbpVideo
+            // 
+            this.tbpVideo.Controls.Add(this.vedioPlayerUC1);
+            this.tbpVideo.Location = new System.Drawing.Point(4, 4);
+            this.tbpVideo.Name = "tbpVideo";
+            this.tbpVideo.Size = new System.Drawing.Size(564, 531);
+            this.tbpVideo.TabIndex = 2;
+            this.tbpVideo.Text = "视频预览";
+            this.tbpVideo.UseVisualStyleBackColor = true;
+            // 
+            // tbpReview
+            // 
+            this.tbpReview.BackColor = System.Drawing.Color.Transparent;
+            this.tbpReview.Controls.Add(this.imagePreviewUC1);
+            this.tbpReview.Location = new System.Drawing.Point(4, 4);
+            this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
+            this.tbpReview.Name = "tbpReview";
+            this.tbpReview.Size = new System.Drawing.Size(564, 531);
+            this.tbpReview.TabIndex = 1;
+            this.tbpReview.Text = "图集预览";
             // 
             // tbpGatherLog
             // 
@@ -1346,6 +1398,22 @@
             this.panel18.Size = new System.Drawing.Size(564, 228);
             this.panel18.TabIndex = 17;
             // 
+            // lstLog
+            // 
+            this.lstLog.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lstLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lstLog.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lstLog.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstLog.FormattingEnabled = true;
+            this.lstLog.ItemHeight = 17;
+            this.lstLog.Items.AddRange(new object[] {
+            "..."});
+            this.lstLog.Location = new System.Drawing.Point(0, 26);
+            this.lstLog.Margin = new System.Windows.Forms.Padding(0);
+            this.lstLog.Name = "lstLog";
+            this.lstLog.Size = new System.Drawing.Size(564, 206);
+            this.lstLog.TabIndex = 15;
+            // 
             // panel19
             // 
             this.panel19.BackColor = System.Drawing.SystemColors.InactiveCaption;
@@ -1369,77 +1437,23 @@
             this.label6.TabIndex = 1;
             this.label6.Text = "运行日志";
             // 
-            // tbpReview
+            // tabControl1
             // 
-            this.tbpReview.BackColor = System.Drawing.Color.Transparent;
-            this.tbpReview.Controls.Add(this.imagePreviewUC1);
-            this.tbpReview.Location = new System.Drawing.Point(4, 4);
-            this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
-            this.tbpReview.Name = "tbpReview";
-            this.tbpReview.Size = new System.Drawing.Size(564, 531);
-            this.tbpReview.TabIndex = 1;
-            this.tbpReview.Text = "图集预览";
-            // 
-            // tbpVideo
-            // 
-            this.tbpVideo.Controls.Add(this.vedioPlayerUC1);
-            this.tbpVideo.Location = new System.Drawing.Point(4, 4);
-            this.tbpVideo.Name = "tbpVideo";
-            this.tbpVideo.Size = new System.Drawing.Size(564, 531);
-            this.tbpVideo.TabIndex = 2;
-            this.tbpVideo.Text = "视频预览";
-            this.tbpVideo.UseVisualStyleBackColor = true;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(6, 4);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(164, 17);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "采集运行日志 | 预览图集详情";
-            // 
-            // panel12
-            // 
-            this.panel12.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel12.Controls.Add(this.panel23);
-            this.panel12.Controls.Add(this.label10);
-            this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel12.Location = new System.Drawing.Point(313, 41);
-            this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(594, 26);
-            this.panel12.TabIndex = 14;
-            // 
-            // panel23
-            // 
-            this.panel23.Controls.Add(this.btnCancelUser);
-            this.panel23.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel23.Location = new System.Drawing.Point(534, 0);
-            this.panel23.Name = "panel23";
-            this.panel23.Size = new System.Drawing.Size(58, 24);
-            this.panel23.TabIndex = 2;
-            // 
-            // btnCancelUser
-            // 
-            this.btnCancelUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnCancelUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCancelUser.Location = new System.Drawing.Point(1, 3);
-            this.btnCancelUser.Name = "btnCancelUser";
-            this.btnCancelUser.Size = new System.Drawing.Size(56, 20);
-            this.btnCancelUser.TabIndex = 18;
-            this.btnCancelUser.Text = "CANCEL";
-            this.btnCancelUser.UseVisualStyleBackColor = false;
-            this.btnCancelUser.Click += new System.EventHandler(this.btnCancelUser_Click);
-            // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "notifyIcon1";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
+            this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Right;
+            this.tabControl1.Controls.Add(this.tbpGatherLog);
+            this.tabControl1.Controls.Add(this.tbpReview);
+            this.tabControl1.Controls.Add(this.tbpVideo);
+            this.tabControl1.Controls.Add(this.tbpPreview);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tabControl1.Location = new System.Drawing.Point(313, 67);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.tabControl1.Multiline = true;
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.Padding = new System.Drawing.Point(0, 0);
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(594, 539);
+            this.tabControl1.TabIndex = 17;
             // 
             // imagePreviewUC1
             // 
@@ -1459,6 +1473,15 @@
             this.vedioPlayerUC1.Name = "vedioPlayerUC1";
             this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
             this.vedioPlayerUC1.TabIndex = 0;
+            // 
+            // webBrowerUC1
+            // 
+            this.webBrowerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowerUC1.Location = new System.Drawing.Point(0, 0);
+            this.webBrowerUC1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.webBrowerUC1.Name = "webBrowerUC1";
+            this.webBrowerUC1.Size = new System.Drawing.Size(564, 531);
+            this.webBrowerUC1.TabIndex = 0;
             // 
             // SpiderTrackerForm
             // 
@@ -1509,16 +1532,17 @@
             this.panel14.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
             this.panel11.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
+            this.panel12.ResumeLayout(false);
+            this.panel12.PerformLayout();
+            this.panel23.ResumeLayout(false);
+            this.tbpPreview.ResumeLayout(false);
+            this.tbpVideo.ResumeLayout(false);
+            this.tbpReview.ResumeLayout(false);
             this.tbpGatherLog.ResumeLayout(false);
             this.panel18.ResumeLayout(false);
             this.panel19.ResumeLayout(false);
             this.panel19.PerformLayout();
-            this.tbpReview.ResumeLayout(false);
-            this.tbpVideo.ResumeLayout(false);
-            this.panel12.ResumeLayout(false);
-            this.panel12.PerformLayout();
-            this.panel23.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1543,13 +1567,9 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Panel panel11;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.ListBox lstLog;
         private System.Windows.Forms.Button btnBrowseStatus;
         private System.Windows.Forms.Button btnBrowseUser;
         private System.Windows.Forms.TextBox txtUserFilter;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tbpGatherLog;
-        private System.Windows.Forms.TabPage tbpReview;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Panel panel12;
         private System.Windows.Forms.Panel panel15;
@@ -1588,23 +1608,11 @@
         private System.Windows.Forms.Label lblStatusCount;
         private System.Windows.Forms.Label lblLstArchiveCountTitle;
         private System.Windows.Forms.Label lblArchiveCount;
-        private UI.ImagePreviewUC imagePreviewUC1;
-        private System.Windows.Forms.ListView lstRunstate;
-        private System.Windows.Forms.ColumnHeader columnHeader10;
-        private System.Windows.Forms.ColumnHeader columnHeader11;
-        private System.Windows.Forms.ColumnHeader columnHeader12;
-        private System.Windows.Forms.ColumnHeader columnHeader13;
-        private System.Windows.Forms.Panel panel18;
-        private System.Windows.Forms.Panel panel19;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnAppendUser;
         private System.Windows.Forms.Label lblStatusImageCount;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblGetImgCount;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TabPage tbpVideo;
-        private UI.VedioPlayerUC vedioPlayerUC1;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Panel panel21;
         private System.Windows.Forms.ComboBox cbxUserSort;
@@ -1638,6 +1646,24 @@
         private System.Windows.Forms.ColumnHeader colTime;
         private System.Windows.Forms.ColumnHeader colGets;
         private System.Windows.Forms.ColumnHeader columnTime;
+        private System.Windows.Forms.TabPage tbpPreview;
+        private System.Windows.Forms.TabPage tbpVideo;
+        private UI.VedioPlayerUC vedioPlayerUC1;
+        private System.Windows.Forms.TabPage tbpReview;
+        private UI.ImagePreviewUC imagePreviewUC1;
+        private System.Windows.Forms.TabPage tbpGatherLog;
+        private System.Windows.Forms.ListView lstRunstate;
+        private System.Windows.Forms.ColumnHeader columnHeader10;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader11;
+        private System.Windows.Forms.ColumnHeader columnHeader12;
+        private System.Windows.Forms.ColumnHeader columnHeader13;
+        private System.Windows.Forms.Panel panel18;
+        private System.Windows.Forms.ListBox lstLog;
+        private System.Windows.Forms.Panel panel19;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TabControl tabControl1;
+        private UI.WebBrowerUC webBrowerUC1;
     }
 }
 

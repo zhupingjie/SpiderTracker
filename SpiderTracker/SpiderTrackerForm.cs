@@ -723,6 +723,13 @@ namespace SpiderTracker
                     }
                 }
             }
+            else if(RunningConfig.PreviewImageNow == 2)
+            {
+                ActiveWebCtl();
+
+                var statusUrl = SinaUrlUtil.GetSinaUserStatusWebUrl(status.uid, status.bid);
+                this.webBrowerUC1.ShowUrl(statusUrl);
+            }
             else
             {
                 ActiveLoggerCtl();
@@ -1021,18 +1028,23 @@ namespace SpiderTracker
 
         private void btnLock_Click(object sender, EventArgs e)
         {
-            if (this.btnLock.Tag == null)
+            if (this.btnLock.Text == "None")
             {
-                RunningConfig.PreviewImageNow = 0;
-                this.btnLock.Tag = "lock";
-                LockImageCtl(false);
+                RunningConfig.PreviewImageNow = 1;
+                this.btnLock.Text = "Image";
+                LockImageCtl(true);
+            }
+            else if(this.btnLock.Text == "Image")
+            {
+                RunningConfig.PreviewImageNow = 2;
+                this.btnLock.Text = "Web";
+                LockImageCtl(true);
             }
             else
             {
-                RunningConfig.PreviewImageNow = 1;
-
-                this.btnLock.Tag = null;
-                LockImageCtl(true);
+                RunningConfig.PreviewImageNow = 0;
+                this.btnLock.Text = "None";
+                LockImageCtl(false);
             }
         }
 
@@ -1780,6 +1792,15 @@ namespace SpiderTracker
             {
                 if (this.tabControl1.Enabled == false) return;
                 this.tabControl1.SelectedIndex = 2;
+            }));
+        }
+
+        void ActiveWebCtl()
+        {
+            InvokeControl(this.tabControl1, new Action(() =>
+            {
+                if (this.tabControl1.Enabled == false) return;
+                this.tabControl1.SelectedIndex = 3;
             }));
         }
 

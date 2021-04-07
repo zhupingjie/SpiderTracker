@@ -69,7 +69,7 @@ namespace SpiderTracker.Imp
                 //{
                 //    readUsers = readUsers.Where(c => (c.name.Contains(RunningConfig.ReadUserNameLike) || c.desc.Contains(RunningConfig.ReadUserNameLike))).ToList();
                 //}
-                foreach (var user in readUsers.OrderByDescending(c => c.focus).ThenByDescending(c => c.lastdate).ToArray())
+                foreach (var user in readUsers.OrderBy(c => c.lastdate).ToArray())
                 {
                     RunningConfig.AddUser(user);
                 }
@@ -272,24 +272,25 @@ namespace SpiderTracker.Imp
 
             Task.Factory.StartNew(() =>
             {
-                SpiderStarted();
-
                 if (option.GatherType == GatherTypeEnum.GatherUser)
                 {
                     MakeGatherUsers(option.SelectUsers, option.StartUrl);
-
+                    SpiderStarted();
                     StartAutoGatherByUser();
                 }
                 else if (option.GatherType == GatherTypeEnum.GahterStatus)
                 {
+                    SpiderStarted();
                     StartAutoGatherByStatus(option.StatusIds);
                 }
                 else if (option.GatherType == GatherTypeEnum.GatherTopic)
                 {
+                    SpiderStarted();
                     StartAutoGatherByTopic(option.StartUrl);
                 }
                 else
                 {
+                    SpiderStarted();
                     StartAutoGatherBySuper(option.StartUrl);
                 }
 
