@@ -29,14 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpiderTrackerForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel26 = new System.Windows.Forms.Panel();
             this.txtStartUrl = new System.Windows.Forms.RichTextBox();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.cbxCategory = new System.Windows.Forms.ComboBox();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.cbxSelect = new System.Windows.Forms.ComboBox();
             this.cbxSite = new System.Windows.Forms.ComboBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -48,14 +47,15 @@
             this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnTAL = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnFind = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnOrigin = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnRet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnGet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnIgnore = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnOrigin = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnRet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnFollow = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnReadPage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLove = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLastPage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnSite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel24 = new System.Windows.Forms.Panel();
             this.panel25 = new System.Windows.Forms.Panel();
@@ -71,8 +71,8 @@
             this.colGets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colLoc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colMrk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel20 = new System.Windows.Forms.Panel();
             this.panel22 = new System.Windows.Forms.Panel();
             this.cbxStatusSortAsc = new System.Windows.Forms.ComboBox();
@@ -91,12 +91,12 @@
             this.panel7 = new System.Windows.Forms.Panel();
             this.lblUserUid = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.btnIgnoreUser = new System.Windows.Forms.Button();
             this.btnChange = new System.Windows.Forms.Button();
             this.btnMarkUser = new System.Windows.Forms.Button();
             this.btnFocusUser = new System.Windows.Forms.Button();
             this.btnBrowseUser = new System.Windows.Forms.Button();
             this.btnFollwerUser = new System.Windows.Forms.Button();
-            this.btnIgnoreUser = new System.Windows.Forms.Button();
             this.lblArchiveCount = new System.Windows.Forms.Label();
             this.lblLstArchiveCountTitle = new System.Windows.Forms.Label();
             this.lblLocalImgCount = new System.Windows.Forms.Label();
@@ -107,8 +107,8 @@
             this.lblLstImgCountTitle = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel16 = new System.Windows.Forms.Panel();
+            this.btnReadConfig = new System.Windows.Forms.Button();
             this.btnRefreshConfig = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.panel17 = new System.Windows.Forms.Panel();
@@ -119,6 +119,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnLock = new System.Windows.Forms.Button();
             this.panel13 = new System.Windows.Forms.Panel();
+            this.btnBweTopic = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel14 = new System.Windows.Forms.Panel();
             this.btnAppendUser = new System.Windows.Forms.Button();
@@ -143,14 +144,11 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.panel26 = new System.Windows.Forms.Panel();
-            this.cbxSelect = new System.Windows.Forms.ComboBox();
-            this.columnSite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnReadConfig = new System.Windows.Forms.Button();
             this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
-            this.btnBweTopic = new System.Windows.Forms.Button();
+            this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
             this.panel1.SuspendLayout();
+            this.panel26.SuspendLayout();
             this.panel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -166,7 +164,6 @@
             this.panel6.SuspendLayout();
             this.panel10.SuspendLayout();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel16.SuspendLayout();
             this.panel17.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -181,7 +178,6 @@
             this.panel18.SuspendLayout();
             this.panel19.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.panel26.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -193,6 +189,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1158, 41);
             this.panel1.TabIndex = 0;
+            // 
+            // panel26
+            // 
+            this.panel26.Controls.Add(this.txtStartUrl);
+            this.panel26.Controls.Add(this.cbxCategory);
+            this.panel26.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel26.Location = new System.Drawing.Point(0, 0);
+            this.panel26.Name = "panel26";
+            this.panel26.Size = new System.Drawing.Size(907, 41);
+            this.panel26.TabIndex = 5;
             // 
             // txtStartUrl
             // 
@@ -207,16 +213,6 @@
             this.txtStartUrl.TabIndex = 2;
             this.txtStartUrl.Text = "";
             this.txtStartUrl.DoubleClick += new System.EventHandler(this.txtStartUrl_DoubleClick);
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.cbxSelect);
-            this.panel4.Controls.Add(this.cbxSite);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(907, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(251, 41);
-            this.panel4.TabIndex = 4;
             // 
             // cbxCategory
             // 
@@ -235,6 +231,34 @@
             this.cbxCategory.TabIndex = 3;
             this.cbxCategory.Text = "cosplay";
             this.cbxCategory.Leave += new System.EventHandler(this.cbxName_Leave);
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.cbxSelect);
+            this.panel4.Controls.Add(this.cbxSite);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel4.Location = new System.Drawing.Point(907, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(251, 41);
+            this.panel4.TabIndex = 4;
+            // 
+            // cbxSelect
+            // 
+            this.cbxSelect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.cbxSelect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbxSelect.Enabled = false;
+            this.cbxSelect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbxSelect.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxSelect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.cbxSelect.FormattingEnabled = true;
+            this.cbxSelect.ItemHeight = 31;
+            this.cbxSelect.Location = new System.Drawing.Point(95, 0);
+            this.cbxSelect.Name = "cbxSelect";
+            this.cbxSelect.Size = new System.Drawing.Size(156, 39);
+            this.cbxSelect.TabIndex = 5;
+            this.cbxSelect.Text = "......";
+            this.cbxSelect.DropDown += new System.EventHandler(this.cbxSelect_DropDown);
+            this.cbxSelect.Leave += new System.EventHandler(this.cbxSelect_Leave);
             // 
             // cbxSite
             // 
@@ -363,16 +387,6 @@
             this.columnFind.Text = "读取";
             this.columnFind.Width = 50;
             // 
-            // columnOrigin
-            // 
-            this.columnOrigin.Text = "原创";
-            this.columnOrigin.Width = 50;
-            // 
-            // columnRet
-            // 
-            this.columnRet.Text = "转发";
-            this.columnRet.Width = 50;
-            // 
             // columnGet
             // 
             this.columnGet.Text = "采集";
@@ -382,6 +396,16 @@
             // 
             this.columnIgnore.Text = "忽略";
             this.columnIgnore.Width = 50;
+            // 
+            // columnOrigin
+            // 
+            this.columnOrigin.Text = "原创";
+            this.columnOrigin.Width = 50;
+            // 
+            // columnRet
+            // 
+            this.columnRet.Text = "转发";
+            this.columnRet.Width = 50;
             // 
             // columnFollow
             // 
@@ -402,6 +426,11 @@
             // 
             this.columnLastPage.Text = "末页";
             this.columnLastPage.Width = 50;
+            // 
+            // columnSite
+            // 
+            this.columnSite.Text = "来源";
+            this.columnSite.Width = 50;
             // 
             // columnTime
             // 
@@ -596,15 +625,15 @@
             this.colMrk.Text = "存档";
             this.colMrk.Width = 40;
             // 
-            // colTime
-            // 
-            this.colTime.Text = "日期";
-            this.colTime.Width = 120;
-            // 
             // colSite
             // 
             this.colSite.Text = "来源";
             this.colSite.Width = 50;
+            // 
+            // colTime
+            // 
+            this.colTime.Text = "日期";
+            this.colTime.Width = 120;
             // 
             // panel20
             // 
@@ -857,6 +886,18 @@
             this.panel6.Size = new System.Drawing.Size(202, 25);
             this.panel6.TabIndex = 1;
             // 
+            // btnIgnoreUser
+            // 
+            this.btnIgnoreUser.BackColor = System.Drawing.SystemColors.Control;
+            this.btnIgnoreUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnIgnoreUser.Location = new System.Drawing.Point(3, 3);
+            this.btnIgnoreUser.Name = "btnIgnoreUser";
+            this.btnIgnoreUser.Size = new System.Drawing.Size(35, 20);
+            this.btnIgnoreUser.TabIndex = 10;
+            this.btnIgnoreUser.Text = "IGN";
+            this.btnIgnoreUser.UseVisualStyleBackColor = false;
+            this.btnIgnoreUser.Click += new System.EventHandler(this.btnIgnoreUser_Click);
+            // 
             // btnChange
             // 
             this.btnChange.BackColor = System.Drawing.SystemColors.Control;
@@ -916,18 +957,6 @@
             this.btnFollwerUser.Text = "FOW";
             this.btnFollwerUser.UseVisualStyleBackColor = false;
             this.btnFollwerUser.Click += new System.EventHandler(this.btnFollowerUser_Click);
-            // 
-            // btnIgnoreUser
-            // 
-            this.btnIgnoreUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnIgnoreUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnIgnoreUser.Location = new System.Drawing.Point(3, 3);
-            this.btnIgnoreUser.Name = "btnIgnoreUser";
-            this.btnIgnoreUser.Size = new System.Drawing.Size(35, 20);
-            this.btnIgnoreUser.TabIndex = 10;
-            this.btnIgnoreUser.Text = "IGN";
-            this.btnIgnoreUser.UseVisualStyleBackColor = false;
-            this.btnIgnoreUser.Click += new System.EventHandler(this.btnIgnoreUser_Click);
             // 
             // lblArchiveCount
             // 
@@ -1025,45 +1054,13 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.SystemColors.Control;
-            this.panel5.Controls.Add(this.dataGridView1);
             this.panel5.Controls.Add(this.panel16);
+            this.panel5.Controls.Add(this.spiderConfigUC1);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(0, 112);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(249, 378);
             this.panel5.TabIndex = 18;
-            // 
-            // dataGridView1
-            // 
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.ColumnHeadersVisible = false;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 26);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 10;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle9;
-            this.dataGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(249, 352);
-            this.dataGridView1.TabIndex = 18;
-            this.dataGridView1.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
-            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             // 
             // panel16
             // 
@@ -1077,6 +1074,19 @@
             this.panel16.Name = "panel16";
             this.panel16.Size = new System.Drawing.Size(249, 26);
             this.panel16.TabIndex = 13;
+            // 
+            // btnReadConfig
+            // 
+            this.btnReadConfig.BackColor = System.Drawing.SystemColors.Control;
+            this.btnReadConfig.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnReadConfig.ForeColor = System.Drawing.Color.Black;
+            this.btnReadConfig.Location = new System.Drawing.Point(146, 3);
+            this.btnReadConfig.Name = "btnReadConfig";
+            this.btnReadConfig.Size = new System.Drawing.Size(52, 20);
+            this.btnReadConfig.TabIndex = 10;
+            this.btnReadConfig.Text = "READ";
+            this.btnReadConfig.UseVisualStyleBackColor = false;
+            this.btnReadConfig.Click += new System.EventHandler(this.btnReadConfig_Click);
             // 
             // btnRefreshConfig
             // 
@@ -1196,6 +1206,18 @@
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(249, 26);
             this.panel13.TabIndex = 15;
+            // 
+            // btnBweTopic
+            // 
+            this.btnBweTopic.BackColor = System.Drawing.SystemColors.Control;
+            this.btnBweTopic.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBweTopic.Location = new System.Drawing.Point(196, 1);
+            this.btnBweTopic.Name = "btnBweTopic";
+            this.btnBweTopic.Size = new System.Drawing.Size(52, 20);
+            this.btnBweTopic.TabIndex = 9;
+            this.btnBweTopic.Text = "SHOW";
+            this.btnBweTopic.UseVisualStyleBackColor = false;
+            this.btnBweTopic.Click += new System.EventHandler(this.btnBweTopic_Click);
             // 
             // label1
             // 
@@ -1455,52 +1477,6 @@
             this.tabControl1.Size = new System.Drawing.Size(594, 539);
             this.tabControl1.TabIndex = 17;
             // 
-            // panel26
-            // 
-            this.panel26.Controls.Add(this.txtStartUrl);
-            this.panel26.Controls.Add(this.cbxCategory);
-            this.panel26.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel26.Location = new System.Drawing.Point(0, 0);
-            this.panel26.Name = "panel26";
-            this.panel26.Size = new System.Drawing.Size(907, 41);
-            this.panel26.TabIndex = 5;
-            // 
-            // cbxSelect
-            // 
-            this.cbxSelect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.cbxSelect.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbxSelect.Enabled = false;
-            this.cbxSelect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbxSelect.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbxSelect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.cbxSelect.FormattingEnabled = true;
-            this.cbxSelect.ItemHeight = 31;
-            this.cbxSelect.Location = new System.Drawing.Point(95, 0);
-            this.cbxSelect.Name = "cbxSelect";
-            this.cbxSelect.Size = new System.Drawing.Size(156, 39);
-            this.cbxSelect.TabIndex = 5;
-            this.cbxSelect.Text = "......";
-            this.cbxSelect.DropDown += new System.EventHandler(this.cbxSelect_DropDown);
-            this.cbxSelect.Leave += new System.EventHandler(this.cbxSelect_Leave);
-            // 
-            // columnSite
-            // 
-            this.columnSite.Text = "来源";
-            this.columnSite.Width = 50;
-            // 
-            // btnReadConfig
-            // 
-            this.btnReadConfig.BackColor = System.Drawing.SystemColors.Control;
-            this.btnReadConfig.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnReadConfig.ForeColor = System.Drawing.Color.Black;
-            this.btnReadConfig.Location = new System.Drawing.Point(146, 3);
-            this.btnReadConfig.Name = "btnReadConfig";
-            this.btnReadConfig.Size = new System.Drawing.Size(52, 20);
-            this.btnReadConfig.TabIndex = 10;
-            this.btnReadConfig.Text = "READ";
-            this.btnReadConfig.UseVisualStyleBackColor = false;
-            this.btnReadConfig.Click += new System.EventHandler(this.btnReadConfig_Click);
-            // 
             // imagePreviewUC1
             // 
             this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
@@ -1520,17 +1496,14 @@
             this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
             this.vedioPlayerUC1.TabIndex = 0;
             // 
-            // btnBweTopic
+            // spiderConfigUC1
             // 
-            this.btnBweTopic.BackColor = System.Drawing.SystemColors.Control;
-            this.btnBweTopic.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBweTopic.Location = new System.Drawing.Point(196, 1);
-            this.btnBweTopic.Name = "btnBweTopic";
-            this.btnBweTopic.Size = new System.Drawing.Size(52, 20);
-            this.btnBweTopic.TabIndex = 9;
-            this.btnBweTopic.Text = "SHOW";
-            this.btnBweTopic.UseVisualStyleBackColor = false;
-            this.btnBweTopic.Click += new System.EventHandler(this.btnBweTopic_Click);
+            this.spiderConfigUC1.AutoScroll = true;
+            this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
+            this.spiderConfigUC1.Name = "spiderConfigUC1";
+            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 378);
+            this.spiderConfigUC1.TabIndex = 19;
             // 
             // SpiderTrackerForm
             // 
@@ -1550,6 +1523,7 @@
             this.Load += new System.EventHandler(this.SpiderTrackerForm_Load);
             this.SizeChanged += new System.EventHandler(this.SpiderTrackerForm_SizeChanged);
             this.panel1.ResumeLayout(false);
+            this.panel26.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -1570,7 +1544,6 @@
             this.panel6.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel16.ResumeLayout(false);
             this.panel16.PerformLayout();
             this.panel17.ResumeLayout(false);
@@ -1591,7 +1564,6 @@
             this.panel19.ResumeLayout(false);
             this.panel19.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.panel26.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1626,7 +1598,6 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel16;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btnLock;
         private System.Windows.Forms.ComboBox cbxCategory;
         private System.Windows.Forms.Panel panel4;
@@ -1716,6 +1687,7 @@
         private System.Windows.Forms.ColumnHeader columnSite;
         private System.Windows.Forms.Button btnReadConfig;
         private System.Windows.Forms.Button btnBweTopic;
+        private UI.SpiderConfigUC spiderConfigUC1;
     }
 }
 

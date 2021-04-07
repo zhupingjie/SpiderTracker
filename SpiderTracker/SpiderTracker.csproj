@@ -199,6 +199,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\SpiderConfigUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\SpiderConfigUC.Designer.cs">
+      <DependentUpon>SpiderConfigUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\VedioPlayerUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -238,6 +244,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UI\SpiderConfigUC.resx">
+      <DependentUpon>SpiderConfigUC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\VedioPlayerUC.resx">
       <DependentUpon>VedioPlayerUC.cs</DependentUpon>
     </EmbeddedResource>

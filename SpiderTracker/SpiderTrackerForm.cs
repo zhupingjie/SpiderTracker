@@ -1692,10 +1692,6 @@ namespace SpiderTracker
             //dr["配置项"] = "默认归档路径";
             //dr["配置值"] = "archive";
             //dt.Rows.Add(dr);
-
-            this.dataGridView1.DataSource = dt.DefaultView;
-            this.dataGridView1.Columns[0].Width = 120;
-            this.dataGridView1.Columns[1].Width = 120;
         }
 
         SpiderRunningConfig GetSpiderRunningConfig()
@@ -1709,169 +1705,169 @@ namespace SpiderTracker
             RunningConfig.Site = this.cbxSite.Text.Trim();
             RunningConfig.Id = DateTime.Now.Ticks;
 
-            foreach (DataGridViewRow row in this.dataGridView1.Rows)
-            {
-                if (row.Cells["配置项"].Value == null) continue;
+            //foreach (DataGridViewRow row in this.dataGridView1.Rows)
+            //{
+            //    if (row.Cells["配置项"].Value == null) continue;
 
-                if (row.Cells["配置项"].Value.ToString() == "每条等待秒数")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.ReadNextStatusWaitSecond = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "每页等待秒数")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.ReadNextPageWaitSecond = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "最大采集页数")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.ReadPageCount = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "起始采集页码")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.StartPageIndex = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "采集原创微博")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.OnlyReadOwnerUser = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "最少图片数量")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.ReadMinOfImgCount = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "图片最小尺寸")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.ReadMinOfImgSize = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "图片最大尺寸")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.ReadMaxOfImgSize = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "采集用户名称")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    RunningConfig.ReadUserNameLike = strValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "采集所有用户")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.ReadAllOfUser = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "采集用户关注")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.ReadUserOfHeFocus = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "采集我的关注")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    var intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.ReadUserOfMyFocus = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "忽略存档微博")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    int intValue = 0;
-                    int.TryParse(strValue, out intValue); ;
-                    RunningConfig.IgnoreReadArchiveStatus = intValue;
-                }
-                else if(row.Cells["配置项"].Value.ToString() == "忽略采集微博")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    int intValue = 0;
-                    int.TryParse(strValue, out intValue); ;
-                    RunningConfig.IgnoreReadSourceStatus = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "预览图片数量")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    int intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.PreviewImageCount = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "预览显示资源")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    int intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.PreviewImageNow = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "并发用户数量")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    int intValue = 0;
-                    int.TryParse(strValue, out intValue);                    
-                    RunningConfig.MaxReadUserThreadCount = intValue;
-                }
-                else if(row.Cells["配置项"].Value.ToString() == "默认归档路径")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    RunningConfig.DefaultArchivePath = strValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "忽略下载资源")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    int intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.IgnoreDownloadSource = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "缩略图宽度")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    int intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.ThumbnailImageWidth = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "缩略图高度")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    int intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.ThumbnailImageHeight = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "采集完成关机")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    int intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.GatherCompleteShutdown = intValue;
-                }
-                else if (row.Cells["配置项"].Value.ToString() == "断点续传采集")
-                {
-                    var strValue = row.Cells["配置值"].Value.ToString();
-                    int intValue = 0;
-                    int.TryParse(strValue, out intValue);
-                    RunningConfig.GatherContinueLastPage = intValue;
-                }
+            //    if (row.Cells["配置项"].Value.ToString() == "每条等待秒数")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        var intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.ReadNextStatusWaitSecond = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "每页等待秒数")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        var intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.ReadNextPageWaitSecond = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "最大采集页数")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        var intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.ReadPageCount = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "起始采集页码")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        var intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.StartPageIndex = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "采集原创微博")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        var intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.OnlyReadOwnerUser = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "最少图片数量")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        var intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.ReadMinOfImgCount = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "图片最小尺寸")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        var intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.ReadMinOfImgSize = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "图片最大尺寸")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        var intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.ReadMaxOfImgSize = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "采集用户名称")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        RunningConfig.ReadUserNameLike = strValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "采集所有用户")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        var intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.ReadAllOfUser = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "采集用户关注")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        var intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.ReadUserOfHeFocus = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "采集我的关注")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        var intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.ReadUserOfMyFocus = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "忽略存档微博")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        int intValue = 0;
+            //        int.TryParse(strValue, out intValue); ;
+            //        RunningConfig.IgnoreReadArchiveStatus = intValue;
+            //    }
+            //    else if(row.Cells["配置项"].Value.ToString() == "忽略采集微博")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        int intValue = 0;
+            //        int.TryParse(strValue, out intValue); ;
+            //        RunningConfig.IgnoreReadSourceStatus = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "预览图片数量")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        int intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.PreviewImageCount = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "预览显示资源")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        int intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.PreviewImageNow = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "并发用户数量")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        int intValue = 0;
+            //        int.TryParse(strValue, out intValue);                    
+            //        RunningConfig.MaxReadUserThreadCount = intValue;
+            //    }
+            //    else if(row.Cells["配置项"].Value.ToString() == "默认归档路径")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        RunningConfig.DefaultArchivePath = strValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "忽略下载资源")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        int intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.IgnoreDownloadSource = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "缩略图宽度")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        int intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.ThumbnailImageWidth = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "缩略图高度")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        int intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.ThumbnailImageHeight = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "采集完成关机")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        int intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.GatherCompleteShutdown = intValue;
+            //    }
+            //    else if (row.Cells["配置项"].Value.ToString() == "断点续传采集")
+            //    {
+            //        var strValue = row.Cells["配置值"].Value.ToString();
+            //        int intValue = 0;
+            //        int.TryParse(strValue, out intValue);
+            //        RunningConfig.GatherContinueLastPage = intValue;
+            //    }
                 
-            }
+            //}
             return RunningConfig;
         }
 
