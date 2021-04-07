@@ -30,42 +30,40 @@ namespace SpiderTracker.UI
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.GatherThreadCount = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.StartPageIndex = new System.Windows.Forms.NumericUpDown();
+            this.MaxReadPageCount = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.MinReadImageCount = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.GatherCompleteShutdown = new System.Windows.Forms.CheckBox();
+            this.GatherContinueLastPage = new System.Windows.Forms.CheckBox();
+            this.ReadUserOfHeFocus = new System.Windows.Forms.CheckBox();
+            this.IgnoreDownloadSource = new System.Windows.Forms.CheckBox();
+            this.ReadAllOfUser = new System.Windows.Forms.CheckBox();
+            this.ReadOwnerUserStatus = new System.Windows.Forms.CheckBox();
+            this.ReadUserOfMyFocus = new System.Windows.Forms.CheckBox();
+            this.IgnoreReadGetStatus = new System.Windows.Forms.CheckBox();
+            this.IgnoreReadArchiveStatus = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GatherThreadCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StartPageIndex)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxReadPageCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinReadImageCount)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,18 +77,19 @@ namespace SpiderTracker.UI
             this.label1.TabIndex = 0;
             this.label1.Text = "并发用户数量";
             // 
-            // numericUpDown1
+            // GatherThreadCount
             // 
-            this.numericUpDown1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numericUpDown1.Location = new System.Drawing.Point(120, 30);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(103, 23);
-            this.numericUpDown1.TabIndex = 1;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.GatherThreadCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GatherThreadCount.Location = new System.Drawing.Point(120, 30);
+            this.GatherThreadCount.Name = "GatherThreadCount";
+            this.GatherThreadCount.Size = new System.Drawing.Size(103, 23);
+            this.GatherThreadCount.TabIndex = 1;
+            this.GatherThreadCount.Value = new decimal(new int[] {
             5,
             0,
             0,
             0});
+            this.GatherThreadCount.ValueChanged += new System.EventHandler(this.GatherThreadCount_ValueChanged);
             // 
             // label2
             // 
@@ -102,31 +101,33 @@ namespace SpiderTracker.UI
             this.label2.TabIndex = 2;
             this.label2.Text = "起始采集页码";
             // 
-            // numericUpDown2
+            // StartPageIndex
             // 
-            this.numericUpDown2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numericUpDown2.Location = new System.Drawing.Point(120, 59);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(103, 23);
-            this.numericUpDown2.TabIndex = 3;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.StartPageIndex.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.StartPageIndex.Location = new System.Drawing.Point(120, 59);
+            this.StartPageIndex.Name = "StartPageIndex";
+            this.StartPageIndex.Size = new System.Drawing.Size(103, 23);
+            this.StartPageIndex.TabIndex = 3;
+            this.StartPageIndex.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.StartPageIndex.ValueChanged += new System.EventHandler(this.StartPageIndex_ValueChanged);
             // 
-            // numericUpDown3
+            // MaxReadPageCount
             // 
-            this.numericUpDown3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numericUpDown3.Location = new System.Drawing.Point(120, 88);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(103, 23);
-            this.numericUpDown3.TabIndex = 5;
-            this.numericUpDown3.Value = new decimal(new int[] {
+            this.MaxReadPageCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.MaxReadPageCount.Location = new System.Drawing.Point(120, 88);
+            this.MaxReadPageCount.Name = "MaxReadPageCount";
+            this.MaxReadPageCount.Size = new System.Drawing.Size(103, 23);
+            this.MaxReadPageCount.TabIndex = 5;
+            this.MaxReadPageCount.Value = new decimal(new int[] {
             3,
             0,
             0,
             0});
+            this.MaxReadPageCount.ValueChanged += new System.EventHandler(this.MaxReadPageCount_ValueChanged);
             // 
             // label3
             // 
@@ -138,18 +139,19 @@ namespace SpiderTracker.UI
             this.label3.TabIndex = 4;
             this.label3.Text = "最大采集页数";
             // 
-            // numericUpDown4
+            // MinReadImageCount
             // 
-            this.numericUpDown4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numericUpDown4.Location = new System.Drawing.Point(120, 117);
-            this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(103, 23);
-            this.numericUpDown4.TabIndex = 7;
-            this.numericUpDown4.Value = new decimal(new int[] {
+            this.MinReadImageCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.MinReadImageCount.Location = new System.Drawing.Point(120, 117);
+            this.MinReadImageCount.Name = "MinReadImageCount";
+            this.MinReadImageCount.Size = new System.Drawing.Size(103, 23);
+            this.MinReadImageCount.TabIndex = 7;
+            this.MinReadImageCount.Value = new decimal(new int[] {
             3,
             0,
             0,
             0});
+            this.MinReadImageCount.ValueChanged += new System.EventHandler(this.MinReadImageCount_ValueChanged);
             // 
             // label4
             // 
@@ -161,124 +163,119 @@ namespace SpiderTracker.UI
             this.label4.TabIndex = 6;
             this.label4.Text = "最少图片数量";
             // 
-            // label12
+            // GatherCompleteShutdown
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label12.Location = new System.Drawing.Point(9, 37);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(80, 17);
-            this.label12.TabIndex = 29;
-            this.label12.Text = "采集用户名称";
+            this.GatherCompleteShutdown.AutoSize = true;
+            this.GatherCompleteShutdown.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GatherCompleteShutdown.Location = new System.Drawing.Point(6, 32);
+            this.GatherCompleteShutdown.Name = "GatherCompleteShutdown";
+            this.GatherCompleteShutdown.Size = new System.Drawing.Size(99, 21);
+            this.GatherCompleteShutdown.TabIndex = 35;
+            this.GatherCompleteShutdown.Text = "采集完成关机";
+            this.GatherCompleteShutdown.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // GatherContinueLastPage
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkBox1.Location = new System.Drawing.Point(120, 84);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(99, 21);
-            this.checkBox1.TabIndex = 35;
-            this.checkBox1.Text = "采集完成关机";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.GatherContinueLastPage.AutoSize = true;
+            this.GatherContinueLastPage.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GatherContinueLastPage.Location = new System.Drawing.Point(119, 111);
+            this.GatherContinueLastPage.Name = "GatherContinueLastPage";
+            this.GatherContinueLastPage.Size = new System.Drawing.Size(99, 21);
+            this.GatherContinueLastPage.TabIndex = 36;
+            this.GatherContinueLastPage.Text = "断点续传采集";
+            this.GatherContinueLastPage.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // ReadUserOfHeFocus
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkBox2.Location = new System.Drawing.Point(12, 138);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(99, 21);
-            this.checkBox2.TabIndex = 36;
-            this.checkBox2.Text = "断点续传采集";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.ReadUserOfHeFocus.AutoSize = true;
+            this.ReadUserOfHeFocus.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ReadUserOfHeFocus.Location = new System.Drawing.Point(120, 57);
+            this.ReadUserOfHeFocus.Name = "ReadUserOfHeFocus";
+            this.ReadUserOfHeFocus.Size = new System.Drawing.Size(99, 21);
+            this.ReadUserOfHeFocus.TabIndex = 37;
+            this.ReadUserOfHeFocus.Text = "采集用户关注";
+            this.ReadUserOfHeFocus.UseVisualStyleBackColor = true;
+            this.ReadUserOfHeFocus.CheckedChanged += new System.EventHandler(this.ReadUserOfHeFocus_CheckedChanged);
             // 
-            // checkBox3
+            // IgnoreDownloadSource
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkBox3.Location = new System.Drawing.Point(120, 57);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(99, 21);
-            this.checkBox3.TabIndex = 37;
-            this.checkBox3.Text = "采集用户关注";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.IgnoreDownloadSource.AutoSize = true;
+            this.IgnoreDownloadSource.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.IgnoreDownloadSource.Location = new System.Drawing.Point(12, 111);
+            this.IgnoreDownloadSource.Name = "IgnoreDownloadSource";
+            this.IgnoreDownloadSource.Size = new System.Drawing.Size(99, 21);
+            this.IgnoreDownloadSource.TabIndex = 38;
+            this.IgnoreDownloadSource.Text = "忽略下载资源";
+            this.IgnoreDownloadSource.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // ReadAllOfUser
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkBox4.Location = new System.Drawing.Point(12, 84);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(99, 21);
-            this.checkBox4.TabIndex = 38;
-            this.checkBox4.Text = "采集下载资源";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.ReadAllOfUser.AutoSize = true;
+            this.ReadAllOfUser.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ReadAllOfUser.Location = new System.Drawing.Point(120, 30);
+            this.ReadAllOfUser.Name = "ReadAllOfUser";
+            this.ReadAllOfUser.Size = new System.Drawing.Size(99, 21);
+            this.ReadAllOfUser.TabIndex = 39;
+            this.ReadAllOfUser.Text = "采集所有用户";
+            this.ReadAllOfUser.UseVisualStyleBackColor = true;
+            this.ReadAllOfUser.CheckedChanged += new System.EventHandler(this.ReadAllOfUser_CheckedChanged);
             // 
-            // checkBox5
+            // ReadOwnerUserStatus
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkBox5.Location = new System.Drawing.Point(120, 30);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(99, 21);
-            this.checkBox5.TabIndex = 39;
-            this.checkBox5.Text = "采集所有用户";
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.ReadOwnerUserStatus.AutoSize = true;
+            this.ReadOwnerUserStatus.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ReadOwnerUserStatus.Location = new System.Drawing.Point(12, 30);
+            this.ReadOwnerUserStatus.Name = "ReadOwnerUserStatus";
+            this.ReadOwnerUserStatus.Size = new System.Drawing.Size(99, 21);
+            this.ReadOwnerUserStatus.TabIndex = 40;
+            this.ReadOwnerUserStatus.Text = "采集原创微博";
+            this.ReadOwnerUserStatus.UseVisualStyleBackColor = true;
+            this.ReadOwnerUserStatus.CheckedChanged += new System.EventHandler(this.ReadOwnerUserStatus_CheckedChanged);
             // 
-            // checkBox6
+            // ReadUserOfMyFocus
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkBox6.Location = new System.Drawing.Point(12, 30);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(99, 21);
-            this.checkBox6.TabIndex = 40;
-            this.checkBox6.Text = "采集原创微博";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            this.ReadUserOfMyFocus.AutoSize = true;
+            this.ReadUserOfMyFocus.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ReadUserOfMyFocus.Location = new System.Drawing.Point(12, 57);
+            this.ReadUserOfMyFocus.Name = "ReadUserOfMyFocus";
+            this.ReadUserOfMyFocus.Size = new System.Drawing.Size(99, 21);
+            this.ReadUserOfMyFocus.TabIndex = 41;
+            this.ReadUserOfMyFocus.Text = "采集我的关注";
+            this.ReadUserOfMyFocus.UseVisualStyleBackColor = true;
+            this.ReadUserOfMyFocus.CheckedChanged += new System.EventHandler(this.ReadUserOfMyFocus_CheckedChanged);
             // 
-            // checkBox7
+            // IgnoreReadGetStatus
             // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkBox7.Location = new System.Drawing.Point(12, 57);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(99, 21);
-            this.checkBox7.TabIndex = 41;
-            this.checkBox7.Text = "采集我的关注";
-            this.checkBox7.UseVisualStyleBackColor = true;
+            this.IgnoreReadGetStatus.AutoSize = true;
+            this.IgnoreReadGetStatus.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.IgnoreReadGetStatus.Location = new System.Drawing.Point(120, 84);
+            this.IgnoreReadGetStatus.Name = "IgnoreReadGetStatus";
+            this.IgnoreReadGetStatus.Size = new System.Drawing.Size(99, 21);
+            this.IgnoreReadGetStatus.TabIndex = 42;
+            this.IgnoreReadGetStatus.Text = "忽略已采微博";
+            this.IgnoreReadGetStatus.UseVisualStyleBackColor = true;
+            this.IgnoreReadGetStatus.CheckedChanged += new System.EventHandler(this.IgnoreReadGetStatus_CheckedChanged);
             // 
-            // checkBox8
+            // IgnoreReadArchiveStatus
             // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkBox8.Location = new System.Drawing.Point(120, 111);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(99, 21);
-            this.checkBox8.TabIndex = 42;
-            this.checkBox8.Text = "忽略已采微博";
-            this.checkBox8.UseVisualStyleBackColor = true;
-            // 
-            // checkBox9
-            // 
-            this.checkBox9.AutoSize = true;
-            this.checkBox9.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkBox9.Location = new System.Drawing.Point(12, 111);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(99, 21);
-            this.checkBox9.TabIndex = 43;
-            this.checkBox9.Text = "忽略存档微博";
-            this.checkBox9.UseVisualStyleBackColor = true;
+            this.IgnoreReadArchiveStatus.AutoSize = true;
+            this.IgnoreReadArchiveStatus.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.IgnoreReadArchiveStatus.Location = new System.Drawing.Point(12, 84);
+            this.IgnoreReadArchiveStatus.Name = "IgnoreReadArchiveStatus";
+            this.IgnoreReadArchiveStatus.Size = new System.Drawing.Size(99, 21);
+            this.IgnoreReadArchiveStatus.TabIndex = 43;
+            this.IgnoreReadArchiveStatus.Text = "忽略存档微博";
+            this.IgnoreReadArchiveStatus.UseVisualStyleBackColor = true;
+            this.IgnoreReadArchiveStatus.CheckedChanged += new System.EventHandler(this.IgnoreReadArchiveStatus_CheckedChanged);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.label12);
+            this.panel1.Controls.Add(this.GatherCompleteShutdown);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 314);
+            this.panel1.Location = new System.Drawing.Point(0, 285);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(248, 66);
+            this.panel1.Size = new System.Drawing.Size(248, 59);
             this.panel1.TabIndex = 44;
             // 
             // panel2
@@ -304,37 +301,19 @@ namespace SpiderTracker.UI
             // panel3
             // 
             this.panel3.Controls.Add(this.panel5);
-            this.panel3.Controls.Add(this.checkBox9);
-            this.panel3.Controls.Add(this.checkBox1);
-            this.panel3.Controls.Add(this.checkBox2);
-            this.panel3.Controls.Add(this.checkBox8);
-            this.panel3.Controls.Add(this.checkBox3);
-            this.panel3.Controls.Add(this.checkBox7);
-            this.panel3.Controls.Add(this.checkBox4);
-            this.panel3.Controls.Add(this.checkBox6);
-            this.panel3.Controls.Add(this.checkBox5);
+            this.panel3.Controls.Add(this.IgnoreReadArchiveStatus);
+            this.panel3.Controls.Add(this.GatherContinueLastPage);
+            this.panel3.Controls.Add(this.IgnoreReadGetStatus);
+            this.panel3.Controls.Add(this.ReadUserOfHeFocus);
+            this.panel3.Controls.Add(this.ReadUserOfMyFocus);
+            this.panel3.Controls.Add(this.IgnoreDownloadSource);
+            this.panel3.Controls.Add(this.ReadOwnerUserStatus);
+            this.panel3.Controls.Add(this.ReadAllOfUser);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 149);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(248, 165);
+            this.panel3.Size = new System.Drawing.Size(248, 136);
             this.panel3.TabIndex = 45;
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.panel6);
-            this.panel4.Controls.Add(this.label1);
-            this.panel4.Controls.Add(this.numericUpDown1);
-            this.panel4.Controls.Add(this.label2);
-            this.panel4.Controls.Add(this.numericUpDown4);
-            this.panel4.Controls.Add(this.numericUpDown2);
-            this.panel4.Controls.Add(this.label4);
-            this.panel4.Controls.Add(this.label3);
-            this.panel4.Controls.Add(this.numericUpDown3);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(248, 149);
-            this.panel4.TabIndex = 46;
             // 
             // panel5
             // 
@@ -356,6 +335,23 @@ namespace SpiderTracker.UI
             this.label6.TabIndex = 0;
             this.label6.Text = "功能选项";
             // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.panel6);
+            this.panel4.Controls.Add(this.label1);
+            this.panel4.Controls.Add(this.GatherThreadCount);
+            this.panel4.Controls.Add(this.label2);
+            this.panel4.Controls.Add(this.MinReadImageCount);
+            this.panel4.Controls.Add(this.StartPageIndex);
+            this.panel4.Controls.Add(this.label4);
+            this.panel4.Controls.Add(this.label3);
+            this.panel4.Controls.Add(this.MaxReadPageCount);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(248, 149);
+            this.panel4.TabIndex = 46;
+            // 
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.SystemColors.InactiveCaption;
@@ -376,13 +372,6 @@ namespace SpiderTracker.UI
             this.label7.TabIndex = 0;
             this.label7.Text = "基本选项";
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(119, 35);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 21);
-            this.textBox1.TabIndex = 30;
-            // 
             // SpiderConfigUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -391,21 +380,21 @@ namespace SpiderTracker.UI
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel1);
             this.Name = "SpiderConfigUC";
-            this.Size = new System.Drawing.Size(248, 380);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+            this.Size = new System.Drawing.Size(248, 344);
+            ((System.ComponentModel.ISupportInitialize)(this.GatherThreadCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StartPageIndex)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxReadPageCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinReadImageCount)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.ResumeLayout(false);
@@ -415,23 +404,22 @@ namespace SpiderTracker.UI
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown GatherThreadCount;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown StartPageIndex;
+        private System.Windows.Forms.NumericUpDown MaxReadPageCount;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numericUpDown4;
+        private System.Windows.Forms.NumericUpDown MinReadImageCount;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox8;
-        private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.CheckBox GatherCompleteShutdown;
+        private System.Windows.Forms.CheckBox GatherContinueLastPage;
+        private System.Windows.Forms.CheckBox ReadUserOfHeFocus;
+        private System.Windows.Forms.CheckBox IgnoreDownloadSource;
+        private System.Windows.Forms.CheckBox ReadAllOfUser;
+        private System.Windows.Forms.CheckBox ReadOwnerUserStatus;
+        private System.Windows.Forms.CheckBox ReadUserOfMyFocus;
+        private System.Windows.Forms.CheckBox IgnoreReadGetStatus;
+        private System.Windows.Forms.CheckBox IgnoreReadArchiveStatus;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label5;
@@ -441,6 +429,5 @@ namespace SpiderTracker.UI
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox1;
     }
 }

@@ -15,46 +15,34 @@ namespace SpiderTracker.Imp
         {
         }
 
-        public GatherTypeEnum GatherType { get; set; } = GatherTypeEnum.GatherUser;
-
         public long Id { get; set; }
 
+        #region 运行状态
+
+        /// <summary>
+        /// 采集类型
+        /// </summary>
+        public GatherTypeEnum GatherType { get; set; } = GatherTypeEnum.GatherUser;
+
+        /// <summary>
+        /// 采集来源
+        /// </summary>
         public string Site { get; set; } = "user";
 
+        /// <summary>
+        /// 用户分类
+        /// </summary>
         public string Category { get; set; } = "default";
-
-        /// <summary>
-        /// 我的用户
-        /// </summary>
-        public string LoginUser { get; set; } = "47426568@qq.com";
-        /// <summary>
-        /// 我的用户
-        /// </summary>
-        public string LoginPassword { get; set; }
-
-        public string LoginUid { get; set; }
-
-        /// <summary>
-        /// 登陆Cookie
-        /// </summary>
-        public string LoginCookie { get; set; }
-
-        /// <summary>
-        /// 登陆Token
-        /// </summary>
-        public string LoginToken { get; set; }
 
         /// <summary>
         /// 起始地址
         /// </summary>
         public string StartUrl { get; set; }
 
-
-        ///// <summary>
-        ///// 用户ID集合
-        ///// </summary>
-        public string[] UserIds { get; set; }
-
+        /// <summary>
+        /// 当前读取页数
+        /// </summary>
+        public int CurrentPageIndex { get; set; } = 1;
         public List<string> RunUserIds { get; set; } = new List<string>();
 
         /// <summary>
@@ -64,24 +52,98 @@ namespace SpiderTracker.Imp
 
         public ConcurrentDictionary<int, ThreadState> DoTasks { get; set; } = new ConcurrentDictionary<int, ThreadState>();
 
+        #endregion
+
+        #region 缓存相关
+
         public string[] ExistsImageLocalFiles { get; set; } = new string[] { };
 
         public string[] ExistsVideoLocalFiles { get; set; } = new string[] { };
 
+        #endregion
+
+        #region 可选配置
+
         /// <summary>
-        /// 微博路径集合
+        /// 并发用户数量
         /// </summary>
-        public string[] StatusUrls { get; set; }
+        [OptionAttribute]
+        public int GatherThreadCount { get; set; } = 5;
 
         /// <summary>
         /// 起始页面
         /// </summary>
+        [OptionAttribute]
         public int StartPageIndex { get; set; } = 1;
 
         /// <summary>
         /// 读取页数
         /// </summary>
-        public int ReadPageCount { get; set; } = 1;
+        [OptionAttribute]
+        public int MaxReadPageCount { get; set; } = 3;
+
+        /// <summary>
+        /// 读取最小图数
+        /// </summary>
+        [OptionAttribute]
+        public int MinReadImageCount { get; set; } = 3;
+
+        /// <summary>
+        /// 采集原创图集
+        /// </summary>
+        [OptionAttribute]
+        public bool ReadOwnerUserStatus { get; set; } = true;
+
+        /// <summary>
+        /// 采集所有用户
+        /// </summary>
+        [OptionAttribute]
+        public bool ReadAllOfUser { get; set; } = false;
+        /// <summary>
+        /// 采集用户关注
+        /// </summary>
+        [OptionAttribute]
+        public bool ReadUserOfHeFocus { get; set; } = false;
+        /// <summary>
+        /// 采集我的关注
+        /// </summary>
+        [OptionAttribute]
+        public bool ReadUserOfMyFocus { get; set; } = false;
+
+        /// <summary>
+        /// 忽略存档图集
+        /// </summary>
+        [OptionAttribute]
+        public bool IgnoreReadArchiveStatus { get; set; } = true;
+
+        /// <summary>
+        /// 忽略采集图集
+        /// </summary>
+        [OptionAttribute]
+        public bool IgnoreReadGetStatus { get; set; } = false;
+
+        /// <summary>
+        /// 忽略下载资源
+        /// </summary>
+        [OptionAttribute]
+        public bool IgnoreDownloadSource { get; set; } = false;
+
+        /// <summary>
+        /// 断点续传采集
+        /// </summary>
+        [OptionAttribute]
+        public bool GatherContinueLastPage { get; set; } = false;
+
+        /// <summary>
+        /// 采集完成关机
+        /// </summary>
+        [OptionAttribute]
+        public bool GatherCompleteShutdown { get; set; } = false;
+
+
+        #endregion
+
+        #region 默认配置
 
         /// <summary>
         /// 读取下一页等待时间(秒)
@@ -94,53 +156,14 @@ namespace SpiderTracker.Imp
         public int ReadNextStatusWaitSecond { get; set; } = 3;
 
         /// <summary>
-        /// 读取最小图数
-        /// </summary>
-        public int ReadMinOfImgCount { get; set; } = 3;
-
-        /// <summary>
         /// 读取图片最小尺寸
         /// </summary>
-        public int ReadMinOfImgSize { get; set; } = 1000;
+        public int MinReadImageSize { get; set; } = 600;
 
         /// <summary>
         /// 读取图片最大尺寸
         /// </summary>
-        public int ReadMaxOfImgSize { get; set; } = 5000;
-
-        /// <summary>
-        /// 当前读取页数
-        /// </summary>
-        public int CurrentPageIndex { get; set; } = 1;
-
-        /// <summary>
-        /// 采集原创图集
-        /// </summary>
-        public int OnlyReadOwnerUser { get; set; } = 1;
-
-        /// <summary>
-        /// 采集所有用户
-        /// </summary>
-        public int ReadAllOfUser { get; set; } = 0;
-        /// <summary>
-        /// 采集用户关注
-        /// </summary>
-        public int ReadUserOfHeFocus { get; set; } = 0;
-        /// <summary>
-        /// 采集用户关注
-        /// </summary>
-        public int ReadUserOfMyFocus { get; set; } = 0;
-
-        /// <summary>
-        /// 忽略存档图集
-        /// </summary>
-        public int IgnoreReadArchiveStatus { get; set; } = 0;
-
-        /// <summary>
-        /// 忽略采集图集
-        /// </summary>
-        public int IgnoreReadSourceStatus { get; set; } = 0;
-
+        public int MaxReadImageSize { get; set; } = 99999;
 
         /// <summary>
         /// 预览图片数量
@@ -152,28 +175,35 @@ namespace SpiderTracker.Imp
         /// </summary>
         public int PreviewImageNow { get; set; } = 1;
 
+        /// <summary>
+        /// 采集用户最少微博数量
+        /// </summary>
+        public int GatherUserMinStatuses { get; set; } = 50;
 
         /// <summary>
-        /// 并发用户数量
+        /// 默认存档临时文件夹
         /// </summary>
-        public int MaxReadUserThreadCount { get; set; } = 1;
-
-        /// <summary>
-        /// 关注用户名称
-        /// </summary>
-        public string ReadUserNameLike { get; set; }
-
         public string DefaultArchivePath { get; set; } = "archive";
 
-        public int IgnoreDownloadSource { get; set; } = 0;
-
+        /// <summary>
+        /// 缩略图宽度
+        /// </summary>
         public int ThumbnailImageWidth { get; set; } = 138;
 
+        /// <summary>
+        /// 缩略图高度
+        /// </summary>
         public int ThumbnailImageHeight { get; set; } = 190;
 
-        public int GatherCompleteShutdown { get; set; } = 0;
-        public int GatherContinueLastPage { get; set; } = 0;
-        public int GatherUserMinStatuses { get; set; } = 50;
+        /// <summary>
+        /// 采集用户名称
+        /// </summary>
+        public string ReadUserNameLike { get; set; } = "jk,ol,cos,leg,stock,腿,丝,袜,萌,酱,萝莉,制服,私房,写真,约拍";
+
+
+        #endregion
+
+        #region 内置函数
 
         public void Reset()
         {
@@ -214,5 +244,37 @@ namespace SpiderTracker.Imp
             runningConfig.Id = DateTime.Now.Ticks;
             return runningConfig;
         }
+
+        #endregion
+
+        #region 登陆认证
+
+        /// <summary>
+        /// 我的用户
+        /// </summary>
+        public string LoginUser { get; set; } = "47426568@qq.com";
+        /// <summary>
+        /// 我的用户
+        /// </summary>
+        public string LoginPassword { get; set; }
+
+        public string LoginUid { get; set; }
+
+        /// <summary>
+        /// 登陆Cookie
+        /// </summary>
+        public string LoginCookie { get; set; }
+
+        /// <summary>
+        /// 登陆Token
+        /// </summary>
+        public string LoginToken { get; set; }
+
+        #endregion
+    }
+
+    public class OptionAttribute:Attribute
+    {
+
     }
 }

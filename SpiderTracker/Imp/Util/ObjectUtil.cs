@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +27,26 @@ namespace SpiderTracker.Imp.Util
             DateTime time = DateTime.Now;
             if (!DateTime.TryParse(strTime, out time)) return null;
             return time.ToString("yyyy/MM/dd HH:mm");
+        }
+
+
+
+        public static void SetPropertyValue(object obj, PropertyInfo propertyInfo, object propertyValue)
+        {
+            if (propertyInfo.CanWrite)
+            {
+                propertyInfo.SetValue(obj, propertyValue);
+            }
+        }
+        public static object GetPropertyValue(object obj, PropertyInfo propertyInfo)
+        {
+            return propertyInfo.GetValue(obj);
+        }
+        public static T ToValue<T>(object value, T defaultValue)
+        {
+            if (value == null) return defaultValue;
+            var converter = TypeDescriptor.GetConverter(typeof(T));
+            return (T)converter.ConvertTo(value, typeof(T));
         }
     }
 }
