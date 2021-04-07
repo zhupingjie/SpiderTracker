@@ -45,7 +45,6 @@ namespace SpiderTracker.Imp
         {
             IsSpiderStarted = true;
             StopSpiderWork = false;
-
             if (OnSpiderStarted != null)
             {
                 OnSpiderStarted?.Invoke(RunningConfig);
@@ -262,6 +261,7 @@ namespace SpiderTracker.Imp
         {
             this.CancelUsers.Clear();
             this.RunningConfig = runningConfig;
+            this.RunningConfig.GatherType = option.GatherType;
             this.RunningConfig.Reset();
 
             if (string.IsNullOrEmpty(RunningConfig.Category))
@@ -1101,9 +1101,10 @@ namespace SpiderTracker.Imp
             }
             else
             {
+                sinaTopic.category = runningConfig.Category;
                 sinaTopic.name = pageInfo.page_type_name;
                 sinaTopic.desc = pageInfo.desc;
-                Repository.UpdateSinaTopic(sinaTopic, new string[] { "name", "desc" });
+                Repository.UpdateSinaTopic(sinaTopic, new string[] { "name", "desc", "category" });
             }
             return sinaTopic;
         }
@@ -1305,9 +1306,10 @@ namespace SpiderTracker.Imp
             }
             else
             {
-                sinaTopic.name = pageInfo.cardlist_title;
+                sinaTopic.category = runningConfig.Category;
+                sinaTopic.name = pageInfo.cardlist_title.Replace("#", "");
                 sinaTopic.desc = pageInfo.desc;
-                Repository.UpdateSinaTopic(sinaTopic, new string[] { "name", "desc" });
+                Repository.UpdateSinaTopic(sinaTopic, new string[] { "name", "desc", "category" });
             }
             return sinaTopic;
         }

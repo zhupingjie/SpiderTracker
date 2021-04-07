@@ -29,7 +29,7 @@ namespace SpiderTracker.Imp
 
         public static string GetSinaUserTopicUrl(string topic, int page = 0)
         {
-            return $"{SinaUrlUtil.GetSinaHost()}/api/container/getIndex?containerid=231522type=61%26t=20%26q=%23{topic}%23#&page={page}";
+            return $"{SinaUrlUtil.GetSinaHost()}/api/container/getIndex?containerid=231522type=61%26t=20%26q=%23{topic}%23&page={page}";
         }
 
         public static string GetSinaUserSuperUrl(string containerid, int page = 0)

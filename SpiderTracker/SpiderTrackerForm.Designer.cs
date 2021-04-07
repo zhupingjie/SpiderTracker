@@ -316,16 +316,16 @@
             this.columnName,
             this.columnTAL,
             this.columnFind,
-            this.columnOrigin,
-            this.columnRet,
             this.columnGet,
             this.columnIgnore,
+            this.columnOrigin,
+            this.columnRet,
             this.columnFollow,
             this.columnReadPage,
             this.columnLove,
             this.columnLastPage,
-            this.columnTime,
-            this.columnSite});
+            this.columnSite,
+            this.columnTime});
             this.lstUser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstUser.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lstUser.FullRowSelect = true;
@@ -359,7 +359,7 @@
             // 
             // columnFind
             // 
-            this.columnFind.Text = "采集";
+            this.columnFind.Text = "读取";
             this.columnFind.Width = 50;
             // 
             // columnOrigin
@@ -374,7 +374,7 @@
             // 
             // columnGet
             // 
-            this.columnGet.Text = "下载";
+            this.columnGet.Text = "采集";
             this.columnGet.Width = 50;
             // 
             // columnIgnore
@@ -405,7 +405,7 @@
             // columnTime
             // 
             this.columnTime.Text = "更新";
-            this.columnTime.Width = 130;
+            this.columnTime.Width = 120;
             // 
             // panel24
             // 
@@ -456,11 +456,11 @@
             "用户",
             "名称",
             "微博",
+            "读取",
             "采集",
+            "忽略",
             "原创",
             "转发",
-            "下载",
-            "忽略",
             "关注",
             "页码",
             "点赞",
@@ -552,8 +552,8 @@
             this.colGets,
             this.colLoc,
             this.colMrk,
-            this.colTime,
-            this.colSite});
+            this.colSite,
+            this.colTime});
             this.lstArc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstArc.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lstArc.FullRowSelect = true;
@@ -573,36 +573,37 @@
             // colBid
             // 
             this.colBid.Text = "BID";
-            this.colBid.Width = 90;
+            this.colBid.Width = 80;
             // 
             // colQty
             // 
-            this.colQty.Text = "QTY";
+            this.colQty.Text = "微博";
             this.colQty.Width = 40;
             // 
             // colGets
             // 
-            this.colGets.Text = "GET";
+            this.colGets.Text = "采集";
             this.colGets.Width = 40;
             // 
             // colLoc
             // 
-            this.colLoc.Text = "LOC";
+            this.colLoc.Text = "本地";
             this.colLoc.Width = 40;
             // 
             // colMrk
             // 
-            this.colMrk.Text = "SAV";
+            this.colMrk.Text = "存档";
             this.colMrk.Width = 40;
             // 
             // colTime
             // 
-            this.colTime.Text = "TIME";
-            this.colTime.Width = 130;
+            this.colTime.Text = "日期";
+            this.colTime.Width = 120;
             // 
             // colSite
             // 
-            this.colSite.Text = "SITE";
+            this.colSite.Text = "来源";
+            this.colSite.Width = 50;
             // 
             // panel20
             // 
@@ -671,11 +672,11 @@
             this.cbxStatusSort.FormattingEnabled = true;
             this.cbxStatusSort.Items.AddRange(new object[] {
             "更新",
-            "数量",
+            "微博",
             "采集",
             "存档",
             "日期",
-            "场所"});
+            "来源"});
             this.cbxStatusSort.Location = new System.Drawing.Point(0, 0);
             this.cbxStatusSort.Margin = new System.Windows.Forms.Padding(0);
             this.cbxStatusSort.Name = "cbxStatusSort";
@@ -843,12 +844,12 @@
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.btnIgnoreUser);
             this.panel6.Controls.Add(this.btnChange);
             this.panel6.Controls.Add(this.btnMarkUser);
             this.panel6.Controls.Add(this.btnFocusUser);
             this.panel6.Controls.Add(this.btnBrowseUser);
             this.panel6.Controls.Add(this.btnFollwerUser);
-            this.panel6.Controls.Add(this.btnIgnoreUser);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel6.Location = new System.Drawing.Point(109, 0);
             this.panel6.Name = "panel6";
@@ -859,7 +860,7 @@
             // 
             this.btnChange.BackColor = System.Drawing.SystemColors.Control;
             this.btnChange.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnChange.Location = new System.Drawing.Point(4, 3);
+            this.btnChange.Location = new System.Drawing.Point(37, 3);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(35, 20);
             this.btnChange.TabIndex = 22;
@@ -883,7 +884,7 @@
             // 
             this.btnFocusUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnFocusUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnFocusUser.Location = new System.Drawing.Point(37, 3);
+            this.btnFocusUser.Location = new System.Drawing.Point(70, 3);
             this.btnFocusUser.Name = "btnFocusUser";
             this.btnFocusUser.Size = new System.Drawing.Size(35, 20);
             this.btnFocusUser.TabIndex = 12;
@@ -919,7 +920,7 @@
             // 
             this.btnIgnoreUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnIgnoreUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnIgnoreUser.Location = new System.Drawing.Point(70, 3);
+            this.btnIgnoreUser.Location = new System.Drawing.Point(3, 3);
             this.btnIgnoreUser.Name = "btnIgnoreUser";
             this.btnIgnoreUser.Size = new System.Drawing.Size(35, 20);
             this.btnIgnoreUser.TabIndex = 10;
@@ -1466,6 +1467,7 @@
             // 
             this.cbxSelect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.cbxSelect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbxSelect.Enabled = false;
             this.cbxSelect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbxSelect.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cbxSelect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -1476,6 +1478,7 @@
             this.cbxSelect.Size = new System.Drawing.Size(156, 39);
             this.cbxSelect.TabIndex = 5;
             this.cbxSelect.Text = "......";
+            this.cbxSelect.DropDown += new System.EventHandler(this.cbxSelect_DropDown);
             this.cbxSelect.Leave += new System.EventHandler(this.cbxSelect_Leave);
             // 
             // columnSite

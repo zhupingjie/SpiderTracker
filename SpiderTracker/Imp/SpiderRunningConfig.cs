@@ -86,17 +86,17 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 读取下一页等待时间(秒)
         /// </summary>
-        public int ReadNextPageWaitSecond { get; set; } = 5;
+        public int ReadNextPageWaitSecond { get; set; } = 3;
 
         /// <summary>
         /// 读取下一条等待时间(秒)
         /// </summary>
-        public int ReadNextStatusWaitSecond { get; set; } = 5;
+        public int ReadNextStatusWaitSecond { get; set; } = 3;
 
         /// <summary>
         /// 读取最小图数
         /// </summary>
-        public int ReadMinOfImgCount { get; set; } = 5;
+        public int ReadMinOfImgCount { get; set; } = 3;
 
         /// <summary>
         /// 读取图片最小尺寸

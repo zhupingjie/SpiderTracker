@@ -201,8 +201,15 @@ namespace SpiderTracker
 
             InvokeControl(this.btnAppendUser, new Action(() =>
             {
-                this.btnAppendUser.Text = "追加采集";
-                this.btnAppendUser.Enabled = true;
+                if(runningConfig.GatherType == GatherTypeEnum.GatherUser)
+                {
+                    this.btnAppendUser.Text = "追加采集";
+                    this.btnAppendUser.Enabled = true;
+                }
+                else
+                {
+                    this.btnAppendUser.Enabled = false;
+                }
             }));
 
             InvokeControl(this.lstRunstate, new Action(() =>
@@ -340,7 +347,7 @@ namespace SpiderTracker
                     else
                         users = users.OrderBy(c => c.statuses).ToArray();
                     break;
-                case "采集":
+                case "读取":
                     if (this.cbxUserSortAsc.Text == "降序")
                         users = users.OrderByDescending(c => c.finds).ToArray();
                     else
@@ -358,7 +365,7 @@ namespace SpiderTracker
                     else
                         users = users.OrderBy(c => c.retweets).ToArray();
                     break;
-                case "下载":
+                case "采集":
                     if (this.cbxUserSortAsc.Text == "降序")
                         users = users.OrderByDescending(c => c.gets).ToArray();
                     else
@@ -437,10 +444,10 @@ namespace SpiderTracker
                     subItem.SubItems.Add(item.name);
                     subItem.SubItems.Add($"{item.statuses}");
                     subItem.SubItems.Add($"{item.finds}");
-                    subItem.SubItems.Add($"{item.originals}");
-                    subItem.SubItems.Add($"{item.retweets}");
                     subItem.SubItems.Add($"{item.gets}");
                     subItem.SubItems.Add($"{item.ignores}");
+                    subItem.SubItems.Add($"{item.originals}");
+                    subItem.SubItems.Add($"{item.retweets}");
                     subItem.SubItems.Add($"{item.follows}");
                     subItem.SubItems.Add($"{item.readpage}");
                     subItem.SubItems.Add($"{(item.focus > 0 ? "◉" : "")}");
@@ -580,8 +587,8 @@ namespace SpiderTracker
                     }
                     subItem.SubItems.Add($"{local}");
                     subItem.SubItems.Add($"{item.archive}");
-                    subItem.SubItems.Add($"{item.createtime}");
                     subItem.SubItems.Add($"{item.site}");
+                    subItem.SubItems.Add($"{item.createtime}");
                     this.lstArc.Items.Add(subItem);
                 }
                 this.lstArc.EndUpdate();
@@ -622,7 +629,7 @@ namespace SpiderTracker
         void LoadCacheTopicList()
         {
             var rep = new SinaRepository();
-            var topics = rep.GetSinaTopics();
+            var topics = rep.GetSinaTopics(RunningConfig.Category);
 
             InvokeControl(this.cbxSelect, new Action(() =>
             {
@@ -641,7 +648,7 @@ namespace SpiderTracker
         void LoadCacheSuperList()
         {
             var rep = new SinaRepository();
-            var topics = rep.GetSinaSupers();
+            var topics = rep.GetSinaSupers(RunningConfig.Category);
 
             InvokeControl(this.cbxSelect, new Action(() =>
             {
@@ -660,6 +667,25 @@ namespace SpiderTracker
         #endregion
 
         #region 用户列表及用户微博事件
+
+        private void cbxSelect_DropDown(object sender, EventArgs e)
+        {
+            switch (this.cbxSite.Text)
+            {
+                case "topic":
+                    this.cbxSelect.Enabled = true;
+                    this.LoadCacheTopicList();
+                    break;
+                case "super":
+                    this.cbxSelect.Enabled = true;
+                    this.LoadCacheSuperList();
+                    break;
+                default:
+                    this.cbxSelect.Text = "......";
+                    this.cbxSelect.Enabled = false;
+                    break;
+            }
+        }
 
         private void lblStatusBid_Click(object sender, EventArgs e)
         {
@@ -756,10 +782,6 @@ namespace SpiderTracker
             {
                 this.IgnoreUser(true);
             }
-            else if (e.KeyCode == Keys.ControlKey)
-            {
-                this.FocusUser();
-            }
         }
 
         private void lstUser_SelectedIndexChanged(object sender, EventArgs e)
@@ -821,10 +843,11 @@ namespace SpiderTracker
 
         private void cbxName_Leave(object sender, EventArgs e)
         {
-            this.InitSpiderRunningConfig();
             this.RunningConfig = GetSpiderRunningConfig();
 
             this.cbxUserSortIndex.Text = $"1";
+
+            this.ChangeSelect();
 
             Task.Factory.StartNew(() =>
             {
@@ -834,25 +857,8 @@ namespace SpiderTracker
 
         private void cbxSite_Leave(object sender, EventArgs e)
         {
-            this.InitSpiderRunningConfig();
             this.RunningConfig = GetSpiderRunningConfig();
-
-            switch(this.cbxSite.Text)
-            {
-                case "topic":
-                    this.cbxSelect.Enabled = true;
-                    this.LoadCacheTopicList();
-                    break;
-                case "super":
-                    this.cbxSelect.Enabled = true;
-                    this.LoadCacheSuperList();
-                    break;
-                default:
-                    this.cbxSelect.Text = "......";
-                    this.cbxSelect.Enabled = false;
-                    break;
-            }
-            this.txtStartUrl.Text = "";
+            this.ChangeSelect();
         }
         private void cbxSelect_Leave(object sender, EventArgs e)
         {
@@ -970,19 +976,6 @@ namespace SpiderTracker
             foreach (var item in status)
             {
                 rep.ArchiveSinaStatus(item.bid);
-
-                if (this.lstArc.Items.Count > 0)
-                {
-                    var listItem = this.lstArc.FindItemWithText(item.bid);
-                    if (listItem != null)
-                    {
-                        listItem.SubItems[4].Text = $"{item.qty}";
-                    }
-                    var archiveQty = 0;
-                    int.TryParse(this.lblArchiveCount.Text, out archiveQty);
-                    archiveQty += 1;
-                    this.lblArchiveCount.Text = $"{archiveQty} ";
-                }
             }
             ArchiveStatus(user.uid, status);
         }
@@ -1229,6 +1222,27 @@ namespace SpiderTracker
                 }
             }
         }
+
+
+        void ChangeSelect()
+        {
+            this.cbxSelect.Text = "...";
+            switch (this.cbxSite.Text)
+            {
+                case "topic":
+                    this.cbxSelect.Enabled = true;
+                    break;
+                case "super":
+                    this.cbxSelect.Enabled = true;
+                    break;
+                default:
+                    this.cbxSelect.Text = "......";
+                    this.cbxSelect.Enabled = false;
+                    break;
+            }
+            this.txtStartUrl.Text = "";
+        }
+
         #endregion
 
         #region 用户及微博功能操作
@@ -1321,13 +1335,6 @@ namespace SpiderTracker
 
             var rep = new SinaRepository();
             var focus = rep.FocusSinaUser(user.uid);
-            if (this.lstUser.Items.Count == 0) return;
-
-            var listItem = this.lstUser.FindItemWithText(user.uid);
-            if (listItem != null)
-            {
-                listItem.SubItems[10].Text = (focus ? "◉" : "");
-            }
         }
 
         void IgnoreStatus(bool confirm)

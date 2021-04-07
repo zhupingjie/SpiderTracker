@@ -86,7 +86,7 @@ namespace SpiderTracker.Imp.Model
 
         public int GetUserStatusGetCount(string uid)
         {
-            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `retweeted`=0 and `ignore`=0");
+            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `retweeted`=0 and `ignore`=0 and `gets`>0");
         }
         public int GetUserStatusFindCount(string uid)
         {
@@ -109,14 +109,14 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.GetEntity<SinaTopic>("sina_topic", $"`containerid`='{containerid}' and `type`=0");
         }
 
-        public List<SinaTopic> GetSinaTopics()
+        public List<SinaTopic> GetSinaTopics(string category)
         {
-            return DBHelper.GetEntitys<SinaTopic>("sina_topic", $"`type`=0");
+            return DBHelper.GetEntitys<SinaTopic>("sina_topic", $"`type`=0 and `category`='{category}'");
         }
 
-        public List<SinaTopic> GetSinaSupers()
+        public List<SinaTopic> GetSinaSupers(string category)
         {
-            return DBHelper.GetEntitys<SinaTopic>("sina_topic", $"`type`=1");
+            return DBHelper.GetEntitys<SinaTopic>("sina_topic", $"`type`=1 and `category`='{category}'");
         }
         public SinaTopic GetSinaSuper(string containerid)
         {
