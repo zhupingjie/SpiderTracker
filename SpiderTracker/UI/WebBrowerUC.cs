@@ -1,5 +1,4 @@
-﻿using Gecko;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,39 +17,41 @@ namespace SpiderTracker.UI
         {
             InitializeComponent();
 
-            Xpcom.Initialize("Firefox");
-            this.geckoWebBrowser1.ProgressChanged += Gecko_ProgressChanged; ;
-            this.geckoWebBrowser1.CreateWindow += Gecko_CreateWindow; ;
-            this.geckoWebBrowser1.DocumentCompleted += Gecko_DocumentCompleted; ;
+            //Xpcom.Initialize("Firefox");
+            //this.geckoWebBrowser1.ProgressChanged += Gecko_ProgressChanged; ;
+            //this.geckoWebBrowser1.CreateWindow += Gecko_CreateWindow; ;
+            //this.geckoWebBrowser1.DocumentCompleted += Gecko_DocumentCompleted; ;
         }
 
         public void ShowUrl(string url)
         {
-            this.geckoWebBrowser1.Navigate(url);
+        //    if (this.geckoWebBrowser1.Url.AbsoluteUri == url) return;
+
+        //    this.geckoWebBrowser1.Navigate(url);
         }
 
-        private void WebBrowerUC_Load(object sender, EventArgs e)
-        {
+        //private void WebBrowerUC_Load(object sender, EventArgs e)
+        //{
             
-        }
+        //}
 
-        private void Gecko_DocumentCompleted(object sender, Gecko.Events.GeckoDocumentCompletedEventArgs e)
-        {
-        }
+        //private void Gecko_DocumentCompleted(object sender, Gecko.Events.GeckoDocumentCompletedEventArgs e)
+        //{
+        //}
 
-        private void Gecko_CreateWindow(object sender, GeckoCreateWindowEventArgs e)
-        {
-        }
+        //private void Gecko_CreateWindow(object sender, GeckoCreateWindowEventArgs e)
+        //{
+        //}
 
-        private void Gecko_ProgressChanged(object sender, GeckoProgressEventArgs e)
-        {
-            if (e.MaximumProgress == 0)
-                return;
+        //private void Gecko_ProgressChanged(object sender, GeckoProgressEventArgs e)
+        //{
+        //    if (e.MaximumProgress == 0)
+        //        return;
 
-            var value = (int)Math.Min(100, (e.CurrentProgress * 100) / e.MaximumProgress);
-            if (value == 100)
-                return;
-            progressBar1.Value = value;
-        }
+        //    var value = (int)Math.Min(100, (e.CurrentProgress * 100) / e.MaximumProgress);
+        //    if (value == 100)
+        //        return;
+        //    progressBar1.Value = value;
+        //}
     }
 }

@@ -30,7 +30,7 @@ namespace SpiderTracker.UI
         private void InitializeComponent()
         {
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.geckoWebBrowser1 = new Gecko.GeckoWebBrowser();
+            //this.geckoWebBrowser1 = new Gecko.GeckoWebBrowser();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -43,23 +43,23 @@ namespace SpiderTracker.UI
             // 
             // geckoWebBrowser1
             // 
-            this.geckoWebBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.geckoWebBrowser1.FrameEventsPropagateToMainWindow = true;
-            this.geckoWebBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.geckoWebBrowser1.Name = "geckoWebBrowser1";
-            this.geckoWebBrowser1.Size = new System.Drawing.Size(435, 402);
-            this.geckoWebBrowser1.TabIndex = 1;
-            this.geckoWebBrowser1.UseHttpActivityObserver = true;
+            //this.geckoWebBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            //this.geckoWebBrowser1.FrameEventsPropagateToMainWindow = true;
+            //this.geckoWebBrowser1.Location = new System.Drawing.Point(0, 0);
+            //this.geckoWebBrowser1.Name = "geckoWebBrowser1";
+            //this.geckoWebBrowser1.Size = new System.Drawing.Size(435, 402);
+            //this.geckoWebBrowser1.TabIndex = 1;
+            //this.geckoWebBrowser1.UseHttpActivityObserver = true;
             // 
             // WebBrowerUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.geckoWebBrowser1);
+            //this.Controls.Add(this.geckoWebBrowser1);
             this.Controls.Add(this.progressBar1);
             this.Name = "WebBrowerUC";
             this.Size = new System.Drawing.Size(435, 425);
-            this.Load += new System.EventHandler(this.WebBrowerUC_Load);
+            //this.Load += new System.EventHandler(this.WebBrowerUC_Load);
             this.ResumeLayout(false);
 
         }
@@ -67,6 +67,6 @@ namespace SpiderTracker.UI
         #endregion
 
         private System.Windows.Forms.ProgressBar progressBar1;
-        private Gecko.GeckoWebBrowser geckoWebBrowser1;
+        //private Gecko.GeckoWebBrowser geckoWebBrowser1;
     }
 }

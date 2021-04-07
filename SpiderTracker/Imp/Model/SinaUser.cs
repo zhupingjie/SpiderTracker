@@ -31,5 +31,7 @@ namespace SpiderTracker.Imp.Model
         public int ignores { get; set; }
         public int readpage { get; set; }
         public int lastpage { get; set; }
+
+        public string site { get; set; }
     }
 }

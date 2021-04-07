@@ -116,6 +116,22 @@ namespace SpiderTracker
 
         private void SinaSpiderService_OnGatherNewUser(SinaUser user)
         {
+            InvokeControl(this.lstRunstate, new Action(() =>
+            {
+                if (this.lstRunstate.Items.Count > 0)
+                {
+                    var listItem = this.lstRunstate.FindItemWithText(user.uid);
+                    if (listItem != null) return;
+                }
+
+                var subItem = new ListViewItem();
+                subItem.Text = user.uid;
+                subItem.SubItems.Add($"{user.name}");
+                subItem.SubItems.Add($"0");
+                subItem.SubItems.Add($"0");
+                subItem.SubItems.Add($"OK");
+                this.lstRunstate.Items.Add(subItem);
+            }));
         }
 
         private void SinaSpiderService_OnGatherUserComplete(SinaUser user, int readImageQty)
@@ -378,6 +394,12 @@ namespace SpiderTracker
                     else
                         users = users.OrderBy(c => c.lastpage).ToArray();
                     break;
+                case "来源":
+                    if (this.cbxUserSortAsc.Text == "降序")
+                        users = users.OrderByDescending(c => c.site).ToArray();
+                    else
+                        users = users.OrderBy(c => c.site).ToArray();
+                    break;
             }
             var pageIndex = 0;
             int.TryParse(this.cbxUserSortIndex.Text, out pageIndex);
@@ -424,6 +446,7 @@ namespace SpiderTracker
                     subItem.SubItems.Add($"{(item.focus > 0 ? "◉" : "")}");
                     subItem.SubItems.Add($"{(item.lastpage > 0 ? "✔" : "")}");
                     subItem.SubItems.Add($"{(item.lastdate.ToString("yyyy/MM/dd HH:mm"))}");
+                    subItem.SubItems.Add($"{item.site}");
                     subItem.Tag = item;
                     this.lstUser.Items.Add(subItem);
                 }
@@ -596,9 +619,66 @@ namespace SpiderTracker
             }
         }
 
+        void LoadCacheTopicList()
+        {
+            var rep = new SinaRepository();
+            var topics = rep.GetSinaTopics();
+
+            InvokeControl(this.cbxSelect, new Action(() =>
+            {
+                this.cbxSelect.BeginUpdate();
+                this.cbxSelect.Items.Clear();
+                this.cbxSelect.DisplayMember = "name";
+                this.cbxSelect.ValueMember = "name";
+                foreach (var item in topics)
+                {
+                    this.cbxSelect.Items.Add(item);
+                }
+                this.cbxSelect.EndUpdate();
+            }));
+        }
+
+        void LoadCacheSuperList()
+        {
+            var rep = new SinaRepository();
+            var topics = rep.GetSinaSupers();
+
+            InvokeControl(this.cbxSelect, new Action(() =>
+            {
+                this.cbxSelect.BeginUpdate();
+                this.cbxSelect.Items.Clear();
+                this.cbxSelect.DisplayMember = "name";
+                this.cbxSelect.ValueMember = "containerid";
+                foreach (var item in topics)
+                {
+                    this.cbxSelect.Items.Add(item);
+                }
+                this.cbxSelect.EndUpdate();
+            }));
+        }
+
         #endregion
 
         #region 用户列表及用户微博事件
+
+        private void lblStatusBid_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetDataObject(this.lblStatusBid.Text, true, 3, 100);
+        }
+
+        private void lblUserUid_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetDataObject(this.lblUserUid.Text, true, 3, 100);
+        }
+
+        private void txtStartUrl_DoubleClick(object sender, EventArgs e)
+        {
+            IDataObject iData = Clipboard.GetDataObject();
+            if (iData.GetDataPresent(DataFormats.Text) || iData.GetDataPresent(DataFormats.OemText))
+            {
+                this.txtStartUrl.Text = (String)iData.GetData(DataFormats.Text);
+            }
+        }
 
         private void cbxGatherType_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -613,6 +693,12 @@ namespace SpiderTracker
         private void btnRefreshConfig_Click(object sender, EventArgs e)
         {
             this.InitSpiderRunningConfig();
+            this.RunningConfig = GetSpiderRunningConfig();
+        }
+
+        private void btnReadConfig_Click(object sender, EventArgs e)
+        {
+            this.InitSpiderRunningConfig(true);
             this.RunningConfig = GetSpiderRunningConfig();
         }
 
@@ -666,11 +752,11 @@ namespace SpiderTracker
 
         private void lstUser_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Delete)
+            if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Escape)
             {
                 this.IgnoreUser(true);
             }
-            else if (e.KeyCode == Keys.Enter)
+            else if (e.KeyCode == Keys.ControlKey)
             {
                 this.FocusUser();
             }
@@ -686,7 +772,8 @@ namespace SpiderTracker
 
             //var userUrl = SinaUrlUtil.GetSinaUserUrl(user.uid);
 
-            this.txtStartUrl.Text = user.uid;
+            //this.txtStartUrl.Text = user.uid;
+            this.lblUserUid.Text = user.uid;
             this.cbxStatusSortIndex.Text = $"1";
 
             Task.Factory.StartNew(() =>
@@ -702,6 +789,8 @@ namespace SpiderTracker
             var status = GetSelectStatus();
             if (status == null) return;
             if (this.lstArc.SelectedItems.Count > 1) return;
+
+            this.lblStatusBid.Text = status.bid;
 
             if (RunningConfig.PreviewImageNow == 1)
             {
@@ -722,13 +811,6 @@ namespace SpiderTracker
                         this.vedioPlayerUC1.ShowVideo(file);
                     }
                 }
-            }
-            else if(RunningConfig.PreviewImageNow == 2)
-            {
-                ActiveWebCtl();
-
-                var statusUrl = SinaUrlUtil.GetSinaUserStatusWebUrl(status.uid, status.bid);
-                this.webBrowerUC1.ShowUrl(statusUrl);
             }
             else
             {
@@ -754,6 +836,34 @@ namespace SpiderTracker
         {
             this.InitSpiderRunningConfig();
             this.RunningConfig = GetSpiderRunningConfig();
+
+            switch(this.cbxSite.Text)
+            {
+                case "topic":
+                    this.cbxSelect.Enabled = true;
+                    this.LoadCacheTopicList();
+                    break;
+                case "super":
+                    this.cbxSelect.Enabled = true;
+                    this.LoadCacheSuperList();
+                    break;
+                default:
+                    this.cbxSelect.Text = "......";
+                    this.cbxSelect.Enabled = false;
+                    break;
+            }
+            this.txtStartUrl.Text = "";
+        }
+        private void cbxSelect_Leave(object sender, EventArgs e)
+        {
+            var selectItem = this.cbxSelect.SelectedItem;
+            if(selectItem != null)
+            {
+                var topic = selectItem as SinaTopic;
+                var startUrl = topic.containerid;
+                if (this.cbxSite.Text == "topic") startUrl = topic.name;
+                this.txtStartUrl.Text = startUrl;
+            }
         }
 
         private void btnBrowseUser_Click(object sender, EventArgs e)
@@ -888,21 +998,6 @@ namespace SpiderTracker
             rep.FocusSinaUser(user.uid);
         }
 
-        private void txtStartUrl_TextChanged(object sender, EventArgs e)
-        {
-            var userId = SinaUrlUtil.GetSinaUserByStartUrl(this.txtStartUrl.Text.Trim());
-            if (!string.IsNullOrEmpty(userId))
-            {
-                if (this.lstUser.Items.Count == 0) return;
-
-                var listItem = this.lstUser.FindItemWithText(userId);
-                if (listItem != null)
-                {
-                    this.lstUser.Items[listItem.Index].Selected = true;
-                }
-            }
-        }
-
         private void txtUserFilter_Leave(object sender, EventArgs e)
         {
             var user = this.txtUserFilter.Text.Trim();
@@ -1034,12 +1129,12 @@ namespace SpiderTracker
                 this.btnLock.Text = "Image";
                 LockImageCtl(true);
             }
-            else if(this.btnLock.Text == "Image")
-            {
-                RunningConfig.PreviewImageNow = 2;
-                this.btnLock.Text = "Web";
-                LockImageCtl(true);
-            }
+            //else if(this.btnLock.Text == "Image")
+            //{
+            //    RunningConfig.PreviewImageNow = 2;
+            //    this.btnLock.Text = "Web";
+            //    LockImageCtl(true);
+            //}
             else
             {
                 RunningConfig.PreviewImageNow = 0;
@@ -1438,7 +1533,7 @@ namespace SpiderTracker
             {
                 this.DownSelectStatus();
             }
-            else if(e.KeyCode == Keys.Delete)
+            else if(e.KeyCode == Keys.Delete || e.KeyCode == Keys.Escape)
             {
                 this.IgnoreStatus(false);
             }
@@ -1464,7 +1559,7 @@ namespace SpiderTracker
             }
         }
 
-        void InitSpiderRunningConfig()
+        void InitSpiderRunningConfig(bool onlyRead = false)
         {
             DataTable dt = new DataTable();
             var columns = new string[] { "配置项", "配置值" };
@@ -1474,7 +1569,7 @@ namespace SpiderTracker
             }
             var dr = dt.NewRow();
             dr["配置项"] = "并发用户数量";
-            dr["配置值"] = "3";
+            dr["配置值"] = "5";
             dt.Rows.Add(dr);
 
             dr = dt.NewRow();
@@ -1497,10 +1592,20 @@ namespace SpiderTracker
             dr["配置值"] = "1";
             dt.Rows.Add(dr);
 
-            dr = dt.NewRow();
-            dr["配置项"] = "忽略下载资源";
-            dr["配置值"] = "0";
-            dt.Rows.Add(dr);
+            if (onlyRead)
+            {
+                dr = dt.NewRow();
+                dr["配置项"] = "忽略下载资源";
+                dr["配置值"] = "1";
+                dt.Rows.Add(dr);
+            }
+            else
+            {
+                dr = dt.NewRow();
+                dr["配置项"] = "忽略下载资源";
+                dr["配置值"] = "0";
+                dt.Rows.Add(dr);
+            }
 
             dr = dt.NewRow();
             dr["配置项"] = "忽略采集微博";

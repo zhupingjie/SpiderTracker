@@ -27,11 +27,11 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.CreateEntity(user, "sina_user");
         }
 
-        public bool CreateSinaSuper(SinaTopic super)
+        public bool CreateSinaTopic(SinaTopic super)
         {
             return DBHelper.CreateEntity(super, "sina_topic");
         }
-        public bool UpdateSinaSuper(SinaTopic super, string[] columns)
+        public bool UpdateSinaTopic(SinaTopic super, string[] columns)
         {
             return DBHelper.UpdateEntity(super, "sina_topic", "containerid", super.containerid, columns);
         }
@@ -107,6 +107,16 @@ namespace SpiderTracker.Imp.Model
         public SinaTopic GetSinaTopic(string containerid)
         {
             return DBHelper.GetEntity<SinaTopic>("sina_topic", $"`containerid`='{containerid}' and `type`=0");
+        }
+
+        public List<SinaTopic> GetSinaTopics()
+        {
+            return DBHelper.GetEntitys<SinaTopic>("sina_topic", $"`type`=0");
+        }
+
+        public List<SinaTopic> GetSinaSupers()
+        {
+            return DBHelper.GetEntitys<SinaTopic>("sina_topic", $"`type`=1");
         }
         public SinaTopic GetSinaSuper(string containerid)
         {
@@ -192,6 +202,14 @@ namespace SpiderTracker.Imp.Model
             if (status != null && status.ignore > 0) return true;
             return false;
         }
+        public bool UpdateTopicLastpage(string containerid)
+        {
+            var topic = GetSinaTopic(containerid);
+            if (topic == null) return false;
+
+            topic.lastpage = 1;
+            return UpdateSinaTopic(topic, new string[] { "lastpage" });
+        }
 
         public bool UpdateUserLastpage(string uid)
         {
@@ -206,6 +224,7 @@ namespace SpiderTracker.Imp.Model
         {
             var sinaUser = new SinaUser();
             sinaUser.category = runningConfig.Category;
+            sinaUser.site = runningConfig.Site;
             sinaUser.uid = user.id;
             sinaUser.name = user.screen_name;
             sinaUser.avatar = user.avatar_hd;
@@ -214,6 +233,7 @@ namespace SpiderTracker.Imp.Model
             sinaUser.followers = user.followers_count;
             sinaUser.profile = SinaUrlUtil.GetSinaUserUrl(user.id);
             sinaUser.statuses = user.statuses_count.HasValue?user.statuses_count.Value : 0;
+            if (sinaUser.statuses < runningConfig.GatherUserMinStatuses) sinaUser.ignore = 1;
 
             var existsUser = GetUser(user.id);
             if (existsUser == null)
@@ -227,7 +247,7 @@ namespace SpiderTracker.Imp.Model
             else
             {
                 sinaUser.id = existsUser.id;
-                var suc = UpdateSinaUser(sinaUser, new string[] { "follows", "followers", "statuses", "name", "avatar", "desc", "profile" });
+                var suc = UpdateSinaUser(sinaUser, new string[] { "follows", "followers", "statuses", "name", "avatar", "desc", "profile", "ignore", "site" });
                 if (!suc)
                 {
                     return null;

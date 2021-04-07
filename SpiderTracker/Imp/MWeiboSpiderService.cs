@@ -850,7 +850,7 @@ namespace SpiderTracker.Imp
                 ShowStatus($"跳过下载微博资源【{status.bid}】.");
                 //存储微博
                 Repository.StoreSinaStatus(runningConfig, user, status, 0, status.pics.Length, 0, false);
-                return 0;
+                return status.pics.Length;
             }
             else
             {
@@ -961,7 +961,7 @@ namespace SpiderTracker.Imp
                 ShowStatus($"跳过下载微博资源【{status.bid}】.");
                 //存储微博
                 Repository.StoreSinaStatus(runningConfig, user, status, 1, 1, 0, false);
-                return 0;
+                return 1;
             }
             else
             {
@@ -1007,7 +1007,7 @@ namespace SpiderTracker.Imp
         /// <param name="runningConfig"></param>
         int GatherSinaStatusBySuperUrl(SpiderRunningConfig runningConfig)
         {
-            var sinaTopic = GatherSinaSuperBySuperUrl(runningConfig, runningConfig.StartUrl);
+            var sinaTopic = GatherSinaTopicBySuperUrl(runningConfig, runningConfig.StartUrl);
             if (sinaTopic == null) return 0;
 
             bool hasReadLastPage = false;
@@ -1033,8 +1033,6 @@ namespace SpiderTracker.Imp
                 int readPageImageCount = GatherSinaStatusBySuperPageUrl(runningConfig, sinaTopic, readPageIndex, readPageCount, hasReadLastPage, out readPageEmpty, out stopReadNextPage);
                 readUserImageCount += readPageImageCount;
 
-                //GatherPageComplete(user.id, readPageIndex, readUserImageCount);
-
                 if (stopReadNextPage)
                 {
                     ShowStatus($"结束采集超话微博数据(下页已采集)...");
@@ -1046,10 +1044,10 @@ namespace SpiderTracker.Imp
 
                 if (emptyPageCount > 3)
                 {
-                    //if (runningConfig.ReadPageCount == 0)
-                    //{
-                    //    Repository.UpdateUserLastpage(userId);
-                    //}
+                    if (runningConfig.ReadPageCount == 0)
+                    {
+                        Repository.UpdateTopicLastpage(sinaTopic.containerid);
+                    }
                     ShowStatus($"中止采集超话微博数据(连续超过3页无数据)...");
                     break;
                 }
@@ -1061,8 +1059,6 @@ namespace SpiderTracker.Imp
                 }
                 if (readPageIndex + 1 < readPageCount && readPageImageCount > 0)
                 {
-                    //Repository.UpdateSinaUserQty(userId);
-
                     ShowStatus($"等待【{runningConfig.ReadNextPageWaitSecond}】秒读取超话【{sinaTopic.name}】下一页微博数据...");
                     Thread.Sleep(runningConfig.ReadNextPageWaitSecond * 1000);
                 }
@@ -1074,7 +1070,7 @@ namespace SpiderTracker.Imp
             return readUserImageCount;
         }
 
-        SinaTopic GatherSinaSuperBySuperUrl(SpiderRunningConfig runningConfig, string startUrl)
+        SinaTopic GatherSinaTopicBySuperUrl(SpiderRunningConfig runningConfig, string startUrl)
         {
             var html = HttpUtil.GetHttpRequestHtmlResult(startUrl, runningConfig);
             if (html == null)
@@ -1101,13 +1097,13 @@ namespace SpiderTracker.Imp
                     category = runningConfig.Category,
                     profile = pageInfo.page_url,
                 };
-                Repository.CreateSinaSuper(sinaTopic);
+                Repository.CreateSinaTopic(sinaTopic);
             }
             else
             {
                 sinaTopic.name = pageInfo.page_type_name;
                 sinaTopic.desc = pageInfo.desc;
-                Repository.UpdateSinaSuper(sinaTopic, new string[] { "name", "desc" });
+                Repository.UpdateSinaTopic(sinaTopic, new string[] { "name", "desc" });
             }
             return sinaTopic;
         }
@@ -1120,7 +1116,8 @@ namespace SpiderTracker.Imp
             RefreshConfig(runningConfig);
 
             ShowStatus($"开始读取超话【{sinaTopic.name}】的第【{readPageIndex}】页微博数据...", true);
-            var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid={sinaTopic.containerid}_-_sort_time&page={readPageIndex}";
+            //var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid={sinaTopic.containerid}_-_sort_time&page={readPageIndex}";
+            var getApi = SinaUrlUtil.GetSinaUserSuperUrl(sinaTopic.containerid, readPageIndex);
             var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
             if (html == null)
             {
@@ -1183,11 +1180,14 @@ namespace SpiderTracker.Imp
                             ShowStatus($"存储用户信息错误!!!!!!");
                             continue;
                         }
-                        if (sinaUser.id == 0)
+                        if (sinaUser.ignore == 0)
                         {
-                            GatherNewUser(sinaUser);
+                            if (sinaUser.id == 0)
+                            {
+                                GatherNewUser(sinaUser);
+                            }
+                            Repository.UpdateSinaUserQty(user.id);
                         }
-                        Repository.UpdateSinaUserQty(user.id);
                     }
                     if (ignoreSourceReaded && hasReadLastPage)
                     {
@@ -1197,7 +1197,7 @@ namespace SpiderTracker.Imp
                     }
                     if (readStatusImageCount > 0)
                     {
-                        ShowStatus($"等待【{runningConfig.ReadNextStatusWaitSecond}】秒读取用户【{user.id}】下一条微博数据...");
+                        ShowStatus($"等待【{runningConfig.ReadNextStatusWaitSecond}】秒读取超话【{sinaTopic.name}】下一条微博数据...");
                         Thread.Sleep(runningConfig.ReadNextStatusWaitSecond * 1000);
                     }
                     else
@@ -1211,31 +1211,199 @@ namespace SpiderTracker.Imp
 
         int GatherSinaStatusByTopicUrl(SpiderRunningConfig runningConfig)
         {
-            bool ignoreSourceReaded = false;
-            var html = HttpUtil.GetHttpRequestHtmlResult(runningConfig.StartUrl, runningConfig);
+            var sinaTopic = GatherSinaTopicByTopicUrl(runningConfig, runningConfig.StartUrl);
+            if (sinaTopic == null) return 0;
+
+            bool hasReadLastPage = false;
+            int lastReadPageIndex = 0;
+            if (sinaTopic != null)
+            {
+                if (sinaTopic.lastpage > 0) hasReadLastPage = true;
+                if (sinaTopic.readpage > 0) lastReadPageIndex = sinaTopic.readpage;
+            }
+
+            int readUserImageCount = 0, readPageIndex = 0, emptyPageCount = 0;
+            int startPageIndex = runningConfig.StartPageIndex;
+            if (runningConfig.GatherContinueLastPage > 0 && lastReadPageIndex > 0) startPageIndex = lastReadPageIndex;
+            int readPageCount = (runningConfig.ReadPageCount == 0 ? int.MaxValue : startPageIndex + runningConfig.ReadPageCount);
+            for (readPageIndex = startPageIndex; readPageIndex < readPageCount; readPageIndex++)
+            {
+                if (StopSpiderWork)
+                {
+                    ShowStatus($"中止采集话题微博数据...");
+                    break;
+                }
+                bool readPageEmpty = false, stopReadNextPage = false;
+                int readPageImageCount = GatherSinaStatusByTopicPageUrl(runningConfig, sinaTopic, readPageIndex, readPageCount, hasReadLastPage, out readPageEmpty, out stopReadNextPage);
+                readUserImageCount += readPageImageCount;
+
+                if (stopReadNextPage)
+                {
+                    ShowStatus($"结束采集话题微博数据(下页已采集)...");
+                    break;
+                }
+
+                if (readPageEmpty) emptyPageCount++;
+                else emptyPageCount = 0;
+
+                if (emptyPageCount > 3)
+                {
+                    if (runningConfig.ReadPageCount == 0)
+                    {
+                        Repository.UpdateTopicLastpage(sinaTopic.containerid);
+                    }
+                    ShowStatus($"中止采集话题微博数据(连续超过3页无数据)...");
+                    break;
+                }
+
+                if (StopSpiderWork)
+                {
+                    ShowStatus($"中止采集话题微博数据...");
+                    break;
+                }
+                if (readPageIndex + 1 < readPageCount && readPageImageCount > 0)
+                {
+                    ShowStatus($"等待【{runningConfig.ReadNextPageWaitSecond}】秒读取超话【{sinaTopic.name}】下一页微博数据...");
+                    Thread.Sleep(runningConfig.ReadNextPageWaitSecond * 1000);
+                }
+                else
+                {
+                    Thread.Sleep(500);
+                }
+            }
+            return readUserImageCount;
+        }
+
+        SinaTopic GatherSinaTopicByTopicUrl(SpiderRunningConfig runningConfig, string startUrl)
+        {
+            var html = HttpUtil.GetHttpRequestHtmlResult(startUrl, runningConfig);
             if (html == null)
             {
-                ShowStatus($"获取用户微博列表错误!!!!!!");
-                return 0;
+                ShowStatus($"获取话题基本信息错误!!!!!!");
+                return null;
             }
-            var result = GetWeiboStatusResult(html);
-            if (result == null || result.status == null)
+            var result = GetSinaTopicResult(html);
+            if (result == null || result.data == null || result.data.cardlistInfo == null)
             {
-                ShowStatus($"解析用户微博列表错误!!!!!!");
-                return 0;
+                ShowStatus($"解析话题基本信息错误!!!!!!");
+                return null;
             }
-            var user = result.status.user;
-            if (user == null)
+            var pageInfo = result.data.cardlistInfo;
+            var sinaTopic = Repository.GetSinaTopic(pageInfo.containerid);
+            if (sinaTopic == null)
             {
-                ShowStatus($"微博数据已删除.");
-                return 0;
+                sinaTopic = new SinaTopic()
+                {
+                    type = 0,
+                    containerid = pageInfo.containerid,
+                    name = pageInfo.cardlist_title.Replace("#",""),
+                    desc = pageInfo.desc,
+                    category = runningConfig.Category,
+                    profile = startUrl,
+                };
+                Repository.CreateSinaTopic(sinaTopic);
             }
-            if (Repository.CheckUserIgnore(user.id))
+            else
             {
-                ShowStatus($"用户【{user.id}】已忽略采集.");
+                sinaTopic.name = pageInfo.cardlist_title;
+                sinaTopic.desc = pageInfo.desc;
+                Repository.UpdateSinaTopic(sinaTopic, new string[] { "name", "desc" });
+            }
+            return sinaTopic;
+        }
+
+        int GatherSinaStatusByTopicPageUrl(SpiderRunningConfig runningConfig, SinaTopic sinaTopic, int readPageIndex, int readPageCount, bool hasReadLastPage, out bool readPageEmpty, out bool stopReadNextPage)
+        {
+            readPageEmpty = false;
+            stopReadNextPage = false;
+            runningConfig.CurrentPageIndex = readPageIndex;
+            RefreshConfig(runningConfig);
+
+            ShowStatus($"开始读取话题【{sinaTopic.name}】的第【{readPageIndex}】页微博数据...", true);
+            //var getApi = $"https://m.weibo.cn/api/container/getIndex?containerid=containerid=231522type=61%26t=20%26q=%23{sinaTopic.containerid}%23#&page={readPageIndex}";
+            var getApi = SinaUrlUtil.GetSinaUserTopicUrl(sinaTopic.name, readPageIndex);
+            var html = HttpUtil.GetHttpRequestHtmlResult(getApi, runningConfig);
+            if (html == null)
+            {
+                ShowStatus($"获取话题微博列表错误!!!!!!");
                 return 0;
             }
-            return GatherSinaStatusByStatusOrRetweeted(runningConfig, result.status, result.status.user, out ignoreSourceReaded);
+            var result = GetSinaTopicResult(html);
+            if (result == null || result.data == null)
+            {
+                ShowStatus($"解析话题微博列表错误!!!!!!");
+                return 0;
+            }
+            if (result.data.cards.Length == 0)
+            {
+                ShowStatus($"解析话题微博列表为空...");
+                readPageEmpty = true;
+                return 0;
+            }
+            int readPageImageCount = 0;
+            foreach (var card in result.data.cards)
+            {
+                //非微博数据，跳过
+                if (card.card_type != 9) continue;
+                if (card.mblog == null) continue;
+                if (card.mblog.user == null) continue;
+
+                if (StopSpiderWork)
+                {
+                    ShowStatus($"中止采集微博数据...");
+                    break;
+                }
+
+                var user = card.mblog.user;
+
+                bool ignoreSourceReaded = false;
+                var readStatusImageCount = GatherSinaStatusByStatusOrRetweeted(runningConfig, card.mblog, user, out ignoreSourceReaded);
+                readPageImageCount += readStatusImageCount;
+
+                if (StopSpiderWork)
+                {
+                    ShowStatus($"中止采集微博数据...");
+                    break;
+                }
+                if (CheckUserCanceled(user.id))
+                {
+                    ShowStatus($"取消采集微博数据...");
+                    break;
+                }
+                if (readStatusImageCount > 0)
+                {
+                    var sinaUser = Repository.StoreSinaUser(runningConfig, user);
+                    if (sinaUser == null)
+                    {
+                        ShowStatus($"存储用户信息错误!!!!!!");
+                        continue;
+                    }
+                    if (sinaUser.ignore == 0)
+                    {
+                        if (sinaUser.id == 0)
+                        {
+                            GatherNewUser(sinaUser);
+                        }
+                        Repository.UpdateSinaUserQty(user.id);
+                    }
+                }
+                if (ignoreSourceReaded && hasReadLastPage)
+                {
+                    stopReadNextPage = true;
+                    ShowStatus($"结束采集微博数据(下页已采集)...");
+                    break;
+                }
+                if (readStatusImageCount > 0)
+                {
+                    ShowStatus($"等待【{runningConfig.ReadNextStatusWaitSecond}】秒读取话题【{sinaTopic.name}】下一条微博数据...");
+                    Thread.Sleep(runningConfig.ReadNextStatusWaitSecond * 1000);
+                }
+                else
+                {
+                    Thread.Sleep(600);
+                }
+            }
+            return readPageImageCount;
         }
 
         List<SinaUser> GatherHeFocusUsers(SpiderRunningConfig runningConfig)
@@ -1290,62 +1458,119 @@ namespace SpiderTracker.Imp
 
         MWeiboFoucsUserResult GetWeiboFocusUserResult(string html)
         {
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(html);
+            try
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(html);
 
-            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboFoucsUserResult>(doc.DocumentNode.InnerText) as MWeiboFoucsUserResult;
-            return jsonResult;
+                var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboFoucsUserResult>(doc.DocumentNode.InnerText) as MWeiboFoucsUserResult;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                LogUtil.Error(ex);
+                return null;
+            }
         }
 
         MWeiboUserResult GetWeiboUserResult(string html)
         {
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(html);
+            try
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(html);
 
-            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboUserResult>(doc.DocumentNode.InnerText) as MWeiboUserResult;
-            return jsonResult;
+                var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboUserResult>(doc.DocumentNode.InnerText) as MWeiboUserResult;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                LogUtil.Error(ex);
+                return null;
+            }
         }
 
         MWeiboStatusListResult GetSinaStatusListResult(string html)
         {
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(html);
+            try
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(html);
 
-            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboStatusListResult>(doc.DocumentNode.InnerText) as MWeiboStatusListResult;
-            return jsonResult;
+                var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboStatusListResult>(doc.DocumentNode.InnerText) as MWeiboStatusListResult;
+                return jsonResult;
+            }
+            catch(Exception ex)
+            {
+                LogUtil.Error(ex);
+                return null;
+            }
         }
 
         MWeiboStatusResult GetWeiboStatusResult(string html)
         {
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(html);
-
-            var scripts = doc.DocumentNode.Descendants().Where(c => c.Name == "script").Select(c => c.InnerText).ToArray();
-            var engine = new Jurassic.ScriptEngine();
-
-            foreach (var script in scripts)
+            try
             {
-                if (script.Contains("config") && script.Contains("$render_data"))
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(html);
+
+                var scripts = doc.DocumentNode.Descendants().Where(c => c.Name == "script").Select(c => c.InnerText).ToArray();
+                var engine = new Jurassic.ScriptEngine();
+
+                foreach (var script in scripts)
                 {
-                    var js = script.Substring(script.IndexOf("var $render_data"));
+                    if (script.Contains("config") && script.Contains("$render_data"))
+                    {
+                        var js = script.Substring(script.IndexOf("var $render_data"));
 
-                    var result = engine.Evaluate("(function() { " + js + " return $render_data; })()");
-                    var json = JSONObject.Stringify(engine, result);
+                        var result = engine.Evaluate("(function() { " + js + " return $render_data; })()");
+                        var json = JSONObject.Stringify(engine, result);
 
-                    var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboStatusResult>(json) as MWeiboStatusResult;
-                    return jsonResult;
+                        var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboStatusResult>(json) as MWeiboStatusResult;
+                        return jsonResult;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogUtil.Error(ex);
+                return null;
             }
             return null;
         }
 
         MWeiboSuperResult GetSinaSuperResult(string html)
         {
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(html);
+            try
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(html);
 
-            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboSuperResult>(doc.DocumentNode.InnerText) as MWeiboSuperResult;
-            return jsonResult;
+                var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboSuperResult>(doc.DocumentNode.InnerText) as MWeiboSuperResult;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                LogUtil.Error(ex);
+                return null;
+            }
+        }
+
+        MWeiboTopicResult GetSinaTopicResult(string html)
+        {
+            try
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(html);
+
+                var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboTopicResult>(doc.DocumentNode.InnerText) as MWeiboTopicResult;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                LogUtil.Error(ex);
+                return null;
+            }
         }
 
         /// <summary>

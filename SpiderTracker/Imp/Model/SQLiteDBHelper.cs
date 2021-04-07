@@ -205,7 +205,7 @@ namespace SpiderTracker.Imp
                 }
                 catch (Exception ex)
                 {
-                    log4net.LogManager.GetLogger("logAppender").Error(ex);
+                    LogUtil.Error(ex);
                     return false;
                 }
                 finally
@@ -245,7 +245,7 @@ namespace SpiderTracker.Imp
                 }
                 catch (Exception ex)
                 {
-                    log4net.LogManager.GetLogger("logAppender").Error(ex);
+                    LogUtil.Error(ex);
                     return false;
                 }
                 finally
@@ -271,7 +271,7 @@ namespace SpiderTracker.Imp
                 }
                 catch (Exception ex)
                 {
-                    log4net.LogManager.GetLogger("logAppender").Error(ex);
+                    LogUtil.Error(ex);
                     return false;
                 }
                 finally
@@ -302,7 +302,7 @@ namespace SpiderTracker.Imp
                 }
                 catch (Exception ex)
                 {
-                    log4net.LogManager.GetLogger("logAppender").Error(ex);
+                    LogUtil.Error(ex);
                     return false;
                 }
                 finally
@@ -333,7 +333,7 @@ namespace SpiderTracker.Imp
                 }
                 catch (Exception ex)
                 {
-                    log4net.LogManager.GetLogger("logAppender").Error(ex);
+                    LogUtil.Error(ex);
                     return false;
                 }
                 finally
@@ -364,7 +364,7 @@ namespace SpiderTracker.Imp
                 }
                 catch (Exception ex)
                 {
-                    log4net.LogManager.GetLogger("logAppender").Error(ex);
+                    LogUtil.Error(ex);
                     return -1;
                 }
                 finally
@@ -395,7 +395,7 @@ namespace SpiderTracker.Imp
                 }
                 catch (Exception ex)
                 {
-                    log4net.LogManager.GetLogger("logAppender").Error(ex);
+                    LogUtil.Error(ex);
                     return -1;
                 }
                 finally
@@ -457,7 +457,7 @@ namespace SpiderTracker.Imp
                 }
                 catch (Exception ex)
                 {
-                    log4net.LogManager.GetLogger("logAppender").Error(ex);
+                    LogUtil.Error(ex);
                     return lst;
                 }
                 finally
@@ -490,7 +490,7 @@ namespace SpiderTracker.Imp
                 }
                 catch (Exception ex)
                 {
-                    log4net.LogManager.GetLogger("logAppender").Error(ex);
+                    LogUtil.Error(ex);
                     return null;
                 }
                 finally

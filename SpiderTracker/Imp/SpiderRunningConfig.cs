@@ -173,6 +173,7 @@ namespace SpiderTracker.Imp
 
         public int GatherCompleteShutdown { get; set; } = 0;
         public int GatherContinueLastPage { get; set; } = 0;
+        public int GatherUserMinStatuses { get; set; } = 50;
 
         public void Reset()
         {
