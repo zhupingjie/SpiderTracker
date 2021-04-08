@@ -55,6 +55,12 @@ namespace SpiderTracker.Imp.Model
         {
             return DBHelper.UpdateEntity(status, "sina_status", "bid", status.bid, columns);
         }
+
+        public bool UpdateSinaStatuses(string uid, string col, object value)
+        {
+            return DBHelper.UpdateEntitys("sina_status", $"`uid`='{uid}'", col, value);
+        }
+
         public bool DeleteSinaStatus(SinaStatus status)
         {
             return DBHelper.DeleteEntity("sina_status", "bid", status.bid);
@@ -215,11 +221,11 @@ namespace SpiderTracker.Imp.Model
             return UpdateSinaUser(user, new string[] { "lastpage" });
         }
 
-        public SinaUser StoreSinaUser(SpiderRunningConfig runningConfig, MWeiboUser user)
+        public SinaUser StoreSinaUser(SpiderRunningConfig runningConfig, SpiderRunningCache runningCache, MWeiboUser user)
         {
             var sinaUser = new SinaUser();
-            sinaUser.category = runningConfig.Category;
-            sinaUser.site = runningConfig.Site;
+            sinaUser.category = runningCache.Category;
+            sinaUser.site = runningCache.Site;
             sinaUser.uid = user.id;
             sinaUser.name = user.screen_name;
             sinaUser.avatar = user.avatar_hd;
@@ -335,12 +341,7 @@ namespace SpiderTracker.Imp.Model
             var suc = UpdateSinaUser(sinaUser, new string[] { "ignore" });
             if (suc)
             {
-                var sinaStatuses = GetUserStatuses(user);
-                foreach (var sinaStatus in sinaStatuses)
-                {
-                    sinaStatus.ignore = 2;
-                    UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
-                }
+                UpdateSinaStatuses(user, "ignore", 2);
             }
             return suc;
         }
@@ -369,7 +370,7 @@ namespace SpiderTracker.Imp.Model
             var sinaUser = GetUser(uid);
             if (sinaUser == null) return false;
 
-            if (readPageIndex > 0 && readPageIndex > sinaUser.readpage) sinaUser.readpage = readPageIndex;
+            if (readPageIndex > 0) sinaUser.readpage = readPageIndex;
             return UpdateSinaUser(sinaUser, new string[] { "readpage" });
         }
 
@@ -415,12 +416,8 @@ namespace SpiderTracker.Imp.Model
 
         public bool ArchiveSinaUser(string user)
         {
-            var sinaStatuss= GetUserStatuses(user);
-            foreach (var sinaStatus in sinaStatuss)
-            {
-                sinaStatus.archive = 1;
-                UpdateSinaStatus(sinaStatus, new string[] { "archive" });
-            }
+            UpdateSinaStatuses(user, "archive", "`gets`");
+
             return UpdateSinaUserQty(user);
         }
     }

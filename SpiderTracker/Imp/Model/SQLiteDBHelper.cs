@@ -255,6 +255,31 @@ namespace SpiderTracker.Imp
             }
         }
 
+        public bool UpdateEntitys(string table, string where, string col, object val)
+        {
+            using (MySqlConnection con = new MySqlConnection(DBConnectionString))
+            {
+                con.Open();
+                var cmd = con.CreateCommand();
+
+                cmd.CommandText = $"update {table} set `lastdate`='{DateTime.Now.ToString("s")}', `{col}`={val} where {where}";
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    LogUtil.Error(ex);
+                    return false;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
         public bool DeleteEntity(string table, string col, string val)
         {
             using (MySqlConnection con = new MySqlConnection(DBConnectionString))

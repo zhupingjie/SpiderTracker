@@ -44,17 +44,17 @@ namespace SpiderTracker.UI
 
         private void SpiderConfigUC_TextChanged(object sender, EventArgs e)
         {
-            RefreshConfig(GetRunningConfig(_runningConfig));
+            RefreshConfig(_runningConfig);
         }
 
         private void SpiderConfigUC_ValueChanged(object sender, EventArgs e)
         {
-            RefreshConfig(GetRunningConfig(_runningConfig));
+            RefreshConfig(_runningConfig);
         }
 
         private void SpiderConfigUC_CheckedChanged(object sender, EventArgs e)
         {
-            RefreshConfig(GetRunningConfig(_runningConfig));
+            RefreshConfig(_runningConfig);
         }
 
         public delegate void RefreshConfigEventHander(SpiderRunningConfig spiderRunninConfig);
@@ -80,7 +80,7 @@ namespace SpiderTracker.UI
                 var findCtl = this.Controls.Find(config.Name, true).FirstOrDefault();
                 if (findCtl == null) continue;
 
-                var objValue = ObjectUtil.GetPropertyValue(runningConfig, config);
+                var objValue = ObjectUtil.GetPropertyValue(_runningConfig, config);
                 if (objValue == null) continue;
 
                 if (config.PropertyType.Equals(typeof(bool)))
@@ -98,7 +98,7 @@ namespace SpiderTracker.UI
             }
         }
 
-        public SpiderRunningConfig GetRunningConfig(SpiderRunningConfig runningConfig)
+        public SpiderRunningConfig GetRunningConfig()
         {
             var configs = GetConfigFields();
             foreach(var config in configs)
@@ -108,19 +108,18 @@ namespace SpiderTracker.UI
 
                 if (config.PropertyType.Equals(typeof(bool)))
                 {
-                    ObjectUtil.SetPropertyValue(runningConfig, config, (findCtl as CheckBox).Checked);
+                    ObjectUtil.SetPropertyValue(_runningConfig, config, (findCtl as CheckBox).Checked);
                 }
                 else if (config.PropertyType.Equals(typeof(int)))
                 {
-                    ObjectUtil.SetPropertyValue(runningConfig, config, (int)(findCtl as NumericUpDown).Value);
+                    ObjectUtil.SetPropertyValue(_runningConfig, config, (int)(findCtl as NumericUpDown).Value);
                 }
                 else if (config.PropertyType.Equals(typeof(string)))
                 {
-                    ObjectUtil.SetPropertyValue(runningConfig, config, (findCtl as TextBox).Text);
+                    ObjectUtil.SetPropertyValue(_runningConfig, config, (findCtl as TextBox).Text);
                 }
             }
-            _runningConfig = runningConfig.Clone();
-            return runningConfig;
+            return _runningConfig;
         }
 
         PropertyInfo[] GetConfigFields()

@@ -70,10 +70,6 @@ namespace SpiderTracker
             });
         }
 
-        private void SpiderConfigUC1_OnRefreshConfig(SpiderRunningConfig spiderRunninConfig)
-        {
-            this.RunningConfig = this.spiderConfigUC1.GetRunningConfig(this.RunningConfig);
-        }
 
         #region Spider Event
 
@@ -186,9 +182,19 @@ namespace SpiderTracker
 
         }
 
-        private void WeiboSpiderService_OnSpiderStarted(SpiderRunningConfig runningConfig)
+        private void WeiboSpiderService_OnSpiderStarted(SpiderRunningTask runningTask)
         {
             ActiveLoggerCtl();
+
+            InvokeControl(this.cbxCategory, new Action(() =>
+            {
+                this.cbxCategory.Enabled = false;
+            }));
+
+            InvokeControl(this.cbxSite, new Action(() =>
+            {
+                this.cbxSite.Enabled = false;
+            }));
 
             InvokeControl(this.btnSearch, new Action(() =>
             {
@@ -198,7 +204,7 @@ namespace SpiderTracker
 
             InvokeControl(this.btnAppendUser, new Action(() =>
             {
-                if(runningConfig.GatherType == GatherTypeEnum.GatherUser)
+                if(runningTask.GatherType == GatherTypeEnum.GatherUser)
                 {
                     this.btnAppendUser.Text = "追加采集";
                     this.btnAppendUser.Enabled = true;
@@ -212,7 +218,7 @@ namespace SpiderTracker
             InvokeControl(this.lstRunstate, new Action(() =>
             {
                 this.lstRunstate.Items.Clear();
-                foreach (var user in runningConfig.DoUsers)
+                foreach (var user in runningTask.DoUsers)
                 {
                     var subItem = new ListViewItem();
                     subItem.Text = user.uid;
@@ -242,6 +248,16 @@ namespace SpiderTracker
 
         private void WeiboSpiderService_OnSpiderComplete()
         {
+            InvokeControl(this.cbxCategory, new Action(() =>
+            {
+                this.cbxCategory.Enabled = true;
+            }));
+
+            InvokeControl(this.cbxSite, new Action(() =>
+            {
+                this.cbxSite.Enabled = true;
+            }));
+
             InvokeControl(this.btnSearch, new Action(() =>
             {
                 this.btnSearch.Text = "开始采集";
@@ -702,15 +718,9 @@ namespace SpiderTracker
                 this.txtStartUrl.Text = (String)iData.GetData(DataFormats.Text);
             }
         }
-
-        private void cbxGatherType_SelectedIndexChanged(object sender, EventArgs e)
+        private void SpiderConfigUC1_OnRefreshConfig(SpiderRunningConfig spiderRunninConfig)
         {
-               
-        }
-
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            this.RunningConfig = GetSpiderRunningConfig();
+            this.RunningConfig = this.spiderConfigUC1.GetRunningConfig();
         }
 
         private void btnRefreshConfig_Click(object sender, EventArgs e)
@@ -946,15 +956,13 @@ namespace SpiderTracker
             }
             if (!SinaSpiderService.IsSpiderStarted)
             {
-                var tempConfig = this.RunningConfig.Clone();
-                tempConfig.Site = "status";
                 var option = new MWeiboSpiderStartOption()
                 {
-                    GatherName = tempConfig.Site,
+                    GatherName = "status",
                     StatusIds = statusIds.ToArray(),
                     StartUrl = user.uid
                 };
-                SinaSpiderService.StartSpider(tempConfig, option);
+                SinaSpiderService.StartSpider(RunningConfig, option);
             }
         }
 
@@ -1184,14 +1192,13 @@ namespace SpiderTracker
                         users.Add(user as SinaUser);
                     }
                 }
-                var tempConfig = this.RunningConfig.Clone();
                 var option = new MWeiboSpiderStartOption()
                 {
-                    GatherName = tempConfig.Site,
+                    GatherName = RunningConfig.Site,
                     SelectUsers = users.ToArray(),
                     StartUrl = this.txtStartUrl.Text
                 };
-                SinaSpiderService.StartSpider(tempConfig, option);
+                SinaSpiderService.StartSpider(RunningConfig, option);
             }
             else
             {
@@ -1582,7 +1589,6 @@ namespace SpiderTracker
             {
                 this.RunningConfig.IgnoreDownloadSource = true;
                 this.RunningConfig.IgnoreReadGetStatus = true;
-                this.RunningConfig.IgnoreReadArchiveStatus = true;
                 this.RunningConfig.MaxReadPageCount = 0;
             }
             else
@@ -1595,11 +1601,9 @@ namespace SpiderTracker
 
         SpiderRunningConfig GetSpiderRunningConfig()
         {
-            this.RunningConfig.StartUrl = this.txtStartUrl.Text.Trim();
+            this.RunningConfig = this.spiderConfigUC1.GetRunningConfig();
             this.RunningConfig.Category = this.cbxCategory.Text.Trim();
             this.RunningConfig.Site = this.cbxSite.Text.Trim();
-            this.RunningConfig.Id = DateTime.Now.Ticks;
-            this.RunningConfig = this.spiderConfigUC1.GetRunningConfig(RunningConfig);
             return RunningConfig;
         }
 

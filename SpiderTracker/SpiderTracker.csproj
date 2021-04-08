@@ -154,6 +154,8 @@
     <Compile Include="Imp\MWeiboJson\MWeiboUserData.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboUserResult.cs" />
     <Compile Include="Imp\MWeiboSpiderStartOption.cs" />
+    <Compile Include="Imp\SpiderRunningCache.cs" />
+    <Compile Include="Imp\SpiderRunningTask.cs" />
     <Compile Include="Imp\Util\HttpUtil.cs" />
     <Compile Include="Imp\ISpiderService.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboStatusListCard.cs" />

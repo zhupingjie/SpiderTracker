@@ -15,14 +15,12 @@ namespace SpiderTracker.Imp
         {
         }
 
-        public long Id { get; set; }
-
-        #region 运行状态
+        #region 运行实例(任务运行时无效)
 
         /// <summary>
-        /// 采集类型
+        /// 身份标识
         /// </summary>
-        public GatherTypeEnum GatherType { get; set; } = GatherTypeEnum.GatherUser;
+        public long Id { get; set; }
 
         /// <summary>
         /// 采集来源
@@ -32,33 +30,7 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 用户分类
         /// </summary>
-        public string Category { get; set; } = "default";
-
-        /// <summary>
-        /// 起始地址
-        /// </summary>
-        public string StartUrl { get; set; }
-
-        /// <summary>
-        /// 当前读取页数
-        /// </summary>
-        public int CurrentPageIndex { get; set; } = 1;
-        public List<string> RunUserIds { get; set; } = new List<string>();
-
-        /// <summary>
-        /// 待处理用户集合
-        /// </summary>
-        public ConcurrentQueue<SinaUser> DoUsers { get; set; } = new ConcurrentQueue<SinaUser>();
-
-        public ConcurrentDictionary<int, ThreadState> DoTasks { get; set; } = new ConcurrentDictionary<int, ThreadState>();
-
-        #endregion
-
-        #region 缓存相关
-
-        public string[] ExistsImageLocalFiles { get; set; } = new string[] { };
-
-        public string[] ExistsVideoLocalFiles { get; set; } = new string[] { };
+        public string Category { get; set; } = "cosplay";
 
         #endregion
 
@@ -210,27 +182,6 @@ namespace SpiderTracker.Imp
         #endregion
 
         #region 内置函数
-
-        public void Reset()
-        {
-            this.DoUsers = new ConcurrentQueue<SinaUser>();
-            this.RunUserIds.Clear();
-            this.DoTasks.Clear();
-        }
-
-        public bool AddUser(SinaUser user, bool append = true)
-        {
-            if (user != null && !this.DoUsers.Any(c=>c.uid == user.uid))
-            {
-                if (!this.RunUserIds.Contains(user.uid))
-                {
-                    this.DoUsers.Enqueue(user);
-                    this.RunUserIds.Add(user.uid);
-                    return true;
-                }
-            }
-            return false;
-        }
 
         public SpiderRunningConfig Clone()
         {
