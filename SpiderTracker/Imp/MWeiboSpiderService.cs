@@ -384,7 +384,15 @@ namespace SpiderTracker.Imp
                 if (!CheckUserCanceled(user.uid))
                 {
                     var runningCache = new SpiderRunningCache(RunningConfig.Category, RunningConfig.Site, user.uid);
-                    var readStatusImageCount = GatherSinaStatusByUserUrl(runningCache, user.uid);
+                    var readStatusImageCount = 0;
+                    if (RunningConfig.GatherStatusWithNoSource)
+                    {
+                        readStatusImageCount = GatherSinaStatusByUserStatus(runningCache, user.uid);
+                    }
+                    else
+                    {
+                        readStatusImageCount = GatherSinaStatusByUserUrl(runningCache, user.uid);
+                    }
 
                     GatherUserComplete(user, readStatusImageCount);
 
@@ -434,6 +442,116 @@ namespace SpiderTracker.Imp
 
         #region 采集并解析微博
 
+        /// <summary>
+        /// 采集用户已读微博
+        /// </summary>
+        /// <param name="runningCache"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        int GatherSinaStatusByUserStatus(SpiderRunningCache runningCache, string userId)
+        {
+            var sinaUser = Repository.GetUser(userId);
+            if (sinaUser == null)
+            {
+                ShowStatus($"用户【{userId}】未采集.");
+                return 0;
+            }
+            if (sinaUser.ignore > 0)
+            {
+                ShowStatus($"用户【{userId}】已忽略采集.");
+                return 0;
+            }
+            int readStatusImageCount = 0, readUserImageCount = 0;
+            var sinaStatuses = Repository.GetUserStatuses(userId);
+            foreach(var status in sinaStatuses)
+            {
+                var suc = CheckUserStatusGather(runningCache, sinaUser, status);
+                if (suc)
+                {
+                    ShowStatus($"开始采集用户【{userId}】微博【{status.bid}】...");
+                    readStatusImageCount = GatherSinaStatusByStatusUrl(runningCache, status.bid);
+                    readUserImageCount += readStatusImageCount;
+
+                    if (readStatusImageCount > 0)
+                    {
+                        Repository.UpdateSinaUserQty(userId);
+                    }
+                }
+                if (StopSpiderWork)
+                {
+                    ShowStatus($"中止采集用户微博数据...");
+                    break;
+                }
+                if (CheckUserCanceled(userId))
+                {
+                    ShowStatus($"取消采集用户微博数据...");
+                    break;
+                }
+                Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
+            }
+            return readStatusImageCount;
+        }
+
+        bool CheckUserStatusGather(SpiderRunningCache runningCache, SinaUser user, SinaStatus status)
+        {
+            if (RunningConfig.IgnoreDownloadSource)
+            {
+                ShowStatus($"跳过下载微博资源【{status.bid}】.");
+                return false;
+            }
+            if (status.ignore > 0)
+            {
+                ShowStatus($"跳过已忽略微博【{status.bid}】.");
+                return false;
+            }
+            if (RunningConfig.IgnoreReadArchiveStatus && status.archive > 0)
+            {
+                ShowStatus($"跳过已存档微博【{status.bid}】.");
+                return false;
+            }
+            if (RunningConfig.IgnoreReadArchiveStatus && status.archive > 0)
+            {
+                ShowStatus($"跳过已存档微博【{status.bid}】.");
+                return false;
+            }
+            if (RunningConfig.IgnoreReadGetStatus && status.gets > 0)
+            {
+                ShowStatus($"跳过已采集微博【{status.bid}】.");
+                return false;
+            }
+            int readCount = 0;
+            if (!RunningConfig.IgnoreReadDownStatus)
+            {
+                if (runningCache.EnabledUserCahce)
+                {
+                    if (status.mtype == 0)
+                    {
+                        readCount = runningCache.ExistsImageLocalFiles.Where(c => c.Contains($"{status.bid}")).Count();
+                    }
+                    else
+                    {
+                        readCount = runningCache.ExistsVideoLocalFiles.Where(c => c.Contains($"{status.bid}")).Count();
+                    }
+                }
+                else
+                {
+                    if (status.mtype == 0)
+                    {
+                        readCount = PathUtil.GetStoreUserImageFileCount(runningCache.Category, user.uid, status.bid);
+                    }
+                    else
+                    {
+                        readCount = PathUtil.GetStoreUserVideoCount(runningCache.Category, user.uid, status.bid);
+                    }
+                }
+                if (readCount > 0)
+                {
+                    ShowStatus($"跳过已缓存微博【{status.bid}】.");
+                    return false;
+                }
+            }
+            return true;
+        }
         /// <summary>
         /// 直接读取用户数据
         /// </summary>
@@ -520,7 +638,7 @@ namespace SpiderTracker.Imp
                 }
                 else
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
                 }
             }
             return readUserImageCount;
@@ -635,7 +753,7 @@ namespace SpiderTracker.Imp
                 }
                 else
                 {
-                    Thread.Sleep(600);
+                    Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
                 }
             }
             return readPageImageCount;
@@ -870,7 +988,7 @@ namespace SpiderTracker.Imp
                                 errorSaveImageCount++;
                             }
                         }
-                        Thread.Sleep(200);
+                        Thread.Sleep(RunningConfig.DownloadSourceWaitMilSecond);
                     }
                     if (errorSaveImageCount > 0)
                     {
@@ -984,7 +1102,8 @@ namespace SpiderTracker.Imp
                     {
                         errorReadVedioCount++;
                     }
-                    Thread.Sleep(500);
+                    Thread.Sleep(RunningConfig.DownloadSourceWaitMilSecond);
+
                     if (errorReadVedioCount == 0)
                     {
                         //存储微博
@@ -1061,7 +1180,7 @@ namespace SpiderTracker.Imp
                 }
                 else
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
                 }
             }
             return readUserImageCount;
@@ -1201,7 +1320,7 @@ namespace SpiderTracker.Imp
                     }
                     else
                     {
-                        Thread.Sleep(600);
+                        Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
                     }
                 }
             }
@@ -1270,7 +1389,7 @@ namespace SpiderTracker.Imp
                 }
                 else
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
                 }
             }
             return readUserImageCount;
@@ -1404,7 +1523,7 @@ namespace SpiderTracker.Imp
                 }
                 else
                 {
-                    Thread.Sleep(600);
+                    Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
                 }
             }
             return readPageImageCount;

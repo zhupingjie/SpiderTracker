@@ -107,7 +107,13 @@ namespace SpiderTracker.Imp
         public bool IgnoreDownloadSource { get; set; } = false;
 
         /// <summary>
-        /// 断点续传采集
+        /// 已读微博采集
+        /// </summary>
+        [OptionAttribute]
+        public bool GatherStatusWithNoSource { get; set; } = false;
+
+        /// <summary>
+        /// 采集起始页码
         /// </summary>
         [OptionAttribute]
         public bool GatherContinueLastPage { get; set; } = false;
@@ -117,7 +123,6 @@ namespace SpiderTracker.Imp
         /// </summary>
         [OptionAttribute]
         public bool GatherCompleteShutdown { get; set; } = false;
-
 
         #endregion
 
@@ -132,6 +137,17 @@ namespace SpiderTracker.Imp
         /// 读取下一条等待时间(秒)
         /// </summary>
         public int ReadNextStatusWaitSecond { get; set; } = 3;
+
+        /// <summary>
+        /// 空闲读取下一条微博等待时间(毫秒)
+        /// </summary>
+        public int ReadFreeWaitMilSecond { get; set; } = 500;
+
+        /// <summary>
+        /// 下载下一个资源等待时间(毫秒)
+        /// </summary>
+        public int DownloadSourceWaitMilSecond { get; set; } = 200;
+
 
         /// <summary>
         /// 读取图片最小尺寸
