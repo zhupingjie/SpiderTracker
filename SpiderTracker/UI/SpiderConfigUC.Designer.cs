@@ -49,14 +49,15 @@ namespace SpiderTracker.UI
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.IgnoreReadDownStatus = new System.Windows.Forms.CheckBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.GatherStatusUpdateLocalSource = new System.Windows.Forms.CheckBox();
+            this.GatherStatusWithNoSource = new System.Windows.Forms.CheckBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
-            this.GatherStatusWithNoSource = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.GatherThreadCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartPageIndex)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxReadPageCount)).BeginInit();
@@ -180,7 +181,7 @@ namespace SpiderTracker.UI
             // 
             this.GatherContinueLastPage.AutoSize = true;
             this.GatherContinueLastPage.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.GatherContinueLastPage.Location = new System.Drawing.Point(12, 84);
+            this.GatherContinueLastPage.Location = new System.Drawing.Point(120, 57);
             this.GatherContinueLastPage.Name = "GatherContinueLastPage";
             this.GatherContinueLastPage.Size = new System.Drawing.Size(99, 21);
             this.GatherContinueLastPage.TabIndex = 36;
@@ -305,8 +306,20 @@ namespace SpiderTracker.UI
             this.label5.TabIndex = 0;
             this.label5.Text = "运行选项";
             // 
+            // IgnoreReadDownStatus
+            // 
+            this.IgnoreReadDownStatus.AutoSize = true;
+            this.IgnoreReadDownStatus.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.IgnoreReadDownStatus.Location = new System.Drawing.Point(12, 84);
+            this.IgnoreReadDownStatus.Name = "IgnoreReadDownStatus";
+            this.IgnoreReadDownStatus.Size = new System.Drawing.Size(99, 21);
+            this.IgnoreReadDownStatus.TabIndex = 45;
+            this.IgnoreReadDownStatus.Text = "忽略本地资源";
+            this.IgnoreReadDownStatus.UseVisualStyleBackColor = true;
+            // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.GatherStatusUpdateLocalSource);
             this.panel3.Controls.Add(this.ReadAllOfUser);
             this.panel3.Controls.Add(this.GatherStatusWithNoSource);
             this.panel3.Controls.Add(this.GatherContinueLastPage);
@@ -319,16 +332,27 @@ namespace SpiderTracker.UI
             this.panel3.Size = new System.Drawing.Size(248, 111);
             this.panel3.TabIndex = 45;
             // 
-            // IgnoreReadDownStatus
+            // GatherStatusUpdateLocalSource
             // 
-            this.IgnoreReadDownStatus.AutoSize = true;
-            this.IgnoreReadDownStatus.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IgnoreReadDownStatus.Location = new System.Drawing.Point(12, 84);
-            this.IgnoreReadDownStatus.Name = "IgnoreReadDownStatus";
-            this.IgnoreReadDownStatus.Size = new System.Drawing.Size(99, 21);
-            this.IgnoreReadDownStatus.TabIndex = 45;
-            this.IgnoreReadDownStatus.Text = "忽略本地资源";
-            this.IgnoreReadDownStatus.UseVisualStyleBackColor = true;
+            this.GatherStatusUpdateLocalSource.AutoSize = true;
+            this.GatherStatusUpdateLocalSource.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GatherStatusUpdateLocalSource.Location = new System.Drawing.Point(120, 84);
+            this.GatherStatusUpdateLocalSource.Name = "GatherStatusUpdateLocalSource";
+            this.GatherStatusUpdateLocalSource.Size = new System.Drawing.Size(99, 21);
+            this.GatherStatusUpdateLocalSource.TabIndex = 47;
+            this.GatherStatusUpdateLocalSource.Text = "采集同步资源";
+            this.GatherStatusUpdateLocalSource.UseVisualStyleBackColor = true;
+            // 
+            // GatherStatusWithNoSource
+            // 
+            this.GatherStatusWithNoSource.AutoSize = true;
+            this.GatherStatusWithNoSource.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GatherStatusWithNoSource.Location = new System.Drawing.Point(12, 84);
+            this.GatherStatusWithNoSource.Name = "GatherStatusWithNoSource";
+            this.GatherStatusWithNoSource.Size = new System.Drawing.Size(99, 21);
+            this.GatherStatusWithNoSource.TabIndex = 46;
+            this.GatherStatusWithNoSource.Text = "采集已读微博";
+            this.GatherStatusWithNoSource.UseVisualStyleBackColor = true;
             // 
             // panel5
             // 
@@ -386,17 +410,6 @@ namespace SpiderTracker.UI
             this.label7.Size = new System.Drawing.Size(56, 17);
             this.label7.TabIndex = 0;
             this.label7.Text = "基本选项";
-            // 
-            // GatherStatusWithNoSource
-            // 
-            this.GatherStatusWithNoSource.AutoSize = true;
-            this.GatherStatusWithNoSource.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.GatherStatusWithNoSource.Location = new System.Drawing.Point(120, 57);
-            this.GatherStatusWithNoSource.Name = "GatherStatusWithNoSource";
-            this.GatherStatusWithNoSource.Size = new System.Drawing.Size(99, 21);
-            this.GatherStatusWithNoSource.TabIndex = 46;
-            this.GatherStatusWithNoSource.Text = "采集已读微博";
-            this.GatherStatusWithNoSource.UseVisualStyleBackColor = true;
             // 
             // SpiderConfigUC
             // 
@@ -457,5 +470,6 @@ namespace SpiderTracker.UI
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox IgnoreReadDownStatus;
         private System.Windows.Forms.CheckBox GatherStatusWithNoSource;
+        private System.Windows.Forms.CheckBox GatherStatusUpdateLocalSource;
     }
 }

@@ -11,6 +11,7 @@ using System.Threading;
 using SpiderTracker.Imp.Model;
 using System.Collections.Specialized;
 using SpiderTracker.UI;
+using SpiderTracker.Imp.Util;
 
 namespace SpiderTracker.Imp
 {
@@ -389,6 +390,10 @@ namespace SpiderTracker.Imp
                     {
                         readStatusImageCount = GatherSinaStatusByUserStatus(runningCache, user.uid);
                     }
+                    else if(RunningConfig.GatherStatusUpdateLocalSource)
+                    {
+                        readStatusImageCount = GatherSinaSourceByUserStatus(runningCache, user.uid);
+                    }
                     else
                     {
                         readStatusImageCount = GatherSinaStatusByUserUrl(runningCache, user.uid);
@@ -552,6 +557,162 @@ namespace SpiderTracker.Imp
             }
             return true;
         }
+
+        int GatherSinaSourceByUserStatus(SpiderRunningCache runningCache, string userId)
+        {
+            var sinaUser = Repository.GetUser(userId);
+            if (sinaUser == null)
+            {
+                ShowStatus($"用户【{userId}】未采集.");
+                return 0;
+            }
+            if (sinaUser.ignore > 0)
+            {
+                ShowStatus($"用户【{userId}】已忽略采集.");
+                return 0;
+            }
+            int readStatusImageCount = 0;
+            var sinaStatuses = Repository.GetUserStatuses(userId);
+            var imageFiles = PathUtil.GetStoreUserThumbnailImageFiles(runningCache.Category, userId);
+            if(imageFiles.Length > 0)
+            {
+                var hasBids = sinaStatuses.Where(c => c.mtype == 0).Select(c => c.bid).ToArray();
+                var localStatuses = imageFiles.Select(c => new FileInfo(c).Name.Split('_')[0]).GroupBy(c => c).Select(c => new { bid = c.Key, qty = c.Count() }).ToArray();
+                var bids = localStatuses.Select(c => c.bid).ToArray();
+                var extStatuses = sinaStatuses.Where(c => bids.Contains(c.bid)).ToArray();
+                if (RunningConfig.IgnoreReadGetStatus)
+                {
+                    extStatuses = extStatuses.Where(c => c.gets > 0).ToArray();
+                }
+                if (RunningConfig.IgnoreReadArchiveStatus)
+                {
+                    extStatuses = extStatuses.Where(c => c.archive > 0).ToArray();
+                }
+                foreach (var status in extStatuses)
+                {
+                    var suc = CheckUserStatusGather(runningCache, sinaUser, status);
+                    if (suc)
+                    {
+                        var localStatus = localStatuses.FirstOrDefault(c => c.bid == status.bid);
+                        status.gets = localStatus.qty;
+                        Repository.UpdateSinaStatus(status, new string[] { "gets" });
+                        ShowStatus($"用户【{userId}】微博【{status.bid}】已更新采集数量.");
+
+                        GatherStatusComplete(userId, localStatus.qty);
+                    }
+
+                    if (StopSpiderWork)
+                    {
+                        ShowStatus($"中止采集用户微博数据...");
+                        break;
+                    }
+                    if (CheckUserCanceled(userId))
+                    {
+                        ShowStatus($"取消采集用户微博数据...");
+                        break;
+                    }
+
+                    Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
+                }
+                var notExtBids = bids.Where(c => !hasBids.Contains(c)).ToArray();
+                var notExtLoaclStatuses = localStatuses.Where(c => notExtBids.Contains(c.bid)).ToArray();
+                foreach (var localStatus in notExtLoaclStatuses)
+                {
+                    ShowStatus($"开始采集用户【{userId}】微博【{localStatus.bid}】...");
+                    readStatusImageCount += GatherSinaStatusByStatusUrl(runningCache, localStatus.bid);
+
+                    var extStatus = Repository.GetUserStatus(localStatus.bid);
+                    if(extStatus != null && extStatus.ignore > 0)
+                    {
+                        PathUtil.DeleteStoreUserImageFiles(runningCache.Category, userId, extStatus.bid);
+                        ShowStatus($"用户【{userId}】微博【{extStatus.bid}】已忽略删除.");
+                    }
+
+                    if (StopSpiderWork)
+                    {
+                        ShowStatus($"中止采集用户微博数据...");
+                        break;
+                    }
+                    if (CheckUserCanceled(userId))
+                    {
+                        ShowStatus($"取消采集用户微博数据...");
+                        break;
+                    }
+                    Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
+                }
+
+                Repository.UpdateSinaUserQty(userId);
+            }
+            var videoFiles = PathUtil.GetStoreUserVideoFiles(runningCache.Category, userId);
+            if(videoFiles.Length > 0)
+            {
+                var hasBids = sinaStatuses.Where(c => c.mtype == 1).Select(c => c.bid).ToArray();
+                var localStatuses = videoFiles.Select(c => new FileInfo(c).Name.Split('.')[0]).GroupBy(c => c).Select(c => new { bid = c.Key, qty = c.Count() }).ToArray();
+                var bids = localStatuses.Select(c => c.bid).ToArray();
+                var extStatuses = sinaStatuses.Where(c => bids.Contains(c.bid)).ToArray();
+                if (RunningConfig.IgnoreReadGetStatus)
+                {
+                    extStatuses = extStatuses.Where(c => c.gets > 0).ToArray();
+                }
+                if (RunningConfig.IgnoreReadArchiveStatus)
+                {
+                    extStatuses = extStatuses.Where(c => c.archive > 0).ToArray();
+                }
+                foreach (var status in extStatuses)
+                {
+                    var suc = CheckUserStatusGather(runningCache, sinaUser, status);
+                    if (suc)
+                    {
+                        var localStatus = localStatuses.FirstOrDefault(c => c.bid == status.bid);
+                        status.gets = localStatus.qty;
+                        Repository.UpdateSinaStatus(status, new string[] { "gets" });
+                        ShowStatus($"用户【{userId}】微博【{status.bid}】已更新采集数量.");
+
+                        GatherStatusComplete(userId, localStatus.qty);
+                    }
+
+                    if (StopSpiderWork)
+                    {
+                        ShowStatus($"中止采集用户微博数据...");
+                        break;
+                    }
+                    if (CheckUserCanceled(userId))
+                    {
+                        ShowStatus($"取消采集用户微博数据...");
+                        break;
+                    }
+                    Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
+                }
+                var notExtBids = bids.Where(c => !hasBids.Contains(c)).ToArray();
+                var notExtLoaclStatuses = localStatuses.Where(c => notExtBids.Contains(c.bid)).ToArray();
+                foreach (var localStatus in notExtLoaclStatuses)
+                {
+                    ShowStatus($"开始采集用户【{userId}】微博【{localStatus.bid}】...");
+                    readStatusImageCount += GatherSinaStatusByStatusUrl(runningCache, localStatus.bid);
+
+                    var extStatus = Repository.GetUserStatus(localStatus.bid);
+                    if (extStatus != null && extStatus.ignore > 0)
+                    {
+                        PathUtil.DeleteStoreUserVideoFile(runningCache.Category, userId, extStatus.bid);
+                        ShowStatus($"用户【{userId}】微博【{extStatus.bid}】已忽略删除.");
+                    }
+                    if (StopSpiderWork)
+                    {
+                        ShowStatus($"中止采集用户微博数据...");
+                        break;
+                    }
+                    if (CheckUserCanceled(userId))
+                    {
+                        ShowStatus($"取消采集用户微博数据...");
+                        break;
+                    }
+                    Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
+                }
+                Repository.UpdateSinaUserQty(userId);
+            }
+            return readStatusImageCount;
+        }
+
         /// <summary>
         /// 直接读取用户数据
         /// </summary>
@@ -915,7 +1076,7 @@ namespace SpiderTracker.Imp
             }
             if (status.pics == null || status.pics.Length < RunningConfig.MinReadImageCount)
             {
-                ShowStatus($"跳过不符合最小图数微博【{status.bid}】.");
+                ShowStatus($"跳过不符合最小图数微博【{status.bid}】.");                
                 return 0;
             }
             var sinaStatus = Repository.GetUserStatus(status.bid);

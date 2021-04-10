@@ -113,6 +113,12 @@ namespace SpiderTracker.Imp
         public bool GatherStatusWithNoSource { get; set; } = false;
 
         /// <summary>
+        /// 更新本地采集
+        /// </summary>
+        [OptionAttribute]
+        public bool GatherStatusUpdateLocalSource { get; set; } = false;
+
+        /// <summary>
         /// 采集起始页码
         /// </summary>
         [OptionAttribute]
