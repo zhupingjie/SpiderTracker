@@ -84,6 +84,16 @@ namespace SpiderTracker.UI
             // 
             this.GatherThreadCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.GatherThreadCount.Location = new System.Drawing.Point(120, 30);
+            this.GatherThreadCount.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.GatherThreadCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.GatherThreadCount.Name = "GatherThreadCount";
             this.GatherThreadCount.Size = new System.Drawing.Size(103, 23);
             this.GatherThreadCount.TabIndex = 1;
@@ -108,6 +118,16 @@ namespace SpiderTracker.UI
             // 
             this.StartPageIndex.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.StartPageIndex.Location = new System.Drawing.Point(120, 59);
+            this.StartPageIndex.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.StartPageIndex.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.StartPageIndex.Name = "StartPageIndex";
             this.StartPageIndex.Size = new System.Drawing.Size(103, 23);
             this.StartPageIndex.TabIndex = 3;
@@ -122,6 +142,11 @@ namespace SpiderTracker.UI
             // 
             this.MaxReadPageCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MaxReadPageCount.Location = new System.Drawing.Point(120, 88);
+            this.MaxReadPageCount.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
             this.MaxReadPageCount.Name = "MaxReadPageCount";
             this.MaxReadPageCount.Size = new System.Drawing.Size(103, 23);
             this.MaxReadPageCount.TabIndex = 5;
@@ -146,6 +171,11 @@ namespace SpiderTracker.UI
             // 
             this.MinReadImageCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MinReadImageCount.Location = new System.Drawing.Point(120, 117);
+            this.MinReadImageCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.MinReadImageCount.Name = "MinReadImageCount";
             this.MinReadImageCount.Size = new System.Drawing.Size(103, 23);
             this.MinReadImageCount.TabIndex = 7;
