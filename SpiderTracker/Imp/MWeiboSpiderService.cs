@@ -756,9 +756,10 @@ namespace SpiderTracker.Imp
                 bool readPageEmpty = false, stopReadNextPage = false;
                 int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningCache, user, readPageIndex, readPageCount, hasReadLastPage, out readPageEmpty, out stopReadNextPage);
                 readUserImageCount += readPageImageCount;
-
-                GatherPageComplete(user.id, readPageIndex, readUserImageCount);
-
+                if (!readPageEmpty)
+                {
+                    GatherPageComplete(user.id, readPageIndex, readUserImageCount);
+                }
                 if (stopReadNextPage)
                 {
                     ShowStatus($"结束采集用户微博数据(下页已采集)...");
@@ -770,8 +771,6 @@ namespace SpiderTracker.Imp
 
                 if (emptyPageCount > 3)
                 {
-                    Repository.UpdateSinaUserPage(userId, readPageIndex - emptyPageCount);
-
                     if (RunningConfig.MaxReadPageCount == 0)
                     {
                         Repository.UpdateUserLastpage(userId);

@@ -465,8 +465,8 @@ namespace SpiderTracker
                     subItem.SubItems.Add($"{item.readpage}");
                     subItem.SubItems.Add($"{(item.focus > 0 ? "◉" : "")}");
                     subItem.SubItems.Add($"{(item.lastpage > 0 ? "✔" : "")}");
-                    subItem.SubItems.Add($"{(item.lastdate.ToString("yyyy/MM/dd HH:mm"))}");
                     subItem.SubItems.Add($"{item.site}");
+                    subItem.SubItems.Add($"{(item.lastdate.ToString("yyyy/MM/dd HH:mm"))}");
                     subItem.Tag = item;
                     this.lstUser.Items.Add(subItem);
                 }
