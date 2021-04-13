@@ -840,6 +840,8 @@ namespace SpiderTracker
                         this.vedioPlayerUC1.ShowVideo(file);
                     }
                 }
+                //var url = $"http://121.4.29.105:8080/index.html?category={RunningConfig.Category}&status={status.bid}";
+                //this.webBrowser1.Navigate(url);
             }
             else
             {

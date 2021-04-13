@@ -147,6 +147,8 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tbpWeb = new System.Windows.Forms.TabPage();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.panel1.SuspendLayout();
             this.panel26.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -178,6 +180,7 @@
             this.panel18.SuspendLayout();
             this.panel19.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tbpWeb.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -1494,6 +1497,7 @@
             this.tabControl1.Controls.Add(this.tbpGatherLog);
             this.tabControl1.Controls.Add(this.tbpReview);
             this.tabControl1.Controls.Add(this.tbpVideo);
+            this.tabControl1.Controls.Add(this.tbpWeb);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tabControl1.Location = new System.Drawing.Point(313, 67);
@@ -1504,6 +1508,25 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(594, 539);
             this.tabControl1.TabIndex = 17;
+            // 
+            // tbpWeb
+            // 
+            this.tbpWeb.Controls.Add(this.webBrowser1);
+            this.tbpWeb.Location = new System.Drawing.Point(4, 4);
+            this.tbpWeb.Name = "tbpWeb";
+            this.tbpWeb.Size = new System.Drawing.Size(564, 531);
+            this.tbpWeb.TabIndex = 3;
+            this.tbpWeb.Text = "在线预览";
+            this.tbpWeb.UseVisualStyleBackColor = true;
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(564, 531);
+            this.webBrowser1.TabIndex = 0;
             // 
             // SpiderTrackerForm
             // 
@@ -1564,6 +1587,7 @@
             this.panel19.ResumeLayout(false);
             this.panel19.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tbpWeb.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1688,6 +1712,8 @@
         private System.Windows.Forms.Button btnReadConfig;
         private System.Windows.Forms.Button btnBweTopic;
         private UI.SpiderConfigUC spiderConfigUC1;
+        private System.Windows.Forms.TabPage tbpWeb;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
 
