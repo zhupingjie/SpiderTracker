@@ -61,6 +61,9 @@ namespace SpiderTracker
             SinaSpiderService.OnGatherUserComplete += SinaSpiderService_OnGatherUserComplete;
             SinaSpiderService.OnGatherAppendUser += SinaSpiderService_OnGatherAppendUser;
             SinaSpiderService.OnGatherUserStarted += SinaSpiderService_OnGatherUserStarted;
+            SinaSpiderService.OnSpiderUploadShow += SinaSpiderService_OnSpiderUploadShow;
+            SinaSpiderService.OnSpiderUploadRefresh += SinaSpiderService_OnSpiderUploadComplete;
+            SinaSpiderService.StartUploadTask();
 
             spiderConfigUC1.OnRefreshConfig += SpiderConfigUC1_OnRefreshConfig;
 
@@ -70,8 +73,42 @@ namespace SpiderTracker
             });
         }
 
-
         #region Spider Event
+
+
+        private void SinaSpiderService_OnSpiderUploadComplete(SinaUpload upload, string state)
+        {
+            InvokeControl(this.lstUpload, new Action(() =>
+            {
+                if (this.lstUpload.Items.Count == 0) return;
+
+                var listItem = this.lstUpload.FindItemWithText(upload.file);
+                if (listItem != null)
+                {
+                    listItem.SubItems[4].Text = state;
+                }
+            }));
+        }
+
+        private void SinaSpiderService_OnSpiderUploadShow(SinaUpload[] uploads)
+        {
+            InvokeControl(this.lstUpload, new Action(() =>
+            {
+                foreach (var item in uploads)
+                {
+                    var listItem = this.lstUpload.FindItemWithText(item.file);
+                    if (listItem != null) continue; ;
+
+                    var subItem = new ListViewItem();
+                    subItem.Text = item.file;
+                    subItem.SubItems.Add($"{item.category}");
+                    subItem.SubItems.Add($"{item.uid}");
+                    subItem.SubItems.Add($"{item.createtime}");
+                    subItem.SubItems.Add($"❌");
+                    this.lstUpload.Items.Add(subItem);
+                }
+            }));
+        }
 
         private void SinaSpiderService_OnGatherUserStarted(SinaUser user)
         {
@@ -524,9 +561,9 @@ namespace SpiderTracker
                     break;
                 case "存档":
                     if (this.cbxStatusSortAsc.Text == "降序")
-                        status = status.OrderByDescending(c => c.archive).ToArray();
+                        status = status.OrderByDescending(c => c.upload).ToArray();
                     else
-                        status = status.OrderBy(c => c.archive).ToArray();
+                        status = status.OrderBy(c => c.upload).ToArray();
                     break;
                 case "日期":
                     if (this.cbxStatusSortAsc.Text == "降序")
@@ -599,7 +636,7 @@ namespace SpiderTracker
                         localImg += files.Length;
                     }
                     subItem.SubItems.Add($"{local}");
-                    subItem.SubItems.Add($"{item.archive}");
+                    subItem.SubItems.Add($"{item.upload}");
                     subItem.SubItems.Add($"{item.site}");
                     subItem.SubItems.Add($"{item.createtime}");
                     this.lstArc.Items.Add(subItem);
@@ -608,7 +645,7 @@ namespace SpiderTracker
 
                 this.lblStatusCount.Text = $"{sinaStatus.Count}";
                 this.lblLocalImgCount.Text = $"{localImg}";
-                this.lblArchiveCount.Text = $"{sinaStatus.Sum(c => c.archive)}";
+                this.lblArchiveCount.Text = $"{sinaStatus.Sum(c => c.upload)}";
                 this.lblStatusImageCount.Text = $"{sinaStatus.Sum(c => c.qty)}";
                 this.lblGetImgCount.Text = $"{sinaStatus.Sum(c => c.gets)}";
 
@@ -822,13 +859,23 @@ namespace SpiderTracker
             this.lblStatusBid.Text = status.bid;
 
             if (RunningConfig.PreviewImageNow == 1)
-            {
+            {   
                 if (status.mtype == 0)
                 {
-                    ActiveImageCtl();
+                    if(status.upload > 0)
+                    {
+                        ActiveWebCtl();
 
-                    var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, status.bid);
-                    this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount, RunningConfig.Category, user.uid, status.bid, RunningConfig.DefaultArchivePath);
+                        var url = HttpUtil.GetSinaSoureImageApi(RunningConfig.DefaultUploadServerIP, RunningConfig.Category, status.bid);
+                        this.webBrowser1.Navigate(url);
+                    }
+                    else
+                    {
+                        ActiveImageCtl();
+
+                        var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, status.bid);
+                        this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount, RunningConfig.Category, user.uid, status.bid, RunningConfig.DefaultUploadPath);
+                    }
                 }
                 else if (status.mtype == 1)
                 {
@@ -840,8 +887,6 @@ namespace SpiderTracker
                         this.vedioPlayerUC1.ShowVideo(file);
                     }
                 }
-                //var url = $"http://121.4.29.105:8080/index.html?category={RunningConfig.Category}&status={status.bid}";
-                //this.webBrowser1.Navigate(url);
             }
             else
             {
@@ -897,25 +942,6 @@ namespace SpiderTracker
 
             var url = SinaUrlUtil.GetSinaUserUrl(user.uid);
             System.Diagnostics.Process.Start(url);
-        }
-
-        private void btnMarkUser_Click(object sender, EventArgs e)
-        {
-            var user = GetSelectUser();
-            if (user == null) return;
-            if (MessageBox.Show($"确认已存档当前用户的所有微博[{user.uid}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
-
-            if (!string.IsNullOrEmpty(user.uid))
-            {
-                var rep = new SinaRepository();
-                rep.ArchiveSinaUser(user.uid);
-
-                var status = rep.GetUserStatuseOfNoArchives(user.uid);
-                if (status.Count > 0)
-                {
-                    ArchiveStatus(user.uid, status.ToArray());
-                }
-            }
         }
 
         private void btnBrowseStatus_Click(object sender, EventArgs e)
@@ -990,14 +1016,34 @@ namespace SpiderTracker
             var status = GetSelectStatuss();
             if (status.Length == 0) return;
 
-            if (MessageBox.Show($"确认已存档当前选中的[{status.Length}]个微博?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+            if (MessageBox.Show($"确认已上传当前选中的[{status.Length}]个微博?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             var rep = new SinaRepository();
             foreach (var item in status)
             {
-                rep.ArchiveSinaStatus(item.bid);
+                if (item.mtype == 0)
+                {
+                    var files = PathUtil.GetStoreUserImageFiles(RunningConfig.Category, item.uid, item.bid);
+                    if (files.Length > 0)
+                    {
+                        if (rep.UploadSinaStatus(RunningConfig.Category, item.bid, files))
+                        {
+                            UploadStatus(files);
+                        }
+                    }
+                }
+                else if(item.mtype == 1)
+                {
+                    var file = PathUtil.GetStoreUserVideoFile(RunningConfig.Category, item.uid, item.bid);
+                    if (File.Exists(file))
+                    {
+                        if (rep.UploadSinaStatus(RunningConfig.Category, item.bid, new string[] { file }))
+                        {
+                            UploadStatus(new string[] { file });
+                        }
+                    }
+                }
             }
-            ArchiveStatus(user.uid, status);
         }
 
         private void btnFoucsUser_Click(object sender, EventArgs e)
@@ -1469,31 +1515,15 @@ namespace SpiderTracker
             return ids.ToArray();
         }
 
-        void ArchiveStatus(string uid, SinaStatus[] status)
+        void UploadStatus(string[] files)
         {
-            var archivePath = Path.Combine(PathUtil.BaseDirectory, RunningConfig.DefaultArchivePath);
+            var archivePath = Path.Combine(PathUtil.BaseDirectory, RunningConfig.DefaultUploadPath);
             if (!Directory.Exists(archivePath)) Directory.CreateDirectory(archivePath);
 
-            foreach(var item in status)
+            foreach (var file in files.Select(c => new FileInfo(c)).ToArray())
             {
-                if (item.mtype == 0)
-                {
-                    var files = PathUtil.GetStoreUserImageFiles(RunningConfig.Category, uid, item.bid);
-                    foreach (var file in files.Select(c => new FileInfo(c)).ToArray())
-                    {
-                        var destFile = Path.Combine(archivePath, file.Name);
-                        file.CopyTo(destFile, true);
-                    }
-                }
-                else if(item.mtype == 1)
-                {
-                    var path = PathUtil.GetStoreUserVideoFile(RunningConfig.Category, uid, item.bid);
-                    if (File.Exists(path))
-                    {
-                        var destFile = Path.Combine(archivePath, new FileInfo(path).Name);
-                        File.Copy(path, destFile);
-                    }
-                }
+                var destFile = Path.Combine(archivePath, file.Name);
+                file.CopyTo(destFile, true);
             }
         }
 

@@ -21,7 +21,7 @@ namespace SpiderTracker.Imp.Model
 
         public long size { get; set; }
 
-        public int archive { get; set; }
+        public int upload { get; set; }
         public DateTime? downdate { get; set; }
     }
 }

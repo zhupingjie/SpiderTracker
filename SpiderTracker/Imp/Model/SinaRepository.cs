@@ -2,6 +2,7 @@
 using SpiderTracker.Imp.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -124,6 +125,12 @@ namespace SpiderTracker.Imp.Model
         {
             return DBHelper.GetEntitys<SinaTopic>("sina_topic", $"`type`=1 and `category`='{category}'");
         }
+
+        public List<SinaUpload> GetSinaUploads()
+        {
+            return DBHelper.GetEntitys<SinaUpload>("sina_upload", $"`upload`=0");
+        }
+
         public string[] GetGroupNames()
         {
             return DBHelper.GetGroupStrings("sina_user", "category", $"1=1").ToArray();
@@ -163,9 +170,9 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `bid` like '%{keyword}%' and `retweeted`=0 and  `ignore`=0");
         }
 
-        public List<SinaStatus> GetUserStatuseOfNoArchives(string uid)
+        public List<SinaStatus> GetUserStatuseOfNoUpload(string uid)
         {
-            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweeted`=0 and `ignore`=0 and `archive`=0");
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweeted`=0 and `ignore`=0 and `upload`=0");
         }
 
         public List<SinaSource> GetUserPictures(string uid)
@@ -404,21 +411,46 @@ namespace SpiderTracker.Imp.Model
             return UpdateSinaUserQty(sinaStatus.uid);
         }
         
-        public bool ArchiveSinaStatus(string status)
+        public bool UploadSinaStatus(string category, string status, string[] files)
         {
             var sinaStatus = GetUserStatus(status);
             if (sinaStatus == null) return true;
 
-            sinaStatus.archive = 1;
-            UpdateSinaStatus(sinaStatus, new string[] { "archive" });
-            return UpdateSinaUserQty(sinaStatus.uid);
+            sinaStatus.upload = 1;
+            UpdateSinaStatus(sinaStatus, new string[] { "upload" });
+            UpdateSinaUserQty(sinaStatus.uid);
+            CreateSinaUpload(sinaStatus, files, category);
+            return true;
         }
 
-        public bool ArchiveSinaUser(string user)
+        public void CreateSinaUpload(SinaStatus status, string[] files, string category)
         {
-            UpdateSinaStatuses(user, "archive", "`gets`");
+            foreach(var file in files.Select(c=> new FileInfo(c)).ToArray())
+            {
+                var upload = GetSinaUpload(status.uid, status.bid, file.Name);
+                if (upload == null)
+                {
+                    upload = new SinaUpload()
+                    {
+                        category = category,
+                        uid = status.uid,
+                        bid = status.bid,
+                        createtime = DateTime.Now.ToString("yyyy/MM/dd HH:mm"),
+                        file = file.Name,
+                    };
+                    DBHelper.CreateEntity(upload, "sina_upload");
+                }                
+            }
+        }
 
-            return UpdateSinaUserQty(user);
+        public SinaUpload GetSinaUpload(string uid, string bid, string file)
+        {
+            return DBHelper.GetEntity<SinaUpload>("sina_upload", $"`uid`='{uid}' and `bid`='{bid}' and `file`='{file}'");
+        }
+
+        public bool UpdateSinaUpload(SinaUpload upload, string[] columns)
+        {
+            return DBHelper.UpdateEntity(upload, "sina_upload", "id", $"{upload.id}", columns);
         }
     }
 }

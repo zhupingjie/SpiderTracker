@@ -1,0 +1,86 @@
+<html>
+<head>
+    <!--<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>-->
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript">
+        var showImages = function (images) {
+            for (var i = 1; i <= 9; i++) {
+                var img = $("#img" + i);
+                if (img) {
+                    if (images.length >= i) {
+                        img.show();
+                        img.attr("src", images[i - 1]);
+
+                        if (images.length == 1) {
+                            img.attr("width", "auto");
+                            img.attr("height", "auto");
+                        }
+                    }
+                    else {
+                        img.hide();
+                    }
+                }
+            }
+        };
+        window.onload = function () {
+            var arr = this.location.href.split('?');
+            if (arr.length < 2) return;
+
+            var params = arr[1].split('&');
+            if (params.length < 2) return;
+
+            var category = "";
+            var status = "";
+            if (params[0].indexOf("category=") >= 0) {
+                category = params[0].split('=')[1];
+            }
+            if (params[1].indexOf("status=") >= 0) {
+                status = params[1].split('=')[1];
+            }
+            if (!category || !status) return;
+
+            var thumb = 0;
+            if (params.length > 2) {
+                thumb = params[2].split('=')[1];
+            }
+
+            $.ajax({
+                url: "http://121.4.29.105:8088/api/spider/getsinasources",
+                type: "get",
+                data: { "category": category, "status": status, "thumb": thumb },
+                success: function (data) {
+                    if (data.result || data.result) {
+                        showImages(data.result, thumb);
+                    }
+                }
+            });
+        };
+    </script>
+    <style>
+        .thumbimg {
+            width: 200px;
+            height: 300px;
+            object-fit: cover;
+            padding: 3px;
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <img id="img1" class="thumbimg" src="#" />
+        <img id="img2" class="thumbimg" src="#" />
+        <img id="img3" class="thumbimg" src="#" />
+    </div>
+    <div>
+        <img id="img4" class="thumbimg" src="#" />
+        <img id="img5" class="thumbimg" src="#" />
+        <img id="img6" class="thumbimg" src="#" />
+    </div>
+    <!--<div>
+        <img id="img7" class="thumbimg" src="#" />
+        <img id="img8" class="thumbimg" src="#" />
+        <img id="img9" class="thumbimg" src="#" />
+    </div>-->
+</body>
+</html>

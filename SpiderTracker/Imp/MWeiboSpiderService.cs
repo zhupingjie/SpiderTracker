@@ -12,12 +12,38 @@ using SpiderTracker.Imp.Model;
 using System.Collections.Specialized;
 using SpiderTracker.UI;
 using SpiderTracker.Imp.Util;
+using ServiceStack;
 
 namespace SpiderTracker.Imp
 {
     public class MWeiboSpiderService : ISpiderService
     {
         #region Spider Event
+
+        public delegate void SpiderUploadShowEventHander(SinaUpload[] uploads);
+
+        public event SpiderUploadShowEventHander OnSpiderUploadShow;
+
+        public void SpiderUploadShow(SinaUpload[] uploads)
+        {
+            if (OnSpiderUploadShow != null)
+            {
+                OnSpiderUploadShow?.Invoke(uploads);
+            }
+        }
+
+        public delegate void SpiderUploadRefreshEventHander(SinaUpload upload, string state);
+
+        public event SpiderUploadRefreshEventHander OnSpiderUploadRefresh;
+
+        public void SpiderUploadRefresh(SinaUpload upload, string state)
+        {
+            if (OnSpiderUploadRefresh != null)
+            {
+                OnSpiderUploadRefresh?.Invoke(upload, state);
+            }
+        }
+
 
         public delegate void ShowStatusEventHander(string msg, bool bLog = false, Exception ex = null);
 
@@ -509,12 +535,12 @@ namespace SpiderTracker.Imp
                 ShowStatus($"跳过已忽略微博【{status.bid}】.");
                 return false;
             }
-            if (RunningConfig.IgnoreReadArchiveStatus && status.archive > 0)
+            if (RunningConfig.IgnoreReadArchiveStatus && status.upload > 0)
             {
                 ShowStatus($"跳过已存档微博【{status.bid}】.");
                 return false;
             }
-            if (RunningConfig.IgnoreReadArchiveStatus && status.archive > 0)
+            if (RunningConfig.IgnoreReadArchiveStatus && status.upload > 0)
             {
                 ShowStatus($"跳过已存档微博【{status.bid}】.");
                 return false;
@@ -586,7 +612,7 @@ namespace SpiderTracker.Imp
                 }
                 if (RunningConfig.IgnoreReadArchiveStatus)
                 {
-                    extStatuses = extStatuses.Where(c => c.archive > 0).ToArray();
+                    extStatuses = extStatuses.Where(c => c.upload > 0).ToArray();
                 }
                 foreach (var status in extStatuses)
                 {
@@ -656,7 +682,7 @@ namespace SpiderTracker.Imp
                 }
                 if (RunningConfig.IgnoreReadArchiveStatus)
                 {
-                    extStatuses = extStatuses.Where(c => c.archive > 0).ToArray();
+                    extStatuses = extStatuses.Where(c => c.upload > 0).ToArray();
                 }
                 foreach (var status in extStatuses)
                 {
@@ -1086,7 +1112,7 @@ namespace SpiderTracker.Imp
                     ShowStatus($"跳过已忽略微博【{status.bid}】.");
                     return 0;
                 }
-                if (RunningConfig.IgnoreReadArchiveStatus && sinaStatus.archive > 0)
+                if (RunningConfig.IgnoreReadArchiveStatus && sinaStatus.upload > 0)
                 {
                     ShowStatus($"跳过已存档微博【{status.bid}】.");
                     return 0;
@@ -1207,7 +1233,7 @@ namespace SpiderTracker.Imp
                     ShowStatus($"跳过已忽略视频【{status.bid}】.");
                     return 0;
                 }
-                if (RunningConfig.IgnoreReadArchiveStatus && sinaStatus.archive > 0)
+                if (RunningConfig.IgnoreReadArchiveStatus && sinaStatus.upload > 0)
                 {
                     ShowStatus($"跳过已存档视频【{status.bid}】.");
                     return 0;
@@ -2018,6 +2044,101 @@ namespace SpiderTracker.Imp
                 ShowStatus($"下载视频【{arcId}】第【1】个文件OK).");
                 return true;
             }
+        }
+
+        #endregion
+
+        #region 上传微博
+
+        public void StartUploadTask()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(5 * 1000);
+
+                while(true)
+                {
+                    var uploads = Repository.GetSinaUploads();
+                    if(uploads.Count == 0)
+                    {
+                        Thread.Sleep(RunningConfig.UploadFreeWaitSecond * 1000);
+                        continue;
+                    }
+                    else
+                    {
+                        SpiderUploadShow(uploads.ToArray());
+
+                        foreach(var upload in uploads)
+                        {
+                            var localfile = PathUtil.GetStoreUserImageFile(upload.category, upload.uid, upload.file);
+                            if (string.IsNullOrEmpty(localfile))
+                            {
+                                SpiderUploadRefresh(upload, "文件不存在");
+                                continue;
+                            }
+                            var imgFile = new FileInfo(localfile);
+
+                            if (!imgFile.Exists)
+                            {
+                                SpiderUploadRefresh(upload, "文件不存在");
+                                continue;
+                            }
+
+                            //上传开始
+                            SpiderUploadRefresh(upload, "Uploading...");
+
+                            var nv = new NameValueCollection();
+                            nv.Add("category", upload.category);
+                            nv.Add("uid", upload.uid);
+                            nv.Add("bid", upload.bid);
+                            nv.Add("width", $"{RunningConfig.ThumbnailImageWidth}");
+                            nv.Add("height", $"{RunningConfig.ThumbnailImageHeight}");
+
+                            var api = HttpUtil.GetUploadSinaSoureImageApi(RunningConfig.DefaultUploadServerIP, RunningConfig.DefaultUploadImageAPI);
+
+                            //var mineType = MimeTypes.GetMimeType(imgFile.Name);
+                            //var resp = api.PostFileToUrl(imgFile, mineType, accept: "*/*", (requestFilter) =>
+                            //{
+                            //    requestFilter.Timeout = 300 * 1000;
+                            //});
+                            //using (StreamReader stream = new StreamReader(resp.GetResponseStream()))
+                            //{
+                            //    var rest = stream.ReadToEnd();
+                            //}
+                            var result = HttpUtil.PostHttpUploadFile(api, imgFile.FullName, nv, Encoding.Default);
+                            if (string.IsNullOrEmpty(result))
+                            {
+                                //上传失败
+                                SpiderUploadRefresh(upload, "失败");
+                            }
+                            else
+                            {
+                                var rst = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(result);
+                                if (rst == null)
+                                {
+                                    //上传失败
+                                    SpiderUploadRefresh(upload, "失败");
+                                }
+                                else if (!rst.Success)
+                                {
+                                    //上传失败
+                                    SpiderUploadRefresh(upload, rst.Message);
+                                }
+                                else
+                                {
+                                    upload.upload = 1;
+                                    upload.uploadtime = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+                                    Repository.UpdateSinaUpload(upload, new string[] { "upload", "uploadtime" });
+
+                                    //上传完成
+                                    SpiderUploadRefresh(upload, "✔");
+                                }
+                            }
+                            Thread.Sleep(RunningConfig.UploadSourceWaitMilSecond);
+                        }
+                    }
+                }
+            });
         }
 
         #endregion

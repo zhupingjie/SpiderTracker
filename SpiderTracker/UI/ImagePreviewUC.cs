@@ -153,7 +153,7 @@ namespace SpiderTracker.UI
             frm.ImageName = imageName;
             frm.ImageUser = imageUser;
             frm.ImageStatus = imageStatus;
-            frm.ArchivePath = archivePath;
+            frm.UploadPath = archivePath;
             frm.ShowDialog();
         }
         

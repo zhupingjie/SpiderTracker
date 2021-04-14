@@ -93,7 +93,6 @@
             this.panel6 = new System.Windows.Forms.Panel();
             this.btnIgnoreUser = new System.Windows.Forms.Button();
             this.btnChange = new System.Windows.Forms.Button();
-            this.btnMarkUser = new System.Windows.Forms.Button();
             this.btnFocusUser = new System.Windows.Forms.Button();
             this.btnBrowseUser = new System.Windows.Forms.Button();
             this.btnFollwerUser = new System.Windows.Forms.Button();
@@ -149,6 +148,13 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbpWeb = new System.Windows.Forms.TabPage();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.tbpUpload = new System.Windows.Forms.TabPage();
+            this.lstUpload = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel26.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -181,6 +187,7 @@
             this.panel19.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbpWeb.SuspendLayout();
+            this.tbpUpload.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -800,7 +807,7 @@
             this.btnArchiveStatus.Name = "btnArchiveStatus";
             this.btnArchiveStatus.Size = new System.Drawing.Size(35, 20);
             this.btnArchiveStatus.TabIndex = 20;
-            this.btnArchiveStatus.Text = "SAV";
+            this.btnArchiveStatus.Text = "UPO";
             this.btnArchiveStatus.UseVisualStyleBackColor = false;
             this.btnArchiveStatus.Click += new System.EventHandler(this.btnArchiveStatus_Click);
             // 
@@ -879,14 +886,13 @@
             // 
             this.panel6.Controls.Add(this.btnIgnoreUser);
             this.panel6.Controls.Add(this.btnChange);
-            this.panel6.Controls.Add(this.btnMarkUser);
             this.panel6.Controls.Add(this.btnFocusUser);
             this.panel6.Controls.Add(this.btnBrowseUser);
             this.panel6.Controls.Add(this.btnFollwerUser);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel6.Location = new System.Drawing.Point(109, 0);
+            this.panel6.Location = new System.Drawing.Point(141, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(202, 25);
+            this.panel6.Size = new System.Drawing.Size(170, 25);
             this.panel6.TabIndex = 1;
             // 
             // btnIgnoreUser
@@ -913,18 +919,6 @@
             this.btnChange.UseVisualStyleBackColor = false;
             this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
             // 
-            // btnMarkUser
-            // 
-            this.btnMarkUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnMarkUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnMarkUser.Location = new System.Drawing.Point(103, 3);
-            this.btnMarkUser.Name = "btnMarkUser";
-            this.btnMarkUser.Size = new System.Drawing.Size(35, 20);
-            this.btnMarkUser.TabIndex = 21;
-            this.btnMarkUser.Text = "SAV";
-            this.btnMarkUser.UseVisualStyleBackColor = false;
-            this.btnMarkUser.Click += new System.EventHandler(this.btnMarkUser_Click);
-            // 
             // btnFocusUser
             // 
             this.btnFocusUser.BackColor = System.Drawing.SystemColors.Control;
@@ -941,7 +935,7 @@
             // 
             this.btnBrowseUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnBrowseUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBrowseUser.Location = new System.Drawing.Point(166, 3);
+            this.btnBrowseUser.Location = new System.Drawing.Point(134, 3);
             this.btnBrowseUser.Name = "btnBrowseUser";
             this.btnBrowseUser.Size = new System.Drawing.Size(35, 20);
             this.btnBrowseUser.TabIndex = 8;
@@ -953,7 +947,7 @@
             // 
             this.btnFollwerUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnFollwerUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnFollwerUser.Location = new System.Drawing.Point(135, 3);
+            this.btnFollwerUser.Location = new System.Drawing.Point(103, 3);
             this.btnFollwerUser.Name = "btnFollwerUser";
             this.btnFollwerUser.Size = new System.Drawing.Size(35, 20);
             this.btnFollwerUser.TabIndex = 11;
@@ -1498,6 +1492,7 @@
             this.tabControl1.Controls.Add(this.tbpReview);
             this.tabControl1.Controls.Add(this.tbpVideo);
             this.tabControl1.Controls.Add(this.tbpWeb);
+            this.tabControl1.Controls.Add(this.tbpUpload);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tabControl1.Location = new System.Drawing.Point(313, 67);
@@ -1527,6 +1522,64 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(564, 531);
             this.webBrowser1.TabIndex = 0;
+            // 
+            // tbpUpload
+            // 
+            this.tbpUpload.Controls.Add(this.lstUpload);
+            this.tbpUpload.Location = new System.Drawing.Point(4, 4);
+            this.tbpUpload.Name = "tbpUpload";
+            this.tbpUpload.Size = new System.Drawing.Size(564, 531);
+            this.tbpUpload.TabIndex = 4;
+            this.tbpUpload.Text = "上传日志";
+            this.tbpUpload.UseVisualStyleBackColor = true;
+            // 
+            // lstUpload
+            // 
+            this.lstUpload.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lstUpload.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader6});
+            this.lstUpload.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstUpload.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstUpload.FullRowSelect = true;
+            this.lstUpload.GridLines = true;
+            this.lstUpload.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lstUpload.HideSelection = false;
+            this.lstUpload.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.lstUpload.Location = new System.Drawing.Point(0, 0);
+            this.lstUpload.Name = "lstUpload";
+            this.lstUpload.Size = new System.Drawing.Size(564, 531);
+            this.lstUpload.TabIndex = 17;
+            this.lstUpload.UseCompatibleStateImageBehavior = false;
+            this.lstUpload.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Name";
+            this.columnHeader1.Width = 120;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Category";
+            this.columnHeader2.Width = 100;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "UID";
+            this.columnHeader3.Width = 100;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "CreateTime";
+            this.columnHeader4.Width = 120;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "STATUS";
+            this.columnHeader6.Width = 100;
             // 
             // SpiderTrackerForm
             // 
@@ -1588,6 +1641,7 @@
             this.panel19.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tbpWeb.ResumeLayout(false);
+            this.tbpUpload.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1645,7 +1699,6 @@
         private System.Windows.Forms.ColumnHeader colLoc;
         private System.Windows.Forms.ColumnHeader colMrk;
         private System.Windows.Forms.Button btnGetStatusByBid;
-        private System.Windows.Forms.Button btnMarkUser;
         private System.Windows.Forms.Label lblLstUserCountTitle;
         private System.Windows.Forms.Label lbUserCount;
         private System.Windows.Forms.Label lblLocalImgCount;
@@ -1714,6 +1767,13 @@
         private UI.SpiderConfigUC spiderConfigUC1;
         private System.Windows.Forms.TabPage tbpWeb;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.TabPage tbpUpload;
+        private System.Windows.Forms.ListView lstUpload;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
     }
 }
 

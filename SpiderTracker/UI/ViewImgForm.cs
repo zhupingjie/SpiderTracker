@@ -28,7 +28,8 @@ namespace SpiderTracker.UI
         public string ImageUser { get; set; }
         public string ImageStatus { get; set; }
 
-        public string ArchivePath { get; set; }
+        public string UploadPath { get; set; }
+
 
         private void ViewImgForm_Load(object sender, EventArgs e)
         {
@@ -125,14 +126,14 @@ namespace SpiderTracker.UI
 
                 var imageFile = imageFiles[0];
                 var file = new FileInfo(imageFile);
-                var archivePath = Path.Combine(PathUtil.BaseDirectory, ArchivePath);
+                var archivePath = Path.Combine(PathUtil.BaseDirectory, UploadPath);
                 if (!Directory.Exists(archivePath)) Directory.CreateDirectory(archivePath);
                 var destFile = Path.Combine(archivePath, file.Name);
 
                 if (File.Exists(imageFile)) File.Copy(imageFile, destFile, true);
 
                 var rep = new SinaRepository();
-                rep.ArchiveSinaStatus(ImageStatus);
+                rep.UploadSinaStatus(ImageName, ImageStatus, new string[] { imageFile });
             }
         }
 

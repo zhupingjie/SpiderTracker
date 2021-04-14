@@ -154,6 +154,15 @@ namespace SpiderTracker.Imp
         /// </summary>
         public int DownloadSourceWaitMilSecond { get; set; } = 200;
 
+        /// <summary>
+        /// 空闲上传下一条微博等待时间(毫秒)
+        /// </summary>
+        public int UploadFreeWaitSecond { get; set; } = 5;
+
+        /// <summary>
+        /// 下载下一个资源等待时间(毫秒)
+        /// </summary>
+        public int UploadSourceWaitMilSecond { get; set; } = 200;
 
         /// <summary>
         /// 读取图片最小尺寸
@@ -180,10 +189,17 @@ namespace SpiderTracker.Imp
         /// </summary>
         public int GatherUserMinStatuses { get; set; } = 50;
 
+        public string DefaultUploadServerIP { get; set; } = "121.4.29.105:8088";
+
         /// <summary>
         /// 默认存档临时文件夹
         /// </summary>
-        public string DefaultArchivePath { get; set; } = "archive";
+        public string DefaultUploadImageAPI { get; set; } = "api/Spider/UploadSinaSources";
+
+        /// <summary>
+        /// 默认存档临时文件夹
+        /// </summary>
+        public string DefaultUploadPath { get; set; } = "upload";
 
         /// <summary>
         /// 缩略图宽度

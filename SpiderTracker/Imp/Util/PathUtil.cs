@@ -76,6 +76,15 @@ namespace SpiderTracker.Imp
             return Directory.GetFiles(path, $"{bid}_*").Where(c => c.EndsWith(".jpg")).ToArray();
         }
 
+        public static string GetStoreUserImageFile(string name, string uid, string file)
+        {
+            var files = new List<string>();
+            if (string.IsNullOrEmpty(name)) return null;
+            var path = GetStoreUserPath(name, uid);
+            if (!Directory.Exists(path)) return null;
+            return $"{path}/{file}";
+        }
+
         public static string[] GetStoreUserImageFiles(string name, string uid)
         {
             if (string.IsNullOrEmpty(name)) return new string[] { };
