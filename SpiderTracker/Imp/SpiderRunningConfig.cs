@@ -192,9 +192,14 @@ namespace SpiderTracker.Imp
         public string DefaultUploadServerIP { get; set; } = "121.4.29.105:8088";
 
         /// <summary>
-        /// 默认存档临时文件夹
+        /// 上传图片api
         /// </summary>
         public string DefaultUploadImageAPI { get; set; } = "api/Spider/UploadSinaSources";
+
+        /// <summary>
+        /// 获取图片api
+        /// </summary>
+        public string DefaultGetImageAPI { get; set; } = "api/Spider/GetSinaSources";
 
         /// <summary>
         /// 默认存档临时文件夹

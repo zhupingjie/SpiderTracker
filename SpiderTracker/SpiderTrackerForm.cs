@@ -85,6 +85,7 @@ namespace SpiderTracker
                 var listItem = this.lstUpload.FindItemWithText(upload.file);
                 if (listItem != null)
                 {
+                    listItem.SubItems[3].Text = upload.uploadtime;
                     listItem.SubItems[4].Text = state;
                 }
             }));
@@ -103,7 +104,7 @@ namespace SpiderTracker
                     subItem.Text = item.file;
                     subItem.SubItems.Add($"{item.category}");
                     subItem.SubItems.Add($"{item.uid}");
-                    subItem.SubItems.Add($"{item.createtime}");
+                    subItem.SubItems.Add($"{item.uploadtime}");
                     subItem.SubItems.Add($"❌");
                     this.lstUpload.Items.Add(subItem);
                 }
@@ -862,20 +863,21 @@ namespace SpiderTracker
             {   
                 if (status.mtype == 0)
                 {
-                    if(status.upload > 0)
+                    if (status.upload > 0)
                     {
                         ActiveWebCtl();
 
-                        var url = HttpUtil.GetSinaSoureImageApi(RunningConfig.DefaultUploadServerIP, RunningConfig.Category, status.bid);
-                        this.webBrowser1.Navigate(url);
+                        var images = GetRemoteImageFiles(RunningConfig.Category, status.bid, true);
+                        var html = MakeDocumentHtml(images);
+                        this.webBrowser1.DocumentText = html;
                     }
                     else
                     {
                         ActiveImageCtl();
-
-                        var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, status.bid);
-                        this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount, RunningConfig.Category, user.uid, status.bid, RunningConfig.DefaultUploadPath);
                     }
+
+                    var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, status.bid);
+                    this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount, RunningConfig.Category, user.uid, status.bid, RunningConfig.DefaultUploadPath);
                 }
                 else if (status.mtype == 1)
                 {
@@ -1288,6 +1290,15 @@ namespace SpiderTracker
             }
         }
 
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            var status = GetSelectStatus();
+            if (status == null) return;
+
+            var url = HttpUtil.GetSinaSoureImageUrl(RunningConfig.DefaultUploadServerIP, RunningConfig.Category, status.bid, false);
+            System.Diagnostics.Process.Start(url);
+        }
 
         void ChangeSelect()
         {
@@ -1712,6 +1723,55 @@ namespace SpiderTracker
                 ActiveLoggerCtl();
             }
             this.tabControl1.Enabled = enabled;
+        }
+
+        string[] GetRemoteImageFiles(string category, string bid, bool thumb)
+        {
+            var files = new List<string>();
+            var api = HttpUtil.GetSinaSoureImageApi(RunningConfig.DefaultUploadServerIP, RunningConfig.DefaultGetImageAPI, category, bid, thumb);
+            var retStr = HttpUtil.GetHttpRequestHtmlResult(api, RunningConfig);
+            if (string.IsNullOrEmpty(retStr)) return files.ToArray();
+
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(retStr);
+            if(result == null || !result.Success || result.Result == null) return files.ToArray();
+
+            var objArr = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(result.Result.ToString());
+            return objArr.Select(c => $"http://{RunningConfig.DefaultUploadServerIP}{c}").ToArray();
+        }
+
+        string MakeDocumentHtml(string[] files)
+        {
+            var sb = new StringBuilder();
+            sb.Append(@"<style>
+                .thumbimg {
+                    width: 165px;
+                    height: 228px;
+                    object-fit: cover;
+                    margin: 5px;
+                }
+            </style>");
+            sb = MakeMakeDocumentDivHtml(sb, files, 3);
+            return sb.ToString();
+        }
+
+        StringBuilder MakeMakeDocumentDivHtml(StringBuilder sb, string[] files, int rowCount)
+        {
+            var count = (int)Math.Ceiling(files.Length * 1.0 / rowCount * 1.0);
+            for(var n =0; n<count; n++)
+            {
+                sb.Append("<div>");
+                var fs = files.Skip(n * rowCount).Take(rowCount).ToArray();
+                for (var i = 0; i < 3; i++)
+                {
+                    if (fs.Length > i && fs.Length > 0)
+                    {
+                        sb.Append($"<img class='thumbimg' src='{fs[i]}' />");
+                    }
+                }
+                sb.Append("</div>");
+            }
+           
+            return sb;
         }
         #endregion
 

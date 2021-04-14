@@ -110,7 +110,6 @@
             this.btnReadConfig = new System.Windows.Forms.Button();
             this.btnRefreshConfig = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
-            this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblGetImgCount = new System.Windows.Forms.Label();
@@ -131,9 +130,7 @@
             this.btnCancelUser = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tbpVideo = new System.Windows.Forms.TabPage();
-            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.tbpReview = new System.Windows.Forms.TabPage();
-            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.lstRunstate = new System.Windows.Forms.ListView();
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -155,6 +152,10 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
+            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
+            this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
+            this.btnOpen = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel26.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -632,7 +633,7 @@
             // 
             // colMrk
             // 
-            this.colMrk.Text = "存档";
+            this.colMrk.Text = "上传";
             this.colMrk.Width = 40;
             // 
             // colSite
@@ -1109,15 +1110,6 @@
             this.label11.TabIndex = 2;
             this.label11.Text = "采集参数配置";
             // 
-            // spiderConfigUC1
-            // 
-            this.spiderConfigUC1.AutoScroll = true;
-            this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
-            this.spiderConfigUC1.Name = "spiderConfigUC1";
-            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 378);
-            this.spiderConfigUC1.TabIndex = 19;
-            // 
             // panel17
             // 
             this.panel17.Controls.Add(this.panel2);
@@ -1307,18 +1299,19 @@
             // 
             // panel23
             // 
+            this.panel23.Controls.Add(this.btnOpen);
             this.panel23.Controls.Add(this.btnCancelUser);
             this.panel23.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel23.Location = new System.Drawing.Point(534, 0);
+            this.panel23.Location = new System.Drawing.Point(481, 0);
             this.panel23.Name = "panel23";
-            this.panel23.Size = new System.Drawing.Size(58, 24);
+            this.panel23.Size = new System.Drawing.Size(111, 24);
             this.panel23.TabIndex = 2;
             // 
             // btnCancelUser
             // 
             this.btnCancelUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnCancelUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCancelUser.Location = new System.Drawing.Point(1, 3);
+            this.btnCancelUser.Location = new System.Drawing.Point(55, 3);
             this.btnCancelUser.Name = "btnCancelUser";
             this.btnCancelUser.Size = new System.Drawing.Size(56, 20);
             this.btnCancelUser.TabIndex = 18;
@@ -1343,15 +1336,6 @@
             this.tbpVideo.Text = "视频预览";
             this.tbpVideo.UseVisualStyleBackColor = true;
             // 
-            // vedioPlayerUC1
-            // 
-            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
-            this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
-            this.vedioPlayerUC1.TabIndex = 0;
-            // 
             // tbpReview
             // 
             this.tbpReview.BackColor = System.Drawing.Color.Transparent;
@@ -1362,16 +1346,6 @@
             this.tbpReview.Size = new System.Drawing.Size(564, 531);
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
-            // 
-            // imagePreviewUC1
-            // 
-            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
-            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
-            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(564, 531);
-            this.imagePreviewUC1.TabIndex = 0;
             // 
             // tbpGatherLog
             // 
@@ -1573,13 +1547,53 @@
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "CreateTime";
+            this.columnHeader4.Text = "UploadTime";
             this.columnHeader4.Width = 120;
             // 
             // columnHeader6
             // 
             this.columnHeader6.Text = "STATUS";
             this.columnHeader6.Width = 100;
+            // 
+            // imagePreviewUC1
+            // 
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(564, 531);
+            this.imagePreviewUC1.TabIndex = 0;
+            // 
+            // vedioPlayerUC1
+            // 
+            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
+            this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
+            this.vedioPlayerUC1.TabIndex = 0;
+            // 
+            // spiderConfigUC1
+            // 
+            this.spiderConfigUC1.AutoScroll = true;
+            this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
+            this.spiderConfigUC1.Name = "spiderConfigUC1";
+            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 378);
+            this.spiderConfigUC1.TabIndex = 19;
+            // 
+            // btnOpen
+            // 
+            this.btnOpen.BackColor = System.Drawing.SystemColors.Control;
+            this.btnOpen.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnOpen.Location = new System.Drawing.Point(1, 3);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(56, 20);
+            this.btnOpen.TabIndex = 19;
+            this.btnOpen.Text = "OPEN";
+            this.btnOpen.UseVisualStyleBackColor = false;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // SpiderTrackerForm
             // 
@@ -1774,6 +1788,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.Button btnOpen;
     }
 }
 

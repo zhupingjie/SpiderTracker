@@ -267,9 +267,14 @@ namespace SpiderTracker.Imp
         {
             return $"http://{serverIp}/{api}";
         }
-        public static string GetSinaSoureImageApi(string serverIp, string category, string status)
+        public static string GetSinaSoureImageApi(string serverIp, string api, string category, string status, bool thumb)
         {
-            return $"http://{serverIp}/getimage.html?category={category}&status={status}";
+            return $"http://{serverIp}/{api}?category={category}&status={status}&thumb={(thumb?1:0)}";
+        }
+
+        public static string GetSinaSoureImageUrl(string serverIp, string category, string status, bool thumb)
+        {
+            return $"http://{serverIp}/getimage.html?category={category}&status={status}&thumb={(thumb ? 1 : 0)}";
         }
     }
 }

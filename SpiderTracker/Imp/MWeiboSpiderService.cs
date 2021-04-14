@@ -2095,16 +2095,6 @@ namespace SpiderTracker.Imp
                             nv.Add("height", $"{RunningConfig.ThumbnailImageHeight}");
 
                             var api = HttpUtil.GetUploadSinaSoureImageApi(RunningConfig.DefaultUploadServerIP, RunningConfig.DefaultUploadImageAPI);
-
-                            //var mineType = MimeTypes.GetMimeType(imgFile.Name);
-                            //var resp = api.PostFileToUrl(imgFile, mineType, accept: "*/*", (requestFilter) =>
-                            //{
-                            //    requestFilter.Timeout = 300 * 1000;
-                            //});
-                            //using (StreamReader stream = new StreamReader(resp.GetResponseStream()))
-                            //{
-                            //    var rest = stream.ReadToEnd();
-                            //}
                             var result = HttpUtil.PostHttpUploadFile(api, imgFile.FullName, nv, Encoding.Default);
                             if (string.IsNullOrEmpty(result))
                             {
