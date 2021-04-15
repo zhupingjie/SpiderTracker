@@ -134,6 +134,7 @@
             this.tbpVideo = new System.Windows.Forms.TabPage();
             this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.tbpReview = new System.Windows.Forms.TabPage();
+            this.panel27 = new System.Windows.Forms.Panel();
             this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.lstRunstate = new System.Windows.Forms.ListView();
@@ -183,6 +184,7 @@
             this.panel23.SuspendLayout();
             this.tbpVideo.SuspendLayout();
             this.tbpReview.SuspendLayout();
+            this.panel27.SuspendLayout();
             this.tbpGatherLog.SuspendLayout();
             this.panel18.SuspendLayout();
             this.panel19.SuspendLayout();
@@ -1368,14 +1370,25 @@
             // 
             // tbpReview
             // 
+            this.tbpReview.AutoScroll = true;
             this.tbpReview.BackColor = System.Drawing.Color.Transparent;
-            this.tbpReview.Controls.Add(this.imagePreviewUC1);
+            this.tbpReview.Controls.Add(this.panel27);
             this.tbpReview.Location = new System.Drawing.Point(4, 4);
             this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
             this.tbpReview.Name = "tbpReview";
             this.tbpReview.Size = new System.Drawing.Size(564, 531);
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
+            // 
+            // panel27
+            // 
+            this.panel27.AutoScroll = true;
+            this.panel27.Controls.Add(this.imagePreviewUC1);
+            this.panel27.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel27.Location = new System.Drawing.Point(0, 0);
+            this.panel27.Name = "panel27";
+            this.panel27.Size = new System.Drawing.Size(564, 531);
+            this.panel27.TabIndex = 1;
             // 
             // imagePreviewUC1
             // 
@@ -1649,6 +1662,7 @@
             this.panel23.ResumeLayout(false);
             this.tbpVideo.ResumeLayout(false);
             this.tbpReview.ResumeLayout(false);
+            this.panel27.ResumeLayout(false);
             this.tbpGatherLog.ResumeLayout(false);
             this.panel18.ResumeLayout(false);
             this.panel19.ResumeLayout(false);
@@ -1789,6 +1803,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.Button btnOpen;
+        private System.Windows.Forms.Panel panel27;
     }
 }
 

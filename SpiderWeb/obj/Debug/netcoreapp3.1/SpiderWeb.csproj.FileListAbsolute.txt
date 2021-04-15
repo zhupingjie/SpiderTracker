@@ -23,3 +23,4 @@ F:\GIT-Project\SpiderTracker\SpiderWeb\obj\Debug\netcoreapp3.1\SpiderWeb.csproj.
 F:\GIT-Project\SpiderTracker\SpiderWeb\obj\Debug\netcoreapp3.1\SpiderWeb.dll
 F:\GIT-Project\SpiderTracker\SpiderWeb\obj\Debug\netcoreapp3.1\SpiderWeb.pdb
 F:\GIT-Project\SpiderTracker\SpiderWeb\obj\Debug\netcoreapp3.1\SpiderWeb.genruntimeconfig.cache
+F:\GIT-Project\SpiderTracker\SpiderWeb\obj\Debug\netcoreapp3.1\SpiderWeb.csprojAssemblyReference.cache
