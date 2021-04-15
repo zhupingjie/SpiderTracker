@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SpiderTracker.Imp;
+using SpiderTracker.Imp.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,12 +21,8 @@ namespace SpiderTracker.UI
         List<Panel> imageCtls = new List<Panel>();
         List<FileInfo> cacheImageFiles = new List<FileInfo>();
         string imageCtrlName = "imageCtl";
-        int imageIndex = 0;
-        int imageCount = 0;
-        string imageName = "";
-        string imageUser = "";
-        string imageStatus = "";
-        string archivePath = "";
+        SpiderRunningConfig RunningConfig;
+        SinaStatus SinaStatus;
         Thread showImageThread = null;
         ManualResetEvent resetEvent = null;
 
@@ -75,7 +73,7 @@ namespace SpiderTracker.UI
                     {
                         ShowImage(index++, imageFile.FullName);
 
-                        Thread.Sleep(200);
+                        Thread.Sleep(100);
                     }
                     couldLoadImageTask = true;
 
@@ -85,7 +83,7 @@ namespace SpiderTracker.UI
             }
         }
         
-        public void ShowImages(FileInfo[] imageFiles, int showIndex, int showImageCount, string showName, string showUser, string showStatus, string showArchive)
+        public void ShowImages(FileInfo[] imageFiles, SpiderRunningConfig runningConfig, SinaStatus sinaStatus)
         {
             if (!couldLoadImageTask) return;
 
@@ -93,12 +91,8 @@ namespace SpiderTracker.UI
             this.DispiseImage(imageFiles);
             this.cacheImageFiles.Clear();
             this.cacheImageFiles.AddRange(imageFiles);
-            this.imageIndex = showIndex;
-            this.imageCount = showImageCount;
-            this.imageName = showName;
-            this.imageUser = showUser;
-            this.imageStatus = showStatus;
-            this.archivePath = showArchive;
+            this.RunningConfig = runningConfig;
+            this.SinaStatus = sinaStatus;
             this.resetEvent.Set();
         }
 
@@ -171,7 +165,7 @@ namespace SpiderTracker.UI
             //纵向三列展示
             var row = (int)imgCtrlIndex / 3;
             var col = (int)imgCtrlIndex % 3;
-            imageCtl.Location = new Point(col * (imageWidth + 3), row * (imageHeight + 3));
+            imageCtl.Location = new Point(col * (imageWidth+1), row * (imageHeight+1));
             return imageCtl;
         }
 
@@ -249,10 +243,10 @@ namespace SpiderTracker.UI
             ViewImgForm frm = new ViewImgForm();
             frm.ViewThumbImgPaths = cacheImageFiles;
             frm.ViewImgIndex = index;
-            frm.ImageName = imageName;
-            frm.ImageUser = imageUser;
-            frm.ImageStatus = imageStatus;
-            frm.UploadPath = archivePath;
+            frm.ImageName = RunningConfig.Category;
+            frm.UploadPath = RunningConfig.DefaultUploadPath;
+            frm.ImageUser = SinaStatus.uid;
+            frm.ImageStatus = SinaStatus.bid;
             frm.ShowDialog();
         }
 

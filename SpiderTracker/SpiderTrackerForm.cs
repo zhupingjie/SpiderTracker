@@ -877,7 +877,7 @@ namespace SpiderTracker
                     }
 
                     var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, status.bid);
-                    this.imagePreviewUC1.ShowImages(files, 0, RunningConfig.PreviewImageCount, RunningConfig.Category, user.uid, status.bid, RunningConfig.DefaultUploadPath);
+                    this.imagePreviewUC1.ShowImages(files, RunningConfig, status);
                 }
                 else if (status.mtype == 1)
                 {

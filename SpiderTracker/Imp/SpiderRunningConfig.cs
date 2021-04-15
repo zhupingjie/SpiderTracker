@@ -173,12 +173,7 @@ namespace SpiderTracker.Imp
         /// 读取图片最大尺寸
         /// </summary>
         public int MaxReadImageSize { get; set; } = 99999;
-
-        /// <summary>
-        /// 预览图片数量
-        /// </summary>
-        public int PreviewImageCount { get; set; } = 9;
-
+        
         /// <summary>
         /// 是否预览图片
         /// </summary>
