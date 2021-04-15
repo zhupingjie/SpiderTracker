@@ -25,10 +25,18 @@ namespace SpiderWeb.Controllers
         }
 
         [HttpGet]
-        public APIResult GetSinaSources(string category, string status, int thumb)
+        public APIResult GetSinaSources(string category, string status, string filename, int thumb)
         {
             var res = new APIResult();
-            res.Result = GetSinaSoureImageFiles(category, status, thumb);
+            res.Result = GetSinaSoureImageFiles(category, status, filename, thumb);
+            return res;
+        }
+
+        [HttpPost]
+        public APIResult DeleteSinaSources(string category, string status, string fileName)
+        {
+            var res = new APIResult();
+            res.Result = DeleteSinaSoureImageFiles(category, status, fileName);
             return res;
         }
 
@@ -36,42 +44,42 @@ namespace SpiderWeb.Controllers
         public APIResult UploadSinaSources([FromForm] IFormCollection formData)
         {
             var res = new APIResult();
-
-            //var files = SaveUploadFiles(formData, "cosplay", 100, 100);
-            //if (files.Length == 0)
-            //{
-            //    res.Code = 501;
-            //    res.Message = "无文件可存储";
-            //    return res;
-            //}
-            //return res;
-
-            var formValues = formData.ToDictionary(c => c.Key, c => c.Value);
-            if (formValues.ContainsKey("category"))
+            try
             {
-                var category = formValues["category"];
-                int thumbWidth = 100, thumbHeight = 100;
-                if (formValues.ContainsKey("width"))
+                var formValues = formData.ToDictionary(c => c.Key, c => c.Value);
+                if (formValues.ContainsKey("category"))
                 {
-                    thumbWidth = int.Parse(formValues["width"]);
-                }
-                if (formValues.ContainsKey("height"))
-                {
-                    thumbHeight = int.Parse(formValues["height"]);
-                }
-                var files = SaveUploadFiles(formData, category, thumbWidth, thumbHeight);
-                if (files.Length == 0)
-                {
-                    res.Code = 501;
-                    res.Message = "无文件可存储";
+                    var category = formValues["category"];
+                    int thumbWidth = 100, thumbHeight = 100;
+                    if (formValues.ContainsKey("width"))
+                    {
+                        thumbWidth = (int)decimal.Parse(formValues["width"]);
+                    }
+                    if (formValues.ContainsKey("height"))
+                    {
+                        thumbHeight = (int)decimal.Parse(formValues["height"]);
+                    }
+                    var files = SaveUploadFiles(formData, category, thumbWidth, thumbHeight);
+                    if (files.Length == 0)
+                    {
+                        res.Code = 501;
+                        res.Message = "无文件可存储";
+                        return res;
+                    }
                     return res;
                 }
-                return res;
+                else
+                {
+                    res.Code = 501;
+                    res.Message = "未传参[category]";
+                    return res;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                res.Code = 501;
-                res.Message = "未传参[category]";
+                LogUtil.Error(ex);
+                res.Code = 504;
+                res.Message = ex.Message;
                 return res;
             }
         }

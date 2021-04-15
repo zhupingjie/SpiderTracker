@@ -62,6 +62,11 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.UpdateEntitys("sina_status", $"`uid`='{uid}'", col, value);
         }
 
+        public bool UpdateSinaSource(SinaSource source, string[] columns)
+        {
+            return DBHelper.UpdateEntity(source, "sina_source", "id", $"{source.id}", columns);
+        }
+
         public bool DeleteSinaStatus(SinaStatus status)
         {
             return DBHelper.DeleteEntity("sina_status", "bid", status.bid);
@@ -158,6 +163,11 @@ namespace SpiderTracker.Imp.Model
         public SinaStatus GetUserStatus(string bid)
         {
             return DBHelper.GetEntity<SinaStatus>("sina_status", $"`bid`='{bid}'");
+        }
+
+        public List<SinaSource> GetUserSources(string uid, string bid)
+        {
+            return DBHelper.GetEntitys<SinaSource>("sina_source", $"`uid`='{uid}' and `bid`='{bid}'");
         }
 
         public List<SinaStatus> GetUserStatuses(string uid)
@@ -411,21 +421,38 @@ namespace SpiderTracker.Imp.Model
             return UpdateSinaUserQty(sinaStatus.uid);
         }
         
-        public bool UploadSinaStatus(string category, string status, string[] files)
+        public bool UploadSinaStatus(string category, string status, FileInfo[] files, bool upload)
         {
             var sinaStatus = GetUserStatus(status);
             if (sinaStatus == null) return true;
 
-            sinaStatus.upload = 1;
+            var updQty = UpdateSinaSourceStatus(sinaStatus, files, upload);
+            sinaStatus.upload = updQty;
             UpdateSinaStatus(sinaStatus, new string[] { "upload" });
-            UpdateSinaUserQty(sinaStatus.uid);
-            CreateSinaUpload(sinaStatus, files, category);
+            if (upload)
+            {
+                CreateSinaUpload(sinaStatus, files, category);
+            }
             return true;
         }
 
-        public void CreateSinaUpload(SinaStatus status, string[] files, string category)
+        int UpdateSinaSourceStatus(SinaStatus sinaStatus, FileInfo[] files, bool upload)
         {
-            foreach(var file in files.Select(c=> new FileInfo(c)).ToArray())
+            var sources = GetUserSources(sinaStatus.uid, sinaStatus.bid);
+            foreach(var source in sources)
+            {
+                if(files.Any(c=>c.Name == source.name))
+                {
+                    source.upload = upload ? 1 : 0;
+                    UpdateSinaSource(source, new string[] { "upload" });
+                }
+            }            
+            return sources.Where(c => c.upload > 0).Count();
+        }
+
+        public void CreateSinaUpload(SinaStatus status, FileInfo[] files, string category)
+        {
+            foreach(var file in files)
             {
                 var upload = GetSinaUpload(status.uid, status.bid, file.Name);
                 if (upload == null)

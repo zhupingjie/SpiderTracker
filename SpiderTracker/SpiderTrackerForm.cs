@@ -867,7 +867,7 @@ namespace SpiderTracker
                     {
                         ActiveWebCtl();
 
-                        var images = GetRemoteImageFiles(RunningConfig.Category, status.bid, true);
+                        var images = GetRemoteImageFiles(RunningConfig.Category, status.bid, false);
                         var html = MakeDocumentHtml(images);
                         this.webBrowser1.DocumentText = html;
                     }
@@ -1028,22 +1028,22 @@ namespace SpiderTracker
                     var files = PathUtil.GetStoreUserImageFiles(RunningConfig.Category, item.uid, item.bid);
                     if (files.Length > 0)
                     {
-                        if (rep.UploadSinaStatus(RunningConfig.Category, item.bid, files))
+                        if (rep.UploadSinaStatus(RunningConfig.Category, item.bid, files, true))
                         {
-                            UploadStatus(files);
+                            CopyUploadImageFiles(files);
                         }
                     }
                 }
                 else if(item.mtype == 1)
                 {
-                    var file = PathUtil.GetStoreUserVideoFile(RunningConfig.Category, item.uid, item.bid);
-                    if (File.Exists(file))
-                    {
-                        if (rep.UploadSinaStatus(RunningConfig.Category, item.bid, new string[] { file }))
-                        {
-                            UploadStatus(new string[] { file });
-                        }
-                    }
+                    //var file = PathUtil.GetStoreUserVideoFile(RunningConfig.Category, item.uid, item.bid);
+                    //if (File.Exists(file))
+                    //{
+                    //    if (rep.UploadSinaStatus(RunningConfig.Category, item.bid, new string[] { file }))
+                    //    {
+                    //        CopyUploadImageFiles(new string[] { file });
+                    //    }
+                    //}
                 }
             }
         }
@@ -1526,12 +1526,12 @@ namespace SpiderTracker
             return ids.ToArray();
         }
 
-        void UploadStatus(string[] files)
+        void CopyUploadImageFiles(FileInfo[] files)
         {
             var archivePath = Path.Combine(PathUtil.BaseDirectory, RunningConfig.DefaultUploadPath);
             if (!Directory.Exists(archivePath)) Directory.CreateDirectory(archivePath);
 
-            foreach (var file in files.Select(c => new FileInfo(c)).ToArray())
+            foreach (var file in files)
             {
                 var destFile = Path.Combine(archivePath, file.Name);
                 file.CopyTo(destFile, true);

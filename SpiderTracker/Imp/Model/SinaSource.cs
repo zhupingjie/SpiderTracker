@@ -18,10 +18,8 @@ namespace SpiderTracker.Imp.Model
         public string name { get; set; }
         public int width { get; set; }
         public int height { get; set; }
-
-        public long size { get; set; }
-
+        public int size { get; set; }
         public int upload { get; set; }
-        public DateTime? downdate { get; set; }
+        public string downdate { get; set; }
     }
 }

@@ -12,7 +12,6 @@ using SpiderTracker.Imp.Model;
 using System.Collections.Specialized;
 using SpiderTracker.UI;
 using SpiderTracker.Imp.Util;
-using ServiceStack;
 
 namespace SpiderTracker.Imp
 {
@@ -1961,7 +1960,7 @@ namespace SpiderTracker.Imp
                 name = fileName,
                 width = image.Width,
                 height = image.Height,
-                downdate = DateTime.Now
+                downdate = DateTime.Now.ToString("yyyy/MM/dd HH:mm")
             };
         }
 
@@ -2091,8 +2090,8 @@ namespace SpiderTracker.Imp
                             nv.Add("category", upload.category);
                             nv.Add("uid", upload.uid);
                             nv.Add("bid", upload.bid);
-                            nv.Add("width", $"{RunningConfig.ThumbnailImageWidth}");
-                            nv.Add("height", $"{RunningConfig.ThumbnailImageHeight}");
+                            nv.Add("width", $"{RunningConfig.ThumbnailImageWidth * 1.2}");
+                            nv.Add("height", $"{RunningConfig.ThumbnailImageHeight * 1.2}");
 
                             var api = HttpUtil.GetUploadSinaSoureImageApi(RunningConfig.DefaultUploadServerIP, RunningConfig.DefaultUploadImageAPI);
                             var result = HttpUtil.PostHttpUploadFile(api, imgFile.FullName, nv, Encoding.Default);
@@ -2126,6 +2125,8 @@ namespace SpiderTracker.Imp
                             }
                             Thread.Sleep(RunningConfig.UploadSourceWaitMilSecond);
                         }
+
+                        Thread.Sleep(RunningConfig.UploadFreeWaitSecond * 1000);
                     }
                 }
             });

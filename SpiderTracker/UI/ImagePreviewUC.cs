@@ -16,8 +16,9 @@ namespace SpiderTracker.UI
     {
 
         List<Task> tasks = new List<Task>();
-        List<Panel> imageCtls = null;
-        List<string> cacheImageFiles = null;
+        List<Panel> imageCtls = new List<Panel>();
+        List<FileInfo> cacheImageFiles = new List<FileInfo>();
+        string imageCtrlName = "imageCtl";
         int imageIndex = 0;
         int imageCount = 0;
         string imageName = "";
@@ -37,9 +38,21 @@ namespace SpiderTracker.UI
             this.SetStyle(ControlStyles.ResizeRedraw, true);
 
             this.MakeThread();
-            this.cacheImageFiles = new List<string>();
-            this.imageCtls = new List<Panel> { this.imageCtl1, this.imageCtl2, this.imageCtl3, this.imageCtl4, this.imageCtl5, this.imageCtl6, this.imageCtl7, this.imageCtl8, this.imageCtl9 };
+            this.InitImageCtrl();
+        }
 
+        void InitImageCtrl()
+        {
+            for (var i = 0; i < 9; i++)
+            {
+                var imgCtrl = MakeImagePanel(i);
+                this.imageCtls.Add(imgCtrl);
+
+                InvokeControl(pnlImagePanel, () =>
+                {
+                    this.pnlImagePanel.Controls.Add(imgCtrl);
+                });
+            }
         }
 
         void MakeThread()
@@ -50,26 +63,33 @@ namespace SpiderTracker.UI
 
             this.resetEvent = new ManualResetEvent(false);
         }
-
+        bool couldLoadImageTask = true;
         void StartShowImageThread()
         {
             while (true)
             {
                 if (cacheImageFiles.Count > 0)
                 {
-                    var showCount = cacheImageFiles.Count > this.imageCount ? this.imageCount : cacheImageFiles.Count;
-                    for (var j = 0; j < showCount; j++)
+                    int index = 0;
+                    foreach(var imageFile in cacheImageFiles)
                     {
-                        ShowImage(imageCtls[j], cacheImageFiles[j]);
+                        ShowImage(index++, imageFile.FullName);
+
+                        Thread.Sleep(200);
                     }
+                    couldLoadImageTask = true;
+
                     this.resetEvent.Reset();
                 }
                 this.resetEvent.WaitOne();
             }
         }
         
-        public void ShowImages(string[] imageFiles, int showIndex, int showImageCount, string showName, string showUser, string showStatus, string showArchive)
+        public void ShowImages(FileInfo[] imageFiles, int showIndex, int showImageCount, string showName, string showUser, string showStatus, string showArchive)
         {
+            if (!couldLoadImageTask) return;
+
+            this.couldLoadImageTask = false;
             this.DispiseImage(imageFiles);
             this.cacheImageFiles.Clear();
             this.cacheImageFiles.AddRange(imageFiles);
@@ -82,8 +102,24 @@ namespace SpiderTracker.UI
             this.resetEvent.Set();
         }
 
-        void ShowImage(Panel imageCtl, string file)
+        void ShowImage(int imgCtrlIndex, string file)
         {
+            var ctlName = $"imageCtl{imgCtrlIndex}";
+            Panel imageCtl = null;
+            if (!this.imageCtls.Any(c => c.Name == ctlName))
+            {
+                imageCtl = MakeImagePanel(imgCtrlIndex);
+                this.imageCtls.Add(imageCtl);
+
+                InvokeControl(pnlImagePanel, () =>
+                {
+                    this.pnlImagePanel.Controls.Add(imageCtl);
+                });
+            }
+            else
+            {
+                imageCtl = imageCtls[imgCtrlIndex];
+            }
             InvokeControl(imageCtl, () =>
             {
                 if (imageCtl.Tag != null && imageCtl.Tag.ToString() == file) return;
@@ -109,17 +145,70 @@ namespace SpiderTracker.UI
             });
         }
 
-        void DispiseImage(string[] images)
+        int imageWidth = 180;
+        int imageHeight = 220;
+        Panel MakeImagePanel(int imgCtrlIndex)
         {
-            for (var j = 0; j < this.imageCount; j++)
-            {
-                if (images.Length > j && imageCtls[j].Tag != null && images[j] == imageCtls[j].Tag.ToString()) continue;
+            var imageCtl = new Panel();
+            imageCtl.Name = $"imageCtl{imgCtrlIndex}";
+            imageCtl.Width = imageWidth;
+            imageCtl.Height = imageHeight;
+            imageCtl.BackColor = Color.Transparent;
+            imageCtl.BorderStyle = BorderStyle.FixedSingle;
+            imageCtl.Click += ImageCtl_Click;
+            imageCtl.DoubleClick += ImageCtl_DoubleClick;
 
-                DispiseImage(imageCtls[j]);
+            //横向双排展示
+            //var x = (int)imgCtrlIndex / 2;
+            //if (imgCtrlIndex % 2 == 0)
+            //{
+            //    imageCtl.Location = new Point(5 * x + x * 160, 0);
+            //}
+            //else
+            //{
+            //    imageCtl.Location = new Point(5 * x + x * 160, 225);
+            //}
+            //纵向三列展示
+            var row = (int)imgCtrlIndex / 3;
+            var col = (int)imgCtrlIndex % 3;
+            imageCtl.Location = new Point(col * (imageWidth + 3), row * (imageHeight + 3));
+            return imageCtl;
+        }
+
+        private void ImageCtl_DoubleClick(object sender, EventArgs e)
+        {
+            var index = GetImageCtrlIndex((sender as Panel).Name);
+            if (index == -1) return;
+
+            SelectOriginImage(index);
+        }
+
+        private void ImageCtl_Click(object sender, EventArgs e)
+        {
+            var index = GetImageCtrlIndex((sender as Panel).Name);
+            if (index == -1) return;
+
+            SelectImageBox(index);
+        }
+
+        int GetImageCtrlIndex(string name)
+        {
+            if (!name.StartsWith(imageCtrlName)) return -1;
+            int index = -1;
+            var str = name.Replace(imageCtrlName, "");
+            int.TryParse(str, out index);
+            return index;
+        }
+
+        void DispiseImage(FileInfo[] images)
+        {
+            foreach(var imageCtr in this.imageCtls)
+            {
+                ResetImageCtrl(imageCtr);
             }
         }
 
-        void DispiseImage(Panel imageCtl)
+        void ResetImageCtrl(Panel imageCtl)
         {
             InvokeControl(imageCtl, () =>
             {
@@ -129,9 +218,12 @@ namespace SpiderTracker.UI
                     imageCtl.BackgroundImage = null;
                     imageCtl.Tag = null;
                 }
+                imageCtl.BorderStyle = BorderStyle.FixedSingle;
+                imageCtl.BackColor = Color.Transparent;
             });
         }
-        private void InvokeControl(Control control, Action action)
+
+        void InvokeControl(Control control, Action action)
         {
             if (control.InvokeRequired)
             {
@@ -143,7 +235,14 @@ namespace SpiderTracker.UI
             }
         }
 
-        void ShowOriginImage(int index)
+        void SelectImageBox(int index)
+        {
+            //if (index >= cacheImageFiles.Count) return;
+
+            this.SetImagePanelBorder(imageCtrlName, index, null);
+        }
+        
+        void SelectOriginImage(int index)
         {
             if (index >= cacheImageFiles.Count) return;
 
@@ -156,50 +255,35 @@ namespace SpiderTracker.UI
             frm.UploadPath = archivePath;
             frm.ShowDialog();
         }
-        
-        private void imageCtl1_Click(object sender, EventArgs e)
-        {
-            ShowOriginImage(0);
-        }
 
-        private void imageCtl2_Click(object sender, EventArgs e)
+        void SetImagePanelBorder(string findCtrlName, int index,  Control parentCtrl = null)
         {
-            ShowOriginImage(1);
-        }
+            var ctrls = this.Controls;
+            var findCtrlFullName = $"{findCtrlName}{index}";
+            if (parentCtrl != null) ctrls = parentCtrl.Controls;
+            foreach (Control ctrl in ctrls)
+            {
+                if (ctrl.Name.StartsWith(findCtrlName))
+                {
+                    var panel = ctrl as Panel;
+                    if (ctrl.Name.Equals(findCtrlFullName))
+                    {
+                        panel.BorderStyle = BorderStyle.Fixed3D;
+                        panel.BackColor = Color.Gold;
+                    }
+                    else
+                    {
+                        panel.BorderStyle = BorderStyle.FixedSingle;
+                        panel.BackColor = Color.Transparent;
 
-        private void imageCtl3_Click(object sender, EventArgs e)
-        {
-            ShowOriginImage(2);
-        }
-
-        private void imageCtl4_Click(object sender, EventArgs e)
-        {
-            ShowOriginImage(3);
-        }
-
-        private void imageCtl5_Click(object sender, EventArgs e)
-        {
-            ShowOriginImage(4);
-        }
-
-        private void imageCtl6_Click(object sender, EventArgs e)
-        {
-            ShowOriginImage(5);
-        }
-
-        private void imageCtl7_Click(object sender, EventArgs e)
-        {
-            ShowOriginImage(6);
-        }
-
-        private void imageCtl8_Click(object sender, EventArgs e)
-        {
-            ShowOriginImage(7);
-        }
-
-        private void imageCtl9_Click(object sender, EventArgs e)
-        {
-            ShowOriginImage(8);
+                        SetImagePanelBorder(findCtrlName, index, ctrl);
+                    }
+                }
+                else
+                {
+                    SetImagePanelBorder(findCtrlName, index, ctrl);
+                }
+            }
         }
     }
 }
