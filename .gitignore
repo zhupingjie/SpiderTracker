@@ -11,3 +11,7 @@
 /SpiderTracker/obj/Release
 /SpiderTracker/bin
 /SpiderTracker/obj/x64/Debug
+/SpiderWeb/bin
+/SpiderWeb/obj
+/SpiderCore/bin
+/SpiderCore/obj
