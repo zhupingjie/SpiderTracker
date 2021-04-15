@@ -1525,7 +1525,7 @@
             this.tbpWeb.Name = "tbpWeb";
             this.tbpWeb.Size = new System.Drawing.Size(564, 531);
             this.tbpWeb.TabIndex = 3;
-            this.tbpWeb.Text = "在线预览";
+            this.tbpWeb.Text = "上传预览";
             this.tbpWeb.UseVisualStyleBackColor = true;
             // 
             // webBrowser1
