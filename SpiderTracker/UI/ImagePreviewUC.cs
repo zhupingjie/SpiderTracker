@@ -17,7 +17,7 @@ namespace SpiderTracker.UI
 
         List<Task> tasks = new List<Task>();
         List<Panel> imageCtls = null;
-        List<string> cacheImageFiles = null;
+        List<FileInfo> cacheImageFiles = null;
         int imageIndex = 0;
         int imageCount = 0;
         string imageName = "";
@@ -37,7 +37,7 @@ namespace SpiderTracker.UI
             this.SetStyle(ControlStyles.ResizeRedraw, true);
 
             this.MakeThread();
-            this.cacheImageFiles = new List<string>();
+            this.cacheImageFiles = new List<FileInfo>();
             this.imageCtls = new List<Panel> { this.imageCtl1, this.imageCtl2, this.imageCtl3, this.imageCtl4, this.imageCtl5, this.imageCtl6, this.imageCtl7, this.imageCtl8, this.imageCtl9 };
 
         }
@@ -60,7 +60,7 @@ namespace SpiderTracker.UI
                     var showCount = cacheImageFiles.Count > this.imageCount ? this.imageCount : cacheImageFiles.Count;
                     for (var j = 0; j < showCount; j++)
                     {
-                        ShowImage(imageCtls[j], cacheImageFiles[j]);
+                        ShowImage(imageCtls[j], cacheImageFiles[j].FullName);
                     }
                     this.resetEvent.Reset();
                 }
@@ -68,7 +68,7 @@ namespace SpiderTracker.UI
             }
         }
         
-        public void ShowImages(string[] imageFiles, int showIndex, int showImageCount, string showName, string showUser, string showStatus, string showArchive)
+        public void ShowImages(FileInfo[] imageFiles, int showIndex, int showImageCount, string showName, string showUser, string showStatus, string showArchive)
         {
             this.DispiseImage(imageFiles);
             this.cacheImageFiles.Clear();
@@ -109,11 +109,11 @@ namespace SpiderTracker.UI
             });
         }
 
-        void DispiseImage(string[] images)
+        void DispiseImage(FileInfo[] images)
         {
             for (var j = 0; j < this.imageCount; j++)
             {
-                if (images.Length > j && imageCtls[j].Tag != null && images[j] == imageCtls[j].Tag.ToString()) continue;
+                if (images.Length > j && imageCtls[j].Tag != null && images[j].FullName == imageCtls[j].Tag.ToString()) continue;
 
                 DispiseImage(imageCtls[j]);
             }

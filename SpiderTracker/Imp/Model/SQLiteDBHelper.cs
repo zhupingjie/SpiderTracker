@@ -85,9 +85,9 @@ namespace SpiderTracker.Imp
             columns.Add(new SQLiteColumn("gets", "int"));
             columns.Add(new SQLiteColumn("focus", "int"));
             columns.Add(new SQLiteColumn("ignore", "int"));
-            columns.Add(new SQLiteColumn("archive", "int"));
+            columns.Add(new SQLiteColumn("upload", "int"));
             columns.Add(new SQLiteColumn("site", "nvarchar", 200));
-            columns.Add(new SQLiteColumn("createtime", "datetime"));
+            columns.Add(new SQLiteColumn("createtime", "nvarchar", 50));
             columns.Add(new SQLiteColumn("lastdate", "datetime"));
             CreateTable("sina_status", columns.ToArray());
 
@@ -98,9 +98,9 @@ namespace SpiderTracker.Imp
             columns.Add(new SQLiteColumn("name", "nvarchar", 250));
             columns.Add(new SQLiteColumn("width", "int"));
             columns.Add(new SQLiteColumn("height", "int"));
-            columns.Add(new SQLiteColumn("size", "bigint"));
-            columns.Add(new SQLiteColumn("archive", "bigint"));
-            columns.Add(new SQLiteColumn("downdate", "datetime"));
+            columns.Add(new SQLiteColumn("size", "int"));
+            columns.Add(new SQLiteColumn("upload", "int"));
+            columns.Add(new SQLiteColumn("downdate", "nvarchar", 50));
             columns.Add(new SQLiteColumn("lastdate", "datetime"));
             CreateTable("sina_source", columns.ToArray());
 

@@ -20,8 +20,8 @@ namespace SpiderTracker.UI
             InitializeComponent();
         }
 
-        public List<string> ViewThumbImgPaths { get; set; }
-        List<string> ViewImgPaths { get; set; } = new List<string>();
+        public List<FileInfo> ViewThumbImgPaths { get; set; }
+        List<FileInfo> ViewImgPaths { get; set; } = new List<FileInfo>();
         public int ViewImgIndex { get; set; }
 
         public string ImageName { get; set; }
@@ -44,12 +44,12 @@ namespace SpiderTracker.UI
                     this.imageCtl.Image = null;
                     this.imageCtl.Tag = null;
                 }
-                var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
+                var image = Image.FromFile(ViewImgPaths[ViewImgIndex].FullName);
                 this.imageCtl.Image = image;
-                this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
+                this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex].FullName},{ViewThumbImgPaths[ViewImgIndex].FullName}";
 
-                this.imageCtl.Image = image;
-                this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
+                //this.imageCtl.Image = image;
+                //this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
             }
         }
 
@@ -65,9 +65,9 @@ namespace SpiderTracker.UI
                     this.imageCtl.Image = null;
                     this.imageCtl.Tag = null;
                 }
-                var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
+                var image = Image.FromFile(ViewImgPaths[ViewImgIndex].FullName);
                 this.imageCtl.Image = image;
-                this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
+                this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex].FullName},{ViewThumbImgPaths[ViewImgIndex].FullName}";
             }
         }
 
@@ -83,9 +83,9 @@ namespace SpiderTracker.UI
                     this.imageCtl.Image = null;
                     this.imageCtl.Tag = null;
                 }
-                var image = Image.FromFile(ViewImgPaths[ViewImgIndex]);
+                var image = Image.FromFile(ViewImgPaths[ViewImgIndex].FullName);
                 this.imageCtl.Image = image;
-                this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex]},{ViewThumbImgPaths[ViewImgIndex]}";
+                this.imageCtl.Tag = $"{ViewImgPaths[ViewImgIndex].FullName},{ViewThumbImgPaths[ViewImgIndex].FullName}";
             }
         }
 
@@ -103,11 +103,11 @@ namespace SpiderTracker.UI
 
                 var imageFile = imageFiles[0];
                 if (File.Exists(imageFile)) File.Delete(imageFile);
-                this.ViewImgPaths.Remove(imageFile);
+                this.ViewImgPaths.RemoveAll(c=>c.FullName == imageFile);
 
                 var thumbFile = imageFiles[1];
                 if (File.Exists(thumbFile)) File.Delete(thumbFile);
-                this.ViewThumbImgPaths.Remove(thumbFile);
+                this.ViewThumbImgPaths.RemoveAll(c => c.FullName == thumbFile);
 
                 if (this.ViewImgPaths.Count == 0)
                 {
@@ -133,7 +133,7 @@ namespace SpiderTracker.UI
                 if (File.Exists(imageFile)) File.Copy(imageFile, destFile, true);
 
                 var rep = new SinaRepository();
-                rep.UploadSinaStatus(ImageName, ImageStatus, new string[] { imageFile });
+                rep.UploadSinaStatus(ImageName, ImageStatus, new FileInfo[] { new FileInfo(imageFile) }, true);
             }
         }
 

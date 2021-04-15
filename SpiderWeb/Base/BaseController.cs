@@ -72,14 +72,21 @@ namespace StockSimulateWeb.Base
             return fileInfos.ToArray();
         }
 
-        public string[] GetSinaSoureImageFiles(string category, string status, int thumb)
+        public string[] GetSinaSoureImageFiles(string category, string status, string filename, int thumb)
         {
             var files = new List<string>();
             var path = Path.Combine(WebRootPath, uploadImagePath, category);
             if (thumb > 0) path = Path.Combine(path, "thumb");
             if (!Directory.Exists(path)) return files.ToArray();
 
-            return Directory.GetFiles(path, $"{status}*.jpg").Select(c=> GetUrlByPhysicalPath(c)).ToArray();
+            if (string.IsNullOrEmpty(filename))
+            {
+                return Directory.GetFiles(path, $"{status}*.jpg").Select(c => GetUrlByPhysicalPath(c)).ToArray();
+            }
+            else
+            {
+                return Directory.GetFiles(path, $"{filename}").Select(c => GetUrlByPhysicalPath(c)).ToArray();
+            }
         }
 
         public string GetUrlByPhysicalPath(string fileName)
@@ -106,6 +113,72 @@ namespace StockSimulateWeb.Base
                 width = (int)(height * rate);
             }
             return new Size(width, height);
+        }
+
+        public string DeleteSinaSoureImageFiles(string category, string status, string filename)
+        {
+            var imgPath = Path.Combine(WebRootPath, uploadImagePath, category);
+            var thumbPath = Path.Combine(imgPath, "thumb");
+
+            var errMsg = new List<string>();
+            if (string.IsNullOrEmpty(filename))
+            {
+                var imgFiles = Directory.GetFiles(imgPath, $"{filename}").Select(c=> new FileInfo(c)).ToArray();
+                foreach(var file in imgFiles)
+                {
+                    try
+                    {
+                        file.Delete();
+                    }
+                    catch(Exception ex)
+                    {
+                        errMsg.Add($"{file.Name}");
+                    }
+                }
+                var thumbFiles = Directory.GetFiles(thumbPath, $"{filename}").Select(c => new FileInfo(c)).ToArray();
+                foreach (var file in imgFiles)
+                {
+                    try
+                    {
+                        file.Delete();
+                    }
+                    catch (Exception ex)
+                    {
+                        errMsg.Add($"{file.Name}");
+                    }
+                }
+            }
+            else
+            {
+                var imgFiles = Directory.GetFiles(imgPath, $"{status}*.jpg").Select(c => new FileInfo(c)).ToArray();
+                foreach (var file in imgFiles)
+                {
+                    try
+                    {
+                        file.Delete();
+                    }
+                    catch (Exception ex)
+                    {
+                        errMsg.Add($"{file.Name}");
+                    }
+                }
+                var thumbFiles = Directory.GetFiles(thumbPath, $"{status}*.jpg").Select(c => new FileInfo(c)).ToArray();
+                foreach (var file in imgFiles)
+                {
+                    try
+                    {
+                        file.Delete();
+                    }
+                    catch (Exception ex)
+                    {
+                        errMsg.Add($"{file.Name}");
+                    }
+                }
+            }
+
+            if (errMsg.Count == 0) return null;
+
+            return $"图片【{string.Join(",", errMsg)}】删除失败";
         }
     }
 

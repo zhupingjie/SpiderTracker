@@ -66,14 +66,14 @@ namespace SpiderTracker.Imp
             return Directory.GetFiles(path, "*.jpg").ToArray();
         }
 
-        public static string[] GetStoreUserThumbnailImageFiles(string name, string uid, string bid)
+        public static FileInfo[] GetStoreUserThumbnailImageFiles(string name, string uid, string bid)
         {
-            if (string.IsNullOrEmpty(name)) return new string[] { };
+            if (string.IsNullOrEmpty(name)) return new FileInfo[] { };
             var path = GetStoreUserPath(name, uid);
-            if (!Directory.Exists(path)) return new string[] { };
+            if (!Directory.Exists(path)) return new FileInfo[] { };
             path = Path.Combine(path, "thumb");
-            if (!Directory.Exists(path)) return new string[] { };
-            return Directory.GetFiles(path, $"{bid}_*").Where(c => c.EndsWith(".jpg")).ToArray();
+            if (!Directory.Exists(path)) return new FileInfo[] { };
+            return Directory.GetFiles(path, $"{bid}_*").Where(c => c.EndsWith(".jpg")).Select(c => new FileInfo(c)).ToArray();
         }
 
         public static string GetStoreUserImageFile(string name, string uid, string file)
@@ -93,12 +93,12 @@ namespace SpiderTracker.Imp
             return Directory.GetFiles(path, $"*.jpg").ToArray();
         }
 
-        public static string[] GetStoreUserImageFiles(string name, string uid, string bid)
+        public static FileInfo[] GetStoreUserImageFiles(string name, string uid, string bid)
         {
-            if (string.IsNullOrEmpty(name)) return new string[] { };
+            if (string.IsNullOrEmpty(name)) return new FileInfo[] { };
             var path = GetStoreUserPath(name, uid);
-            if (!Directory.Exists(path)) return new string[] { };
-            return Directory.GetFiles(path, $"{bid}_*").Where(c => c.EndsWith(".jpg")).ToArray();
+            if (!Directory.Exists(path)) return new FileInfo[] { };
+            return Directory.GetFiles(path, $"{bid}_*").Where(c => c.EndsWith(".jpg")).Select(c=> new FileInfo(c)).ToArray();
         }
 
         public static void DeleteStoreUserSource(string name, string user)
@@ -112,12 +112,12 @@ namespace SpiderTracker.Imp
             var files = GetStoreUserImageFiles(name, user, status);
             foreach(var file in files)
             {
-                File.Delete(file);
+                if (file.Exists) file.Delete();
             }
             files = GetStoreUserThumbnailImageFiles(name, user, status);
             foreach (var file in files)
             {
-                File.Delete(file);
+                if (file.Exists) file.Delete();
             }
         }
 
