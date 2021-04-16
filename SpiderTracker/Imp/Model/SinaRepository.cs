@@ -112,6 +112,10 @@ namespace SpiderTracker.Imp.Model
         {
             return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `retweeted`>0");
         }
+        public int GetUserStatusUploadCount(string uid)
+        {
+            return DBHelper.GetEntityCount("sina_status", $"`uid`={uid} and `upload`>0");
+        }
         public SinaUser GetUser(string uid)
         {
             return DBHelper.GetEntity<SinaUser>("sina_user", $"`uid`='{uid}'");
@@ -416,8 +420,9 @@ namespace SpiderTracker.Imp.Model
             sinaUser.gets = GetUserStatusGetCount(sinaUser.uid);
             sinaUser.ignores = GetUserStatusIgnoreCount(sinaUser.uid);
             sinaUser.retweets = GetUserStatusRetweetCount(sinaUser.uid);
+            sinaUser.uploads = GetUserStatusUploadCount(sinaUser.uid);
             sinaUser.originals = sinaUser.finds - sinaUser.retweets;
-            UpdateSinaUser(sinaUser, new string[] { "finds", "gets", "ignores", "retweets", "originals" });
+            UpdateSinaUser(sinaUser, new string[] { "finds", "gets", "ignores", "retweets", "originals", "uploads" });
             return sinaUser;
         }
 
@@ -460,6 +465,7 @@ namespace SpiderTracker.Imp.Model
             var updQty = UpdateSinaSourceStatus(sinaStatus, files, upload);
             sinaStatus.upload = updQty;
             UpdateSinaStatus(sinaStatus, new string[] { "upload" });
+            UpdateSinaUserQty(sinaStatus.uid);
             if (upload)
             {
                 CreateSinaUpload(sinaStatus, files, category);

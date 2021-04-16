@@ -33,10 +33,18 @@ namespace SpiderWeb.Controllers
         }
 
         [HttpPost]
-        public APIResult DeleteSinaSources(string category, string status, string fileName)
+        public APIResult DeleteSinaSources(string category, string status, string filename)
         {
             var res = new APIResult();
-            res.Result = DeleteSinaSoureImageFiles(category, status, fileName);
+            try
+            {
+                res.Result = DeleteSinaSoureImageFiles(category, status, filename);
+            }
+            catch(Exception ex)
+            {
+                res.Code = 501;
+                res.Message = ex.Message;
+            }
             return res;
         }
 
@@ -78,17 +86,19 @@ namespace SpiderWeb.Controllers
             catch (Exception ex)
             {
                 LogUtil.Error(ex);
-                res.Code = 504;
+                res.Code = 501;
                 res.Message = ex.Message;
                 return res;
             }
         }
     }
 
-    public class SpiderUploadModel
+    public class SpiderModel
     { 
         public string category { get; set; }
         public string uid { get; set; }
         public string bid { get; set; }
+
+        public string filename { get; set; }
     }
 }

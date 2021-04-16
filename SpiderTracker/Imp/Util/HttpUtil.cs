@@ -335,14 +335,8 @@ namespace SpiderTracker.Imp
         public static bool DeleteSinaSourceImage(SpiderRunningConfig runningConfig, string bid, string img)
         {
             var api = GetRemoteActionImageApi(runningConfig.DefaultUploadServerIP, runningConfig.DefaultDeleteImageAPI);
-            var jsonParam = new
-            {
-                category = runningConfig.Category,
-                status = bid,
-                fileName = img
-            };
-            var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(jsonParam);
-            var result = HttpUtil.PostHttpRequest(api, jsonData, runningConfig);
+            api += $"?category={runningConfig.Category}&status={bid}&filename={img}";
+            var result = HttpUtil.PostHttpRequest(api, string.Empty, runningConfig);
             if (string.IsNullOrEmpty(result)) return false;
 
             var rst = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(result);

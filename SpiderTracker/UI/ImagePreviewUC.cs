@@ -23,6 +23,7 @@ namespace SpiderTracker.UI
         string imageCtrlName = "imageCtl";
         SpiderRunningConfig RunningConfig;
         SinaStatus SinaStatus;
+        List<SinaSource> SinaSources;
         Thread showImageThread = null;
         ManualResetEvent resetEvent = null;
 
@@ -50,7 +51,7 @@ namespace SpiderTracker.UI
             this.pnlImagePanel.Dock = DockStyle.Fill;
         }
 
-        public void ShowImages(FileInfo[] imageFiles, SpiderRunningConfig runningConfig, SinaStatus sinaStatus)
+        public void ShowImages(FileInfo[] imageFiles, SpiderRunningConfig runningConfig, SinaStatus sinaStatus, List<SinaSource> sources)
         {
             if (!couldLoadImageTask) return;
 
@@ -60,6 +61,7 @@ namespace SpiderTracker.UI
             this.cacheImageFiles.AddRange(imageFiles);
             this.RunningConfig = runningConfig;
             this.SinaStatus = sinaStatus;
+            this.SinaSources = sources;
             this.resetEvent.Set();
         }
 
@@ -129,6 +131,9 @@ namespace SpiderTracker.UI
                             LocationX = imageCtl.Location.X,
                             LocationY = imageCtl.Location.Y
                         };
+
+                        var source = this.CheckImageUploadStatus(imageFile.Name);
+                        this.ShowImgCtrlTitle(imageCtl, source);
                     }
                     catch(Exception)
                     {
@@ -176,6 +181,18 @@ namespace SpiderTracker.UI
 
             #endregion
 
+            #region 标题栏
+
+            var panTitle = new Panel();
+            panTitle.Name = "pnlTitle";
+            panTitle.Height = 10;
+            panTitle.Dock = DockStyle.Top;
+            panTitle.BackColor = Color.Gold;
+            panTitle.Visible = false;
+            imageCtl.Controls.Add(panTitle);
+
+            #endregion
+
             #region 工具栏
             var panTools = new Panel();
             panTools.Name = "pnlTools";
@@ -197,6 +214,7 @@ namespace SpiderTracker.UI
 
             //撤销上传
             var btnCnlImg = new Button();
+            btnCnlImg.Name = "btnCancelUploadImg";
             btnCnlImg.Text = "▼";
             btnCnlImg.Height = 20;
             btnCnlImg.Width = 30;
@@ -207,6 +225,7 @@ namespace SpiderTracker.UI
 
             //上传
             var btnUpdImg = new Button();
+            btnUpdImg.Name = "btnUploadImg";
             btnUpdImg.Text = "▲";
             btnUpdImg.Height = 20;
             btnUpdImg.Width = 30;
@@ -228,6 +247,12 @@ namespace SpiderTracker.UI
             #endregion
 
             return imageCtl;
+        }
+
+        void ReloadUserSources()
+        {
+            var rep = new SinaRepository();
+            this.SinaSources = rep.GetUserSources(SinaStatus.uid, SinaStatus.bid);
         }
 
         #region 缩略图工具栏事件
@@ -353,10 +378,11 @@ namespace SpiderTracker.UI
                 if (imgCtrl.Name == findCtrlFullName)
                 {
                     imgCtrl.BorderStyle = BorderStyle.Fixed3D;
-                    imgCtrl.BackColor = Color.Gold;
+                    imgCtrl.BackColor = Color.Transparent;
                     imgCtrl.Select();
 
-                    this.ShowImageInfo(imgCtrl);
+                    this.ShowImageInfo(imgCtrl.Tag as ImageCtrlData);
+                    this.ShowRemoteInfo("");
                     this.ShowImgCtrlTools(imgCtrl, true);
                 }
                 else
@@ -379,6 +405,19 @@ namespace SpiderTracker.UI
                 this.pnlOriginPanel.Visible = true;
                 this.pnlOriginPanel.Dock = DockStyle.Fill;
                 this.pnlOriginPanel.BringToFront();
+
+                //检测上传&撤销按钮状态
+                var upload = this.CheckImageUploadStatus(ctrlData.Name);
+                var btnCancelUploadImg = pnlOriginPanel.Controls.Find("btnOrgDelImg", true).FirstOrDefault();
+                if (btnCancelUploadImg != null)
+                {
+                    (btnCancelUploadImg as Button).Enabled = upload;
+                }
+                var btnUploadImg = pnlOriginPanel.Controls.Find("btnOrgUpdoadImg", true).FirstOrDefault();
+                if (btnUploadImg != null)
+                {
+                    (btnUploadImg as Button).Enabled = !upload;
+                }
 
                 using (Stream stream = File.Open(ctrlData.ImageFile, FileMode.Open, FileAccess.Read))
                 {
@@ -472,35 +511,47 @@ namespace SpiderTracker.UI
                 if (rep.UploadSinaStatus(RunningConfig.Category, SinaStatus.bid, uploadFiles, true))
                 {
                     PathUtil.CopyUploadImageFiles(uploadFiles, RunningConfig.DefaultUploadPath);
+
+                    this.ReloadUserSources();
+
+                    this.ShowImgCtrlTitle(imgCtrl, true);
+
+                    this.ShowRemoteInfo($"上传成功");
                 }
                 else
                 {
-                    this.ShowRemoteInfo($"上传原始图片失败");
+                    this.ShowRemoteInfo($"上传失败");
                 }
             }
             else
             {
-                this.ShowRemoteInfo($"原始图片不存在");
+                this.ShowRemoteInfo($"图片不存在");
             }
         }
 
         void DeleteRemoteImage()
         {
+            var imgCtrl = GetCurrentImageCtrl();
+
             var imgCtrlData = GetCurrentImageCtrlData();
             if (imgCtrlData == null) return;
 
             var imgFile = new FileInfo(imgCtrlData.ImageFile);
-            if (imgFile.Exists)
+            var suc = HttpUtil.DeleteSinaSourceImage(RunningConfig, SinaStatus.bid, imgFile.Name);
+            if (suc)
             {
-                var suc = HttpUtil.DeleteSinaSourceImage(RunningConfig, SinaStatus.bid, imgFile.Name);
-                if (!suc)
-                {
-                    this.ShowRemoteInfo($"删除已上传原始图片失败");
-                }
+                var rep = new SinaRepository();
+                rep.UploadSinaStatus(RunningConfig.Category, SinaStatus.bid, new FileInfo[] { imgFile }, false);
+
+                this.ReloadUserSources();
+
+                this.ShowImgCtrlTitle(imgCtrl, false);
+
+                this.ShowRemoteInfo($"撤销上传成功");
             }
             else
             {
-                this.ShowRemoteInfo($"原始图片不存在");
+                this.ShowRemoteInfo($"撤销上传失败");
             }
         }
 
@@ -520,6 +571,8 @@ namespace SpiderTracker.UI
             var rep = new SinaRepository();
             rep.IgnoreSinaSource(SinaStatus.uid, SinaStatus.bid, thumb.Name);
 
+            this.DeleteRemoteImage();
+
             var imgCtrl = GetCurrentImageCtrl();
             ResetImageCtrl(imgCtrl);
         }
@@ -530,17 +583,41 @@ namespace SpiderTracker.UI
             if (pnlTools != null)
             {
                 (pnlTools as Panel).Visible = visible;
+
+                if (visible)
+                {
+                    var upload = this.CheckImageUploadStatus(imgCtrl.Name);
+                    var btnCancelUploadImg = pnlTools.Controls.Find("btnCancelUploadImg", false).FirstOrDefault();
+                    if(btnCancelUploadImg != null)
+                    {
+                        (btnCancelUploadImg as Button).Enabled = upload;
+                    }
+                    var btnUploadImg = pnlTools.Controls.Find("btnUploadImg", false).FirstOrDefault();
+                    if (btnUploadImg != null)
+                    {
+                        (btnUploadImg as Button).Enabled = !upload;
+                    }
+                }
             }
         }
 
-        void ShowImageInfo(Panel imgCtrl)
+        void ShowImgCtrlTitle(Panel imgCtrl, bool visible)
         {
-            if (imgCtrl == null || imgCtrl.Tag == null) return;
+            var pnlTitle = imgCtrl.Controls.Find("pnlTitle", false).FirstOrDefault();
+            if (pnlTitle != null)
+            {
+                (pnlTitle as Panel).Visible = visible;
+            }
+        }
 
-            var ctrlData = imgCtrl.Tag as ImageCtrlData;
-            if (ctrlData == null) return;
+        bool CheckImageUploadStatus(string imgName)
+        {
+            return this.SinaSources.Any(c => c.name == imgName && c.upload > 0);
+        }
 
-            this.lblImageMsg.Text = $"图片:{ctrlData.Name},尺寸:{ctrlData.ImageWidth}*{ctrlData.ImageHeight}";
+        void ShowImageInfo(ImageCtrlData ctrlData)
+        {
+            this.lblImageMsg.Text = $"{ctrlData.Name}";
         }
 
         void ShowRemoteInfo(string msg)

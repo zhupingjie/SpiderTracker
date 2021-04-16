@@ -157,6 +157,7 @@
             this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
+            this.columnUpload = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel26.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -355,6 +356,7 @@
             this.columnTAL,
             this.columnFind,
             this.columnGet,
+            this.columnUpload,
             this.columnIgnore,
             this.columnOrigin,
             this.columnRet,
@@ -501,6 +503,7 @@
             "微博",
             "读取",
             "采集",
+            "上传",
             "忽略",
             "原创",
             "转发",
@@ -1609,6 +1612,11 @@
             this.spiderConfigUC1.Size = new System.Drawing.Size(249, 378);
             this.spiderConfigUC1.TabIndex = 19;
             // 
+            // columnUpload
+            // 
+            this.columnUpload.Text = "上传";
+            this.columnUpload.Width = 50;
+            // 
             // SpiderTrackerForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1805,6 +1813,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Panel panel27;
+        private System.Windows.Forms.ColumnHeader columnUpload;
     }
 }
 

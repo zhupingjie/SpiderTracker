@@ -121,26 +121,17 @@ namespace StockSimulateWeb.Base
             var thumbPath = Path.Combine(imgPath, "thumb");
 
             var errMsg = new List<string>();
-            if (string.IsNullOrEmpty(filename))
+
+            var search = status;
+            if (!string.IsNullOrEmpty(filename)) search = filename;
+            if (Directory.Exists(imgPath))
             {
-                var imgFiles = Directory.GetFiles(imgPath, $"{filename}").Select(c=> new FileInfo(c)).ToArray();
-                foreach(var file in imgFiles)
-                {
-                    try
-                    {
-                        file.Delete();
-                    }
-                    catch(Exception ex)
-                    {
-                        errMsg.Add($"{file.Name}");
-                    }
-                }
-                var thumbFiles = Directory.GetFiles(thumbPath, $"{filename}").Select(c => new FileInfo(c)).ToArray();
+                var imgFiles = Directory.GetFiles(imgPath, $"{search}").Select(c => new FileInfo(c)).ToArray();
                 foreach (var file in imgFiles)
                 {
                     try
                     {
-                        file.Delete();
+                        if (file.Exists) file.Delete();
                     }
                     catch (Exception ex)
                     {
@@ -148,26 +139,14 @@ namespace StockSimulateWeb.Base
                     }
                 }
             }
-            else
+            if (Directory.Exists(thumbPath))
             {
-                var imgFiles = Directory.GetFiles(imgPath, $"{status}*.jpg").Select(c => new FileInfo(c)).ToArray();
-                foreach (var file in imgFiles)
+                var thumbFiles = Directory.GetFiles(thumbPath, $"{search}").Select(c => new FileInfo(c)).ToArray();
+                foreach (var file in thumbFiles)
                 {
                     try
                     {
-                        file.Delete();
-                    }
-                    catch (Exception ex)
-                    {
-                        errMsg.Add($"{file.Name}");
-                    }
-                }
-                var thumbFiles = Directory.GetFiles(thumbPath, $"{status}*.jpg").Select(c => new FileInfo(c)).ToArray();
-                foreach (var file in imgFiles)
-                {
-                    try
-                    {
-                        file.Delete();
+                        if (file.Exists) file.Delete();
                     }
                     catch (Exception ex)
                     {

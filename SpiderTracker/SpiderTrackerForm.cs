@@ -422,6 +422,12 @@ namespace SpiderTracker
                     else
                         users = users.OrderBy(c => c.gets).ToArray();
                     break;
+                case "上传":
+                    if (this.cbxUserSortAsc.Text == "降序")
+                        users = users.OrderByDescending(c => c.uploads).ToArray();
+                    else
+                        users = users.OrderBy(c => c.uploads).ToArray();
+                    break;
                 case "忽略":
                     if (this.cbxUserSortAsc.Text == "降序")
                         users = users.OrderByDescending(c => c.ignores).ToArray();
@@ -496,6 +502,7 @@ namespace SpiderTracker
                     subItem.SubItems.Add($"{item.statuses}");
                     subItem.SubItems.Add($"{item.finds}");
                     subItem.SubItems.Add($"{item.gets}");
+                    subItem.SubItems.Add($"{item.uploads}");
                     subItem.SubItems.Add($"{item.ignores}");
                     subItem.SubItems.Add($"{item.originals}");
                     subItem.SubItems.Add($"{item.retweets}");
@@ -865,7 +872,10 @@ namespace SpiderTracker
                 {
                     ActiveImageCtl();
                     var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, status.bid);
-                    this.imagePreviewUC1.ShowImages(files, RunningConfig, status);
+                    var rep = new SinaRepository();
+                    var sources = rep.GetUserSources(user.uid, status.bid);
+
+                    this.imagePreviewUC1.ShowImages(files, RunningConfig, status, sources);
 
                     if (status.upload > 0)
                     {
@@ -1425,6 +1435,8 @@ namespace SpiderTracker
                 {
                     if (item.mtype == 0)
                     {
+                        HttpUtil.DeleteSinaSourceImage(RunningConfig, item.bid, null);
+
                         PathUtil.DeleteStoreUserImageFiles(RunningConfig.Category, user.uid, item.bid);
                     }
                     else if (item.mtype == 1)
@@ -1453,22 +1465,6 @@ namespace SpiderTracker
                             {
                                 this.lstArc.Items[index].Selected = true;
                             }
-                        }
-                        var localStatus = 0;
-                        int.TryParse(this.lblStatusCount.Text, out localStatus);
-                        localStatus -= 1;
-                        this.lblStatusCount.Text = $"{localStatus} ";
-                        var localImg = 0;
-                        int.TryParse(this.lblLocalImgCount.Text, out localImg);
-                        localImg -= local;
-                        this.lblLocalImgCount.Text = $"{localImg} ";
-
-                        if (archive.CompareTo("0") > 0)
-                        {
-                            var archiveQty = 0;
-                            int.TryParse(this.lblArchiveCount.Text, out archiveQty);
-                            archiveQty -= 1;
-                            this.lblArchiveCount.Text = $"{archiveQty} ";
                         }
                     }
                 }

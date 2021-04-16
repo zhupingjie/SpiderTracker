@@ -184,7 +184,7 @@ namespace SpiderTracker.Imp
         /// </summary>
         public int GatherUserMinStatuses { get; set; } = 50;
 
-        public string DefaultUploadServerIP { get; set; } = "121.4.29.105:8088";
+        public string DefaultUploadServerIP { get; set; } = "121.4.29.105:8088";//"localhost:8080";
 
         /// <summary>
         /// 上传图片api

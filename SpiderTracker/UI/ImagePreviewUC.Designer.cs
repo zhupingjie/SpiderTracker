@@ -31,16 +31,16 @@ namespace SpiderTracker.UI
         {
             this.pnlImagePanel = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblReomteMsg = new System.Windows.Forms.Label();
             this.lblImageMsg = new System.Windows.Forms.Label();
             this.pnlOriginPanel = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnShowThumbImg = new System.Windows.Forms.Button();
+            this.btnDelOrgImg = new System.Windows.Forms.Button();
+            this.btnOrgDelImg = new System.Windows.Forms.Button();
             this.btnOrgUpdoadImg = new System.Windows.Forms.Button();
             this.btnOrgPreImg = new System.Windows.Forms.Button();
             this.btnOrgNextImg = new System.Windows.Forms.Button();
-            this.btnOrgDelImg = new System.Windows.Forms.Button();
-            this.btnDelOrgImg = new System.Windows.Forms.Button();
-            this.lblReomteMsg = new System.Windows.Forms.Label();
+            this.btnShowThumbImg = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.pnlOriginPanel.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -66,6 +66,16 @@ namespace SpiderTracker.UI
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(811, 27);
             this.panel1.TabIndex = 26;
+            // 
+            // lblReomteMsg
+            // 
+            this.lblReomteMsg.AutoSize = true;
+            this.lblReomteMsg.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblReomteMsg.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblReomteMsg.Location = new System.Drawing.Point(811, 0);
+            this.lblReomteMsg.Name = "lblReomteMsg";
+            this.lblReomteMsg.Size = new System.Drawing.Size(0, 25);
+            this.lblReomteMsg.TabIndex = 1;
             // 
             // lblImageMsg
             // 
@@ -102,17 +112,29 @@ namespace SpiderTracker.UI
             this.panel2.Size = new System.Drawing.Size(384, 30);
             this.panel2.TabIndex = 0;
             // 
-            // btnShowThumbImg
+            // btnDelOrgImg
             // 
-            this.btnShowThumbImg.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnShowThumbImg.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnShowThumbImg.Location = new System.Drawing.Point(338, 0);
-            this.btnShowThumbImg.Name = "btnShowThumbImg";
-            this.btnShowThumbImg.Size = new System.Drawing.Size(46, 30);
-            this.btnShowThumbImg.TabIndex = 8;
-            this.btnShowThumbImg.Text = "▢";
-            this.btnShowThumbImg.UseVisualStyleBackColor = true;
-            this.btnShowThumbImg.Click += new System.EventHandler(this.btnShowThumbImg_Click);
+            this.btnDelOrgImg.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnDelOrgImg.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnDelOrgImg.Location = new System.Drawing.Point(108, 0);
+            this.btnDelOrgImg.Name = "btnDelOrgImg";
+            this.btnDelOrgImg.Size = new System.Drawing.Size(46, 30);
+            this.btnDelOrgImg.TabIndex = 14;
+            this.btnDelOrgImg.Text = "❌";
+            this.btnDelOrgImg.UseVisualStyleBackColor = true;
+            this.btnDelOrgImg.Click += new System.EventHandler(this.btnDelOrgImg_Click);
+            // 
+            // btnOrgDelImg
+            // 
+            this.btnOrgDelImg.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnOrgDelImg.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnOrgDelImg.Location = new System.Drawing.Point(154, 0);
+            this.btnOrgDelImg.Name = "btnOrgDelImg";
+            this.btnOrgDelImg.Size = new System.Drawing.Size(46, 30);
+            this.btnOrgDelImg.TabIndex = 13;
+            this.btnOrgDelImg.Text = "▼";
+            this.btnOrgDelImg.UseVisualStyleBackColor = true;
+            this.btnOrgDelImg.Click += new System.EventHandler(this.btnOrgDelImg_Click);
             // 
             // btnOrgUpdoadImg
             // 
@@ -152,39 +174,17 @@ namespace SpiderTracker.UI
             this.btnOrgNextImg.UseVisualStyleBackColor = false;
             this.btnOrgNextImg.Click += new System.EventHandler(this.btnOrgNextImg_Click);
             // 
-            // btnOrgDelImg
+            // btnShowThumbImg
             // 
-            this.btnOrgDelImg.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOrgDelImg.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnOrgDelImg.Location = new System.Drawing.Point(154, 0);
-            this.btnOrgDelImg.Name = "btnOrgDelImg";
-            this.btnOrgDelImg.Size = new System.Drawing.Size(46, 30);
-            this.btnOrgDelImg.TabIndex = 13;
-            this.btnOrgDelImg.Text = "▼";
-            this.btnOrgDelImg.UseVisualStyleBackColor = true;
-            this.btnOrgDelImg.Click += new System.EventHandler(this.btnOrgDelImg_Click);
-            // 
-            // btnDelOrgImg
-            // 
-            this.btnDelOrgImg.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnDelOrgImg.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnDelOrgImg.Location = new System.Drawing.Point(108, 0);
-            this.btnDelOrgImg.Name = "btnDelOrgImg";
-            this.btnDelOrgImg.Size = new System.Drawing.Size(46, 30);
-            this.btnDelOrgImg.TabIndex = 14;
-            this.btnDelOrgImg.Text = "❌";
-            this.btnDelOrgImg.UseVisualStyleBackColor = true;
-            this.btnDelOrgImg.Click += new System.EventHandler(this.btnDelOrgImg_Click);
-            // 
-            // lblReomteMsg
-            // 
-            this.lblReomteMsg.AutoSize = true;
-            this.lblReomteMsg.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblReomteMsg.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblReomteMsg.Location = new System.Drawing.Point(811, 0);
-            this.lblReomteMsg.Name = "lblReomteMsg";
-            this.lblReomteMsg.Size = new System.Drawing.Size(0, 25);
-            this.lblReomteMsg.TabIndex = 1;
+            this.btnShowThumbImg.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnShowThumbImg.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnShowThumbImg.Location = new System.Drawing.Point(338, 0);
+            this.btnShowThumbImg.Name = "btnShowThumbImg";
+            this.btnShowThumbImg.Size = new System.Drawing.Size(46, 30);
+            this.btnShowThumbImg.TabIndex = 8;
+            this.btnShowThumbImg.Text = "▢";
+            this.btnShowThumbImg.UseVisualStyleBackColor = true;
+            this.btnShowThumbImg.Click += new System.EventHandler(this.btnShowThumbImg_Click);
             // 
             // ImagePreviewUC
             // 
