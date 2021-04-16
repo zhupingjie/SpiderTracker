@@ -189,12 +189,6 @@
     <Compile Include="UI\ImagePreviewUC.Designer.cs">
       <DependentUpon>ImagePreviewUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SinaLoginForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SinaLoginForm.Designer.cs">
-      <DependentUpon>SinaLoginForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="SpiderTrackerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -215,12 +209,6 @@
     <Compile Include="UI\VedioPlayerUC.Designer.cs">
       <DependentUpon>VedioPlayerUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ViewImgForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\ViewImgForm.Designer.cs">
-      <DependentUpon>ViewImgForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\WebBrowerUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -232,9 +220,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ImagePreviewUC.resx">
       <DependentUpon>ImagePreviewUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SinaLoginForm.resx">
-      <DependentUpon>SinaLoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SpiderTrackerForm.resx">
       <DependentUpon>SpiderTrackerForm.cs</DependentUpon>
@@ -253,9 +238,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\VedioPlayerUC.resx">
       <DependentUpon>VedioPlayerUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\ViewImgForm.resx">
-      <DependentUpon>ViewImgForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\WebBrowerUC.resx">
       <DependentUpon>WebBrowerUC.cs</DependentUpon>

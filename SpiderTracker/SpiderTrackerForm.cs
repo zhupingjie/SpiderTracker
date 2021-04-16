@@ -863,21 +863,16 @@ namespace SpiderTracker
             {   
                 if (status.mtype == 0)
                 {
+                    ActiveImageCtl();
+                    var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, status.bid);
+                    this.imagePreviewUC1.ShowImages(files, RunningConfig, status);
+
                     if (status.upload > 0)
                     {
-                        ActiveWebCtl();
-
-                        var images = GetRemoteImageFiles(RunningConfig.Category, status.bid, false);
+                        var images = HttpUtil.GetRemoteImageFiles(RunningConfig, status.bid, true);
                         var html = MakeDocumentHtml(images);
                         this.webBrowser1.DocumentText = html;
                     }
-                    else
-                    {
-                        ActiveImageCtl();
-                    }
-
-                    var files = PathUtil.GetStoreUserThumbnailImageFiles(RunningConfig.Category, user.uid, status.bid);
-                    this.imagePreviewUC1.ShowImages(files, RunningConfig, status);
                 }
                 else if (status.mtype == 1)
                 {
@@ -1030,7 +1025,7 @@ namespace SpiderTracker
                     {
                         if (rep.UploadSinaStatus(RunningConfig.Category, item.bid, files, true))
                         {
-                            CopyUploadImageFiles(files);
+                            PathUtil.CopyUploadImageFiles(files, RunningConfig.DefaultUploadPath);
                         }
                     }
                 }
@@ -1526,18 +1521,6 @@ namespace SpiderTracker
             return ids.ToArray();
         }
 
-        void CopyUploadImageFiles(FileInfo[] files)
-        {
-            var archivePath = Path.Combine(PathUtil.BaseDirectory, RunningConfig.DefaultUploadPath);
-            if (!Directory.Exists(archivePath)) Directory.CreateDirectory(archivePath);
-
-            foreach (var file in files)
-            {
-                var destFile = Path.Combine(archivePath, file.Name);
-                file.CopyTo(destFile, true);
-            }
-        }
-
         #endregion
 
         #region 微博功能操作
@@ -1592,15 +1575,15 @@ namespace SpiderTracker
 
         private void lstArc_KeyDown(object sender, KeyEventArgs e)
         {
-             if(e.KeyCode == Keys.W)
+            if (e.KeyCode == Keys.W)
             {
                 this.UpSelectStatus();
             }
-            else if(e.KeyCode == Keys.S)
+            else if (e.KeyCode == Keys.S)
             {
                 this.DownSelectStatus();
             }
-            else if(e.KeyCode == Keys.Delete || e.KeyCode == Keys.Escape)
+            else if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Escape)
             {
                 this.IgnoreStatus(false);
             }
@@ -1723,20 +1706,6 @@ namespace SpiderTracker
                 ActiveLoggerCtl();
             }
             this.tabControl1.Enabled = enabled;
-        }
-
-        string[] GetRemoteImageFiles(string category, string bid, bool thumb)
-        {
-            var files = new List<string>();
-            var api = HttpUtil.GetSinaSoureImageApi(RunningConfig.DefaultUploadServerIP, RunningConfig.DefaultGetImageAPI, category, bid, thumb);
-            var retStr = HttpUtil.GetHttpRequestHtmlResult(api, RunningConfig);
-            if (string.IsNullOrEmpty(retStr)) return files.ToArray();
-
-            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(retStr);
-            if(result == null || !result.Success || result.Result == null) return files.ToArray();
-
-            var objArr = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(result.Result.ToString());
-            return objArr.Select(c => $"http://{RunningConfig.DefaultUploadServerIP}{c}").ToArray();
         }
 
         string MakeDocumentHtml(string[] files)

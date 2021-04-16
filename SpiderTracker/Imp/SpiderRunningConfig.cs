@@ -192,6 +192,11 @@ namespace SpiderTracker.Imp
         public string DefaultUploadImageAPI { get; set; } = "api/Spider/UploadSinaSources";
 
         /// <summary>
+        /// 删除图片api
+        /// </summary>
+        public string DefaultDeleteImageAPI { get; set; } = "api/Spider/DeleteSinaSources";
+
+        /// <summary>
         /// 获取图片api
         /// </summary>
         public string DefaultGetImageAPI { get; set; } = "api/Spider/GetSinaSources";

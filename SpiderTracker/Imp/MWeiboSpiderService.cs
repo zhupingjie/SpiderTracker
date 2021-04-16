@@ -2086,42 +2086,25 @@ namespace SpiderTracker.Imp
                             //上传开始
                             SpiderUploadRefresh(upload, "Uploading...");
 
-                            var nv = new NameValueCollection();
-                            nv.Add("category", upload.category);
-                            nv.Add("uid", upload.uid);
-                            nv.Add("bid", upload.bid);
-                            nv.Add("width", $"{RunningConfig.ThumbnailImageWidth * 1.2}");
-                            nv.Add("height", $"{RunningConfig.ThumbnailImageHeight * 1.2}");
-
-                            var api = HttpUtil.GetUploadSinaSoureImageApi(RunningConfig.DefaultUploadServerIP, RunningConfig.DefaultUploadImageAPI);
-                            var result = HttpUtil.PostHttpUploadFile(api, imgFile.FullName, nv, Encoding.Default);
-                            if (string.IsNullOrEmpty(result))
+                            var rst = HttpUtil.UploadRemoteImage(RunningConfig, upload, imgFile);
+                            if (rst == null)
                             {
                                 //上传失败
                                 SpiderUploadRefresh(upload, "失败");
                             }
+                            else if (!rst.Success)
+                            {
+                                //上传失败
+                                SpiderUploadRefresh(upload, rst.Message);
+                            }
                             else
                             {
-                                var rst = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(result);
-                                if (rst == null)
-                                {
-                                    //上传失败
-                                    SpiderUploadRefresh(upload, "失败");
-                                }
-                                else if (!rst.Success)
-                                {
-                                    //上传失败
-                                    SpiderUploadRefresh(upload, rst.Message);
-                                }
-                                else
-                                {
-                                    upload.upload = 1;
-                                    upload.uploadtime = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
-                                    Repository.UpdateSinaUpload(upload, new string[] { "upload", "uploadtime" });
+                                upload.upload = 1;
+                                upload.uploadtime = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+                                Repository.UpdateSinaUpload(upload, new string[] { "upload", "uploadtime" });
 
-                                    //上传完成
-                                    SpiderUploadRefresh(upload, "✔");
-                                }
+                                //上传完成
+                                SpiderUploadRefresh(upload, "✔");
                             }
                             Thread.Sleep(RunningConfig.UploadSourceWaitMilSecond);
                         }

@@ -165,6 +165,16 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.GetEntity<SinaStatus>("sina_status", $"`bid`='{bid}'");
         }
 
+        public SinaSource GetUserSource(string bid, string name)
+        {
+            return DBHelper.GetEntity<SinaSource>("sina_source", $"`bid`='{bid}' and `name`='{name}'");
+        }
+
+        public bool DeleteSinaSource(SinaSource sinaSource)
+        {
+            return DBHelper.DeleteEntity("sina_source", "id", $"{sinaSource.id}");
+        }
+
         public List<SinaSource> GetUserSources(string uid, string bid)
         {
             return DBHelper.GetEntitys<SinaSource>("sina_source", $"`uid`='{uid}' and `bid`='{bid}'");
@@ -420,7 +430,28 @@ namespace SpiderTracker.Imp.Model
             UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
             return UpdateSinaUserQty(sinaStatus.uid);
         }
-        
+
+        public bool IgnoreSinaSource(string uid, string status, string imgName)
+        {
+            var sinaSource = GetUserSource(status, imgName);
+            if (sinaSource == null) return true;
+
+            DeleteSinaSource(sinaSource);
+
+            var sinaSources = GetUserSources(uid, status);
+            if(sinaSources.Count == 0)
+            {
+                var sinaStatus = GetUserStatus(status);
+                if(sinaStatus != null)
+                {
+                    sinaStatus.ignore = 1;
+                    UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
+                    UpdateSinaUserQty(sinaStatus.uid);
+                }
+            }
+            return true;
+        }
+
         public bool UploadSinaStatus(string category, string status, FileInfo[] files, bool upload)
         {
             var sinaStatus = GetUserStatus(status);

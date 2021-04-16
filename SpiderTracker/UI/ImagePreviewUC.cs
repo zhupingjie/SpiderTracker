@@ -45,12 +45,22 @@ namespace SpiderTracker.UI
             {
                 var imgCtrl = MakeImagePanel(i);
                 this.imageCtls.Add(imgCtrl);
-
-                InvokeControl(pnlImagePanel, () =>
-                {
-                    this.pnlImagePanel.Controls.Add(imgCtrl);
-                });
+                this.pnlImagePanel.Controls.Add(imgCtrl);
             }
+            this.pnlImagePanel.Dock = DockStyle.Fill;
+        }
+
+        public void ShowImages(FileInfo[] imageFiles, SpiderRunningConfig runningConfig, SinaStatus sinaStatus)
+        {
+            if (!couldLoadImageTask) return;
+
+            this.couldLoadImageTask = false;
+            this.ResetImageCtrl();
+            this.cacheImageFiles.Clear();
+            this.cacheImageFiles.AddRange(imageFiles);
+            this.RunningConfig = runningConfig;
+            this.SinaStatus = sinaStatus;
+            this.resetEvent.Set();
         }
 
         void MakeThread()
@@ -73,29 +83,15 @@ namespace SpiderTracker.UI
                     {
                         ShowImage(index++, imageFile.FullName);
 
-                        Thread.Sleep(100);
+                        Thread.Sleep(50);
                     }
-                    couldLoadImageTask = true;
-
-                    this.resetEvent.Reset();
                 }
+                couldLoadImageTask = true;
+                this.resetEvent.Reset();
                 this.resetEvent.WaitOne();
             }
         }
         
-        public void ShowImages(FileInfo[] imageFiles, SpiderRunningConfig runningConfig, SinaStatus sinaStatus)
-        {
-            if (!couldLoadImageTask) return;
-
-            this.couldLoadImageTask = false;
-            this.DispiseImage(imageFiles);
-            this.cacheImageFiles.Clear();
-            this.cacheImageFiles.AddRange(imageFiles);
-            this.RunningConfig = runningConfig;
-            this.SinaStatus = sinaStatus;
-            this.resetEvent.Set();
-        }
-
         void ShowImage(int imgCtrlIndex, string file)
         {
             var ctlName = $"imageCtl{imgCtrlIndex}";
@@ -116,8 +112,6 @@ namespace SpiderTracker.UI
             }
             InvokeControl(imageCtl, () =>
             {
-                if (imageCtl.Tag != null && imageCtl.Tag.ToString() == file) return;
-
                 using (Stream stream = File.Open(file, FileMode.Open, FileAccess.Read))
                 {
                     try
@@ -125,7 +119,16 @@ namespace SpiderTracker.UI
                         var image = Image.FromStream(stream);
                         imageCtl.BackgroundImage = image;
                         imageCtl.BackgroundImageLayout = ImageLayout.Zoom;
-                        imageCtl.Tag = file;
+
+                        var imageFile = PathUtil.GetImageByThumbImage(file);
+                        imageCtl.Tag = new ImageCtrlData()
+                        {
+                            ThumbFile = file,
+                            ImageFile = imageFile.FullName,
+                            Name = imageFile.Name,
+                            LocationX = imageCtl.Location.X,
+                            LocationY = imageCtl.Location.Y
+                        };
                     }
                     catch(Exception)
                     {
@@ -143,6 +146,7 @@ namespace SpiderTracker.UI
         int imageHeight = 220;
         Panel MakeImagePanel(int imgCtrlIndex)
         {
+            #region 图片容器
             var imageCtl = new Panel();
             imageCtl.Name = $"imageCtl{imgCtrlIndex}";
             imageCtl.Width = imageWidth;
@@ -152,51 +156,172 @@ namespace SpiderTracker.UI
             imageCtl.Click += ImageCtl_Click;
             imageCtl.DoubleClick += ImageCtl_DoubleClick;
 
-            //横向双排展示
+            #region 横向双排展示
             //var x = (int)imgCtrlIndex / 2;
             //if (imgCtrlIndex % 2 == 0)
             //{
-            //    imageCtl.Location = new Point(5 * x + x * 160, 0);
+            //    imageCtl.Location = new Point(x * (imageWidth + 1), 0);
             //}
             //else
             //{
-            //    imageCtl.Location = new Point(5 * x + x * 160, 225);
+            //    imageCtl.Location = new Point(x *  (imageWidth + 1), 225);
             //}
-            //纵向三列展示
+            #endregion
+
+            # region 纵向三列展示
             var row = (int)imgCtrlIndex / 3;
             var col = (int)imgCtrlIndex % 3;
             imageCtl.Location = new Point(col * (imageWidth+1), row * (imageHeight+1));
+            #endregion
+
+            #endregion
+
+            #region 工具栏
+            var panTools = new Panel();
+            panTools.Name = "pnlTools";
+            panTools.Height = 20;
+            panTools.Dock = DockStyle.Bottom;
+            panTools.BackColor = Color.Transparent;
+            panTools.Visible = false;
+            imageCtl.Controls.Add(panTools);
+
+            //忽略
+            var btnDelImg = new Button();
+            btnDelImg.Text = "❌";
+            btnDelImg.Height = 20;
+            btnDelImg.Width = 30;
+            btnDelImg.Font = new Font("微软雅黑", 8);
+            btnDelImg.Dock = DockStyle.Right;
+            btnDelImg.Click += BtnDelImg_Click;
+            panTools.Controls.Add(btnDelImg);
+
+            //撤销上传
+            var btnCnlImg = new Button();
+            btnCnlImg.Text = "▼";
+            btnCnlImg.Height = 20;
+            btnCnlImg.Width = 30;
+            btnCnlImg.Font = new Font("微软雅黑", 8);
+            btnCnlImg.Dock = DockStyle.Right;
+            btnCnlImg.Click += BtnCnlImg_Click;
+            panTools.Controls.Add(btnCnlImg);
+
+            //上传
+            var btnUpdImg = new Button();
+            btnUpdImg.Text = "▲";
+            btnUpdImg.Height = 20;
+            btnUpdImg.Width = 30;
+            btnUpdImg.Font = new Font("微软雅黑", 8);
+            btnUpdImg.Dock = DockStyle.Right;
+            btnUpdImg.Click += BtnUpdImg_Click;
+            panTools.Controls.Add(btnUpdImg);
+
+            //原图
+            var btnOrgImg = new Button();
+            btnOrgImg.Text = "◉";
+            btnOrgImg.Height = 20;
+            btnOrgImg.Width = 30;
+            btnOrgImg.Font = new Font("微软雅黑", 8);
+            btnOrgImg.Dock = DockStyle.Right;
+            btnOrgImg.Click += BtnOrgImg_Click; ;
+            panTools.Controls.Add(btnOrgImg);
+
+            #endregion
+
             return imageCtl;
+        }
+
+        #region 缩略图工具栏事件
+
+        private void BtnOrgImg_Click(object sender, EventArgs e)
+        {
+            var imgCtrlData = GetCurrentImageCtrlData();
+            if (imgCtrlData == null) return;
+
+            this.ShowOriginImage(imgCtrlData, true);
+        }
+
+        private void BtnUpdImg_Click(object sender, EventArgs e)
+        {
+            this.UploadRemoteImage();
+        }
+
+        private void BtnCnlImg_Click(object sender, EventArgs e)
+        {
+            this.DeleteRemoteImage();
+        }
+
+        private void BtnDelImg_Click(object sender, EventArgs e)
+        {
+            this.IgnoreOriginImage();
         }
 
         private void ImageCtl_DoubleClick(object sender, EventArgs e)
         {
-            var index = GetImageCtrlIndex((sender as Panel).Name);
-            if (index == -1) return;
+            var imgCtrlName = (sender as Panel).Name;
+            var imgCtrl = this.imageCtls.FirstOrDefault(c => c.Name == imgCtrlName);
+            if (imgCtrl == null || imgCtrl.Tag == null) return;
 
-            SelectOriginImage(index);
+            var imgCtrlData = imgCtrl.Tag as ImageCtrlData;
+            if (imgCtrlData == null) return;
+
+            this.ShowOriginImage(imgCtrlData, true);
         }
 
         private void ImageCtl_Click(object sender, EventArgs e)
         {
-            var index = GetImageCtrlIndex((sender as Panel).Name);
-            if (index == -1) return;
-
-            SelectImageBox(index);
+            var imgCtrlName = (sender as Panel).Name;
+            SelectImageCtrl(imgCtrlName);
         }
 
-        int GetImageCtrlIndex(string name)
+        #endregion
+
+        #region 原图工具栏事件
+
+        private void pnlOriginPanel_DoubleClick(object sender, EventArgs e)
         {
-            if (!name.StartsWith(imageCtrlName)) return -1;
-            int index = -1;
-            var str = name.Replace(imageCtrlName, "");
-            int.TryParse(str, out index);
-            return index;
+            this.ShowOriginImage(null, false);
         }
 
-        void DispiseImage(FileInfo[] images)
+        private void btnShowThumbImg_Click(object sender, EventArgs e)
         {
-            foreach(var imageCtr in this.imageCtls)
+            var imgCtrlData = GetCurrentImageCtrlData();
+            if (imgCtrlData == null) return;
+
+            this.ShowOriginImage(imgCtrlData, false);
+        }
+
+        private void btnOrgNextImg_Click(object sender, EventArgs e)
+        {
+            this.ShowNextImage();
+        }
+
+        private void btnOrgPreImg_Click(object sender, EventArgs e)
+        {
+            this.ShowPreviousImage();
+        }
+
+        private void btnOrgUpdoadImg_Click(object sender, EventArgs e)
+        {
+            this.UploadRemoteImage();
+        }
+
+        private void btnDelOrgImg_Click(object sender, EventArgs e)
+        {
+            this.IgnoreOriginImage();
+        }
+
+        private void btnOrgDelImg_Click(object sender, EventArgs e)
+        {
+            this.DeleteRemoteImage();
+        }
+
+        #endregion
+
+        void ResetImageCtrl()
+        {
+            ShowOriginImage(null, false);
+
+            foreach (var imageCtr in this.imageCtls)
             {
                 ResetImageCtrl(imageCtr);
             }
@@ -214,7 +339,229 @@ namespace SpiderTracker.UI
                 }
                 imageCtl.BorderStyle = BorderStyle.FixedSingle;
                 imageCtl.BackColor = Color.Transparent;
+
+                this.ShowImgCtrlTools(imageCtl, false);
             });
+        }
+
+        void SelectImageCtrl(string findCtrlFullName)
+        {
+            var ctrls = this.Controls;
+            var findCtrl = this.imageCtls.FirstOrDefault(c => c.Name == findCtrlFullName);
+            foreach (var imgCtrl in imageCtls)
+            {
+                if (imgCtrl.Name == findCtrlFullName)
+                {
+                    imgCtrl.BorderStyle = BorderStyle.Fixed3D;
+                    imgCtrl.BackColor = Color.Gold;
+                    imgCtrl.Select();
+
+                    this.ShowImageInfo(imgCtrl);
+                    this.ShowImgCtrlTools(imgCtrl, true);
+                }
+                else
+                {
+                    imgCtrl.BorderStyle = BorderStyle.FixedSingle;
+                    imgCtrl.BackColor = Color.Transparent;
+
+                    this.ShowImgCtrlTools(imgCtrl, false);
+                }
+            }
+        }
+
+        void ShowOriginImage(ImageCtrlData ctrlData, bool visible)
+        {
+            if (visible && ctrlData != null)
+            {
+                this.pnlImagePanel.Visible = false;
+                this.pnlImagePanel.Dock = DockStyle.None;
+
+                this.pnlOriginPanel.Visible = true;
+                this.pnlOriginPanel.Dock = DockStyle.Fill;
+                this.pnlOriginPanel.BringToFront();
+
+                using (Stream stream = File.Open(ctrlData.ImageFile, FileMode.Open, FileAccess.Read))
+                {
+                    try
+                    {
+                        var image = Image.FromStream(stream);
+                        pnlOriginPanel.BackgroundImage = image;
+                        pnlOriginPanel.BackgroundImageLayout = ImageLayout.Zoom;
+
+                        //设置原图尺寸
+                        ctrlData.ImageWidth = image.Width;
+                        ctrlData.ImageHeight = image.Height;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                this.pnlImagePanel.Visible = true;
+                this.pnlImagePanel.Dock = DockStyle.Fill;
+                this.pnlImagePanel.BringToFront();
+                this.pnlOriginPanel.Visible = false;
+                this.pnlOriginPanel.Dock = DockStyle.None;
+
+                if (this.pnlOriginPanel.BackgroundImage != null)
+                {
+                    this.pnlOriginPanel.BackgroundImage.Dispose();
+                    this.pnlOriginPanel.BackgroundImage = null;
+                }
+            }
+        }
+
+        void ShowNextImage()
+        {
+            var currentCtrl = GetCurrentImageCtrl();
+
+            int index = 1;
+            if (currentCtrl != null)
+            {
+                index = this.imageCtls.IndexOf(currentCtrl);
+                if (index == this.cacheImageFiles.Count - 1) index = 0;
+                else index += 1;
+            }
+            var imgCtrl = this.imageCtls.FirstOrDefault(c => c.Name == $"{imageCtrlName}{index}");
+            if (imgCtrl == null) return;
+
+            var imgCtrlData = imgCtrl.Tag as ImageCtrlData;
+            if (imgCtrlData == null) return;
+
+            SelectImageCtrl(imgCtrl.Name);
+            ShowOriginImage(imgCtrlData, true);
+        }
+
+        void ShowPreviousImage()
+        {
+            var currentCtrl = GetCurrentImageCtrl();
+
+            int index = 0;
+            if (currentCtrl != null)
+            {
+                index = this.imageCtls.IndexOf(currentCtrl);
+                if (index == 0) index = this.cacheImageFiles.Count - 1;
+                else index -= 1;
+            }
+            var imgCtrl = this.imageCtls.FirstOrDefault(c => c.Name == $"{imageCtrlName}{index}");
+            if (imgCtrl == null) return;
+
+            var imgCtrlData = imgCtrl.Tag as ImageCtrlData;
+            if (imgCtrlData == null) return;
+
+            SelectImageCtrl(imgCtrl.Name);
+            ShowOriginImage(imgCtrlData, true);
+        }
+
+        void UploadRemoteImage()
+        {
+            var imgCtrl = GetCurrentImageCtrl();
+            if (imgCtrl == null || imgCtrl.Tag == null) return;
+
+            var imgCtrlData = imgCtrl.Tag as ImageCtrlData;
+            if (imgCtrlData == null) return;
+
+            var imgFile = new FileInfo(imgCtrlData.ImageFile);
+            if (imgFile.Exists)
+            {
+                var uploadFiles = new FileInfo[] { imgFile };
+                var rep = new SinaRepository();
+                if (rep.UploadSinaStatus(RunningConfig.Category, SinaStatus.bid, uploadFiles, true))
+                {
+                    PathUtil.CopyUploadImageFiles(uploadFiles, RunningConfig.DefaultUploadPath);
+                }
+                else
+                {
+                    this.ShowRemoteInfo($"上传原始图片失败");
+                }
+            }
+            else
+            {
+                this.ShowRemoteInfo($"原始图片不存在");
+            }
+        }
+
+        void DeleteRemoteImage()
+        {
+            var imgCtrlData = GetCurrentImageCtrlData();
+            if (imgCtrlData == null) return;
+
+            var imgFile = new FileInfo(imgCtrlData.ImageFile);
+            if (imgFile.Exists)
+            {
+                var suc = HttpUtil.DeleteSinaSourceImage(RunningConfig, SinaStatus.bid, imgFile.Name);
+                if (!suc)
+                {
+                    this.ShowRemoteInfo($"删除已上传原始图片失败");
+                }
+            }
+            else
+            {
+                this.ShowRemoteInfo($"原始图片不存在");
+            }
+        }
+
+        void IgnoreOriginImage()
+        {
+            var imgCtrlData = GetCurrentImageCtrlData();
+            if (imgCtrlData == null) return;
+
+            var thumb = new FileInfo(imgCtrlData.ThumbFile);
+            if (thumb.Exists)
+            {
+                thumb.Delete();
+
+                var imgFile = new FileInfo(imgCtrlData.ImageFile);
+                if (imgFile.Exists) imgFile.Delete();
+            }
+            var rep = new SinaRepository();
+            rep.IgnoreSinaSource(SinaStatus.uid, SinaStatus.bid, thumb.Name);
+
+            var imgCtrl = GetCurrentImageCtrl();
+            ResetImageCtrl(imgCtrl);
+        }
+
+        void ShowImgCtrlTools(Panel imgCtrl, bool visible)
+        {
+            var pnlTools = imgCtrl.Controls.Find("pnlTools", false).FirstOrDefault();
+            if (pnlTools != null)
+            {
+                (pnlTools as Panel).Visible = visible;
+            }
+        }
+
+        void ShowImageInfo(Panel imgCtrl)
+        {
+            if (imgCtrl == null || imgCtrl.Tag == null) return;
+
+            var ctrlData = imgCtrl.Tag as ImageCtrlData;
+            if (ctrlData == null) return;
+
+            this.lblImageMsg.Text = $"图片:{ctrlData.Name},尺寸:{ctrlData.ImageWidth}*{ctrlData.ImageHeight}";
+        }
+
+        void ShowRemoteInfo(string msg)
+        {
+            this.lblReomteMsg.Text = msg;
+        }
+
+        Panel GetCurrentImageCtrl()
+        {
+            return this.imageCtls.FirstOrDefault(c => c.BorderStyle == BorderStyle.Fixed3D);
+        }
+
+        ImageCtrlData GetCurrentImageCtrlData()
+        {
+            var imgCtrl = GetCurrentImageCtrl();
+            if (imgCtrl == null || imgCtrl.Tag == null) return null;
+
+            var imgCtrlData = imgCtrl.Tag as ImageCtrlData;
+            if (imgCtrlData == null) return null;
+
+            return imgCtrlData;
         }
 
         void InvokeControl(Control control, Action action)
@@ -228,56 +575,21 @@ namespace SpiderTracker.UI
                 action();
             }
         }
+    }
 
-        void SelectImageBox(int index)
-        {
-            //if (index >= cacheImageFiles.Count) return;
+    public class ImageCtrlData
+    { 
+        public string Name { get; set; }
+        public string ImageFile { get; set; }
 
-            this.SetImagePanelBorder(imageCtrlName, index, null);
-        }
-        
-        void SelectOriginImage(int index)
-        {
-            if (index >= cacheImageFiles.Count) return;
+        public string ThumbFile { get; set; }
 
-            ViewImgForm frm = new ViewImgForm();
-            frm.ViewThumbImgPaths = cacheImageFiles;
-            frm.ViewImgIndex = index;
-            frm.ImageName = RunningConfig.Category;
-            frm.UploadPath = RunningConfig.DefaultUploadPath;
-            frm.ImageUser = SinaStatus.uid;
-            frm.ImageStatus = SinaStatus.bid;
-            frm.ShowDialog();
-        }
+        public int LocationX { get; set; }
 
-        void SetImagePanelBorder(string findCtrlName, int index,  Control parentCtrl = null)
-        {
-            var ctrls = this.Controls;
-            var findCtrlFullName = $"{findCtrlName}{index}";
-            if (parentCtrl != null) ctrls = parentCtrl.Controls;
-            foreach (Control ctrl in ctrls)
-            {
-                if (ctrl.Name.StartsWith(findCtrlName))
-                {
-                    var panel = ctrl as Panel;
-                    if (ctrl.Name.Equals(findCtrlFullName))
-                    {
-                        panel.BorderStyle = BorderStyle.Fixed3D;
-                        panel.BackColor = Color.Gold;
-                    }
-                    else
-                    {
-                        panel.BorderStyle = BorderStyle.FixedSingle;
-                        panel.BackColor = Color.Transparent;
+        public int LocationY { get; set; }
 
-                        SetImagePanelBorder(findCtrlName, index, ctrl);
-                    }
-                }
-                else
-                {
-                    SetImagePanelBorder(findCtrlName, index, ctrl);
-                }
-            }
-        }
+        public int ImageWidth { get; set; }
+
+        public int ImageHeight { get; set; }
     }
 }

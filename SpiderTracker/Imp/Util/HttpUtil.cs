@@ -1,4 +1,5 @@
-﻿using SpiderTracker.Imp.MWeiboJson;
+﻿using SpiderTracker.Imp.Model;
+using SpiderTracker.Imp.MWeiboJson;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -263,18 +264,91 @@ namespace SpiderTracker.Imp
             }
         }
 
-        public static string GetUploadSinaSoureImageApi(string serverIp, string api)
+        static string GetRemoteViewImageApi(string serverIp, string api, string category, string status, bool thumb)
         {
-            return $"http://{serverIp}/{api}";
+            return $"http://{serverIp}/{api}?category={category}&status={status}&thumb={(thumb ? 1 : 0)}";
         }
-        public static string GetSinaSoureImageApi(string serverIp, string api, string category, string status, bool thumb)
+
+        /// <summary>
+        /// 获取上传的微博图片
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="bid"></param>
+        /// <param name="thumb"></param>
+        /// <returns></returns>
+        public static string[] GetRemoteImageFiles(SpiderRunningConfig runningConfig, string bid, bool thumb)
         {
-            return $"http://{serverIp}/{api}?category={category}&status={status}&thumb={(thumb?1:0)}";
+            var files = new List<string>();
+            var api = GetRemoteViewImageApi(runningConfig.DefaultUploadServerIP, runningConfig.DefaultGetImageAPI, runningConfig.Category, bid, thumb);
+            var retStr = HttpUtil.GetHttpRequestHtmlResult(api, runningConfig);
+            if (string.IsNullOrEmpty(retStr)) return files.ToArray();
+
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(retStr);
+            if (result == null || !result.Success || result.Result == null) return files.ToArray();
+
+            var objArr = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(result.Result.ToString());
+            return objArr.Select(c => $"http://{runningConfig.DefaultUploadServerIP}{c}").ToArray();
         }
+
 
         public static string GetSinaSoureImageUrl(string serverIp, string category, string status, bool thumb)
         {
             return $"http://{serverIp}/getimage.html?category={category}&status={status}&thumb={(thumb ? 1 : 0)}";
+        }
+
+        static string GetRemoteActionImageApi(string serverIp, string api)
+        {
+            return $"http://{serverIp}/{api}";
+        }
+
+        /// <summary>
+        /// 上传微博图片
+        /// </summary>
+        /// <param name="runningConfig"></param>
+        /// <param name="upload"></param>
+        /// <param name="imgFile"></param>
+        /// <returns></returns>
+        public static APIResult UploadRemoteImage(SpiderRunningConfig runningConfig, SinaUpload upload, FileInfo imgFile)
+        {
+            var nv = new NameValueCollection();
+            nv.Add("category", upload.category);
+            nv.Add("uid", upload.uid);
+            nv.Add("bid", upload.bid);
+            nv.Add("width", $"{runningConfig.ThumbnailImageWidth * 1.2}");
+            nv.Add("height", $"{runningConfig.ThumbnailImageHeight * 1.2}");
+
+            var api = GetRemoteActionImageApi(runningConfig.DefaultUploadServerIP, runningConfig.DefaultUploadImageAPI);
+            var result = HttpUtil.PostHttpUploadFile(api, imgFile.FullName, nv, Encoding.Default);
+            if (result == null) return null;
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(result);
+        }
+
+        /// <summary>
+        /// 删除已上传的微博图片
+        /// </summary>
+        /// <param name="runningConfig"></param>
+        /// <param name="category"></param>
+        /// <param name="bid"></param>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        public static bool DeleteSinaSourceImage(SpiderRunningConfig runningConfig, string bid, string img)
+        {
+            var api = GetRemoteActionImageApi(runningConfig.DefaultUploadServerIP, runningConfig.DefaultDeleteImageAPI);
+            var jsonParam = new
+            {
+                category = runningConfig.Category,
+                status = bid,
+                fileName = img
+            };
+            var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(jsonParam);
+            var result = HttpUtil.PostHttpRequest(api, jsonData, runningConfig);
+            if (string.IsNullOrEmpty(result)) return false;
+
+            var rst = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(result);
+            if (rst == null || !rst.Success) return false;
+
+            return true;
         }
     }
 }

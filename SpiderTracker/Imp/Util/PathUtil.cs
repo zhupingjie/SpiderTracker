@@ -171,5 +171,27 @@ namespace SpiderTracker.Imp
                 
             }
         }
+        public static FileInfo GetImageByThumbImage(string thumbFile)
+        {
+            return GetImageByThumbImage(new FileInfo(thumbFile));
+        }
+
+        public static FileInfo GetImageByThumbImage(FileInfo thumb)
+        {
+            var img = Path.Combine(thumb.Directory.Parent.FullName, thumb.Name);
+            return new FileInfo(img);
+        }
+
+        public static void CopyUploadImageFiles(FileInfo[] files, string defaultUploadPath)
+        {
+            var archivePath = Path.Combine(PathUtil.BaseDirectory, defaultUploadPath);
+            if (!Directory.Exists(archivePath)) Directory.CreateDirectory(archivePath);
+
+            foreach (var file in files)
+            {
+                var destFile = Path.Combine(archivePath, file.Name);
+                file.CopyTo(destFile, true);
+            }
+        }
     }
 }

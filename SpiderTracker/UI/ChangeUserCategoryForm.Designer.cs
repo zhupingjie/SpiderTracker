@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.cbxCategory = new System.Windows.Forms.ComboBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,6 +44,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(94, 109);
             this.panel1.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(23, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(68, 31);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "分类:";
             // 
             // cbxCategory
             // 
@@ -82,16 +92,6 @@
             this.btnClose.Text = "取消";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(23, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 31);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "分类:";
             // 
             // ChangeUserCategoryForm
             // 
