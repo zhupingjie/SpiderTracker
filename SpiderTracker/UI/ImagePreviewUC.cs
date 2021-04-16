@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +28,14 @@ namespace SpiderTracker.UI
         Thread showImageThread = null;
         ManualResetEvent resetEvent = null;
 
+        [DllImport("user32.dll", EntryPoint = "SystemParametersInfo")]
+        public static extern int SystemParametersInfo(
+             int uAction,
+             int uParam,
+             string lpvParam,
+             int fuWinIni
+         );
+
         public ImagePreviewUC()
         {
             InitializeComponent();
@@ -39,6 +48,8 @@ namespace SpiderTracker.UI
             this.MakeThread();
             this.InitImageCtrl();
         }
+
+        #region 图片显示加载
 
         void InitImageCtrl()
         {
@@ -249,11 +260,7 @@ namespace SpiderTracker.UI
             return imageCtl;
         }
 
-        void ReloadUserSources()
-        {
-            var rep = new SinaRepository();
-            this.SinaSources = rep.GetUserSources(SinaStatus.uid, SinaStatus.bid);
-        }
+        #endregion
 
         #region 缩略图工具栏事件
 
@@ -340,7 +347,19 @@ namespace SpiderTracker.UI
             this.DeleteRemoteImage();
         }
 
+        private void btnSetWinBkg_Click(object sender, EventArgs e)
+        {
+            this.SetWindowBackground();
+        }
         #endregion
+
+        #region 功能支持
+
+        void ReloadUserSources()
+        {
+            var rep = new SinaRepository();
+            this.SinaSources = rep.GetUserSources(SinaStatus.uid, SinaStatus.bid);
+        }
 
         void ResetImageCtrl()
         {
@@ -626,6 +645,26 @@ namespace SpiderTracker.UI
             this.lblReomteMsg.Text = msg;
         }
 
+        void SetWindowBackground()
+        {
+            var imgCtrlData = GetCurrentImageCtrlData();
+            if (imgCtrlData == null) return;
+
+            var imgFileInfo = new FileInfo(imgCtrlData.ImageFile);
+            var tempPath = PathUtil.GetStoreCustomPath(RunningConfig.DefaultWallpaperPath);
+            var bmpFile = Path.Combine(tempPath, imgFileInfo.Name.Replace("jpg", "bmp"));
+            try
+            {
+                var image = Image.FromFile(imgFileInfo.FullName);
+                image.Save(bmpFile, System.Drawing.Imaging.ImageFormat.Bmp);
+                SystemParametersInfo(20, 0, bmpFile, 0x2);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
         Panel GetCurrentImageCtrl()
         {
             return this.imageCtls.FirstOrDefault(c => c.BorderStyle == BorderStyle.Fixed3D);
@@ -653,6 +692,7 @@ namespace SpiderTracker.UI
                 action();
             }
         }
+        #endregion
     }
 
     public class ImageCtrlData

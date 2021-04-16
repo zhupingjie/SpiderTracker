@@ -24,6 +24,13 @@ namespace SpiderTracker.Imp
                 Directory.CreateDirectory(path);
         }
 
+        public static string GetStoreCustomPath(string path)
+        {
+            var usePath = Path.Combine(PathUtil.BaseDirectory, path);
+            PathUtil.CheckCreateDirectory(usePath);
+            return usePath;
+        }
+
         public static string GetStoreImagePath(string name)
         {
             if (string.IsNullOrEmpty(name)) throw new Exception("采集类目未选择");

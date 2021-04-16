@@ -34,6 +34,7 @@ namespace SpiderTracker.UI
             this.lblReomteMsg = new System.Windows.Forms.Label();
             this.lblImageMsg = new System.Windows.Forms.Label();
             this.pnlOriginPanel = new System.Windows.Forms.Panel();
+            this.pnlOriginImgTitle = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnDelOrgImg = new System.Windows.Forms.Button();
             this.btnOrgDelImg = new System.Windows.Forms.Button();
@@ -41,7 +42,7 @@ namespace SpiderTracker.UI
             this.btnOrgPreImg = new System.Windows.Forms.Button();
             this.btnOrgNextImg = new System.Windows.Forms.Button();
             this.btnShowThumbImg = new System.Windows.Forms.Button();
-            this.pnlOriginImgTitle = new System.Windows.Forms.Panel();
+            this.btnSetWinBkg = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.pnlOriginPanel.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -100,8 +101,19 @@ namespace SpiderTracker.UI
             this.pnlOriginPanel.Visible = false;
             this.pnlOriginPanel.DoubleClick += new System.EventHandler(this.pnlOriginPanel_DoubleClick);
             // 
+            // pnlOriginImgTitle
+            // 
+            this.pnlOriginImgTitle.BackColor = System.Drawing.Color.Gold;
+            this.pnlOriginImgTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlOriginImgTitle.Location = new System.Drawing.Point(0, 0);
+            this.pnlOriginImgTitle.Name = "pnlOriginImgTitle";
+            this.pnlOriginImgTitle.Size = new System.Drawing.Size(384, 10);
+            this.pnlOriginImgTitle.TabIndex = 1;
+            this.pnlOriginImgTitle.Visible = false;
+            // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnSetWinBkg);
             this.panel2.Controls.Add(this.btnDelOrgImg);
             this.panel2.Controls.Add(this.btnOrgDelImg);
             this.panel2.Controls.Add(this.btnOrgUpdoadImg);
@@ -188,15 +200,17 @@ namespace SpiderTracker.UI
             this.btnShowThumbImg.UseVisualStyleBackColor = true;
             this.btnShowThumbImg.Click += new System.EventHandler(this.btnShowThumbImg_Click);
             // 
-            // pnlOriginImgTitle
+            // btnSetWinBkg
             // 
-            this.pnlOriginImgTitle.BackColor = System.Drawing.Color.Gold;
-            this.pnlOriginImgTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlOriginImgTitle.Location = new System.Drawing.Point(0, 0);
-            this.pnlOriginImgTitle.Name = "pnlOriginImgTitle";
-            this.pnlOriginImgTitle.Size = new System.Drawing.Size(384, 10);
-            this.pnlOriginImgTitle.TabIndex = 1;
-            this.pnlOriginImgTitle.Visible = false;
+            this.btnSetWinBkg.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnSetWinBkg.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnSetWinBkg.Location = new System.Drawing.Point(62, 0);
+            this.btnSetWinBkg.Name = "btnSetWinBkg";
+            this.btnSetWinBkg.Size = new System.Drawing.Size(46, 30);
+            this.btnSetWinBkg.TabIndex = 15;
+            this.btnSetWinBkg.Text = "▨";
+            this.btnSetWinBkg.UseVisualStyleBackColor = true;
+            this.btnSetWinBkg.Click += new System.EventHandler(this.btnSetWinBkg_Click);
             // 
             // ImagePreviewUC
             // 
@@ -231,5 +245,6 @@ namespace SpiderTracker.UI
         private System.Windows.Forms.Button btnOrgDelImg;
         private System.Windows.Forms.Label lblReomteMsg;
         private System.Windows.Forms.Panel pnlOriginImgTitle;
+        private System.Windows.Forms.Button btnSetWinBkg;
     }
 }

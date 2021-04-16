@@ -204,7 +204,12 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 默认存档临时文件夹
         /// </summary>
-        public string DefaultUploadPath { get; set; } = "upload";
+        public string DefaultUploadPath { get; set; } = "@upload";
+
+        /// <summary>
+        /// 默认window背景桌面图片目录
+        /// </summary>
+        public string DefaultWallpaperPath { get; set; } = "@wallpaper";
 
         /// <summary>
         /// 缩略图宽度
