@@ -41,6 +41,7 @@ namespace SpiderTracker.UI
             this.btnOrgPreImg = new System.Windows.Forms.Button();
             this.btnOrgNextImg = new System.Windows.Forms.Button();
             this.btnShowThumbImg = new System.Windows.Forms.Button();
+            this.pnlOriginImgTitle = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.pnlOriginPanel.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -90,6 +91,7 @@ namespace SpiderTracker.UI
             // pnlOriginPanel
             // 
             this.pnlOriginPanel.BackColor = System.Drawing.Color.Transparent;
+            this.pnlOriginPanel.Controls.Add(this.pnlOriginImgTitle);
             this.pnlOriginPanel.Controls.Add(this.panel2);
             this.pnlOriginPanel.Location = new System.Drawing.Point(422, 26);
             this.pnlOriginPanel.Name = "pnlOriginPanel";
@@ -186,6 +188,16 @@ namespace SpiderTracker.UI
             this.btnShowThumbImg.UseVisualStyleBackColor = true;
             this.btnShowThumbImg.Click += new System.EventHandler(this.btnShowThumbImg_Click);
             // 
+            // pnlOriginImgTitle
+            // 
+            this.pnlOriginImgTitle.BackColor = System.Drawing.Color.Gold;
+            this.pnlOriginImgTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlOriginImgTitle.Location = new System.Drawing.Point(0, 0);
+            this.pnlOriginImgTitle.Name = "pnlOriginImgTitle";
+            this.pnlOriginImgTitle.Size = new System.Drawing.Size(384, 10);
+            this.pnlOriginImgTitle.TabIndex = 1;
+            this.pnlOriginImgTitle.Visible = false;
+            // 
             // ImagePreviewUC
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -218,5 +230,6 @@ namespace SpiderTracker.UI
         private System.Windows.Forms.Button btnDelOrgImg;
         private System.Windows.Forms.Button btnOrgDelImg;
         private System.Windows.Forms.Label lblReomteMsg;
+        private System.Windows.Forms.Panel pnlOriginImgTitle;
     }
 }

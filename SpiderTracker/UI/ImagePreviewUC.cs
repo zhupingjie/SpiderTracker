@@ -418,6 +418,7 @@ namespace SpiderTracker.UI
                 {
                     (btnUploadImg as Button).Enabled = !upload;
                 }
+                this.pnlOriginImgTitle.Visible = upload;
 
                 using (Stream stream = File.Open(ctrlData.ImageFile, FileMode.Open, FileAccess.Read))
                 {
