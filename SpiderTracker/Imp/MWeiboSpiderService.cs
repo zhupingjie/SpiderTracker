@@ -754,11 +754,9 @@ namespace SpiderTracker.Imp
                 return 0;
             }
 
-            bool hasReadLastPage = false;
             int lastReadPageIndex = 0;
             if (sinaUser != null)
             {
-                if (sinaUser.lastpage > 0) hasReadLastPage = true;
                 if (sinaUser.readpage > 0) lastReadPageIndex = sinaUser.readpage;
             }
 
@@ -779,7 +777,7 @@ namespace SpiderTracker.Imp
                     break;
                 }
                 bool readPageEmpty = false, stopReadNextPage = false;
-                int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningCache, user, readPageIndex, readPageCount, hasReadLastPage, out readPageEmpty, out stopReadNextPage);
+                int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningCache, user, readPageIndex, readPageCount, out readPageEmpty, out stopReadNextPage);
                 readUserImageCount += readPageImageCount;
                 if (!readPageEmpty)
                 {
@@ -869,7 +867,7 @@ namespace SpiderTracker.Imp
         /// <param name="readPageIndex"></param>
         /// <param name="readPageCount"></param>
         /// <returns></returns>
-        int GatherSinaStatusByStatusPageUrl(SpiderRunningCache runningCache, MWeiboUser user, int readPageIndex, int readPageCount, bool hasReadLastPage, out bool readPageEmpty, out bool stopReadNextPage)
+        int GatherSinaStatusByStatusPageUrl(SpiderRunningCache runningCache, MWeiboUser user, int readPageIndex, int readPageCount, out bool readPageEmpty, out bool stopReadNextPage)
         {
             readPageEmpty = false;
             stopReadNextPage = false;
@@ -923,12 +921,6 @@ namespace SpiderTracker.Imp
                 if (CheckUserCanceled(user.id))
                 {
                     ShowStatus($"取消采集微博数据...");
-                    break;
-                }
-                if (ignoreSourceReaded && hasReadLastPage)
-                {
-                    stopReadNextPage = true;
-                    ShowStatus($"结束采集微博数据(下页已采集)...");
                     break;
                 }
                 if (readStatusImageCount > 0)
