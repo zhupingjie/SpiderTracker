@@ -37,6 +37,7 @@ namespace SpiderTracker.UI
             this.pnlRangleSelect = new System.Windows.Forms.Panel();
             this.pnlOriginImgTitle = new System.Windows.Forms.Panel();
             this.pnlOriginImgTools = new System.Windows.Forms.Panel();
+            this.btnBrowerOriginImg = new System.Windows.Forms.Button();
             this.btnSetWinBkg = new System.Windows.Forms.Button();
             this.btnDelOrgImg = new System.Windows.Forms.Button();
             this.btnOrgDelImg = new System.Windows.Forms.Button();
@@ -129,6 +130,7 @@ namespace SpiderTracker.UI
             // 
             // pnlOriginImgTools
             // 
+            this.pnlOriginImgTools.Controls.Add(this.btnBrowerOriginImg);
             this.pnlOriginImgTools.Controls.Add(this.btnSetWinBkg);
             this.pnlOriginImgTools.Controls.Add(this.btnDelOrgImg);
             this.pnlOriginImgTools.Controls.Add(this.btnOrgDelImg);
@@ -141,6 +143,18 @@ namespace SpiderTracker.UI
             this.pnlOriginImgTools.Name = "pnlOriginImgTools";
             this.pnlOriginImgTools.Size = new System.Drawing.Size(384, 30);
             this.pnlOriginImgTools.TabIndex = 0;
+            // 
+            // btnBrowerOriginImg
+            // 
+            this.btnBrowerOriginImg.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnBrowerOriginImg.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBrowerOriginImg.Location = new System.Drawing.Point(16, 0);
+            this.btnBrowerOriginImg.Name = "btnBrowerOriginImg";
+            this.btnBrowerOriginImg.Size = new System.Drawing.Size(46, 30);
+            this.btnBrowerOriginImg.TabIndex = 16;
+            this.btnBrowerOriginImg.Text = "☆";
+            this.btnBrowerOriginImg.UseVisualStyleBackColor = true;
+            this.btnBrowerOriginImg.Click += new System.EventHandler(this.btnBrowerOriginImg_Click);
             // 
             // btnSetWinBkg
             // 
@@ -263,5 +277,6 @@ namespace SpiderTracker.UI
         private System.Windows.Forms.Panel pnlOriginImgTitle;
         private System.Windows.Forms.Button btnSetWinBkg;
         private System.Windows.Forms.Panel pnlRangleSelect;
+        private System.Windows.Forms.Button btnBrowerOriginImg;
     }
 }

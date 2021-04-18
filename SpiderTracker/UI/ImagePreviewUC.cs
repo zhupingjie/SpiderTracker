@@ -352,6 +352,12 @@ namespace SpiderTracker.UI
             this.ShowImgSelectCtrl();
         }
 
+
+        private void btnBrowerOriginImg_Click(object sender, EventArgs e)
+        {
+            this.ShowOriginImageWeb();
+        }
+
         int fromMoveX = 0;
         int fromMoveY = 0;
         bool moveFlag = false;
@@ -726,6 +732,16 @@ namespace SpiderTracker.UI
             this.lblReomteMsg.Text = msg;
         }
 
+        void ShowOriginImageWeb()
+        {
+            var imgCtrlData = GetCurrentImageCtrlData();
+            if (imgCtrlData == null) return;
+
+            var frm = new UploadSourceWebForm(RunningConfig, SinaStatus.bid, imgCtrlData.Name, false);
+            frm.StartPosition = FormStartPosition.CenterParent;
+            frm.ShowDialog();
+        }
+
         void SetWindowBackground()
         {
             var imgCtrlData = GetCurrentImageCtrlData();
@@ -891,6 +907,7 @@ namespace SpiderTracker.UI
     public class ImageCtrlData
     { 
         public string Name { get; set; }
+
         public string ImageFile { get; set; }
 
         public string ThumbFile { get; set; }

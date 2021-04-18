@@ -16,17 +16,21 @@ namespace SpiderTracker.UI
     {
         SpiderRunningConfig RunningConfig;
         string ShowStatus;
-        public UploadSourceWebForm(SpiderRunningConfig runningConfig, string status)
+        string ShowName;
+        bool ShowThumb;
+        public UploadSourceWebForm(SpiderRunningConfig runningConfig, string status, string filename, bool thumb)
         {
             InitializeComponent();
 
             this.RunningConfig = runningConfig;
             this.ShowStatus = status;
+            this.ShowName = filename;
+            this.ShowThumb = thumb;
         }
 
         private void UploadSourceWebForm_Load(object sender, EventArgs e)
         {
-            var images = HttpUtil.GetRemoteImageFiles(RunningConfig, ShowStatus, false);
+            var images = HttpUtil.GetRemoteImageFiles(RunningConfig, ShowStatus, ShowName, ShowThumb);
             var html = MakeDocumentHtml(images);
             this.webBrowser1.DocumentText = html;
         }
@@ -34,11 +38,18 @@ namespace SpiderTracker.UI
 
         string MakeDocumentHtml(string[] files)
         {
+            var width = $"{RunningConfig.DefaultDisplayWebImageWidth}px";
+            var height = $"{RunningConfig.DefaultDisplayWebImageHeight}px";
+            if(files.Length == 1)
+            {
+                width = "auto";
+                height = "auto";
+            }
             var sb = new StringBuilder();
             sb.Append($@"<style>
                 .thumbimg {{
-                    width: {RunningConfig.DefaultDisplayWebImageWidth}px;
-                    height: {RunningConfig.DefaultDisplayWebImageHeight}px;
+                    width: {width};
+                    height: {height};
                     object-fit: cover;
                     margin: 5px;
                 }}

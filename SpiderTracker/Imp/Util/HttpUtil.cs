@@ -264,9 +264,9 @@ namespace SpiderTracker.Imp
             }
         }
 
-        static string GetRemoteViewImageApi(string serverIp, string api, string category, string status, bool thumb)
+        static string GetRemoteViewImageApi(string serverIp, string api, string category, string status, string filename, bool thumb)
         {
-            return $"http://{serverIp}/{api}?category={category}&status={status}&thumb={(thumb ? 1 : 0)}";
+            return $"http://{serverIp}/{api}?category={category}&status={status}&filename={filename}&thumb={(thumb ? 1 : 0)}";
         }
 
         /// <summary>
@@ -276,10 +276,10 @@ namespace SpiderTracker.Imp
         /// <param name="bid"></param>
         /// <param name="thumb"></param>
         /// <returns></returns>
-        public static string[] GetRemoteImageFiles(SpiderRunningConfig runningConfig, string bid, bool thumb)
+        public static string[] GetRemoteImageFiles(SpiderRunningConfig runningConfig, string bid, string filename, bool thumb)
         {
             var files = new List<string>();
-            var api = GetRemoteViewImageApi(runningConfig.DefaultUploadServerIP, runningConfig.DefaultGetImageAPI, runningConfig.Category, bid, thumb);
+            var api = GetRemoteViewImageApi(runningConfig.DefaultUploadServerIP, runningConfig.DefaultGetImageAPI, runningConfig.Category, bid, filename, thumb);
             var retStr = HttpUtil.GetHttpRequestHtmlResult(api, runningConfig);
             if (string.IsNullOrEmpty(retStr)) return files.ToArray();
 

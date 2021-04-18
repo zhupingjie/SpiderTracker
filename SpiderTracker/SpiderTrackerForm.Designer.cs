@@ -100,8 +100,6 @@
             this.panel10 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel16 = new System.Windows.Forms.Panel();
-            this.btnReadConfig = new System.Windows.Forms.Button();
-            this.btnRefreshConfig = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -114,7 +112,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.panel12 = new System.Windows.Forms.Panel();
             this.panel23 = new System.Windows.Forms.Panel();
-            this.btnOpen = new System.Windows.Forms.Button();
             this.btnCancelUser = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tbpVideo = new System.Windows.Forms.TabPage();
@@ -132,8 +129,6 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tbpWeb = new System.Windows.Forms.TabPage();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
@@ -175,7 +170,6 @@
             this.panel18.SuspendLayout();
             this.panel19.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tbpWeb.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -977,8 +971,6 @@
             // panel16
             // 
             this.panel16.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.panel16.Controls.Add(this.btnReadConfig);
-            this.panel16.Controls.Add(this.btnRefreshConfig);
             this.panel16.Controls.Add(this.label11);
             this.panel16.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel16.ForeColor = System.Drawing.Color.White;
@@ -986,32 +978,6 @@
             this.panel16.Name = "panel16";
             this.panel16.Size = new System.Drawing.Size(249, 26);
             this.panel16.TabIndex = 13;
-            // 
-            // btnReadConfig
-            // 
-            this.btnReadConfig.BackColor = System.Drawing.SystemColors.Control;
-            this.btnReadConfig.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnReadConfig.ForeColor = System.Drawing.Color.Black;
-            this.btnReadConfig.Location = new System.Drawing.Point(146, 3);
-            this.btnReadConfig.Name = "btnReadConfig";
-            this.btnReadConfig.Size = new System.Drawing.Size(52, 20);
-            this.btnReadConfig.TabIndex = 10;
-            this.btnReadConfig.Text = "READ";
-            this.btnReadConfig.UseVisualStyleBackColor = false;
-            this.btnReadConfig.Click += new System.EventHandler(this.btnReadConfig_Click);
-            // 
-            // btnRefreshConfig
-            // 
-            this.btnRefreshConfig.BackColor = System.Drawing.SystemColors.Control;
-            this.btnRefreshConfig.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnRefreshConfig.ForeColor = System.Drawing.Color.Black;
-            this.btnRefreshConfig.Location = new System.Drawing.Point(197, 3);
-            this.btnRefreshConfig.Name = "btnRefreshConfig";
-            this.btnRefreshConfig.Size = new System.Drawing.Size(52, 20);
-            this.btnRefreshConfig.TabIndex = 9;
-            this.btnRefreshConfig.Text = "RESET";
-            this.btnRefreshConfig.UseVisualStyleBackColor = false;
-            this.btnRefreshConfig.Click += new System.EventHandler(this.btnRefreshConfig_Click);
             // 
             // label11
             // 
@@ -1141,31 +1107,18 @@
             // 
             // panel23
             // 
-            this.panel23.Controls.Add(this.btnOpen);
             this.panel23.Controls.Add(this.btnCancelUser);
             this.panel23.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel23.Location = new System.Drawing.Point(587, 0);
+            this.panel23.Location = new System.Drawing.Point(642, 0);
             this.panel23.Name = "panel23";
-            this.panel23.Size = new System.Drawing.Size(111, 24);
+            this.panel23.Size = new System.Drawing.Size(56, 24);
             this.panel23.TabIndex = 2;
-            // 
-            // btnOpen
-            // 
-            this.btnOpen.BackColor = System.Drawing.SystemColors.Control;
-            this.btnOpen.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnOpen.Location = new System.Drawing.Point(1, 3);
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(56, 20);
-            this.btnOpen.TabIndex = 19;
-            this.btnOpen.Text = "OPEN";
-            this.btnOpen.UseVisualStyleBackColor = false;
-            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // btnCancelUser
             // 
             this.btnCancelUser.BackColor = System.Drawing.SystemColors.Control;
             this.btnCancelUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCancelUser.Location = new System.Drawing.Point(55, 3);
+            this.btnCancelUser.Location = new System.Drawing.Point(0, 2);
             this.btnCancelUser.Name = "btnCancelUser";
             this.btnCancelUser.Size = new System.Drawing.Size(56, 20);
             this.btnCancelUser.TabIndex = 18;
@@ -1330,7 +1283,6 @@
             this.tabControl1.Controls.Add(this.tbpGatherLog);
             this.tabControl1.Controls.Add(this.tbpReview);
             this.tabControl1.Controls.Add(this.tbpVideo);
-            this.tabControl1.Controls.Add(this.tbpWeb);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tabControl1.Location = new System.Drawing.Point(313, 67);
@@ -1341,25 +1293,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(700, 552);
             this.tabControl1.TabIndex = 17;
-            // 
-            // tbpWeb
-            // 
-            this.tbpWeb.Controls.Add(this.webBrowser1);
-            this.tbpWeb.Location = new System.Drawing.Point(4, 4);
-            this.tbpWeb.Name = "tbpWeb";
-            this.tbpWeb.Size = new System.Drawing.Size(670, 544);
-            this.tbpWeb.TabIndex = 3;
-            this.tbpWeb.Text = "上传预览";
-            this.tbpWeb.UseVisualStyleBackColor = true;
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(670, 544);
-            this.webBrowser1.TabIndex = 0;
             // 
             // imagePreviewUC1
             // 
@@ -1524,7 +1457,6 @@
             this.panel19.ResumeLayout(false);
             this.panel19.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tbpWeb.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1602,7 +1534,6 @@
         private System.Windows.Forms.ColumnHeader columnRet;
         private System.Windows.Forms.ComboBox cbxUserSortPage;
         private System.Windows.Forms.ComboBox cbxStatusSortPage;
-        private System.Windows.Forms.Button btnRefreshConfig;
         private System.Windows.Forms.Button btnChange;
         private System.Windows.Forms.Panel panel23;
         private System.Windows.Forms.Button btnCancelUser;
@@ -1632,11 +1563,7 @@
         private System.Windows.Forms.Panel panel26;
         private System.Windows.Forms.ComboBox cbxSelect;
         private System.Windows.Forms.ColumnHeader columnSite;
-        private System.Windows.Forms.Button btnReadConfig;
         private UI.SpiderConfigUC spiderConfigUC1;
-        private System.Windows.Forms.TabPage tbpWeb;
-        private System.Windows.Forms.WebBrowser webBrowser1;
-        private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Panel panel27;
         private System.Windows.Forms.ColumnHeader columnUpload;
         private System.Windows.Forms.CheckBox chkShowSource;
