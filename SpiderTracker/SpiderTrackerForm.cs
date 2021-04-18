@@ -61,8 +61,7 @@ namespace SpiderTracker
             SinaSpiderService.OnGatherUserComplete += SinaSpiderService_OnGatherUserComplete;
             SinaSpiderService.OnGatherAppendUser += SinaSpiderService_OnGatherAppendUser;
             SinaSpiderService.OnGatherUserStarted += SinaSpiderService_OnGatherUserStarted;
-            SinaSpiderService.OnSpiderUploadShow += SinaSpiderService_OnSpiderUploadShow;
-            SinaSpiderService.OnSpiderUploadRefresh += SinaSpiderService_OnSpiderUploadComplete;
+            SinaSpiderService.OnSpiderUploadCount += SinaSpiderService_OnSpiderUploadCount;
             SinaSpiderService.StartUploadTask();
 
             spiderConfigUC1.OnRefreshConfig += SpiderConfigUC1_OnRefreshConfig;
@@ -73,41 +72,16 @@ namespace SpiderTracker
             });
         }
 
+
         #region Spider Event
 
-
-        private void SinaSpiderService_OnSpiderUploadComplete(SinaUpload upload, string state)
+        private void SinaSpiderService_OnSpiderUploadCount(int needUploads)
         {
-            InvokeControl(this.lstUpload, new Action(() =>
+            var text = "显示上传日志";
+            if (needUploads > 0) text = $"显示上传日志({needUploads})";
+            InvokeControl(chkUploadRunState, new Action(() =>
             {
-                if (this.lstUpload.Items.Count == 0) return;
-
-                var listItem = this.lstUpload.FindItemWithText(upload.file);
-                if (listItem != null)
-                {
-                    listItem.SubItems[3].Text = upload.uploadtime;
-                    listItem.SubItems[4].Text = state;
-                }
-            }));
-        }
-
-        private void SinaSpiderService_OnSpiderUploadShow(SinaUpload[] uploads)
-        {
-            InvokeControl(this.lstUpload, new Action(() =>
-            {
-                foreach (var item in uploads)
-                {
-                    var listItem = this.lstUpload.FindItemWithText(item.file);
-                    if (listItem != null) continue; ;
-
-                    var subItem = new ListViewItem();
-                    subItem.Text = item.file;
-                    subItem.SubItems.Add($"{item.category}");
-                    subItem.SubItems.Add($"{item.uid}");
-                    subItem.SubItems.Add($"{item.uploadtime}");
-                    subItem.SubItems.Add($"❌");
-                    this.lstUpload.Items.Add(subItem);
-                }
+                this.chkUploadRunState.Text = text;
             }));
         }
 
@@ -516,7 +490,7 @@ namespace SpiderTracker
                     this.lstUser.Items.Add(subItem);
                 }
                 this.lstUser.EndUpdate();
-                this.lbUserCount.Text = $"{users.Count}";
+                this.lblUserUid.Text = $"用户:{users.Count}";
 
                 this.LoadUserPageIndex(users.Count);
 
@@ -647,15 +621,10 @@ namespace SpiderTracker
                     subItem.SubItems.Add($"{item.upload}");
                     subItem.SubItems.Add($"{item.site}");
                     subItem.SubItems.Add($"{item.createtime}");
-                    this.lstArc.Items.Add(subItem);
+                    this.lstArc.Items.Add(subItem);                    
                 }
                 this.lstArc.EndUpdate();
-
-                this.lblStatusCount.Text = $"{sinaStatus.Count}";
-                this.lblLocalImgCount.Text = $"{localImg}";
-                this.lblArchiveCount.Text = $"{sinaStatus.Sum(c => c.upload)}";
-                this.lblStatusImageCount.Text = $"{sinaStatus.Sum(c => c.qty)}";
-                this.lblGetImgCount.Text = $"{sinaStatus.Sum(c => c.gets)}";
+                this.lblStatusBid.Text = $"微博:{sinaStatus.Count}";
 
                 this.LoadStatusPageIndex(sinaStatus.Count);
 
@@ -876,13 +845,6 @@ namespace SpiderTracker
                     var sources = rep.GetUserSources(user.uid, status.bid);
 
                     this.imagePreviewUC1.ShowImages(files, RunningConfig, status, sources);
-
-                    if (status.upload > 0)
-                    {
-                        var images = HttpUtil.GetRemoteImageFiles(RunningConfig, status.bid, true);
-                        var html = MakeDocumentHtml(images);
-                        this.webBrowser1.DocumentText = html;
-                    }
                 }
                 else if (status.mtype == 1)
                 {
@@ -933,13 +895,49 @@ namespace SpiderTracker
             }
         }
 
-        private void btnBweTopic_Click(object sender, EventArgs e)
+        private void chkBweTopic_CheckedChanged(object sender, EventArgs e)
         {
-            var selectItem = this.cbxSelect.SelectedItem;
-            if (selectItem == null) return;
+            if (this.chkBweTopic.Checked)
+            {
+                var selectItem = this.cbxSelect.SelectedItem;
+                if (selectItem == null) return;
 
-            var topic = selectItem as SinaTopic;
-            System.Diagnostics.Process.Start(topic.profile);
+                var topic = selectItem as SinaTopic;
+                System.Diagnostics.Process.Start(topic.profile);
+
+                this.chkBweTopic.Checked = false;
+            }
+        }
+
+        private void btnBackTask_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkUploadRunState_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkUploadRunState.Checked)
+            {
+                var frm = new UploadRunStateForm(SinaSpiderService);
+                frm.StartPosition = FormStartPosition.CenterParent;
+                frm.ShowDialog();
+
+                this.chkUploadRunState.Checked = false;
+            }
+        }
+
+        private void chkUploadWeb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkUploadWeb.Checked)
+            {
+                var status = GetSelectStatusId();
+
+                var frm = new UploadSourceWebForm(RunningConfig, status);
+                frm.StartPosition = FormStartPosition.CenterParent;
+                frm.ShowDialog();
+
+                this.chkUploadWeb.Checked = false;
+            }
         }
 
         private void btnBrowseUser_Click(object sender, EventArgs e)
@@ -1033,10 +1031,7 @@ namespace SpiderTracker
                     var files = PathUtil.GetStoreUserImageFiles(RunningConfig.Category, item.uid, item.bid);
                     if (files.Length > 0)
                     {
-                        if (rep.UploadSinaStatus(RunningConfig.Category, item.bid, files, true))
-                        {
-                            PathUtil.CopyUploadImageFiles(files, RunningConfig.DefaultUploadPath);
-                        }
+                        rep.UploadSinaStatus(RunningConfig.Category, item.bid, files, true);
                     }
                 }
                 else if(item.mtype == 1)
@@ -1187,25 +1182,29 @@ namespace SpiderTracker
             }
         }
 
-        private void btnLock_Click(object sender, EventArgs e)
+        private void chkShowSource_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.btnLock.Text == "None")
+            if (this.chkShowSource.Checked)
             {
                 RunningConfig.PreviewImageNow = 1;
-                this.btnLock.Text = "Image";
                 LockImageCtl(true);
             }
-            //else if(this.btnLock.Text == "Image")
-            //{
-            //    RunningConfig.PreviewImageNow = 2;
-            //    this.btnLock.Text = "Web";
-            //    LockImageCtl(true);
-            //}
             else
             {
                 RunningConfig.PreviewImageNow = 0;
-                this.btnLock.Text = "None";
                 LockImageCtl(false);
+            }
+        }
+
+        private void chkShowWinBkg_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.chkShowWinBkg.Checked)
+            {
+                SinaSpiderService.StartShowWinBackgroundTask();
+            }
+            else
+            {
+                SinaSpiderService.StopShowWinBackgroundTask();
             }
         }
 
@@ -1704,40 +1703,6 @@ namespace SpiderTracker
             this.tabControl1.Enabled = enabled;
         }
 
-        string MakeDocumentHtml(string[] files)
-        {
-            var sb = new StringBuilder();
-            sb.Append(@"<style>
-                .thumbimg {
-                    width: 165px;
-                    height: 228px;
-                    object-fit: cover;
-                    margin: 5px;
-                }
-            </style>");
-            sb = MakeMakeDocumentDivHtml(sb, files, 3);
-            return sb.ToString();
-        }
-
-        StringBuilder MakeMakeDocumentDivHtml(StringBuilder sb, string[] files, int rowCount)
-        {
-            var count = (int)Math.Ceiling(files.Length * 1.0 / rowCount * 1.0);
-            for(var n =0; n<count; n++)
-            {
-                sb.Append("<div>");
-                var fs = files.Skip(n * rowCount).Take(rowCount).ToArray();
-                for (var i = 0; i < 3; i++)
-                {
-                    if (fs.Length > i && fs.Length > 0)
-                    {
-                        sb.Append($"<img class='thumbimg' src='{fs[i]}' />");
-                    }
-                }
-                sb.Append("</div>");
-            }
-           
-            return sb;
-        }
         #endregion
 
         #region 关闭&最小化

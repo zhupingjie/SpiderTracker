@@ -204,6 +204,18 @@
     <Compile Include="UI\SpiderConfigUC.Designer.cs">
       <DependentUpon>SpiderConfigUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\UploadRunStateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\UploadRunStateForm.Designer.cs">
+      <DependentUpon>UploadRunStateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UploadSourceWebForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\UploadSourceWebForm.Designer.cs">
+      <DependentUpon>UploadSourceWebForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\VedioPlayerUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -236,6 +248,12 @@
     </Compile>
     <EmbeddedResource Include="UI\SpiderConfigUC.resx">
       <DependentUpon>SpiderConfigUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UploadRunStateForm.resx">
+      <DependentUpon>UploadRunStateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UploadSourceWebForm.resx">
+      <DependentUpon>UploadSourceWebForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\VedioPlayerUC.resx">
       <DependentUpon>VedioPlayerUC.cs</DependentUpon>

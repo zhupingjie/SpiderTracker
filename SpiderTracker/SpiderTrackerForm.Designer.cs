@@ -97,30 +97,15 @@
             this.btnFocusUser = new System.Windows.Forms.Button();
             this.btnBrowseUser = new System.Windows.Forms.Button();
             this.btnFollwerUser = new System.Windows.Forms.Button();
-            this.lblArchiveCount = new System.Windows.Forms.Label();
-            this.lblLstArchiveCountTitle = new System.Windows.Forms.Label();
-            this.lblLocalImgCount = new System.Windows.Forms.Label();
-            this.lblStatusCount = new System.Windows.Forms.Label();
-            this.lbUserCount = new System.Windows.Forms.Label();
-            this.lblLstUserCountTitle = new System.Windows.Forms.Label();
-            this.lblLstStatusCountTitle = new System.Windows.Forms.Label();
-            this.lblLstImgCountTitle = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel16 = new System.Windows.Forms.Panel();
             this.btnReadConfig = new System.Windows.Forms.Button();
             this.btnRefreshConfig = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
-            this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.lblGetImgCount = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblStatusImageCount = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnLock = new System.Windows.Forms.Button();
             this.panel13 = new System.Windows.Forms.Panel();
-            this.btnBweTopic = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel14 = new System.Windows.Forms.Panel();
             this.btnAppendUser = new System.Windows.Forms.Button();
@@ -133,10 +118,8 @@
             this.btnCancelUser = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tbpVideo = new System.Windows.Forms.TabPage();
-            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.tbpReview = new System.Windows.Forms.TabPage();
             this.panel27 = new System.Windows.Forms.Panel();
-            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.lstRunstate = new System.Windows.Forms.ListView();
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -151,13 +134,15 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbpWeb = new System.Windows.Forms.TabPage();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.tbpUpload = new System.Windows.Forms.TabPage();
-            this.lstUpload = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
+            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
+            this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
+            this.chkShowSource = new System.Windows.Forms.CheckBox();
+            this.chkShowWinBkg = new System.Windows.Forms.CheckBox();
+            this.chkUploadRunState = new System.Windows.Forms.CheckBox();
+            this.btnBackTask = new System.Windows.Forms.CheckBox();
+            this.chkBweTopic = new System.Windows.Forms.CheckBox();
+            this.chkUploadWeb = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel26.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -191,7 +176,6 @@
             this.panel19.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbpWeb.SuspendLayout();
-            this.tbpUpload.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -867,7 +851,7 @@
             this.lblStatusBid.Name = "lblStatusBid";
             this.lblStatusBid.Size = new System.Drawing.Size(32, 17);
             this.lblStatusBid.TabIndex = 0;
-            this.lblStatusBid.Text = "图集";
+            this.lblStatusBid.Text = "微博";
             this.lblStatusBid.Click += new System.EventHandler(this.lblStatusBid_Click);
             // 
             // panel7
@@ -966,86 +950,6 @@
             this.btnFollwerUser.UseVisualStyleBackColor = false;
             this.btnFollwerUser.Click += new System.EventHandler(this.btnFollowerUser_Click);
             // 
-            // lblArchiveCount
-            // 
-            this.lblArchiveCount.AutoSize = true;
-            this.lblArchiveCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblArchiveCount.Location = new System.Drawing.Point(66, 60);
-            this.lblArchiveCount.Name = "lblArchiveCount";
-            this.lblArchiveCount.Size = new System.Drawing.Size(15, 17);
-            this.lblArchiveCount.TabIndex = 7;
-            this.lblArchiveCount.Text = "0";
-            // 
-            // lblLstArchiveCountTitle
-            // 
-            this.lblLstArchiveCountTitle.AutoSize = true;
-            this.lblLstArchiveCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstArchiveCountTitle.Location = new System.Drawing.Point(6, 60);
-            this.lblLstArchiveCountTitle.Name = "lblLstArchiveCountTitle";
-            this.lblLstArchiveCountTitle.Size = new System.Drawing.Size(59, 17);
-            this.lblLstArchiveCountTitle.TabIndex = 6;
-            this.lblLstArchiveCountTitle.Text = "归档数量:";
-            // 
-            // lblLocalImgCount
-            // 
-            this.lblLocalImgCount.AutoSize = true;
-            this.lblLocalImgCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLocalImgCount.Location = new System.Drawing.Point(177, 59);
-            this.lblLocalImgCount.Name = "lblLocalImgCount";
-            this.lblLocalImgCount.Size = new System.Drawing.Size(15, 17);
-            this.lblLocalImgCount.TabIndex = 5;
-            this.lblLocalImgCount.Text = "0";
-            // 
-            // lblStatusCount
-            // 
-            this.lblStatusCount.AutoSize = true;
-            this.lblStatusCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblStatusCount.Location = new System.Drawing.Point(65, 34);
-            this.lblStatusCount.Name = "lblStatusCount";
-            this.lblStatusCount.Size = new System.Drawing.Size(15, 17);
-            this.lblStatusCount.TabIndex = 4;
-            this.lblStatusCount.Text = "0";
-            // 
-            // lbUserCount
-            // 
-            this.lbUserCount.AutoSize = true;
-            this.lbUserCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbUserCount.Location = new System.Drawing.Point(65, 9);
-            this.lbUserCount.Name = "lbUserCount";
-            this.lbUserCount.Size = new System.Drawing.Size(15, 17);
-            this.lbUserCount.TabIndex = 3;
-            this.lbUserCount.Text = "0";
-            // 
-            // lblLstUserCountTitle
-            // 
-            this.lblLstUserCountTitle.AutoSize = true;
-            this.lblLstUserCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstUserCountTitle.Location = new System.Drawing.Point(5, 9);
-            this.lblLstUserCountTitle.Name = "lblLstUserCountTitle";
-            this.lblLstUserCountTitle.Size = new System.Drawing.Size(59, 17);
-            this.lblLstUserCountTitle.TabIndex = 2;
-            this.lblLstUserCountTitle.Text = "用户数量:";
-            // 
-            // lblLstStatusCountTitle
-            // 
-            this.lblLstStatusCountTitle.AutoSize = true;
-            this.lblLstStatusCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstStatusCountTitle.Location = new System.Drawing.Point(6, 34);
-            this.lblLstStatusCountTitle.Name = "lblLstStatusCountTitle";
-            this.lblLstStatusCountTitle.Size = new System.Drawing.Size(59, 17);
-            this.lblLstStatusCountTitle.TabIndex = 1;
-            this.lblLstStatusCountTitle.Text = "微博数量:";
-            // 
-            // lblLstImgCountTitle
-            // 
-            this.lblLstImgCountTitle.AutoSize = true;
-            this.lblLstImgCountTitle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblLstImgCountTitle.Location = new System.Drawing.Point(118, 59);
-            this.lblLstImgCountTitle.Name = "lblLstImgCountTitle";
-            this.lblLstImgCountTitle.Size = new System.Drawing.Size(59, 17);
-            this.lblLstImgCountTitle.TabIndex = 0;
-            this.lblLstImgCountTitle.Text = "本地图数:";
-            // 
             // panel10
             // 
             this.panel10.BackColor = System.Drawing.SystemColors.Control;
@@ -1120,15 +1024,6 @@
             this.label11.TabIndex = 2;
             this.label11.Text = "采集参数配置";
             // 
-            // spiderConfigUC1
-            // 
-            this.spiderConfigUC1.AutoScroll = true;
-            this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
-            this.spiderConfigUC1.Name = "spiderConfigUC1";
-            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 391);
-            this.spiderConfigUC1.TabIndex = 19;
-            // 
             // panel17
             // 
             this.panel17.Controls.Add(this.panel2);
@@ -1141,100 +1036,28 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.lblGetImgCount);
-            this.panel2.Controls.Add(this.label4);
-            this.panel2.Controls.Add(this.lblStatusImageCount);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.lblArchiveCount);
-            this.panel2.Controls.Add(this.btnLock);
-            this.panel2.Controls.Add(this.lblLstArchiveCountTitle);
-            this.panel2.Controls.Add(this.lblLstUserCountTitle);
-            this.panel2.Controls.Add(this.lblLocalImgCount);
-            this.panel2.Controls.Add(this.lbUserCount);
-            this.panel2.Controls.Add(this.lblLstImgCountTitle);
-            this.panel2.Controls.Add(this.lblStatusCount);
-            this.panel2.Controls.Add(this.lblLstStatusCountTitle);
+            this.panel2.Controls.Add(this.chkUploadWeb);
+            this.panel2.Controls.Add(this.chkBweTopic);
+            this.panel2.Controls.Add(this.btnBackTask);
+            this.panel2.Controls.Add(this.chkUploadRunState);
+            this.panel2.Controls.Add(this.chkShowWinBkg);
+            this.panel2.Controls.Add(this.chkShowSource);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 26);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(249, 86);
             this.panel2.TabIndex = 17;
             // 
-            // lblGetImgCount
-            // 
-            this.lblGetImgCount.AutoSize = true;
-            this.lblGetImgCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblGetImgCount.Location = new System.Drawing.Point(178, 34);
-            this.lblGetImgCount.Name = "lblGetImgCount";
-            this.lblGetImgCount.Size = new System.Drawing.Size(15, 17);
-            this.lblGetImgCount.TabIndex = 24;
-            this.lblGetImgCount.Text = "0";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(118, 34);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 17);
-            this.label4.TabIndex = 23;
-            this.label4.Text = "采集图数:";
-            // 
-            // lblStatusImageCount
-            // 
-            this.lblStatusImageCount.AutoSize = true;
-            this.lblStatusImageCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblStatusImageCount.Location = new System.Drawing.Point(177, 9);
-            this.lblStatusImageCount.Name = "lblStatusImageCount";
-            this.lblStatusImageCount.Size = new System.Drawing.Size(15, 17);
-            this.lblStatusImageCount.TabIndex = 22;
-            this.lblStatusImageCount.Text = "0";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(118, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 17);
-            this.label3.TabIndex = 21;
-            this.label3.Text = "微博图数:";
-            // 
-            // btnLock
-            // 
-            this.btnLock.BackColor = System.Drawing.Color.White;
-            this.btnLock.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnLock.Location = new System.Drawing.Point(233, 0);
-            this.btnLock.Name = "btnLock";
-            this.btnLock.Size = new System.Drawing.Size(16, 86);
-            this.btnLock.TabIndex = 20;
-            this.btnLock.Text = "Image";
-            this.btnLock.UseVisualStyleBackColor = false;
-            this.btnLock.Click += new System.EventHandler(this.btnLock_Click);
-            // 
             // panel13
             // 
             this.panel13.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel13.Controls.Add(this.btnBweTopic);
             this.panel13.Controls.Add(this.label1);
             this.panel13.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel13.Location = new System.Drawing.Point(0, 0);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(249, 26);
             this.panel13.TabIndex = 15;
-            // 
-            // btnBweTopic
-            // 
-            this.btnBweTopic.BackColor = System.Drawing.SystemColors.Control;
-            this.btnBweTopic.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBweTopic.Location = new System.Drawing.Point(196, 1);
-            this.btnBweTopic.Name = "btnBweTopic";
-            this.btnBweTopic.Size = new System.Drawing.Size(52, 20);
-            this.btnBweTopic.TabIndex = 9;
-            this.btnBweTopic.Text = "SHOW";
-            this.btnBweTopic.UseVisualStyleBackColor = false;
-            this.btnBweTopic.Click += new System.EventHandler(this.btnBweTopic_Click);
             // 
             // label1
             // 
@@ -1245,7 +1068,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "采集数据统计";
+            this.label1.Text = "全局功能操作";
             // 
             // panel14
             // 
@@ -1367,15 +1190,6 @@
             this.tbpVideo.Text = "视频预览";
             this.tbpVideo.UseVisualStyleBackColor = true;
             // 
-            // vedioPlayerUC1
-            // 
-            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
-            this.vedioPlayerUC1.Size = new System.Drawing.Size(670, 544);
-            this.vedioPlayerUC1.TabIndex = 0;
-            // 
             // tbpReview
             // 
             this.tbpReview.AutoScroll = true;
@@ -1397,17 +1211,6 @@
             this.panel27.Name = "panel27";
             this.panel27.Size = new System.Drawing.Size(670, 544);
             this.panel27.TabIndex = 1;
-            // 
-            // imagePreviewUC1
-            // 
-            this.imagePreviewUC1.AutoScroll = true;
-            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
-            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
-            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(670, 544);
-            this.imagePreviewUC1.TabIndex = 0;
             // 
             // tbpGatherLog
             // 
@@ -1528,7 +1331,6 @@
             this.tabControl1.Controls.Add(this.tbpReview);
             this.tabControl1.Controls.Add(this.tbpVideo);
             this.tabControl1.Controls.Add(this.tbpWeb);
-            this.tabControl1.Controls.Add(this.tbpUpload);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tabControl1.Location = new System.Drawing.Point(313, 67);
@@ -1559,63 +1361,108 @@
             this.webBrowser1.Size = new System.Drawing.Size(670, 544);
             this.webBrowser1.TabIndex = 0;
             // 
-            // tbpUpload
+            // imagePreviewUC1
             // 
-            this.tbpUpload.Controls.Add(this.lstUpload);
-            this.tbpUpload.Location = new System.Drawing.Point(4, 4);
-            this.tbpUpload.Name = "tbpUpload";
-            this.tbpUpload.Size = new System.Drawing.Size(670, 544);
-            this.tbpUpload.TabIndex = 4;
-            this.tbpUpload.Text = "上传日志";
-            this.tbpUpload.UseVisualStyleBackColor = true;
+            this.imagePreviewUC1.AutoScroll = true;
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(670, 544);
+            this.imagePreviewUC1.TabIndex = 0;
             // 
-            // lstUpload
+            // vedioPlayerUC1
             // 
-            this.lstUpload.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lstUpload.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader6});
-            this.lstUpload.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstUpload.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lstUpload.FullRowSelect = true;
-            this.lstUpload.GridLines = true;
-            this.lstUpload.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lstUpload.HideSelection = false;
-            this.lstUpload.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.lstUpload.Location = new System.Drawing.Point(0, 0);
-            this.lstUpload.Name = "lstUpload";
-            this.lstUpload.Size = new System.Drawing.Size(670, 544);
-            this.lstUpload.TabIndex = 17;
-            this.lstUpload.UseCompatibleStateImageBehavior = false;
-            this.lstUpload.View = System.Windows.Forms.View.Details;
+            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
+            this.vedioPlayerUC1.Size = new System.Drawing.Size(670, 544);
+            this.vedioPlayerUC1.TabIndex = 0;
             // 
-            // columnHeader1
+            // spiderConfigUC1
             // 
-            this.columnHeader1.Text = "Name";
-            this.columnHeader1.Width = 120;
+            this.spiderConfigUC1.AutoScroll = true;
+            this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
+            this.spiderConfigUC1.Name = "spiderConfigUC1";
+            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 391);
+            this.spiderConfigUC1.TabIndex = 19;
             // 
-            // columnHeader2
+            // chkShowSource
             // 
-            this.columnHeader2.Text = "Category";
-            this.columnHeader2.Width = 100;
+            this.chkShowSource.AutoSize = true;
+            this.chkShowSource.Checked = true;
+            this.chkShowSource.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowSource.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkShowSource.Location = new System.Drawing.Point(13, 6);
+            this.chkShowSource.Name = "chkShowSource";
+            this.chkShowSource.Size = new System.Drawing.Size(99, 21);
+            this.chkShowSource.TabIndex = 21;
+            this.chkShowSource.Text = "显示微博资源";
+            this.chkShowSource.UseVisualStyleBackColor = true;
+            this.chkShowSource.CheckedChanged += new System.EventHandler(this.chkShowSource_CheckedChanged);
             // 
-            // columnHeader3
+            // chkShowWinBkg
             // 
-            this.columnHeader3.Text = "UID";
-            this.columnHeader3.Width = 100;
+            this.chkShowWinBkg.AutoSize = true;
+            this.chkShowWinBkg.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkShowWinBkg.Location = new System.Drawing.Point(13, 33);
+            this.chkShowWinBkg.Name = "chkShowWinBkg";
+            this.chkShowWinBkg.Size = new System.Drawing.Size(99, 21);
+            this.chkShowWinBkg.TabIndex = 22;
+            this.chkShowWinBkg.Text = "开启循环桌面";
+            this.chkShowWinBkg.UseVisualStyleBackColor = true;
+            this.chkShowWinBkg.CheckedChanged += new System.EventHandler(this.chkShowWinBkg_CheckedChanged);
             // 
-            // columnHeader4
+            // chkUploadRunState
             // 
-            this.columnHeader4.Text = "UploadTime";
-            this.columnHeader4.Width = 120;
+            this.chkUploadRunState.AutoSize = true;
+            this.chkUploadRunState.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkUploadRunState.Location = new System.Drawing.Point(123, 33);
+            this.chkUploadRunState.Name = "chkUploadRunState";
+            this.chkUploadRunState.Size = new System.Drawing.Size(99, 21);
+            this.chkUploadRunState.TabIndex = 23;
+            this.chkUploadRunState.Text = "显示上传日志";
+            this.chkUploadRunState.UseVisualStyleBackColor = true;
+            this.chkUploadRunState.CheckedChanged += new System.EventHandler(this.chkUploadRunState_CheckedChanged);
             // 
-            // columnHeader6
+            // btnBackTask
             // 
-            this.columnHeader6.Text = "STATUS";
-            this.columnHeader6.Width = 100;
+            this.btnBackTask.AutoSize = true;
+            this.btnBackTask.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBackTask.Location = new System.Drawing.Point(123, 59);
+            this.btnBackTask.Name = "btnBackTask";
+            this.btnBackTask.Size = new System.Drawing.Size(99, 21);
+            this.btnBackTask.TabIndex = 24;
+            this.btnBackTask.Text = "显示后台任务";
+            this.btnBackTask.UseVisualStyleBackColor = true;
+            this.btnBackTask.CheckedChanged += new System.EventHandler(this.btnBackTask_CheckedChanged);
+            // 
+            // chkBweTopic
+            // 
+            this.chkBweTopic.AutoSize = true;
+            this.chkBweTopic.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkBweTopic.Location = new System.Drawing.Point(123, 6);
+            this.chkBweTopic.Name = "chkBweTopic";
+            this.chkBweTopic.Size = new System.Drawing.Size(99, 21);
+            this.chkBweTopic.TabIndex = 25;
+            this.chkBweTopic.Text = "显示微博话题";
+            this.chkBweTopic.UseVisualStyleBackColor = true;
+            this.chkBweTopic.CheckedChanged += new System.EventHandler(this.chkBweTopic_CheckedChanged);
+            // 
+            // chkUploadWeb
+            // 
+            this.chkUploadWeb.AutoSize = true;
+            this.chkUploadWeb.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkUploadWeb.Location = new System.Drawing.Point(13, 59);
+            this.chkUploadWeb.Name = "chkUploadWeb";
+            this.chkUploadWeb.Size = new System.Drawing.Size(99, 21);
+            this.chkUploadWeb.TabIndex = 26;
+            this.chkUploadWeb.Text = "显示上传资源";
+            this.chkUploadWeb.UseVisualStyleBackColor = true;
+            this.chkUploadWeb.CheckedChanged += new System.EventHandler(this.chkUploadWeb_CheckedChanged);
             // 
             // SpiderTrackerForm
             // 
@@ -1678,7 +1525,6 @@
             this.panel19.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tbpWeb.ResumeLayout(false);
-            this.tbpUpload.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1692,7 +1538,6 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Label lblLstImgCountTitle;
         private System.Windows.Forms.ToolStripStatusLabel tplStatus;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Panel panel8;
@@ -1713,7 +1558,6 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel16;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnLock;
         private System.Windows.Forms.ComboBox cbxCategory;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel17;
@@ -1725,7 +1569,6 @@
         private System.Windows.Forms.Button btnArchiveStatus;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.Button btnFocusUser;
-        private System.Windows.Forms.Label lblLstStatusCountTitle;
         private System.Windows.Forms.ListView lstUser;
         private System.Windows.Forms.ColumnHeader columnUID;
         private System.Windows.Forms.ColumnHeader columnName;
@@ -1736,17 +1579,7 @@
         private System.Windows.Forms.ColumnHeader colLoc;
         private System.Windows.Forms.ColumnHeader colMrk;
         private System.Windows.Forms.Button btnGetStatusByBid;
-        private System.Windows.Forms.Label lblLstUserCountTitle;
-        private System.Windows.Forms.Label lbUserCount;
-        private System.Windows.Forms.Label lblLocalImgCount;
-        private System.Windows.Forms.Label lblStatusCount;
-        private System.Windows.Forms.Label lblLstArchiveCountTitle;
-        private System.Windows.Forms.Label lblArchiveCount;
         private System.Windows.Forms.Button btnAppendUser;
-        private System.Windows.Forms.Label lblStatusImageCount;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lblGetImgCount;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Panel panel21;
         private System.Windows.Forms.ComboBox cbxUserSort;
@@ -1800,20 +1633,18 @@
         private System.Windows.Forms.ComboBox cbxSelect;
         private System.Windows.Forms.ColumnHeader columnSite;
         private System.Windows.Forms.Button btnReadConfig;
-        private System.Windows.Forms.Button btnBweTopic;
         private UI.SpiderConfigUC spiderConfigUC1;
         private System.Windows.Forms.TabPage tbpWeb;
         private System.Windows.Forms.WebBrowser webBrowser1;
-        private System.Windows.Forms.TabPage tbpUpload;
-        private System.Windows.Forms.ListView lstUpload;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Panel panel27;
         private System.Windows.Forms.ColumnHeader columnUpload;
+        private System.Windows.Forms.CheckBox chkShowSource;
+        private System.Windows.Forms.CheckBox chkShowWinBkg;
+        private System.Windows.Forms.CheckBox chkBweTopic;
+        private System.Windows.Forms.CheckBox btnBackTask;
+        private System.Windows.Forms.CheckBox chkUploadRunState;
+        private System.Windows.Forms.CheckBox chkUploadWeb;
     }
 }
 

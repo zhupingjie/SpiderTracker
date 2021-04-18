@@ -189,12 +189,13 @@ namespace SpiderTracker.Imp
             return new FileInfo(img);
         }
 
-        public static void CopyUploadImageFiles(FileInfo[] files, string defaultUploadPath)
+        public static void CopyUploadImageFiles(string imgFile, string defaultUploadPath)
         {
             var archivePath = Path.Combine(PathUtil.BaseDirectory, defaultUploadPath);
             if (!Directory.Exists(archivePath)) Directory.CreateDirectory(archivePath);
 
-            foreach (var file in files)
+            var file = new FileInfo(imgFile);
+            if(file.Exists)
             {
                 var destFile = Path.Combine(archivePath, file.Name);
                 file.CopyTo(destFile, true);

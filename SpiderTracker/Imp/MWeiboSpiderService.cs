@@ -31,6 +31,18 @@ namespace SpiderTracker.Imp
             }
         }
 
+        public delegate void SpiderUploadCountEventHander(int needUploads);
+
+        public event SpiderUploadCountEventHander OnSpiderUploadCount;
+
+        public void SpiderUploadCount(int needUploads)
+        {
+            if (OnSpiderUploadCount != null)
+            {
+                OnSpiderUploadCount?.Invoke(needUploads);
+            }
+        }
+
         public delegate void SpiderUploadRefreshEventHander(SinaUpload upload, string state);
 
         public event SpiderUploadRefreshEventHander OnSpiderUploadRefresh;
@@ -252,6 +264,8 @@ namespace SpiderTracker.Imp
         /// 标记是否停止工作
         /// </summary>
         protected bool StopSpiderWork { get; set; } = false;
+
+        protected bool StopShowWinBackgorund { get; set; } = false;
 
         /// <summary>
         /// 负责存储数据
@@ -2039,7 +2053,7 @@ namespace SpiderTracker.Imp
 
         #endregion
 
-        #region 上传微博
+        #region 上传&撤销微博
 
         public void StartUploadTask()
         {
@@ -2050,7 +2064,9 @@ namespace SpiderTracker.Imp
                 while(true)
                 {
                     var uploads = Repository.GetSinaUploads();
-                    if(uploads.Count == 0)
+                    SpiderUploadCount(uploads.Where(c=>c.upload == 0).Count());
+
+                    if (uploads.Count == 0)
                     {
                         Thread.Sleep(RunningConfig.UploadFreeWaitSecond * 1000);
                         continue;
@@ -2095,16 +2111,68 @@ namespace SpiderTracker.Imp
                                 upload.uploadtime = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
                                 Repository.UpdateSinaUpload(upload, new string[] { "upload", "uploadtime" });
 
+                                PathUtil.CopyUploadImageFiles(localfile, RunningConfig.DefaultUploadPath);
+
                                 //上传完成
                                 SpiderUploadRefresh(upload, "✔");
                             }
+
+                            SpiderUploadCount(uploads.Where(c => c.upload == 0).Count());
                             Thread.Sleep(RunningConfig.UploadSourceWaitMilSecond);
                         }
 
+                        SpiderUploadCount(uploads.Where(c => c.upload == 0).Count());
                         Thread.Sleep(RunningConfig.UploadFreeWaitSecond * 1000);
                     }
                 }
             });
+        }
+
+        public List<SinaUpload> GetUploadTask()
+        {
+            return Repository.GetSinaUploads();
+        }
+        #endregion
+
+        #region 开启循环桌面
+
+        public void StartShowWinBackgroundTask()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                while (!StopShowWinBackgorund)
+                {
+                    var bkcImgPath = PathUtil.GetStoreCustomPath(RunningConfig.DefaultWallpaperPath);
+                    var bkgImgFiles = Directory.GetFiles(bkcImgPath, "*.bmp").Select(c => new FileInfo(c)).ToArray();
+                    if (bkgImgFiles.Length == 0) break;
+
+                    var showTime = 0;
+                    while(!StopShowWinBackgorund)
+                    {
+                        var random = new Random((int)DateTime.Now.Ticks);
+                        var index = random.Next(0, bkgImgFiles.Length - 1);
+
+                        var bkgImg = bkgImgFiles[index];
+
+                        if (!bkgImg.Exists) continue;
+
+                        if (StopShowWinBackgorund) break;
+
+                        ImagePreviewUC.SystemParametersInfo(20, 0, bkgImg.FullName, 0x2);
+
+                        Thread.Sleep(RunningConfig.ShowWinBackgoundIntervalSencond * 1000);
+
+                        showTime++;
+                        if (showTime >= bkgImgFiles.Length) break;
+                    }
+                    if (StopShowWinBackgorund) break;
+                }
+            });
+        }
+
+        public void StopShowWinBackgroundTask()
+        {
+            this.StopShowWinBackgorund = true;
         }
 
         #endregion

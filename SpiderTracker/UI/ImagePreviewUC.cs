@@ -53,7 +53,7 @@ namespace SpiderTracker.UI
 
         void InitImageCtrl()
         {
-            for (var i = 0; i < 9; i++)
+            for (var i = 0; i < 18; i++)
             {
                 var imgCtrl = MakeImagePanel(i);
                 this.imageCtls.Add(imgCtrl);
@@ -429,6 +429,7 @@ namespace SpiderTracker.UI
                 imageCtl.BackColor = Color.Transparent;
 
                 this.ShowImgCtrlTools(imageCtl, false);
+                this.ShowImgCtrlTitle(imageCtl, false);
             });
         }
 
@@ -565,15 +566,13 @@ namespace SpiderTracker.UI
                 var rep = new SinaRepository();
                 if (rep.UploadSinaStatus(RunningConfig.Category, SinaStatus.bid, uploadFiles, true))
                 {
-                    PathUtil.CopyUploadImageFiles(uploadFiles, RunningConfig.DefaultUploadPath);
-
                     this.ReloadUserSources();
 
                     this.ShowImgCtrlTitle(imgCtrl, true);
 
                     this.ShowOriginImgCtrlStatus(imgCtrlData, true);
 
-                    this.ShowRemoteInfo($"上传成功");
+                    this.ShowRemoteInfo($"等待上传");
                 }
                 else
                 {

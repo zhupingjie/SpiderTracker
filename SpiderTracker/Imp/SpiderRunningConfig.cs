@@ -227,6 +227,21 @@ namespace SpiderTracker.Imp
         public string ReadUserNameLike { get; set; } = "jk,ol,cos,leg,stock,腿,丝,袜,萌,酱,萝莉,制服,私房,写真,约拍";
 
 
+        /// <summary>
+        /// 桌面背景显示时间间隔
+        /// </summary>
+        public int ShowWinBackgoundIntervalSencond { get; set; } = 300;
+
+        /// <summary>
+        /// 查看在线资源图片宽度
+        /// </summary>
+        public int DefaultDisplayWebImageWidth { get; set; } = 200;
+
+        /// <summary>
+        /// 查看在线资源图片高度
+        /// </summary>
+        public int DefaultDisplayWebImageHeight { get; set; } = 250;
+
         #endregion
 
         #region 内置函数
