@@ -214,12 +214,12 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 缩略图宽度
         /// </summary>
-        public int ThumbnailImageWidth { get; set; } = 138;
+        public int ThumbnailImageWidth { get; set; } = 180;
 
         /// <summary>
         /// 缩略图高度
         /// </summary>
-        public int ThumbnailImageHeight { get; set; } = 190;
+        public int ThumbnailImageHeight { get; set; } = 220;
 
         /// <summary>
         /// 采集用户名称

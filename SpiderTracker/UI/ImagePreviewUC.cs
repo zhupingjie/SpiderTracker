@@ -158,8 +158,8 @@ namespace SpiderTracker.UI
             });
         }
 
-        int imageWidth = 180;
-        int imageHeight = 220;
+        int imageWidth = 200;
+        int imageHeight = 240;
         Panel MakeImagePanel(int imgCtrlIndex)
         {
             #region 图片容器
@@ -349,8 +349,52 @@ namespace SpiderTracker.UI
 
         private void btnSetWinBkg_Click(object sender, EventArgs e)
         {
+            this.ShowImgSelectCtrl();
+        }
+
+        int fromMoveX = 0;
+        int fromMoveY = 0;
+        bool moveFlag = false;
+        bool moveFixX = true;
+        private void pnlRangleSelect_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                moveFlag = true;
+
+                fromMoveX = e.X;
+                fromMoveY = e.Y;
+            }
+        }
+
+        private void pnlRangleSelect_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                moveFlag = false;
+            }
+        }
+
+        private void pnlRangleSelect_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (moveFlag)
+            {
+                if (moveFixX)
+                {
+                    this.pnlRangleSelect.Top += e.Y - fromMoveY;
+                }
+                else
+                {
+                    this.pnlRangleSelect.Left += e.X - fromMoveX;
+                }
+            }
+        }
+
+        private void pnlRangleSelect_DoubleClick(object sender, EventArgs e)
+        {
             this.SetWindowBackground();
         }
+
         #endregion
 
         #region 功能支持
@@ -416,6 +460,8 @@ namespace SpiderTracker.UI
 
         void ShowOriginImage(ImageCtrlData ctrlData, bool visible)
         {
+            this.HideImgRangleSelect();
+
             if (visible && ctrlData != null)
             {
                 this.pnlImagePanel.Visible = false;
@@ -424,20 +470,6 @@ namespace SpiderTracker.UI
                 this.pnlOriginPanel.Visible = true;
                 this.pnlOriginPanel.Dock = DockStyle.Fill;
                 this.pnlOriginPanel.BringToFront();
-
-                //检测上传&撤销按钮状态
-                var upload = this.CheckImageUploadStatus(ctrlData.Name);
-                var btnCancelUploadImg = pnlOriginPanel.Controls.Find("btnOrgDelImg", true).FirstOrDefault();
-                if (btnCancelUploadImg != null)
-                {
-                    (btnCancelUploadImg as Button).Enabled = upload;
-                }
-                var btnUploadImg = pnlOriginPanel.Controls.Find("btnOrgUpdoadImg", true).FirstOrDefault();
-                if (btnUploadImg != null)
-                {
-                    (btnUploadImg as Button).Enabled = !upload;
-                }
-                this.pnlOriginImgTitle.Visible = upload;
 
                 using (Stream stream = File.Open(ctrlData.ImageFile, FileMode.Open, FileAccess.Read))
                 {
@@ -450,6 +482,9 @@ namespace SpiderTracker.UI
                         //设置原图尺寸
                         ctrlData.ImageWidth = image.Width;
                         ctrlData.ImageHeight = image.Height;
+
+                        this.ShowOriginImgCtrlStatus(ctrlData, visible);
+
                     }
                     catch (Exception)
                     {
@@ -536,6 +571,8 @@ namespace SpiderTracker.UI
 
                     this.ShowImgCtrlTitle(imgCtrl, true);
 
+                    this.ShowOriginImgCtrlStatus(imgCtrlData, true);
+
                     this.ShowRemoteInfo($"上传成功");
                 }
                 else
@@ -566,6 +603,8 @@ namespace SpiderTracker.UI
                 this.ReloadUserSources();
 
                 this.ShowImgCtrlTitle(imgCtrl, false);
+
+                this.ShowOriginImgCtrlStatus(imgCtrlData, false);
 
                 this.ShowRemoteInfo($"撤销上传成功");
             }
@@ -630,6 +669,47 @@ namespace SpiderTracker.UI
             }
         }
 
+        void ShowOriginImgCtrlStatus(ImageCtrlData ctrlData, bool visible)
+        {
+            //检测上传&撤销按钮状态
+            var upload = this.CheckImageUploadStatus(ctrlData.Name);
+            var btnCancelUploadImg = pnlOriginPanel.Controls.Find("btnOrgDelImg", true).FirstOrDefault();
+            if (btnCancelUploadImg != null)
+            {
+                (btnCancelUploadImg as Button).Enabled = upload;
+            }
+            var btnUploadImg = pnlOriginPanel.Controls.Find("btnOrgUpdoadImg", true).FirstOrDefault();
+            if (btnUploadImg != null)
+            {
+                (btnUploadImg as Button).Enabled = !upload;
+            }
+            this.pnlOriginImgTitle.Visible = upload;
+
+            ////横向图片
+            //if(ctrlData.ImageWidth > ctrlData.ImageHeight)
+            //{
+            //    this.pnlOriginImgTools.Visible = false;
+            //    this.pnlOriginImgTools.Dock = DockStyle.Bottom;
+            //    this.pnlOriginImgTools.Height = 30;
+            //    foreach (Button button in this.pnlOriginImgTools.Controls)
+            //    {
+            //        button.Dock = DockStyle.Right;
+            //    }
+            //    this.pnlOriginImgTools.Visible = true;
+            //}
+            //else
+            //{
+            //    this.pnlOriginImgTools.Visible = false;
+            //    this.pnlOriginImgTools.Dock = DockStyle.Right;
+            //    this.pnlOriginImgTools.Width = 30;
+            //    foreach (Button button in this.pnlOriginImgTools.Controls)
+            //    {
+            //        button.Dock = DockStyle.Bottom;
+            //    }
+            //    this.pnlOriginImgTools.Visible = true;
+            //}
+        }
+
         bool CheckImageUploadStatus(string imgName)
         {
             return this.SinaSources.Any(c => c.name == imgName && c.upload > 0);
@@ -650,19 +730,131 @@ namespace SpiderTracker.UI
             var imgCtrlData = GetCurrentImageCtrlData();
             if (imgCtrlData == null) return;
 
+            var rectangle = GetImgSelectRectangle(imgCtrlData);
+            if (rectangle == Rectangle.Empty) return;
+
             var imgFileInfo = new FileInfo(imgCtrlData.ImageFile);
             var tempPath = PathUtil.GetStoreCustomPath(RunningConfig.DefaultWallpaperPath);
             var bmpFile = Path.Combine(tempPath, imgFileInfo.Name.Replace("jpg", "bmp"));
-            try
-            {
-                var image = Image.FromFile(imgFileInfo.FullName);
-                image.Save(bmpFile, System.Drawing.Imaging.ImageFormat.Bmp);
-                SystemParametersInfo(20, 0, bmpFile, 0x2);
-            }
-            catch (Exception)
-            {
+            var wallpaperFile = Path.Combine(tempPath, $"wall_{imgFileInfo.Name.Replace("jpg", "bmp")}");
 
+            using (var image = Image.FromFile(imgFileInfo.FullName))
+            {
+                image.Save(bmpFile, System.Drawing.Imaging.ImageFormat.Bmp);
+                image.Dispose();
             }
+            using (var bitmap = Image.FromFile(bmpFile) as Bitmap)
+            {
+                var wallpaper = bitmap.Clone(rectangle, System.Drawing.Imaging.PixelFormat.DontCare);
+                try
+                {
+                    wallpaper.Save(wallpaperFile, System.Drawing.Imaging.ImageFormat.Bmp);
+                    SystemParametersInfo(20, 0, wallpaperFile, 0x2);
+
+                    bitmap.Dispose();
+                    File.Delete(bmpFile);
+                }
+                catch (Exception ex)
+                {
+                    LogUtil.Error(ex);
+                }
+                finally
+                {
+                    bitmap.Dispose();
+                    wallpaper.Dispose();
+                }
+            }
+        }
+
+        Rectangle imgShowRectangle = Rectangle.Empty;
+        void ShowImgSelectCtrl()
+        {
+            var imgCtrlData = GetCurrentImageCtrlData();
+            if (imgCtrlData == null) return;
+
+            var screen = Screen.PrimaryScreen;
+            var screenRate = (decimal)screen.Bounds.Width / (decimal)screen.Bounds.Height;
+
+            var deskWidth = this.pnlOriginPanel.Width;
+            var deskHeight = this.pnlOriginPanel.Height;
+            var deskRate = (decimal)deskWidth / (decimal)deskHeight;
+
+            var imgWidth = imgCtrlData.ImageWidth;
+            var imgHeight = imgCtrlData.ImageHeight;
+
+            if (imgWidth < screen.Bounds.Width || imgHeight < screen.Bounds.Height) return;
+
+            int zoomImgWidth = 0, zoomImgHeight = 0, zoomImgLeft = 0, zoomImgTop = 0;
+            int rangleWidth = 0, rangleHeight = 0;
+            if ((decimal)imgWidth / (decimal)imgHeight > deskRate)
+            {
+                zoomImgWidth = deskWidth;
+                zoomImgHeight = (int)(deskWidth / ((decimal)imgWidth / (decimal)imgHeight));
+            }
+            else
+            {
+                zoomImgHeight = deskHeight;
+                zoomImgWidth = (int)(deskHeight * ((decimal)imgWidth / (decimal)imgHeight));
+            }
+
+            zoomImgLeft = deskWidth / 2 - zoomImgWidth / 2;
+            zoomImgTop = deskHeight / 2 - zoomImgHeight / 2;
+
+            if ((decimal)zoomImgWidth / (decimal)zoomImgHeight > screenRate)
+            {
+                rangleHeight = zoomImgHeight;
+                rangleWidth = (int)(zoomImgHeight * screenRate);
+
+                moveFixX = false;
+            }
+            else
+            {
+                rangleWidth = zoomImgWidth;
+                rangleHeight = (int)(zoomImgWidth / screenRate);
+
+                moveFixX = true;
+            }
+
+            this.pnlRangleSelect.Width = rangleWidth;
+            this.pnlRangleSelect.Height = rangleHeight;
+            this.pnlRangleSelect.Left = zoomImgLeft;
+            this.pnlRangleSelect.Top = zoomImgTop;
+            this.pnlRangleSelect.Visible = true;
+            this.imgShowRectangle = new Rectangle(zoomImgLeft, zoomImgTop, rangleWidth, rangleHeight);
+        }
+
+        Rectangle GetImgSelectRectangle(ImageCtrlData imgCtrlData)
+        {
+            if (!this.pnlRangleSelect.Visible) return Rectangle.Empty;
+
+            var rate = (decimal)this.pnlRangleSelect.Width / (decimal)this.pnlRangleSelect.Height;
+            if ((decimal)imgCtrlData.ImageWidth / (decimal)imgCtrlData.ImageHeight > rate)
+            {
+                var imgRate = (decimal)imgCtrlData.ImageHeight / (decimal)this.pnlRangleSelect.Height;
+
+                var selectWidth = (int)(this.pnlRangleSelect.Width * imgRate);
+                var selectHeight = imgCtrlData.ImageHeight;
+                var selectTop = (int)((this.pnlRangleSelect.Top - this.imgShowRectangle.Top) * imgRate);
+                var selectLeft = (int)((this.pnlRangleSelect.Left - this.imgShowRectangle.Left) * imgRate);
+             
+                return new Rectangle(selectLeft, selectTop, selectWidth, selectHeight);
+            }
+            else
+            {
+                var imgRate = (decimal)imgCtrlData.ImageWidth / (decimal)this.pnlRangleSelect.Width;
+
+                var selectHeight = (int)(this.pnlRangleSelect.Height * imgRate);
+                var selectWidth = imgCtrlData.ImageWidth;
+                var selectTop = (int)((this.pnlRangleSelect.Top - this.imgShowRectangle.Top) * imgRate);
+                var selectLeft = (int)((this.pnlRangleSelect.Left - this.imgShowRectangle.Left) * imgRate);
+              
+                return new Rectangle(selectLeft, selectTop, selectWidth, selectHeight);
+            }
+        }
+
+        void HideImgRangleSelect()
+        {
+            this.pnlRangleSelect.Visible = false;
         }
 
         Panel GetCurrentImageCtrl()

@@ -169,6 +169,7 @@
     <Compile Include="Imp\MWeiboJson\MWeiboStatus.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboUser.cs" />
     <Compile Include="Imp\MWeiboSpiderService.cs" />
+    <Compile Include="Imp\Util\ImageUtil.cs" />
     <Compile Include="Imp\Util\LogUtil.cs" />
     <Compile Include="Imp\Util\ObjectUtil.cs" />
     <Compile Include="Imp\Util\PathUtil.cs" />

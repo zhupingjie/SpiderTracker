@@ -48,6 +48,7 @@
             this.columnTAL = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnFind = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnGet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnUpload = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnIgnore = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnOrigin = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnRet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -110,6 +111,7 @@
             this.btnReadConfig = new System.Windows.Forms.Button();
             this.btnRefreshConfig = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
+            this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblGetImgCount = new System.Windows.Forms.Label();
@@ -131,8 +133,10 @@
             this.btnCancelUser = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tbpVideo = new System.Windows.Forms.TabPage();
+            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.tbpReview = new System.Windows.Forms.TabPage();
             this.panel27 = new System.Windows.Forms.Panel();
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.lstRunstate = new System.Windows.Forms.ListView();
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -154,10 +158,6 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
-            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
-            this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
-            this.columnUpload = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel26.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -201,7 +201,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1158, 41);
+            this.panel1.Size = new System.Drawing.Size(1264, 41);
             this.panel1.TabIndex = 0;
             // 
             // panel26
@@ -211,7 +211,7 @@
             this.panel26.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel26.Location = new System.Drawing.Point(0, 0);
             this.panel26.Name = "panel26";
-            this.panel26.Size = new System.Drawing.Size(907, 41);
+            this.panel26.Size = new System.Drawing.Size(1013, 41);
             this.panel26.TabIndex = 5;
             // 
             // txtStartUrl
@@ -223,7 +223,7 @@
             this.txtStartUrl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtStartUrl.Location = new System.Drawing.Point(313, 0);
             this.txtStartUrl.Name = "txtStartUrl";
-            this.txtStartUrl.Size = new System.Drawing.Size(594, 41);
+            this.txtStartUrl.Size = new System.Drawing.Size(700, 41);
             this.txtStartUrl.TabIndex = 2;
             this.txtStartUrl.Text = "";
             this.txtStartUrl.DoubleClick += new System.EventHandler(this.txtStartUrl_DoubleClick);
@@ -251,7 +251,7 @@
             this.panel4.Controls.Add(this.cbxSelect);
             this.panel4.Controls.Add(this.cbxSite);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(907, 0);
+            this.panel4.Location = new System.Drawing.Point(1013, 0);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(251, 41);
             this.panel4.TabIndex = 4;
@@ -313,9 +313,9 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tplStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 606);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 619);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1158, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1264, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -334,7 +334,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 41);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(313, 565);
+            this.panel3.Size = new System.Drawing.Size(313, 578);
             this.panel3.TabIndex = 7;
             // 
             // panel15
@@ -344,7 +344,7 @@
             this.panel15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel15.Location = new System.Drawing.Point(0, 25);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(311, 305);
+            this.panel15.Size = new System.Drawing.Size(311, 318);
             this.panel15.TabIndex = 8;
             // 
             // lstUser
@@ -375,7 +375,7 @@
             this.lstUser.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstUser.Location = new System.Drawing.Point(0, 24);
             this.lstUser.Name = "lstUser";
-            this.lstUser.Size = new System.Drawing.Size(311, 281);
+            this.lstUser.Size = new System.Drawing.Size(311, 294);
             this.lstUser.TabIndex = 9;
             this.lstUser.UseCompatibleStateImageBehavior = false;
             this.lstUser.View = System.Windows.Forms.View.Details;
@@ -406,6 +406,11 @@
             // 
             this.columnGet.Text = "采集";
             this.columnGet.Width = 50;
+            // 
+            // columnUpload
+            // 
+            this.columnUpload.Text = "上传";
+            this.columnUpload.Width = 50;
             // 
             // columnIgnore
             // 
@@ -584,7 +589,7 @@
             this.panel9.Controls.Add(this.panel20);
             this.panel9.Controls.Add(this.panel8);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel9.Location = new System.Drawing.Point(0, 330);
+            this.panel9.Location = new System.Drawing.Point(0, 343);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(311, 233);
             this.panel9.TabIndex = 7;
@@ -1049,9 +1054,9 @@
             this.panel10.Controls.Add(this.panel17);
             this.panel10.Controls.Add(this.panel14);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel10.Location = new System.Drawing.Point(907, 41);
+            this.panel10.Location = new System.Drawing.Point(1013, 41);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(251, 565);
+            this.panel10.Size = new System.Drawing.Size(251, 578);
             this.panel10.TabIndex = 11;
             // 
             // panel5
@@ -1062,7 +1067,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(0, 112);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(249, 378);
+            this.panel5.Size = new System.Drawing.Size(249, 391);
             this.panel5.TabIndex = 18;
             // 
             // panel16
@@ -1114,6 +1119,15 @@
             this.label11.Size = new System.Drawing.Size(80, 17);
             this.label11.TabIndex = 2;
             this.label11.Text = "采集参数配置";
+            // 
+            // spiderConfigUC1
+            // 
+            this.spiderConfigUC1.AutoScroll = true;
+            this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
+            this.spiderConfigUC1.Name = "spiderConfigUC1";
+            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 391);
+            this.spiderConfigUC1.TabIndex = 19;
             // 
             // panel17
             // 
@@ -1239,7 +1253,7 @@
             this.panel14.Controls.Add(this.btnSearch);
             this.panel14.Controls.Add(this.panel11);
             this.panel14.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel14.Location = new System.Drawing.Point(0, 490);
+            this.panel14.Location = new System.Drawing.Point(0, 503);
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(249, 73);
             this.panel14.TabIndex = 16;
@@ -1299,7 +1313,7 @@
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel12.Location = new System.Drawing.Point(313, 41);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(594, 26);
+            this.panel12.Size = new System.Drawing.Size(700, 26);
             this.panel12.TabIndex = 14;
             // 
             // panel23
@@ -1307,7 +1321,7 @@
             this.panel23.Controls.Add(this.btnOpen);
             this.panel23.Controls.Add(this.btnCancelUser);
             this.panel23.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel23.Location = new System.Drawing.Point(481, 0);
+            this.panel23.Location = new System.Drawing.Point(587, 0);
             this.panel23.Name = "panel23";
             this.panel23.Size = new System.Drawing.Size(111, 24);
             this.panel23.TabIndex = 2;
@@ -1348,10 +1362,19 @@
             this.tbpVideo.Controls.Add(this.vedioPlayerUC1);
             this.tbpVideo.Location = new System.Drawing.Point(4, 4);
             this.tbpVideo.Name = "tbpVideo";
-            this.tbpVideo.Size = new System.Drawing.Size(564, 531);
+            this.tbpVideo.Size = new System.Drawing.Size(670, 544);
             this.tbpVideo.TabIndex = 2;
             this.tbpVideo.Text = "视频预览";
             this.tbpVideo.UseVisualStyleBackColor = true;
+            // 
+            // vedioPlayerUC1
+            // 
+            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
+            this.vedioPlayerUC1.Size = new System.Drawing.Size(670, 544);
+            this.vedioPlayerUC1.TabIndex = 0;
             // 
             // tbpReview
             // 
@@ -1361,7 +1384,7 @@
             this.tbpReview.Location = new System.Drawing.Point(4, 4);
             this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
             this.tbpReview.Name = "tbpReview";
-            this.tbpReview.Size = new System.Drawing.Size(564, 531);
+            this.tbpReview.Size = new System.Drawing.Size(670, 544);
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
             // 
@@ -1372,8 +1395,19 @@
             this.panel27.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel27.Location = new System.Drawing.Point(0, 0);
             this.panel27.Name = "panel27";
-            this.panel27.Size = new System.Drawing.Size(564, 531);
+            this.panel27.Size = new System.Drawing.Size(670, 544);
             this.panel27.TabIndex = 1;
+            // 
+            // imagePreviewUC1
+            // 
+            this.imagePreviewUC1.AutoScroll = true;
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(670, 544);
+            this.imagePreviewUC1.TabIndex = 0;
             // 
             // tbpGatherLog
             // 
@@ -1383,7 +1417,7 @@
             this.tbpGatherLog.Location = new System.Drawing.Point(4, 4);
             this.tbpGatherLog.Margin = new System.Windows.Forms.Padding(0);
             this.tbpGatherLog.Name = "tbpGatherLog";
-            this.tbpGatherLog.Size = new System.Drawing.Size(564, 531);
+            this.tbpGatherLog.Size = new System.Drawing.Size(670, 544);
             this.tbpGatherLog.TabIndex = 0;
             this.tbpGatherLog.Text = "运行日志";
             // 
@@ -1405,7 +1439,7 @@
             this.lstRunstate.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstRunstate.Location = new System.Drawing.Point(0, 0);
             this.lstRunstate.Name = "lstRunstate";
-            this.lstRunstate.Size = new System.Drawing.Size(564, 303);
+            this.lstRunstate.Size = new System.Drawing.Size(670, 316);
             this.lstRunstate.TabIndex = 16;
             this.lstRunstate.UseCompatibleStateImageBehavior = false;
             this.lstRunstate.View = System.Windows.Forms.View.Details;
@@ -1442,10 +1476,10 @@
             this.panel18.Controls.Add(this.lstLog);
             this.panel18.Controls.Add(this.panel19);
             this.panel18.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel18.Location = new System.Drawing.Point(0, 303);
+            this.panel18.Location = new System.Drawing.Point(0, 316);
             this.panel18.Margin = new System.Windows.Forms.Padding(0);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(564, 228);
+            this.panel18.Size = new System.Drawing.Size(670, 228);
             this.panel18.TabIndex = 17;
             // 
             // lstLog
@@ -1461,7 +1495,7 @@
             this.lstLog.Location = new System.Drawing.Point(0, 26);
             this.lstLog.Margin = new System.Windows.Forms.Padding(0);
             this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(564, 206);
+            this.lstLog.Size = new System.Drawing.Size(670, 206);
             this.lstLog.TabIndex = 15;
             // 
             // panel19
@@ -1473,7 +1507,7 @@
             this.panel19.Location = new System.Drawing.Point(0, 0);
             this.panel19.Margin = new System.Windows.Forms.Padding(0);
             this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(564, 26);
+            this.panel19.Size = new System.Drawing.Size(670, 26);
             this.panel19.TabIndex = 0;
             // 
             // label6
@@ -1503,7 +1537,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(594, 539);
+            this.tabControl1.Size = new System.Drawing.Size(700, 552);
             this.tabControl1.TabIndex = 17;
             // 
             // tbpWeb
@@ -1511,7 +1545,7 @@
             this.tbpWeb.Controls.Add(this.webBrowser1);
             this.tbpWeb.Location = new System.Drawing.Point(4, 4);
             this.tbpWeb.Name = "tbpWeb";
-            this.tbpWeb.Size = new System.Drawing.Size(564, 531);
+            this.tbpWeb.Size = new System.Drawing.Size(670, 544);
             this.tbpWeb.TabIndex = 3;
             this.tbpWeb.Text = "上传预览";
             this.tbpWeb.UseVisualStyleBackColor = true;
@@ -1522,7 +1556,7 @@
             this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(564, 531);
+            this.webBrowser1.Size = new System.Drawing.Size(670, 544);
             this.webBrowser1.TabIndex = 0;
             // 
             // tbpUpload
@@ -1530,7 +1564,7 @@
             this.tbpUpload.Controls.Add(this.lstUpload);
             this.tbpUpload.Location = new System.Drawing.Point(4, 4);
             this.tbpUpload.Name = "tbpUpload";
-            this.tbpUpload.Size = new System.Drawing.Size(564, 531);
+            this.tbpUpload.Size = new System.Drawing.Size(670, 544);
             this.tbpUpload.TabIndex = 4;
             this.tbpUpload.Text = "上传日志";
             this.tbpUpload.UseVisualStyleBackColor = true;
@@ -1553,7 +1587,7 @@
             this.lstUpload.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstUpload.Location = new System.Drawing.Point(0, 0);
             this.lstUpload.Name = "lstUpload";
-            this.lstUpload.Size = new System.Drawing.Size(564, 531);
+            this.lstUpload.Size = new System.Drawing.Size(670, 544);
             this.lstUpload.TabIndex = 17;
             this.lstUpload.UseCompatibleStateImageBehavior = false;
             this.lstUpload.View = System.Windows.Forms.View.Details;
@@ -1583,44 +1617,10 @@
             this.columnHeader6.Text = "STATUS";
             this.columnHeader6.Width = 100;
             // 
-            // imagePreviewUC1
-            // 
-            this.imagePreviewUC1.AutoScroll = true;
-            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
-            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
-            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(564, 531);
-            this.imagePreviewUC1.TabIndex = 0;
-            // 
-            // vedioPlayerUC1
-            // 
-            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
-            this.vedioPlayerUC1.Size = new System.Drawing.Size(564, 531);
-            this.vedioPlayerUC1.TabIndex = 0;
-            // 
-            // spiderConfigUC1
-            // 
-            this.spiderConfigUC1.AutoScroll = true;
-            this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
-            this.spiderConfigUC1.Name = "spiderConfigUC1";
-            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 378);
-            this.spiderConfigUC1.TabIndex = 19;
-            // 
-            // columnUpload
-            // 
-            this.columnUpload.Text = "上传";
-            this.columnUpload.Width = 50;
-            // 
             // SpiderTrackerForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1158, 628);
+            this.ClientSize = new System.Drawing.Size(1264, 641);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel12);
             this.Controls.Add(this.panel10);

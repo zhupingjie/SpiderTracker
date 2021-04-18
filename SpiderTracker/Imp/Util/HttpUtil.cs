@@ -314,8 +314,8 @@ namespace SpiderTracker.Imp
             nv.Add("category", upload.category);
             nv.Add("uid", upload.uid);
             nv.Add("bid", upload.bid);
-            nv.Add("width", $"{runningConfig.ThumbnailImageWidth * 1.2}");
-            nv.Add("height", $"{runningConfig.ThumbnailImageHeight * 1.2}");
+            nv.Add("width", $"{runningConfig.ThumbnailImageWidth}");
+            nv.Add("height", $"{runningConfig.ThumbnailImageHeight}");
 
             var api = GetRemoteActionImageApi(runningConfig.DefaultUploadServerIP, runningConfig.DefaultUploadImageAPI);
             var result = HttpUtil.PostHttpUploadFile(api, imgFile.FullName, nv, Encoding.Default);
