@@ -685,6 +685,7 @@ namespace SpiderTracker.UI
             }
             this.pnlOriginImgTitle.Visible = upload;
 
+            #region 原图工具栏自动变换方向
             ////横向图片
             //if(ctrlData.ImageWidth > ctrlData.ImageHeight)
             //{
@@ -708,6 +709,7 @@ namespace SpiderTracker.UI
             //    }
             //    this.pnlOriginImgTools.Visible = true;
             //}
+            #endregion
         }
 
         bool CheckImageUploadStatus(string imgName)
