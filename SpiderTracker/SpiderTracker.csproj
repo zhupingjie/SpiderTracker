@@ -136,7 +136,7 @@
     <Compile Include="Imp\Model\SinaUser.cs" />
     <Compile Include="Imp\Model\SQLiteDBHelper.cs" />
     <Compile Include="Imp\Model\SQLiteColumn.cs" />
-    <Compile Include="Imp\Model\SinaUpload.cs" />
+    <Compile Include="Imp\Model\SinaAction.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboFoucsUserResult.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboFocusCards.cs" />
     <Compile Include="Imp\MWeiboJson\MWeiboFocusData.cs" />

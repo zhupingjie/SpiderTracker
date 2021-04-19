@@ -101,8 +101,15 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel16 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
+            this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.chkUploadWeb = new System.Windows.Forms.CheckBox();
+            this.chkBweTopic = new System.Windows.Forms.CheckBox();
+            this.btnBackTask = new System.Windows.Forms.CheckBox();
+            this.chkUploadRunState = new System.Windows.Forms.CheckBox();
+            this.chkShowWinBkg = new System.Windows.Forms.CheckBox();
+            this.chkShowSource = new System.Windows.Forms.CheckBox();
             this.panel13 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel14 = new System.Windows.Forms.Panel();
@@ -115,8 +122,10 @@
             this.btnCancelUser = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tbpVideo = new System.Windows.Forms.TabPage();
+            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.tbpReview = new System.Windows.Forms.TabPage();
             this.panel27 = new System.Windows.Forms.Panel();
+            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.lstRunstate = new System.Windows.Forms.ListView();
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -129,15 +138,6 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
-            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
-            this.spiderConfigUC1 = new SpiderTracker.UI.SpiderConfigUC();
-            this.chkShowSource = new System.Windows.Forms.CheckBox();
-            this.chkShowWinBkg = new System.Windows.Forms.CheckBox();
-            this.chkUploadRunState = new System.Windows.Forms.CheckBox();
-            this.btnBackTask = new System.Windows.Forms.CheckBox();
-            this.chkBweTopic = new System.Windows.Forms.CheckBox();
-            this.chkUploadWeb = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel26.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -990,6 +990,15 @@
             this.label11.TabIndex = 2;
             this.label11.Text = "采集参数配置";
             // 
+            // spiderConfigUC1
+            // 
+            this.spiderConfigUC1.AutoScroll = true;
+            this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
+            this.spiderConfigUC1.Name = "spiderConfigUC1";
+            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 391);
+            this.spiderConfigUC1.TabIndex = 19;
+            // 
             // panel17
             // 
             this.panel17.Controls.Add(this.panel2);
@@ -1013,6 +1022,80 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(249, 86);
             this.panel2.TabIndex = 17;
+            // 
+            // chkUploadWeb
+            // 
+            this.chkUploadWeb.AutoSize = true;
+            this.chkUploadWeb.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkUploadWeb.Location = new System.Drawing.Point(13, 59);
+            this.chkUploadWeb.Name = "chkUploadWeb";
+            this.chkUploadWeb.Size = new System.Drawing.Size(99, 21);
+            this.chkUploadWeb.TabIndex = 26;
+            this.chkUploadWeb.Text = "显示上传资源";
+            this.chkUploadWeb.UseVisualStyleBackColor = true;
+            this.chkUploadWeb.CheckedChanged += new System.EventHandler(this.chkUploadWeb_CheckedChanged);
+            // 
+            // chkBweTopic
+            // 
+            this.chkBweTopic.AutoSize = true;
+            this.chkBweTopic.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkBweTopic.Location = new System.Drawing.Point(123, 6);
+            this.chkBweTopic.Name = "chkBweTopic";
+            this.chkBweTopic.Size = new System.Drawing.Size(99, 21);
+            this.chkBweTopic.TabIndex = 25;
+            this.chkBweTopic.Text = "显示微博话题";
+            this.chkBweTopic.UseVisualStyleBackColor = true;
+            this.chkBweTopic.CheckedChanged += new System.EventHandler(this.chkBweTopic_CheckedChanged);
+            // 
+            // btnBackTask
+            // 
+            this.btnBackTask.AutoSize = true;
+            this.btnBackTask.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBackTask.Location = new System.Drawing.Point(123, 59);
+            this.btnBackTask.Name = "btnBackTask";
+            this.btnBackTask.Size = new System.Drawing.Size(99, 21);
+            this.btnBackTask.TabIndex = 24;
+            this.btnBackTask.Text = "显示后台任务";
+            this.btnBackTask.UseVisualStyleBackColor = true;
+            this.btnBackTask.CheckedChanged += new System.EventHandler(this.btnBackTask_CheckedChanged);
+            // 
+            // chkUploadRunState
+            // 
+            this.chkUploadRunState.AutoSize = true;
+            this.chkUploadRunState.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkUploadRunState.Location = new System.Drawing.Point(123, 33);
+            this.chkUploadRunState.Name = "chkUploadRunState";
+            this.chkUploadRunState.Size = new System.Drawing.Size(99, 21);
+            this.chkUploadRunState.TabIndex = 23;
+            this.chkUploadRunState.Text = "显示上传日志";
+            this.chkUploadRunState.UseVisualStyleBackColor = true;
+            this.chkUploadRunState.CheckedChanged += new System.EventHandler(this.chkUploadRunState_CheckedChanged);
+            // 
+            // chkShowWinBkg
+            // 
+            this.chkShowWinBkg.AutoSize = true;
+            this.chkShowWinBkg.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkShowWinBkg.Location = new System.Drawing.Point(13, 33);
+            this.chkShowWinBkg.Name = "chkShowWinBkg";
+            this.chkShowWinBkg.Size = new System.Drawing.Size(99, 21);
+            this.chkShowWinBkg.TabIndex = 22;
+            this.chkShowWinBkg.Text = "开启循环桌面";
+            this.chkShowWinBkg.UseVisualStyleBackColor = true;
+            this.chkShowWinBkg.CheckedChanged += new System.EventHandler(this.chkShowWinBkg_CheckedChanged);
+            // 
+            // chkShowSource
+            // 
+            this.chkShowSource.AutoSize = true;
+            this.chkShowSource.Checked = true;
+            this.chkShowSource.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowSource.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkShowSource.Location = new System.Drawing.Point(13, 6);
+            this.chkShowSource.Name = "chkShowSource";
+            this.chkShowSource.Size = new System.Drawing.Size(99, 21);
+            this.chkShowSource.TabIndex = 21;
+            this.chkShowSource.Text = "显示微博资源";
+            this.chkShowSource.UseVisualStyleBackColor = true;
+            this.chkShowSource.CheckedChanged += new System.EventHandler(this.chkShowSource_CheckedChanged);
             // 
             // panel13
             // 
@@ -1143,6 +1226,15 @@
             this.tbpVideo.Text = "视频预览";
             this.tbpVideo.UseVisualStyleBackColor = true;
             // 
+            // vedioPlayerUC1
+            // 
+            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
+            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
+            this.vedioPlayerUC1.Size = new System.Drawing.Size(670, 544);
+            this.vedioPlayerUC1.TabIndex = 0;
+            // 
             // tbpReview
             // 
             this.tbpReview.AutoScroll = true;
@@ -1164,6 +1256,17 @@
             this.panel27.Name = "panel27";
             this.panel27.Size = new System.Drawing.Size(670, 544);
             this.panel27.TabIndex = 1;
+            // 
+            // imagePreviewUC1
+            // 
+            this.imagePreviewUC1.AutoScroll = true;
+            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
+            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
+            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
+            this.imagePreviewUC1.Name = "imagePreviewUC1";
+            this.imagePreviewUC1.Size = new System.Drawing.Size(670, 544);
+            this.imagePreviewUC1.TabIndex = 0;
             // 
             // tbpGatherLog
             // 
@@ -1293,109 +1396,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(700, 552);
             this.tabControl1.TabIndex = 17;
-            // 
-            // imagePreviewUC1
-            // 
-            this.imagePreviewUC1.AutoScroll = true;
-            this.imagePreviewUC1.BackColor = System.Drawing.Color.Transparent;
-            this.imagePreviewUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
-            this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(670, 544);
-            this.imagePreviewUC1.TabIndex = 0;
-            // 
-            // vedioPlayerUC1
-            // 
-            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
-            this.vedioPlayerUC1.Size = new System.Drawing.Size(670, 544);
-            this.vedioPlayerUC1.TabIndex = 0;
-            // 
-            // spiderConfigUC1
-            // 
-            this.spiderConfigUC1.AutoScroll = true;
-            this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
-            this.spiderConfigUC1.Name = "spiderConfigUC1";
-            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 391);
-            this.spiderConfigUC1.TabIndex = 19;
-            // 
-            // chkShowSource
-            // 
-            this.chkShowSource.AutoSize = true;
-            this.chkShowSource.Checked = true;
-            this.chkShowSource.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowSource.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chkShowSource.Location = new System.Drawing.Point(13, 6);
-            this.chkShowSource.Name = "chkShowSource";
-            this.chkShowSource.Size = new System.Drawing.Size(99, 21);
-            this.chkShowSource.TabIndex = 21;
-            this.chkShowSource.Text = "显示微博资源";
-            this.chkShowSource.UseVisualStyleBackColor = true;
-            this.chkShowSource.CheckedChanged += new System.EventHandler(this.chkShowSource_CheckedChanged);
-            // 
-            // chkShowWinBkg
-            // 
-            this.chkShowWinBkg.AutoSize = true;
-            this.chkShowWinBkg.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chkShowWinBkg.Location = new System.Drawing.Point(13, 33);
-            this.chkShowWinBkg.Name = "chkShowWinBkg";
-            this.chkShowWinBkg.Size = new System.Drawing.Size(99, 21);
-            this.chkShowWinBkg.TabIndex = 22;
-            this.chkShowWinBkg.Text = "开启循环桌面";
-            this.chkShowWinBkg.UseVisualStyleBackColor = true;
-            this.chkShowWinBkg.CheckedChanged += new System.EventHandler(this.chkShowWinBkg_CheckedChanged);
-            // 
-            // chkUploadRunState
-            // 
-            this.chkUploadRunState.AutoSize = true;
-            this.chkUploadRunState.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chkUploadRunState.Location = new System.Drawing.Point(123, 33);
-            this.chkUploadRunState.Name = "chkUploadRunState";
-            this.chkUploadRunState.Size = new System.Drawing.Size(99, 21);
-            this.chkUploadRunState.TabIndex = 23;
-            this.chkUploadRunState.Text = "显示上传日志";
-            this.chkUploadRunState.UseVisualStyleBackColor = true;
-            this.chkUploadRunState.CheckedChanged += new System.EventHandler(this.chkUploadRunState_CheckedChanged);
-            // 
-            // btnBackTask
-            // 
-            this.btnBackTask.AutoSize = true;
-            this.btnBackTask.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBackTask.Location = new System.Drawing.Point(123, 59);
-            this.btnBackTask.Name = "btnBackTask";
-            this.btnBackTask.Size = new System.Drawing.Size(99, 21);
-            this.btnBackTask.TabIndex = 24;
-            this.btnBackTask.Text = "显示后台任务";
-            this.btnBackTask.UseVisualStyleBackColor = true;
-            this.btnBackTask.CheckedChanged += new System.EventHandler(this.btnBackTask_CheckedChanged);
-            // 
-            // chkBweTopic
-            // 
-            this.chkBweTopic.AutoSize = true;
-            this.chkBweTopic.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chkBweTopic.Location = new System.Drawing.Point(123, 6);
-            this.chkBweTopic.Name = "chkBweTopic";
-            this.chkBweTopic.Size = new System.Drawing.Size(99, 21);
-            this.chkBweTopic.TabIndex = 25;
-            this.chkBweTopic.Text = "显示微博话题";
-            this.chkBweTopic.UseVisualStyleBackColor = true;
-            this.chkBweTopic.CheckedChanged += new System.EventHandler(this.chkBweTopic_CheckedChanged);
-            // 
-            // chkUploadWeb
-            // 
-            this.chkUploadWeb.AutoSize = true;
-            this.chkUploadWeb.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chkUploadWeb.Location = new System.Drawing.Point(13, 59);
-            this.chkUploadWeb.Name = "chkUploadWeb";
-            this.chkUploadWeb.Size = new System.Drawing.Size(99, 21);
-            this.chkUploadWeb.TabIndex = 26;
-            this.chkUploadWeb.Text = "显示上传资源";
-            this.chkUploadWeb.UseVisualStyleBackColor = true;
-            this.chkUploadWeb.CheckedChanged += new System.EventHandler(this.chkUploadWeb_CheckedChanged);
             // 
             // SpiderTrackerForm
             // 

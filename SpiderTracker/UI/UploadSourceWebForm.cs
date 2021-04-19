@@ -31,8 +31,24 @@ namespace SpiderTracker.UI
         private void UploadSourceWebForm_Load(object sender, EventArgs e)
         {
             var images = HttpUtil.GetRemoteImageFiles(RunningConfig, ShowStatus, ShowName, ShowThumb);
-            var html = MakeDocumentHtml(images);
-            this.webBrowser1.DocumentText = html;
+            if (images.Length == 0)
+            {
+                var source = new SinaRepository().GetUserSource(ShowStatus, ShowName);
+                if (source != null)
+                {
+                    images = new string[] { source.url };
+                }
+            }
+            if (images.Length > 0)
+            {
+                var html = MakeDocumentHtml(images);
+                this.txtWebUrl.Text = images.FirstOrDefault();
+                this.webBrowser1.DocumentText = html;
+            }
+            else
+            {
+                this.webBrowser1.DocumentText = $"<h1>无有效的图片地址</h1>";
+            }
         }
 
 
@@ -76,6 +92,11 @@ namespace SpiderTracker.UI
             }
 
             return sb;
+        }
+
+        private void btnGO_Click(object sender, EventArgs e)
+        {
+            this.webBrowser1.Navigate(this.txtWebUrl.Text);
         }
     }
 }

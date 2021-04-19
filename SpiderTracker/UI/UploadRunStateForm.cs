@@ -20,51 +20,53 @@ namespace SpiderTracker.UI
             InitializeComponent();
 
             SinaSpiderService = spiderService;
-            SinaSpiderService.OnSpiderUploadShow += SinaSpiderService_OnSpiderUploadShow;
-            SinaSpiderService.OnSpiderUploadRefresh += SinaSpiderService_OnSpiderUploadComplete;
+            SinaSpiderService.OnNewActions += SinaSpiderService_OnNewActions;
+            SinaSpiderService.OnShowActionStatus += SinaSpiderService_OnShowActionStatus;
         }
 
         private void UploadRunStateForm_Load(object sender, EventArgs e)
         {
-            var uploads = SinaSpiderService.GetUploadTask();
+            var uploads = SinaSpiderService.GetWaitForDoActions();
             this.LoadUploadState(uploads.ToArray());
         }
 
 
-        private void SinaSpiderService_OnSpiderUploadComplete(SinaUpload upload, string state)
+        private void SinaSpiderService_OnShowActionStatus(SinaAction upload, string state)
         {
             InvokeControl(this.lstUpload, new Action(() =>
             {
                 if (this.lstUpload.Items.Count == 0) return;
 
-                var listItem = this.lstUpload.FindItemWithText(upload.file);
+                var listItem = this.lstUpload.FindItemWithText(upload.actid);
                 if (listItem != null)
                 {
-                    listItem.SubItems[3].Text = upload.uploadtime;
-                    listItem.SubItems[4].Text = state;
+                    listItem.SubItems[5].Text = upload.actiontime;
+                    listItem.SubItems[6].Text = state;
                 }
             }));
         }
 
-        private void SinaSpiderService_OnSpiderUploadShow(SinaUpload[] uploads)
+        private void SinaSpiderService_OnNewActions(SinaAction[] uploads)
         {
             this.LoadUploadState(uploads);
         }
 
-        void LoadUploadState(SinaUpload[] uploads)
+        void LoadUploadState(SinaAction[] uploads)
         {
             InvokeControl(this.lstUpload, new Action(() =>
             {
                 foreach (var item in uploads)
                 {
                     var listItem = this.lstUpload.FindItemWithText(item.file);
-                    if (listItem != null) continue; ;
+                    if (listItem != null) continue;
 
                     var subItem = new ListViewItem();
-                    subItem.Text = item.file;
+                    subItem.Text = item.actid;
                     subItem.SubItems.Add($"{item.category}");
                     subItem.SubItems.Add($"{item.uid}");
-                    subItem.SubItems.Add($"{item.uploadtime}");
+                    subItem.SubItems.Add($"{item.file}");
+                    subItem.SubItems.Add($"{(item.acttype == 0 ? "上传" : item.acttype == 1 ? "撤销" : "忽略")}");
+                    subItem.SubItems.Add($"{item.actiontime}");
                     subItem.SubItems.Add($"❌");
                     this.lstUpload.Items.Add(subItem);
                 }
