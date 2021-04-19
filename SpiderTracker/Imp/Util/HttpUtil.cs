@@ -308,7 +308,7 @@ namespace SpiderTracker.Imp
         /// <param name="upload"></param>
         /// <param name="imgFile"></param>
         /// <returns></returns>
-        public static APIResult UploadRemoteImage(SpiderRunningConfig runningConfig, SinaUpload upload, FileInfo imgFile)
+        public static APIResult UploadRemoteImage(SpiderRunningConfig runningConfig, SinaAction upload, FileInfo imgFile)
         {
             var nv = new NameValueCollection();
             nv.Add("category", upload.category);
@@ -317,11 +317,19 @@ namespace SpiderTracker.Imp
             nv.Add("width", $"{runningConfig.ThumbnailImageWidth}");
             nv.Add("height", $"{runningConfig.ThumbnailImageHeight}");
 
-            var api = GetRemoteActionImageApi(runningConfig.DefaultUploadServerIP, runningConfig.DefaultUploadImageAPI);
-            var result = HttpUtil.PostHttpUploadFile(api, imgFile.FullName, nv, Encoding.Default);
-            if (result == null) return null;
+            try
+            {
+                var api = GetRemoteActionImageApi(runningConfig.DefaultUploadServerIP, runningConfig.DefaultUploadImageAPI);
+                var result = HttpUtil.PostHttpUploadFile(api, imgFile.FullName, nv, Encoding.Default);
+                if (result == null) return null;
 
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(result);
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(result);
+            }
+            catch(Exception ex)
+            {
+                LogUtil.Error(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -334,15 +342,23 @@ namespace SpiderTracker.Imp
         /// <returns></returns>
         public static bool DeleteSinaSourceImage(SpiderRunningConfig runningConfig, string bid, string img)
         {
-            var api = GetRemoteActionImageApi(runningConfig.DefaultUploadServerIP, runningConfig.DefaultDeleteImageAPI);
-            api += $"?category={runningConfig.Category}&status={bid}&filename={img}";
-            var result = HttpUtil.PostHttpRequest(api, string.Empty, runningConfig);
-            if (string.IsNullOrEmpty(result)) return false;
+            try
+            {
+                var api = GetRemoteActionImageApi(runningConfig.DefaultUploadServerIP, runningConfig.DefaultDeleteImageAPI);
+                api += $"?category={runningConfig.Category}&status={bid}&filename={img}";
+                var result = HttpUtil.PostHttpRequest(api, string.Empty, runningConfig);
+                if (string.IsNullOrEmpty(result)) return false;
 
-            var rst = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(result);
-            if (rst == null || !rst.Success) return false;
+                var rst = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResult>(result);
+                if (rst == null || !rst.Success) return false;
+                return true;
 
-            return true;
+            }
+            catch (Exception ex)
+            {
+                LogUtil.Error(ex);
+                return false;
+            }
         }
     }
 }

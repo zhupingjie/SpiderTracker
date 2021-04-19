@@ -100,6 +100,11 @@ namespace SpiderTracker.UI
                     }
                 }
                 couldLoadImageTask = true;
+                //var firstImgCtrl = this.imageCtls.FirstOrDefault();
+                //if (firstImgCtrl != null)
+                //{
+                //    this.SelectImageCtrl(firstImgCtrl.Name);
+                //}
                 this.resetEvent.Reset();
                 this.resetEvent.WaitOne();
             }
@@ -125,13 +130,14 @@ namespace SpiderTracker.UI
             }
             InvokeControl(imageCtl, () =>
             {
-                using (Stream stream = File.Open(file, FileMode.Open, FileAccess.Read))
+                try
                 {
-                    try
+                    using (Stream stream = File.Open(file, FileMode.Open, FileAccess.Read))
                     {
                         var image = Image.FromStream(stream);
                         imageCtl.BackgroundImage = image;
                         imageCtl.BackgroundImageLayout = ImageLayout.Zoom;
+                        imageCtl.Visible = true;
 
                         var imageFile = PathUtil.GetImageByThumbImage(file);
                         imageCtl.Tag = new ImageCtrlData()
@@ -146,14 +152,10 @@ namespace SpiderTracker.UI
                         var source = this.CheckImageUploadStatus(imageFile.Name);
                         this.ShowImgCtrlTitle(imageCtl, source);
                     }
-                    catch(Exception)
-                    {
-                        
-                    }
-                    finally
-                    {
-                        stream.Close();
-                    }
+                }
+                catch (Exception ex)
+                {
+                    LogUtil.Error(ex);
                 }
             });
         }
@@ -171,6 +173,7 @@ namespace SpiderTracker.UI
             imageCtl.BorderStyle = BorderStyle.FixedSingle;
             imageCtl.Click += ImageCtl_Click;
             imageCtl.DoubleClick += ImageCtl_DoubleClick;
+            imageCtl.Visible = false;
 
             #region 横向双排展示
             //var x = (int)imgCtrlIndex / 2;
@@ -433,6 +436,7 @@ namespace SpiderTracker.UI
                 }
                 imageCtl.BorderStyle = BorderStyle.FixedSingle;
                 imageCtl.BackColor = Color.Transparent;
+                imageCtl.Visible = false;
 
                 this.ShowImgCtrlTools(imageCtl, false);
                 this.ShowImgCtrlTitle(imageCtl, false);
@@ -441,26 +445,34 @@ namespace SpiderTracker.UI
 
         void SelectImageCtrl(string findCtrlFullName)
         {
-            var ctrls = this.Controls;
-            var findCtrl = this.imageCtls.FirstOrDefault(c => c.Name == findCtrlFullName);
             foreach (var imgCtrl in imageCtls)
             {
                 if (imgCtrl.Name == findCtrlFullName)
                 {
-                    imgCtrl.BorderStyle = BorderStyle.Fixed3D;
-                    imgCtrl.BackColor = Color.Transparent;
-                    imgCtrl.Select();
+                    InvokeControl(imgCtrl, new Action(() =>
+                    {
+                        imgCtrl.BorderStyle = BorderStyle.Fixed3D;
+                        imgCtrl.BackColor = Color.Transparent;
+                        imgCtrl.Select();
 
-                    this.ShowImageInfo(imgCtrl.Tag as ImageCtrlData);
-                    this.ShowRemoteInfo("");
-                    this.ShowImgCtrlTools(imgCtrl, true);
+                        var imgCtrlData = imgCtrl.Tag as ImageCtrlData;
+                        if (imgCtrlData != null)
+                        {
+                            this.ShowImageInfo(imgCtrl.Tag as ImageCtrlData);
+                            this.ShowImgCtrlTools(imgCtrl, true);
+                        }
+                        this.ShowRemoteInfo("");
+                    }));
                 }
                 else
                 {
-                    imgCtrl.BorderStyle = BorderStyle.FixedSingle;
-                    imgCtrl.BackColor = Color.Transparent;
+                    InvokeControl(imgCtrl, new Action(() =>
+                    {
+                        imgCtrl.BorderStyle = BorderStyle.FixedSingle;
+                        imgCtrl.BackColor = Color.Transparent;
 
-                    this.ShowImgCtrlTools(imgCtrl, false);
+                        this.ShowImgCtrlTools(imgCtrl, false);
+                    }));
                 }
             }
         }
@@ -570,20 +582,11 @@ namespace SpiderTracker.UI
             {
                 var uploadFiles = new FileInfo[] { imgFile };
                 var rep = new SinaRepository();
-                if (rep.UploadSinaStatus(RunningConfig.Category, SinaStatus.bid, uploadFiles, true))
-                {
-                    this.ReloadUserSources();
-
-                    this.ShowImgCtrlTitle(imgCtrl, true);
-
-                    this.ShowOriginImgCtrlStatus(imgCtrlData, true);
-
-                    this.ShowRemoteInfo($"等待上传");
-                }
-                else
-                {
-                    this.ShowRemoteInfo($"上传失败");
-                }
+                rep.MakeUploadAction(RunningConfig.Category, SinaStatus.bid, uploadFiles, false);
+                //this.ReloadUserSources();
+                //this.ShowImgCtrlTitle(imgCtrl, true);
+                //this.ShowOriginImgCtrlStatus(imgCtrlData, true);
+                this.ShowRemoteInfo($"等待上传");
             }
             else
             {
@@ -598,25 +601,13 @@ namespace SpiderTracker.UI
             var imgCtrlData = GetCurrentImageCtrlData();
             if (imgCtrlData == null) return;
 
+            var rep = new SinaRepository();
             var imgFile = new FileInfo(imgCtrlData.ImageFile);
-            var suc = HttpUtil.DeleteSinaSourceImage(RunningConfig, SinaStatus.bid, imgFile.Name);
-            if (suc)
-            {
-                var rep = new SinaRepository();
-                rep.UploadSinaStatus(RunningConfig.Category, SinaStatus.bid, new FileInfo[] { imgFile }, false);
-
-                this.ReloadUserSources();
-
-                this.ShowImgCtrlTitle(imgCtrl, false);
-
-                this.ShowOriginImgCtrlStatus(imgCtrlData, false);
-
-                this.ShowRemoteInfo($"撤销上传成功");
-            }
-            else
-            {
-                this.ShowRemoteInfo($"撤销上传失败");
-            }
+            rep.MakeUploadAction(RunningConfig.Category, SinaStatus.bid, new FileInfo[] { imgFile }, true);
+            //this.ReloadUserSources();
+            //this.ShowImgCtrlTitle(imgCtrl, false);
+            //this.ShowOriginImgCtrlStatus(imgCtrlData, false);
+            this.ShowRemoteInfo($"等待撤销");
         }
 
         void IgnoreOriginImage()
@@ -624,18 +615,8 @@ namespace SpiderTracker.UI
             var imgCtrlData = GetCurrentImageCtrlData();
             if (imgCtrlData == null) return;
 
-            var thumb = new FileInfo(imgCtrlData.ThumbFile);
-            if (thumb.Exists)
-            {
-                thumb.Delete();
-
-                var imgFile = new FileInfo(imgCtrlData.ImageFile);
-                if (imgFile.Exists) imgFile.Delete();
-            }
             var rep = new SinaRepository();
-            rep.IgnoreSinaSource(SinaStatus.uid, SinaStatus.bid, thumb.Name);
-
-            this.DeleteRemoteImage();
+            rep.MakeIgnoreStatusSourceAction(RunningConfig.Category, SinaStatus.bid, imgCtrlData.Name);
 
             var imgCtrl = GetCurrentImageCtrl();
             ResetImageCtrl(imgCtrl);

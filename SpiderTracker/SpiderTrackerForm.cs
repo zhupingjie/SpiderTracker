@@ -50,19 +50,19 @@ namespace SpiderTracker
             this.RunningConfig = GetSpiderRunningConfig();
 
             SinaSpiderService = new MWeiboSpiderService();
-            SinaSpiderService.OnShowStatus += WeiboSpiderService_OnShowStatus;
+            SinaSpiderService.OnShowGatherStatus += WeiboSpiderService_OnShowStatus;
             SinaSpiderService.OnSpiderStarted += WeiboSpiderService_OnSpiderStarted;
             SinaSpiderService.OnSpiderComplete += WeiboSpiderService_OnSpiderComplete;
             SinaSpiderService.OnSpiderStoping += WeiboSpiderService_OnSpiderStoping;
-            SinaSpiderService.OnRefreshConfig += WeiboSpiderService_OnRefreshConfig;
             SinaSpiderService.OnGatherNewUser += SinaSpiderService_OnGatherNewUser;
             SinaSpiderService.OnGatherStatusComplete += SinaSpiderService_OnGatherStatusComplete;
             SinaSpiderService.OnGatherPageComplete += SinaSpiderService_OnGatherPageComplete;
             SinaSpiderService.OnGatherUserComplete += SinaSpiderService_OnGatherUserComplete;
             SinaSpiderService.OnGatherAppendUser += SinaSpiderService_OnGatherAppendUser;
             SinaSpiderService.OnGatherUserStarted += SinaSpiderService_OnGatherUserStarted;
-            SinaSpiderService.OnSpiderUploadCount += SinaSpiderService_OnSpiderUploadCount;
-            SinaSpiderService.StartUploadTask();
+            SinaSpiderService.OnNewActionCount += SinaSpiderService_OnNewActionCount;
+
+            SinaSpiderService.StartBackgroundTask();
 
             spiderConfigUC1.OnRefreshConfig += SpiderConfigUC1_OnRefreshConfig;
 
@@ -75,12 +75,13 @@ namespace SpiderTracker
 
         #region Spider Event
 
-        private void SinaSpiderService_OnSpiderUploadCount(int needUploads)
+        private void SinaSpiderService_OnNewActionCount(int needUploads)
         {
-            var text = "显示上传日志";
-            if (needUploads > 0) text = $"显示上传日志({needUploads})";
             InvokeControl(chkUploadRunState, new Action(() =>
             {
+                var text = this.chkUploadRunState.Text.Substring(0, 6);
+                if (needUploads > 0) text = $"{text}({needUploads})";
+
                 this.chkUploadRunState.Text = text;
             }));
         }
@@ -186,12 +187,6 @@ namespace SpiderTracker
                     listItem.SubItems[4].Text = "...";
                 }
             }));
-        }
-
-
-        private void WeiboSpiderService_OnRefreshConfig(SpiderRunningConfig spiderRunninConfig)
-        {
-
         }
 
         private void WeiboSpiderService_OnSpiderStarted(SpiderRunningTask runningTask)
@@ -1031,7 +1026,7 @@ namespace SpiderTracker
                     var files = PathUtil.GetStoreUserImageFiles(RunningConfig.Category, item.uid, item.bid);
                     if (files.Length > 0)
                     {
-                        rep.UploadSinaStatus(RunningConfig.Category, item.bid, files, true);
+                        rep.MakeUploadAction(RunningConfig.Category, item.bid, files, false);
                     }
                 }
                 else if(item.mtype == 1)
@@ -1335,33 +1330,25 @@ namespace SpiderTracker
             if (confirm && MessageBox.Show($"确认拉黑当前用户[{user.uid}]?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             var rep = new SinaRepository();
-            var suc = rep.IgnoreSinaUser(user.uid);
-            if (suc)
+            rep.MakeIgnoreUserAction(RunningConfig.Category, user.uid);
+            if (this.lstUser.Items.Count == 0) return;
+
+            this.vedioPlayerUC1.CloseVideo();
+
+            var listItem = this.lstUser.FindItemWithText(user.uid);
+            if (listItem != null)
             {
-                this.vedioPlayerUC1.CloseVideo();
-
-                Task.Factory.StartNew(() =>
+                var index = listItem.Index;
+                this.lstUser.Items.Remove(listItem);
+                if (this.lstUser.Items.Count > 0)
                 {
-                    PathUtil.DeleteStoreUserSource(RunningConfig.Category, user.uid);
-                });
-
-                if (this.lstUser.Items.Count == 0) return;
-
-                var listItem = this.lstUser.FindItemWithText(user.uid);
-                if (listItem != null)
-                {
-                    var index = listItem.Index;
-                    this.lstUser.Items.Remove(listItem);
-                    if (this.lstUser.Items.Count > 0)
+                    if (this.lstUser.Items.Count <= index)
                     {
-                        if (this.lstUser.Items.Count <= index)
-                        {
-                            this.lstUser.Items[this.lstUser.Items.Count - 1].Selected = true;
-                        }
-                        else
-                        {
-                            this.lstUser.Items[index].Selected = true;
-                        }
+                        this.lstUser.Items[this.lstUser.Items.Count - 1].Selected = true;
+                    }
+                    else
+                    {
+                        this.lstUser.Items[index].Selected = true;
                     }
                 }
             }
@@ -1428,31 +1415,17 @@ namespace SpiderTracker
             var rep = new SinaRepository();
             foreach (var item in status)
             {
-                rep.IgnoreSinaStatus(item.bid);
-
-                Task.Factory.StartNew(() =>
+                rep.MakeIgnoreStatusAction(RunningConfig.Category, item.bid);
+                if(item.mtype == 2)
                 {
-                    if (item.mtype == 0)
-                    {
-                        HttpUtil.DeleteSinaSourceImage(RunningConfig, item.bid, null);
-
-                        PathUtil.DeleteStoreUserImageFiles(RunningConfig.Category, user.uid, item.bid);
-                    }
-                    else if (item.mtype == 1)
-                    {
-                        PathUtil.DeleteStoreUserVideoFile(RunningConfig.Category, user.uid, item.bid);
-                    }
-                });
+                    this.vedioPlayerUC1.CloseVideo();
+                }
                 if (this.lstArc.Items.Count > 0)
                 {
                     var listItem = this.lstArc.FindItemWithText(item.bid);
                     if (listItem != null)
                     {
                         var index = listItem.Index;
-                        var local = 0;
-                        int.TryParse(listItem.SubItems[2].Text, out local);
-                        var archive = listItem.SubItems[3].Text;
-
                         this.lstArc.Items.Remove(listItem);
                         if (this.lstArc.Items.Count > 0)
                         {

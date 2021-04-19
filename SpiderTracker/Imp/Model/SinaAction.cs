@@ -6,12 +6,19 @@ using System.Threading.Tasks;
 
 namespace SpiderTracker.Imp.Model
 {
-    public class SinaUpload : BaseEntity
+    public class SinaAction : BaseEntity
     {
-        public SinaUpload()
+        public SinaAction()
         {
             lastdate = DateTime.Now;
         }
+
+        public string actid { get; set; }
+
+        /// <summary>
+        /// 0:上传,1:撤销上传,2:忽略
+        /// </summary>
+        public int acttype { get; set; }
         public string category { get; set; }
 
         public string uid { get; set; }
@@ -22,8 +29,8 @@ namespace SpiderTracker.Imp.Model
 
         public string createtime { get; set; }
         
-        public int upload { get; set; }
+        public int action { get; set; }
 
-        public string uploadtime { get; set; }
+        public string actiontime { get; set; }
     }
 }

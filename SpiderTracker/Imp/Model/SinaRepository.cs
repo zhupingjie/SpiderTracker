@@ -135,9 +135,9 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.GetEntitys<SinaTopic>("sina_topic", $"`type`=1 and `category`='{category}'");
         }
 
-        public List<SinaUpload> GetSinaUploads()
+        public List<SinaAction> GetSinaWaitActions()
         {
-            return DBHelper.GetEntitys<SinaUpload>("sina_upload", $"`upload`=0");
+            return DBHelper.GetEntitys<SinaAction>("sina_action", $"`action`=0");
         }
 
         public string[] GetGroupNames()
@@ -179,6 +179,11 @@ namespace SpiderTracker.Imp.Model
             return DBHelper.DeleteEntity("sina_source", "id", $"{sinaSource.id}");
         }
 
+        public bool DeleteSinaSources(string bid)
+        {
+            return DBHelper.DeleteEntity("sina_source", "bid", bid);
+        }
+
         public List<SinaSource> GetUserSources(string uid, string bid)
         {
             return DBHelper.GetEntitys<SinaSource>("sina_source", $"`uid`='{uid}' and `bid`='{bid}'");
@@ -196,7 +201,7 @@ namespace SpiderTracker.Imp.Model
 
         public List<SinaStatus> GetUserStatuseOfNoUpload(string uid)
         {
-            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweeted`=0 and `ignore`=0 and `upload`=0");
+            return DBHelper.GetEntitys<SinaStatus>("sina_status", $"`uid`='{uid}' and `retweeted`=0 and `ignore`=0 and `action`=0");
         }
 
         public List<SinaSource> GetUserPictures(string uid)
@@ -363,20 +368,6 @@ namespace SpiderTracker.Imp.Model
         }
 
 
-        public bool IgnoreSinaUser(string user)
-        {
-            var sinaUser = GetUser(user);
-            if (sinaUser == null) return true;
-
-            sinaUser.ignore = 2;
-            var suc = UpdateSinaUser(sinaUser, new string[] { "ignore" });
-            if (suc)
-            {
-                UpdateSinaStatuses(user, "ignore", 2);
-            }
-            return suc;
-        }
-
         public bool FocusSinaUser(string user)
         {
             var sinaUser = GetUser(user);
@@ -426,95 +417,145 @@ namespace SpiderTracker.Imp.Model
             return sinaUser;
         }
 
-        public bool IgnoreSinaStatus(string status)
+        public void MakeUploadAction(string category, string status, FileInfo[] files, bool cancel)
         {
             var sinaStatus = GetUserStatus(status);
-            if (sinaStatus == null) return true;
+            if (sinaStatus == null) return;
 
-            sinaStatus.ignore = 1;
-            UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
-            return UpdateSinaUserQty(sinaStatus.uid);
-        }
-
-        public bool IgnoreSinaSource(string uid, string status, string imgName)
-        {
-            var sinaSource = GetUserSource(status, imgName);
-            if (sinaSource == null) return true;
-
-            DeleteSinaSource(sinaSource);
-
-            var sinaSources = GetUserSources(uid, status);
-            if(sinaSources.Count == 0)
-            {
-                var sinaStatus = GetUserStatus(status);
-                if(sinaStatus != null)
-                {
-                    sinaStatus.ignore = 1;
-                    UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
-                    UpdateSinaUserQty(sinaStatus.uid);
-                }
-            }
-            return true;
-        }
-
-        public bool UploadSinaStatus(string category, string status, FileInfo[] files, bool upload)
-        {
-            var sinaStatus = GetUserStatus(status);
-            if (sinaStatus == null) return true;
-
-            var updQty = UpdateSinaSourceStatus(sinaStatus, files, upload);
+            var updQty = UpdateSinaSourceStatus(sinaStatus, files, cancel);
             sinaStatus.upload = updQty;
             UpdateSinaStatus(sinaStatus, new string[] { "upload" });
             UpdateSinaUserQty(sinaStatus.uid);
-            if (upload)
-            {
-                CreateSinaUpload(sinaStatus, files, category);
-            }
-            return true;
+            CreateSinaAction(sinaStatus, files, category, cancel ? 1: 0);
         }
 
-        int UpdateSinaSourceStatus(SinaStatus sinaStatus, FileInfo[] files, bool upload)
+        public bool MakeIgnoreUserAction(string category, string user)
+        {
+            var sinaUser = GetUser(user);
+            if (sinaUser == null) return true;
+
+            sinaUser.ignore = 2;
+            var suc = UpdateSinaUser(sinaUser, new string[] { "ignore" });
+            if (suc)
+            {
+                UpdateSinaStatuses(user, "ignore", 2);
+            }
+            return suc;
+        }
+
+
+        public void MakeIgnoreStatusAction(string category, string status)
+        {
+            var sinaStatus = GetUserStatus(status);
+            if (sinaStatus == null) return;
+            sinaStatus.ignore = 1;
+            UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
+            CreateSinaAction(sinaStatus, category, 2);
+        }
+
+        public void MakeIgnoreStatusSourceAction(string category, string status, string filename)
+        {
+            var sinaStatus = GetUserStatus(status);
+            if (sinaStatus == null) return;
+
+            var sinaSource = GetUserSource(status, filename);
+            if (sinaSource != null)
+            {
+                DeleteSinaSource(sinaSource);
+                CreateSinaAction(sinaStatus, filename, category, 2);
+            }
+        }
+
+        public void ExecuteIgnoreStatus(string category, string uid, string status, string filename)
+        {
+            var sinaStatus = GetUserStatus(status);
+            if (sinaStatus == null) return;
+
+            if (string.IsNullOrEmpty(filename))
+            {
+                DeleteSinaSources(sinaStatus.bid);
+                UpdateSinaUserQty(sinaStatus.uid);
+            }
+            else
+            {
+                var sinaSources = GetUserSources(uid, status);
+                sinaStatus.upload = sinaSources.Where(c => c.upload > 0).Count();
+                if (sinaSources.Count == 0)
+                {
+                    sinaStatus.ignore = 1;
+                }
+                UpdateSinaStatus(sinaStatus, new string[] { "ignore", "upload" });
+                UpdateSinaUserQty(sinaStatus.uid);
+            }
+        }
+
+        int UpdateSinaSourceStatus(SinaStatus sinaStatus, FileInfo[] files, bool cancel)
         {
             var sources = GetUserSources(sinaStatus.uid, sinaStatus.bid);
             foreach(var source in sources)
             {
                 if(files.Any(c=>c.Name == source.name))
                 {
-                    source.upload = upload ? 1 : 0;
+                    source.upload = (!cancel ? 1 : 0);
                     UpdateSinaSource(source, new string[] { "upload" });
                 }
             }            
             return sources.Where(c => c.upload > 0).Count();
         }
 
-        public void CreateSinaUpload(SinaStatus status, FileInfo[] files, string category)
+        public void CreateSinaAction(SinaStatus status, FileInfo[] files, string category, int actType)
         {
             foreach(var file in files)
             {
-                var upload = GetSinaUpload(status.uid, status.bid, file.Name);
+                var upload = GetSinaAction(status.uid, status.bid, file.Name, actType);
                 if (upload == null)
                 {
-                    upload = new SinaUpload()
-                    {
-                        category = category,
-                        uid = status.uid,
-                        bid = status.bid,
-                        createtime = DateTime.Now.ToString("yyyy/MM/dd HH:mm"),
-                        file = file.Name,
-                    };
-                    DBHelper.CreateEntity(upload, "sina_upload");
+                    MakeSinaAction(category, status, actType, file.Name);
                 }                
             }
         }
 
-        public SinaUpload GetSinaUpload(string uid, string bid, string file)
+        public void CreateSinaAction(SinaStatus status, string filename, string category, int actType)
         {
-            return DBHelper.GetEntity<SinaUpload>("sina_upload", $"`uid`='{uid}' and `bid`='{bid}' and `file`='{file}'");
+            var upload = GetSinaAction(status.uid, status.bid, filename, actType);
+            if (upload == null)
+            {
+                MakeSinaAction(category, status, actType, filename);
+            }
         }
 
-        public bool UpdateSinaUpload(SinaUpload upload, string[] columns)
+        public void CreateSinaAction(SinaStatus status, string category, int actType)
         {
-            return DBHelper.UpdateEntity(upload, "sina_upload", "id", $"{upload.id}", columns);
+            var upload = GetSinaAction(status.uid, status.bid, string.Empty, actType);
+            if (upload == null)
+            {
+                MakeSinaAction(category, status, actType, string.Empty);
+            }
+        }
+
+        void MakeSinaAction(string category, SinaStatus status, int actType, string file)
+        {
+            var upload = new SinaAction()
+            {
+                actid = DateTime.Now.ToString("MMddHHmmsss"),
+                acttype = actType,
+                category = category,
+                uid = status.uid,
+                bid = status.bid,
+                file = file,
+                createtime = DateTime.Now.ToString("yyyy/MM/dd HH:mm"),
+            };
+            DBHelper.CreateEntity(upload, "sina_action");
+        }
+
+        public SinaAction GetSinaAction(string uid, string bid, string file, int actType)
+        {
+            return DBHelper.GetEntity<SinaAction>("sina_action", $"`uid`='{uid}' and `bid`='{bid}' and `file`='{file}' and `acttype`={actType} and `action`=0");
+        }
+
+        public bool UpdateSinaAction(SinaAction upload, string[] columns)
+        {
+            return DBHelper.UpdateEntity(upload, "sina_action", "id", $"{upload.id}", columns);
         }
     }
 }
