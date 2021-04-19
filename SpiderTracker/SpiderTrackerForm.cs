@@ -536,7 +536,7 @@ namespace SpiderTracker
                     else
                         status = status.OrderBy(c => c.gets).ToArray();
                     break;
-                case "存档":
+                case "上传":
                     if (this.cbxStatusSortAsc.Text == "降序")
                         status = status.OrderByDescending(c => c.upload).ToArray();
                     else
@@ -548,7 +548,7 @@ namespace SpiderTracker
                     else
                         status = status.OrderBy(c => c.createtime).ToArray();
                     break;
-                case "场所":
+                case "来源":
                     if (this.cbxStatusSortAsc.Text == "降序")
                         status = status.OrderByDescending(c => c.site).ToArray();
                     else
