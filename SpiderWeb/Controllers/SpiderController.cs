@@ -18,7 +18,7 @@ namespace SpiderWeb.Controllers
 
         [HttpGet]
         public APIResult Index()
-        {
+        { 
             var res = new APIResult();
             res.Result = "欢迎访问Spider WEB API站点";
             return res;
