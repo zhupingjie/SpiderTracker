@@ -429,18 +429,14 @@ namespace SpiderTracker.Imp.Model
             CreateSinaAction(sinaStatus, files, category, cancel ? 1: 0);
         }
 
-        public bool MakeIgnoreUserAction(string category, string user)
+        public void MakeIgnoreUserAction(string category, string user)
         {
             var sinaUser = GetUser(user);
-            if (sinaUser == null) return true;
+            if (sinaUser == null) return;
 
             sinaUser.ignore = 2;
-            var suc = UpdateSinaUser(sinaUser, new string[] { "ignore" });
-            if (suc)
-            {
-                UpdateSinaStatuses(user, "ignore", 2);
-            }
-            return suc;
+            UpdateSinaUser(sinaUser, new string[] { "ignore" });
+            CreateSinaAction(sinaUser, category, 2);
         }
 
 
@@ -448,7 +444,7 @@ namespace SpiderTracker.Imp.Model
         {
             var sinaStatus = GetUserStatus(status);
             if (sinaStatus == null) return;
-            sinaStatus.ignore = 1;
+            sinaStatus.ignore = 2;
             UpdateSinaStatus(sinaStatus, new string[] { "ignore" });
             CreateSinaAction(sinaStatus, category, 2);
         }
@@ -482,7 +478,7 @@ namespace SpiderTracker.Imp.Model
                 sinaStatus.upload = sinaSources.Where(c => c.upload > 0).Count();
                 if (sinaSources.Count == 0)
                 {
-                    sinaStatus.ignore = 1;
+                    sinaStatus.ignore = 2;
                 }
                 UpdateSinaStatus(sinaStatus, new string[] { "ignore", "upload" });
                 UpdateSinaUserQty(sinaStatus.uid);
@@ -510,7 +506,7 @@ namespace SpiderTracker.Imp.Model
                 var upload = GetSinaAction(status.uid, status.bid, file.Name, actType);
                 if (upload == null)
                 {
-                    MakeSinaAction(category, status, actType, file.Name);
+                    MakeSinaAction(category, status.uid, status.bid, file.Name, actType);
                 }                
             }
         }
@@ -520,28 +516,37 @@ namespace SpiderTracker.Imp.Model
             var upload = GetSinaAction(status.uid, status.bid, filename, actType);
             if (upload == null)
             {
-                MakeSinaAction(category, status, actType, filename);
+                MakeSinaAction(category, status.uid, status.bid, filename, actType);
             }
         }
 
-        public void CreateSinaAction(SinaStatus status, string category, int actType)
+        void CreateSinaAction(SinaUser user, string category, int actType)
+        {
+            var upload = GetSinaAction(user.uid, string.Empty, string.Empty, actType);
+            if (upload == null)
+            {
+                MakeSinaAction(category, user.uid, string.Empty, string.Empty, actType);
+            }
+        }
+
+        void CreateSinaAction(SinaStatus status, string category, int actType)
         {
             var upload = GetSinaAction(status.uid, status.bid, string.Empty, actType);
             if (upload == null)
             {
-                MakeSinaAction(category, status, actType, string.Empty);
+                MakeSinaAction(category, status.uid, status.bid, string.Empty, actType);
             }
         }
 
-        void MakeSinaAction(string category, SinaStatus status, int actType, string file)
+        void MakeSinaAction(string category, string uid, string bid, string file, int actType)
         {
             var upload = new SinaAction()
             {
                 actid = DateTime.Now.ToString("MMddHHmmsss"),
                 acttype = actType,
                 category = category,
-                uid = status.uid,
-                bid = status.bid,
+                uid = uid,
+                bid = bid,
                 file = file,
                 createtime = DateTime.Now.ToString("yyyy/MM/dd HH:mm"),
             };

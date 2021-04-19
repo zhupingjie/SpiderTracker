@@ -106,8 +106,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.chkUploadWeb = new System.Windows.Forms.CheckBox();
             this.chkBweTopic = new System.Windows.Forms.CheckBox();
+            this.btnBack1 = new System.Windows.Forms.CheckBox();
             this.btnBackTask = new System.Windows.Forms.CheckBox();
-            this.chkUploadRunState = new System.Windows.Forms.CheckBox();
             this.chkShowWinBkg = new System.Windows.Forms.CheckBox();
             this.chkShowSource = new System.Windows.Forms.CheckBox();
             this.panel13 = new System.Windows.Forms.Panel();
@@ -1013,8 +1013,8 @@
             // 
             this.panel2.Controls.Add(this.chkUploadWeb);
             this.panel2.Controls.Add(this.chkBweTopic);
+            this.panel2.Controls.Add(this.btnBack1);
             this.panel2.Controls.Add(this.btnBackTask);
-            this.panel2.Controls.Add(this.chkUploadRunState);
             this.panel2.Controls.Add(this.chkShowWinBkg);
             this.panel2.Controls.Add(this.chkShowSource);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1047,29 +1047,28 @@
             this.chkBweTopic.UseVisualStyleBackColor = true;
             this.chkBweTopic.CheckedChanged += new System.EventHandler(this.chkBweTopic_CheckedChanged);
             // 
+            // btnBack1
+            // 
+            this.btnBack1.AutoSize = true;
+            this.btnBack1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBack1.Location = new System.Drawing.Point(123, 59);
+            this.btnBack1.Name = "btnBack1";
+            this.btnBack1.Size = new System.Drawing.Size(36, 21);
+            this.btnBack1.TabIndex = 24;
+            this.btnBack1.Text = "...";
+            this.btnBack1.UseVisualStyleBackColor = true;
+            // 
             // btnBackTask
             // 
             this.btnBackTask.AutoSize = true;
             this.btnBackTask.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBackTask.Location = new System.Drawing.Point(123, 59);
+            this.btnBackTask.Location = new System.Drawing.Point(123, 33);
             this.btnBackTask.Name = "btnBackTask";
             this.btnBackTask.Size = new System.Drawing.Size(99, 21);
-            this.btnBackTask.TabIndex = 24;
+            this.btnBackTask.TabIndex = 23;
             this.btnBackTask.Text = "显示后台任务";
             this.btnBackTask.UseVisualStyleBackColor = true;
             this.btnBackTask.CheckedChanged += new System.EventHandler(this.btnBackTask_CheckedChanged);
-            // 
-            // chkUploadRunState
-            // 
-            this.chkUploadRunState.AutoSize = true;
-            this.chkUploadRunState.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chkUploadRunState.Location = new System.Drawing.Point(123, 33);
-            this.chkUploadRunState.Name = "chkUploadRunState";
-            this.chkUploadRunState.Size = new System.Drawing.Size(99, 21);
-            this.chkUploadRunState.TabIndex = 23;
-            this.chkUploadRunState.Text = "显示上传日志";
-            this.chkUploadRunState.UseVisualStyleBackColor = true;
-            this.chkUploadRunState.CheckedChanged += new System.EventHandler(this.chkUploadRunState_CheckedChanged);
             // 
             // chkShowWinBkg
             // 
@@ -1569,8 +1568,8 @@
         private System.Windows.Forms.CheckBox chkShowSource;
         private System.Windows.Forms.CheckBox chkShowWinBkg;
         private System.Windows.Forms.CheckBox chkBweTopic;
+        private System.Windows.Forms.CheckBox btnBack1;
         private System.Windows.Forms.CheckBox btnBackTask;
-        private System.Windows.Forms.CheckBox chkUploadRunState;
         private System.Windows.Forms.CheckBox chkUploadWeb;
     }
 }

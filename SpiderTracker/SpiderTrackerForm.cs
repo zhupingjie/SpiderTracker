@@ -77,12 +77,12 @@ namespace SpiderTracker
 
         private void SinaSpiderService_OnNewActionCount(int needUploads)
         {
-            InvokeControl(chkUploadRunState, new Action(() =>
+            InvokeControl(btnBackTask, new Action(() =>
             {
-                var text = this.chkUploadRunState.Text.Substring(0, 6);
+                var text = this.btnBackTask.Text.Substring(0, 6);
                 if (needUploads > 0) text = $"{text}({needUploads})";
 
-                this.chkUploadRunState.Text = text;
+                this.btnBackTask.Text = text;
             }));
         }
 
@@ -904,23 +904,6 @@ namespace SpiderTracker
             }
         }
 
-        private void btnBackTask_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void chkUploadRunState_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkUploadRunState.Checked)
-            {
-                var frm = new UploadRunStateForm(SinaSpiderService);
-                frm.StartPosition = FormStartPosition.CenterParent;
-                frm.ShowDialog();
-
-                this.chkUploadRunState.Checked = false;
-            }
-        }
-
         private void chkUploadWeb_CheckedChanged(object sender, EventArgs e)
         {
             if (chkUploadWeb.Checked)
@@ -1200,6 +1183,18 @@ namespace SpiderTracker
             else
             {
                 SinaSpiderService.StopShowWinBackgroundTask();
+            }
+        }
+
+        private void btnBackTask_CheckedChanged(object sender, EventArgs e)
+        {
+            if (btnBackTask.Checked)
+            {
+                var frm = new UploadRunStateForm(SinaSpiderService);
+                frm.StartPosition = FormStartPosition.CenterParent;
+                frm.ShowDialog();
+
+                this.btnBackTask.Checked = false;
             }
         }
 

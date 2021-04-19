@@ -2146,20 +2146,33 @@ namespace SpiderTracker.Imp
 
         void StartIgnoreStatusAction(SinaAction action)
         {
-            var sinaStatus = Repository.GetUserStatus(action.bid);
-            if(sinaStatus != null)
+            if (!string.IsNullOrEmpty(action.bid))
             {
-                Repository.ExecuteIgnoreStatus(action.category, action.uid, action.bid, action.file);
-
-                if (sinaStatus.mtype == 0)
+                var sinaStatus = Repository.GetUserStatus(action.bid);
+                if (sinaStatus != null)
                 {
-                    HttpUtil.DeleteSinaSourceImage(RunningConfig, action.bid, action.file);
+                    Repository.ExecuteIgnoreStatus(action.category, action.uid, action.bid, action.file);
 
-                    PathUtil.DeleteStoreUserImageFiles(RunningConfig.Category, action.uid, action.bid, action.file);
+                    if (sinaStatus.mtype == 0)
+                    {
+                        HttpUtil.DeleteSinaSourceImage(RunningConfig, action.bid, action.file);
+
+                        PathUtil.DeleteStoreUserImageFiles(RunningConfig.Category, action.uid, action.bid, action.file);
+                    }
+                    else if (sinaStatus.mtype == 1)
+                    {
+                        PathUtil.DeleteStoreUserVideoFile(RunningConfig.Category, action.uid, action.bid);
+                    }
                 }
-                else if (sinaStatus.mtype == 1)
+            }
+            else if (!string.IsNullOrEmpty(action.uid))
+            {
+                var sinaUser = Repository.GetUser(action.uid);
+                if (sinaUser != null)
                 {
-                    PathUtil.DeleteStoreUserVideoFile(RunningConfig.Category, action.uid, action.bid);
+                    Repository.DeleteSinaStatus(sinaUser);
+
+                    PathUtil.DeleteStoreUserSource(RunningConfig.Category, action.uid);
                 }
             }
             action.action = 1;
