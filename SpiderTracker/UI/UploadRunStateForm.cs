@@ -40,8 +40,8 @@ namespace SpiderTracker.UI
                 var listItem = this.lstUpload.FindItemWithText(upload.actid);
                 if (listItem != null)
                 {
-                    listItem.SubItems[5].Text = upload.actiontime;
-                    listItem.SubItems[6].Text = state;
+                    listItem.SubItems[6].Text = upload.actiontime;
+                    listItem.SubItems[7].Text = state;
                 }
             }));
         }
@@ -57,15 +57,16 @@ namespace SpiderTracker.UI
             {
                 foreach (var item in uploads)
                 {
-                    var listItem = this.lstUpload.FindItemWithText(item.file);
+                    var listItem = this.lstUpload.FindItemWithText(item.actid);
                     if (listItem != null) continue;
 
                     var subItem = new ListViewItem();
                     subItem.Text = item.actid;
                     subItem.SubItems.Add($"{item.category}");
                     subItem.SubItems.Add($"{item.uid}");
+                    subItem.SubItems.Add($"{item.bid}");
                     subItem.SubItems.Add($"{item.file}");
-                    subItem.SubItems.Add($"{(item.acttype == 0 ? "上传" : item.acttype == 1 ? "撤销" : "忽略")}");
+                    subItem.SubItems.Add($"{(item.acttype == 0 ? "上传" : item.acttype == 1 ? "撤销" : "删除")}");
                     subItem.SubItems.Add($"{item.actiontime}");
                     subItem.SubItems.Add($"❌");
                     this.lstUpload.Items.Add(subItem);

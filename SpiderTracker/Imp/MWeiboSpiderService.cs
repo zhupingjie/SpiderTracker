@@ -27,7 +27,11 @@ namespace SpiderTracker.Imp
         {
             if (OnNewActions != null)
             {
-                OnNewActions?.Invoke(uploads);
+                try
+                {
+                    OnNewActions?.Invoke(uploads);
+                }
+                catch (Exception) { }
             }
         }
 
@@ -39,7 +43,11 @@ namespace SpiderTracker.Imp
         {
             if (OnNewActionCount != null)
             {
-                OnNewActionCount?.Invoke(actions.Where(c => c.action == 0).Count());
+                try
+                {
+                    OnNewActionCount?.Invoke(actions.Where(c => c.action == 0).Count());
+                }
+                catch (Exception) { }
             }
         }
 
@@ -51,7 +59,11 @@ namespace SpiderTracker.Imp
         {
             if (OnShowActionStatus != null)
             {
-                OnShowActionStatus?.Invoke(upload, state);
+                try
+                {
+                    OnShowActionStatus?.Invoke(upload, state);
+                }
+                catch (Exception) { }
             }
         }
 
@@ -2151,16 +2163,21 @@ namespace SpiderTracker.Imp
                 var sinaStatus = Repository.GetUserStatus(action.bid);
                 if (sinaStatus != null)
                 {
+                    ShowActionStatus(action, "删除微博...");
                     Repository.ExecuteIgnoreStatus(action.category, action.uid, action.bid, action.file);
 
                     if (sinaStatus.mtype == 0)
                     {
+                        ShowActionStatus(action, "删除图片...");
+
                         HttpUtil.DeleteSinaSourceImage(RunningConfig, action.bid, action.file);
 
                         PathUtil.DeleteStoreUserImageFiles(RunningConfig.Category, action.uid, action.bid, action.file);
                     }
                     else if (sinaStatus.mtype == 1)
                     {
+                        ShowActionStatus(action, "删除视频...");
+
                         PathUtil.DeleteStoreUserVideoFile(RunningConfig.Category, action.uid, action.bid);
                     }
                 }
@@ -2170,8 +2187,10 @@ namespace SpiderTracker.Imp
                 var sinaUser = Repository.GetUser(action.uid);
                 if (sinaUser != null)
                 {
+                    ShowActionStatus(action, "删除微博...");
                     Repository.DeleteSinaStatus(sinaUser);
 
+                    ShowActionStatus(action, "删除资源...");
                     PathUtil.DeleteStoreUserSource(RunningConfig.Category, action.uid);
                 }
             }

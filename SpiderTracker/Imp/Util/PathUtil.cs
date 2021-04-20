@@ -119,21 +119,33 @@ namespace SpiderTracker.Imp
             {
                 if (!string.IsNullOrEmpty(filename) && filename != file.Name) continue;
 
-                if (file.Exists) file.Delete();
+                try
+                {
+                    if (file.Exists) file.Delete();
+                }
+                catch (Exception) { }
             }
             files = GetStoreUserThumbnailImageFiles(name, user, status);
             foreach (var file in files)
             {
                 if (!string.IsNullOrEmpty(filename) && filename != file.Name) continue;
 
-                if (file.Exists) file.Delete();
+                try
+                {
+                    if (file.Exists) file.Delete();
+                }
+                catch (Exception) { }
             }
         }
 
         public static void DeleteStoreUserVideoFile(string name, string user, string status)
         {
             var file = GetStoreUserVideoFile(name, user, status);
-            if (File.Exists(file)) File.Delete(file);
+            try
+            {
+                if (File.Exists(file)) File.Delete(file);
+            }
+            catch (Exception) { }
         }
 
 
@@ -199,8 +211,12 @@ namespace SpiderTracker.Imp
             var file = new FileInfo(imgFile);
             if(file.Exists)
             {
-                var destFile = Path.Combine(archivePath, file.Name);
-                file.CopyTo(destFile, true);
+                try
+                {
+                    var destFile = Path.Combine(archivePath, file.Name);
+                    file.CopyTo(destFile, true);
+                }
+                catch (Exception) { }
             }
         }
     }
