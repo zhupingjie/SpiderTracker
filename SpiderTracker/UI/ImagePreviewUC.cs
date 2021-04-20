@@ -629,11 +629,12 @@ namespace SpiderTracker.UI
             {
                 (pnlTools as Panel).Visible = visible;
 
-                if (visible)
+                var imgCtrlData = imgCtrl.Tag as ImageCtrlData;
+                if(imgCtrlData != null && visible)
                 {
-                    var upload = this.CheckImageUploadStatus(imgCtrl.Name);
+                    var upload = this.CheckImageUploadStatus(imgCtrlData.Name);
                     var btnCancelUploadImg = pnlTools.Controls.Find("btnCancelUploadImg", false).FirstOrDefault();
-                    if(btnCancelUploadImg != null)
+                    if (btnCancelUploadImg != null)
                     {
                         (btnCancelUploadImg as Button).Enabled = upload;
                     }
