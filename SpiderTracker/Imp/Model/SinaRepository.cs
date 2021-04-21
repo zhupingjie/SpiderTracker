@@ -270,7 +270,7 @@ namespace SpiderTracker.Imp.Model
             sinaUser.followers = user.followers_count;
             sinaUser.profile = SinaUrlUtil.GetSinaUserUrl(user.id);
             sinaUser.statuses = user.statuses_count.HasValue?user.statuses_count.Value : 0;
-            if (sinaUser.statuses < runningConfig.GatherUserMinStatuses) sinaUser.ignore = 1;
+            if (sinaUser.statuses < runningConfig.GatherUserMinStatuses) sinaUser.ignore = 3;
 
             var existsUser = GetUser(user.id);
             if (existsUser == null)

@@ -812,7 +812,7 @@ namespace SpiderTracker
 
             //this.txtStartUrl.Text = user.uid;
             this.lblUserUid.Text = user.uid;
-            this.cbxStatusSortIndex.Text = $"1";
+            //this.cbxStatusSortIndex.Text = $"1";
 
             Task.Factory.StartNew(() =>
             {
@@ -863,7 +863,7 @@ namespace SpiderTracker
         {
             this.RunningConfig = GetSpiderRunningConfig();
 
-            this.cbxUserSortIndex.Text = $"1";
+            //this.cbxUserSortIndex.Text = $"1";
 
             this.ChangeSelect();
 

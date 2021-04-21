@@ -182,7 +182,7 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 采集用户最少微博数量
         /// </summary>
-        public int GatherUserMinStatuses { get; set; } = 50;
+        public int GatherUserMinStatuses { get; set; } = 10;
 
         public string DefaultUploadServerIP { get; set; } = "121.4.29.105:8088";//"localhost:8080";
 
