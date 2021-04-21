@@ -70,7 +70,7 @@ namespace SpiderTracker.UI
                     margin: 5px;
                 }}
             </style>");
-            sb = MakeMakeDocumentDivHtml(sb, files, 3);
+            sb = MakeMakeDocumentDivHtml(sb, files, RunningConfig.DefaultDisplayWebImageRowCount);
             return sb.ToString();
         }
 
@@ -81,7 +81,7 @@ namespace SpiderTracker.UI
             {
                 sb.Append("<div>");
                 var fs = files.Skip(n * rowCount).Take(rowCount).ToArray();
-                for (var i = 0; i < 3; i++)
+                for (var i = 0; i < rowCount; i++)
                 {
                     if (fs.Length > i && fs.Length > 0)
                     {

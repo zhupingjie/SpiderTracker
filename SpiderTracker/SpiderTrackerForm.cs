@@ -910,7 +910,7 @@ namespace SpiderTracker
             {
                 var status = GetSelectStatusId();
 
-                var frm = new UploadSourceWebForm(RunningConfig, status, "", false);
+                var frm = new UploadSourceWebForm(RunningConfig, status, "", true);
                 frm.StartPosition = FormStartPosition.CenterParent;
                 frm.ShowDialog();
 

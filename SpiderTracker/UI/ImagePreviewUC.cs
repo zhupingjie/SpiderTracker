@@ -719,9 +719,11 @@ namespace SpiderTracker.UI
             var imgCtrlData = GetCurrentImageCtrlData();
             if (imgCtrlData == null) return;
 
-            var frm = new UploadSourceWebForm(RunningConfig, SinaStatus.bid, imgCtrlData.Name, false);
-            frm.StartPosition = FormStartPosition.CenterParent;
-            frm.ShowDialog();
+            System.Diagnostics.Process.Start(imgCtrlData.ImageFile);
+            //return;
+            //var frm = new UploadSourceWebForm(RunningConfig, SinaStatus.bid, imgCtrlData.Name, false);
+            //frm.StartPosition = FormStartPosition.CenterParent;
+            //frm.ShowDialog();
         }
 
         void SetWindowBackground()

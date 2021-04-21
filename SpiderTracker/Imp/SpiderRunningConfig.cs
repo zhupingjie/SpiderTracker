@@ -235,12 +235,18 @@ namespace SpiderTracker.Imp
         /// <summary>
         /// 查看在线资源图片宽度
         /// </summary>
-        public int DefaultDisplayWebImageWidth { get; set; } = 300;
+        public int DefaultDisplayWebImageWidth { get; set; } = 180;
 
         /// <summary>
         /// 查看在线资源图片高度
         /// </summary>
-        public int DefaultDisplayWebImageHeight { get; set; } = 400;
+        public int DefaultDisplayWebImageHeight { get; set; } = 260;
+
+
+        /// <summary>
+        /// 查看在线资源图片一行多少张
+        /// </summary>
+        public int DefaultDisplayWebImageRowCount { get; set; } = 5;
 
         #endregion
 
