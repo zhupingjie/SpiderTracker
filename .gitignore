@@ -15,3 +15,12 @@
 /SpiderWeb/obj
 /SpiderCore/bin
 /SpiderCore/obj
+/SpiderBilibiliTracker/bin/Debug
+/SpiderBilibiliTracker/bin/Release/Firefox/AccessibleMarshal.dll
+/SpiderBilibiliTracker/bin/Release
+/SpiderBilibiliTracker/cache/cosplay/StoreImage/18841842/video
+/SpiderBilibiliTracker/obj/Debug/.NETFramework,Version=v4.6.1.AssemblyAttributes.cs
+/SpiderBilibiliTracker/obj
+/SpiderSinaTracker/cache
+/SpiderSinaTracker/obj
+/SpiderSinaTracker/bin

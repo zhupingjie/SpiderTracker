@@ -1,6 +1,0 @@
-F:\GIT-Project\SpiderTracker\SpiderCore\bin\Debug\SpiderCore.dll
-F:\GIT-Project\SpiderTracker\SpiderCore\bin\Debug\SpiderCore.pdb
-F:\GIT-Project\SpiderTracker\SpiderCore\obj\Debug\SpiderCore.csprojAssemblyReference.cache
-F:\GIT-Project\SpiderTracker\SpiderCore\obj\Debug\SpiderCore.csproj.CoreCompileInputs.cache
-F:\GIT-Project\SpiderTracker\SpiderCore\obj\Debug\SpiderCore.dll
-F:\GIT-Project\SpiderTracker\SpiderCore\obj\Debug\SpiderCore.pdb
