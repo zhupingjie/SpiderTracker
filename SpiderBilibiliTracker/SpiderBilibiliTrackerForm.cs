@@ -1043,7 +1043,7 @@ namespace SpiderTracker
         private void txtUserFilter_Leave(object sender, EventArgs e)
         {
             var user = this.txtUserFilter.Text.Trim();
-            if (user.Length == 8)
+            if (user.Length >= 6)
             {
                 var rep = new SinaRepository();
                 var sinaUser = rep.GetUser(user);
