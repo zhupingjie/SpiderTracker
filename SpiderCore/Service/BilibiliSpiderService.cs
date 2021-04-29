@@ -1137,13 +1137,14 @@ namespace SpiderCore.Service
                         return 0;
                     }
                     var result = GetBilibiliStatusViedoResult(html);
-                    if (result == null || result.data == null || result.data.dash == null || result.data.dash.video.Length == 0)
+                    if (result == null || result.data == null || result.data.dash == null || result.data.dash.video.Length == 0 || result.data.dash.audio.Length == 0)
                     {
-                        ShowGatherStatus($"解析用户视频休息错误!!!!!!");
+                        ShowGatherStatus($"解析用户视频信息错误!!!!!!");
                         return 0;
                     }
                     var video = result.data.dash.video.FirstOrDefault();
-                    var succ = DownloadUserStatusVedio(runningCache, user.mid, status.bvid, avUrl, video.baseUrl);
+                    var audio = result.data.dash.audio.FirstOrDefault();
+                    var succ = DownloadUserStatusVedio(runningCache, user.mid, status.bvid, avUrl, video.baseUrl, audio.baseUrl);
                     if (succ)
                     {
                         haveReadVedioCount++;
@@ -1484,15 +1485,15 @@ namespace SpiderCore.Service
         /// <param name="dto"></param>
         /// <param name="cookie"></param>
         /// <returns></returns>
-        bool DownloadUserStatusVedio(SpiderRunningCache runningCache, string userId, string arcId, string vedioUrl, string downloadUrl)
+        bool DownloadUserStatusVedio(SpiderRunningCache runningCache, string userId, string arcId, string statusUrl, string videoUrl, string audioUrl)
         {
-            if (!Repository.ExistsSinaSource(userId, arcId, vedioUrl))
+            if (!Repository.ExistsSinaSource(userId, arcId, statusUrl))
             {
                 var sinaPicture = new SinaSource()
                 {
                     uid = userId,
                     bid = arcId,
-                    url = vedioUrl,
+                    url = statusUrl,
                     name = $"{arcId}_1.mp4"
                 };
                 var suc = Repository.CreateSinaSource(sinaPicture);
@@ -1503,7 +1504,9 @@ namespace SpiderCore.Service
                 }
             }
             var filePath = PathUtil.GetStoreUserVideoFile(runningCache.Category, userId, arcId);
-            var down = HttpUtil.GetHttpRequestRangeVedioResult(downloadUrl, vedioUrl, filePath, RunningConfig);
+            var down = HttpUtil.GetHttpRequestRangeVedioResult(videoUrl, statusUrl, filePath, RunningConfig);
+            filePath = PathUtil.GetStoreUserAudioFile(runningCache.Category, userId, arcId);
+            down = HttpUtil.GetHttpRequestRangeVedioResult(audioUrl, statusUrl, filePath, RunningConfig);
             if (!down)
             {
                 ShowGatherStatus($"下载视频【{arcId}】第【1】个文件错误!");

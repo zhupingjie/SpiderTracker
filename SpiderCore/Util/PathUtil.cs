@@ -53,7 +53,13 @@ namespace SpiderCore.Util
             PathUtil.CheckCreateDirectory(path);
             return Path.Combine(path, $"{bid}.mp4");
         }
-
+        public static string GetStoreUserAudioFile(string name, string user, string bid)
+        {
+            string path = GetStoreUserPath(name, user);
+            path = Path.Combine(path, "video");
+            PathUtil.CheckCreateDirectory(path);
+            return Path.Combine(path, $"{bid}_aud.mp4");
+        }
         public static string[] GetStoreUserVideoFiles(string name, string uid)
         {
             if (string.IsNullOrEmpty(name)) return new string[] { };
