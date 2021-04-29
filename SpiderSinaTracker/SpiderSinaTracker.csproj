@@ -7,7 +7,7 @@
     <ProjectGuid>{A353030E-D9C7-4845-AA9C-CF7EED0C228B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>SpiderTracker</RootNamespace>
-    <AssemblyName>SpiderTracker</AssemblyName>
+    <AssemblyName>SpiderSinaTracker</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
