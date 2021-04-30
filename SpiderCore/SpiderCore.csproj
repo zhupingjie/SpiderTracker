@@ -133,6 +133,7 @@
     <Compile Include="Service\ISpiderService.cs" />
     <Compile Include="Service\MWeiboSpiderService.cs" />
     <Compile Include="Service\SpiderStartOption.cs" />
+    <Compile Include="Util\CmdUtil.cs" />
     <Compile Include="Util\HttpUtil.cs" />
     <Compile Include="Util\ImageUtil.cs" />
     <Compile Include="Util\LogUtil.cs" />

@@ -1503,33 +1503,51 @@ namespace SpiderCore.Service
                     return false;
                 }
             }
-            var filePath = PathUtil.GetStoreUserVideoFile(runningCache.Category, userId, arcId);
-            var down = HttpUtil.GetHttpRequestRangeVedioResult(videoUrl, statusUrl, filePath, RunningConfig);
-            filePath = PathUtil.GetStoreUserAudioFile(runningCache.Category, userId, arcId);
-            down = HttpUtil.GetHttpRequestRangeVedioResult(audioUrl, statusUrl, filePath, RunningConfig);
-            if (!down)
+            var mp4File = PathUtil.GetStoreUserVideoFile(runningCache.Category, userId, arcId);
+            var videoFile = PathUtil.GetStoreUserVideoFile(runningCache.Category, userId, $"{arcId}_vid");
+            var video = HttpUtil.GetHttpRequestRangeVedioResult(videoUrl, statusUrl, videoFile, RunningConfig);
+            if (video) {
+                var audioFile = PathUtil.GetStoreUserVideoFile(runningCache.Category, userId, $"{arcId}_aud");
+                var audio = HttpUtil.GetHttpRequestRangeVedioResult(audioUrl, statusUrl, audioFile, RunningConfig);
+                if (audio)
+                {
+                    var mp4 = MegreViedoAndAudioToMP4(videoFile, audioFile, mp4File);
+                    if (!mp4)
+                    {
+                        ShowGatherStatus($"合并音频【{arcId}】文件错误!");
+                        return false;
+                    }
+                    else
+                    {
+                        File.Delete(videoFile);
+                        File.Delete(audioFile);
+                    }
+                }
+            }
+            var fileInfo = new FileInfo(mp4File);
+            if (!fileInfo.Exists)
             {
-                ShowGatherStatus($"下载视频【{arcId}】第【1】个文件错误!");
+                ShowGatherStatus($"下载视频【{arcId}】文件错误!!!");
                 return false;
             }
-            else
-            {
-                var fileInfo = new FileInfo(filePath);
-                if (!fileInfo.Exists)
-                {
-                    ShowGatherStatus($"视频【{arcId}】第【1】文件不存在忽略");
-                    return false;
-                }
-                if (fileInfo.Length == 0)
-                {
-                    ShowGatherStatus($"视频【{arcId}】第【1】文件太小忽略");
-                    return false;
-                }
-                ShowGatherStatus($"下载视频【{arcId}】第【1】个文件OK).");
-                return true;
-            }
+            ShowGatherStatus($"下载视频【{arcId}】文件OK).");
+            return true;
         }
 
+        bool MegreViedoAndAudioToMP4(string video, string audio, string mp4)
+        {
+            var basePath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+            var ffmpeg = Path.Combine(basePath.Parent.Parent.FullName, "ffmpeg", "ffmpeg.exe");
+            try
+            {
+                CmdUtil.RunCmd(ffmpeg, $"-i {audio} -i {video} -codec copy {mp4}");
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
         #endregion
 
         #region 后台任务
