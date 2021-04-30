@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpiderCore.Model.MWeiboJson
+namespace SpiderCore.Model.BilibiliJson
 {
     public class BilibiliUserViedoResult
     {

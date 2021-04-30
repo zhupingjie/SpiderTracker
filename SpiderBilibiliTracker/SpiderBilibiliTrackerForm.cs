@@ -813,7 +813,7 @@ namespace SpiderTracker
 
             //var userUrl = SinaUrlUtil.GetSinaUserUrl(user.uid);
 
-            //this.txtStartUrl.Text = user.uid;
+            this.txtStartUrl.Text = "";
             this.lblUserUid.Text = user.uid;
             //this.cbxStatusSortIndex.Text = $"1";
 
@@ -974,7 +974,7 @@ namespace SpiderTracker
                 {
                     GatherName = "status",
                     StatusIds = statusIds.ToArray(),
-                    StartUrl = user.uid
+                    SelectUserId = user.uid
                 };
                 BilibiliSpiderService.StartSpider(RunningConfig, option);
             }
@@ -1244,6 +1244,7 @@ namespace SpiderTracker
                 {
                     GatherName = RunningConfig.Site,
                     SelectUsers = users.ToArray(),
+                    SelectUserId = GetSelectUserId(),
                     StartUrl = this.txtStartUrl.Text
                 };
                 BilibiliSpiderService.StartSpider(RunningConfig, option);

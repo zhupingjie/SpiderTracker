@@ -86,6 +86,8 @@
     <Compile Include="Model\BilibiliJson\BilibiliUser.cs" />
     <Compile Include="Model\BilibiliJson\BilibiliUserLiveroom.cs" />
     <Compile Include="Model\BilibiliJson\BilibiliUserResult.cs" />
+    <Compile Include="Model\BilibiliJson\BilibiliUserStateData.cs" />
+    <Compile Include="Model\BilibiliJson\BilibiliUserStateResult.cs" />
     <Compile Include="Model\BilibiliJson\BilibiliUserStatusPage.cs" />
     <Compile Include="Model\BilibiliJson\BilibiliUserViedoAudio.cs" />
     <Compile Include="Model\BilibiliJson\BilibiliUserViedoInfo.cs" />

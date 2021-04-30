@@ -15,6 +15,8 @@ namespace SpiderCore.Service
         {
             get
             {
+                if (!string.IsNullOrEmpty(StartUrl)) return GatherTypeEnum.GatherTemp;
+
                 switch (GatherName)
                 {
                     case "user":
@@ -36,6 +38,8 @@ namespace SpiderCore.Service
         public string StartUrl { get; set; }
 
         public SinaUser[] SelectUsers { get; set; }
+
+        public string SelectUserId { get; set; }
 
         public string[] StatusIds { get; set; }
     }

@@ -974,7 +974,7 @@ namespace SpiderTracker
                 {
                     GatherName = "status",
                     StatusIds = statusIds.ToArray(),
-                    StartUrl = user.uid
+                    SelectUserId = user.uid
                 };
                 SinaSpiderService.StartSpider(RunningConfig, option);
             }

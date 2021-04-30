@@ -226,14 +226,14 @@ namespace SpiderCore.Service
             {
                 if (option.GatherType == GatherTypeEnum.GatherUser)
                 {
-                    MakeGatherUsers(option.SelectUsers, option.StartUrl);
+                    MakeGatherUsers(option.SelectUsers, option.SelectUserId);
                     SpiderStarted();
                     StartAutoGatherByUser();
                 }
                 else if (option.GatherType == GatherTypeEnum.GahterStatus)
                 {
                     SpiderStarted();
-                    StartAutoGatherByStatus(option.StatusIds, option.StartUrl);
+                    StartAutoGatherByStatus(option.StatusIds, option.SelectUserId);
                 }
                 else if (option.GatherType == GatherTypeEnum.GatherTopic)
                 {

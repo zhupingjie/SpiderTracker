@@ -31,6 +31,11 @@ namespace SpiderCore.Config
         /// <summary>
         /// 视频
         /// </summary>
-        GatherVideo = 4
+        GatherVideo = 4,
+
+        /// <summary>
+        /// 临时
+        /// </summary>
+        GatherTemp = 5
     }
 }

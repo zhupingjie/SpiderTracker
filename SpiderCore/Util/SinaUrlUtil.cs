@@ -38,6 +38,20 @@ namespace SpiderCore.Util
             return $"{GetBilibiliUserHost()}/{userId}";
         }
 
+        public static string GetBilibiliStatusByUrl(string url)
+        {
+            if (url.Contains("?")) url = url.Split('?')[0];
+            if (url.Contains("/video/"))
+            {
+                var status = url.Replace(GetBilibiliHost(), "").Replace("/video/", "").Replace("/","");
+                return status;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static string GetBilibiliUserStatusUrl(string status)
         {
             return $"{SinaUrlUtil.GetBilibiliHost()}/video/{status}";
