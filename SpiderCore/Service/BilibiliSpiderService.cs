@@ -777,7 +777,7 @@ namespace SpiderCore.Service
         /// <summary>
         /// 采集用户视频列表数据
         /// </summary>
-        /// <param name="runningConfig"></param>
+        /// <param name="runningConfig"></param> 
         /// <param name="user"></param>
         /// <param name="readPageIndex"></param>
         /// <param name="readPageCount"></param>
