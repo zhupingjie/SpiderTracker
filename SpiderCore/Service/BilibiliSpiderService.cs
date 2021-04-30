@@ -675,6 +675,7 @@ namespace SpiderCore.Service
             }
 
             int readUserImageCount = 0, readPageIndex = 0, emptyPageCount = 0;
+            int readPageSize = RunningConfig.ReadPageSize;
             int startPageIndex = RunningConfig.StartPageIndex;
             if (RunningConfig.GatherContinueLastPage && lastReadPageIndex > 0) startPageIndex = lastReadPageIndex;
             int readPageCount = (RunningConfig.MaxReadPageCount == 0 ? int.MaxValue : startPageIndex + RunningConfig.MaxReadPageCount);
@@ -691,7 +692,7 @@ namespace SpiderCore.Service
                     break;
                 }
                 bool readPageEmpty = false, stopReadNextPage = false;
-                int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningCache, sinaUser, user, readPageIndex, readPageCount, out readPageEmpty, out stopReadNextPage);
+                int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningCache, sinaUser, user, readPageIndex, readPageSize, readPageCount, out readPageEmpty, out stopReadNextPage);
                 readUserImageCount += readPageImageCount;
                 if (!readPageEmpty)
                 {
@@ -781,14 +782,14 @@ namespace SpiderCore.Service
         /// <param name="readPageIndex"></param>
         /// <param name="readPageCount"></param>
         /// <returns></returns>
-        int GatherSinaStatusByStatusPageUrl(SpiderRunningCache runningCache, SinaUser sinaUser, BilibiliUser user, int readPageIndex, int readPageCount, out bool readPageEmpty, out bool stopReadNextPage)
+        int GatherSinaStatusByStatusPageUrl(SpiderRunningCache runningCache, SinaUser sinaUser, BilibiliUser user, int readPageIndex, int readPageSize, int readPageCount, out bool readPageEmpty, out bool stopReadNextPage)
         {
             readPageEmpty = false;
             stopReadNextPage = false;
             runningCache.CurrentPageIndex = readPageIndex;
 
             ShowGatherStatus($"开始读取用户【{user.mid}】的第【{readPageIndex}】页视频数据...", true);
-            var getApi = $"https://api.bilibili.com/x/space/arc/search?mid={user.mid}&ps=30&tid=0&pn={readPageIndex}&keyword=&order=pubdate&jsonp=jsonp";
+            var getApi = $"https://api.bilibili.com/x/space/arc/search?mid={user.mid}&ps={readPageSize}&tid=0&pn={readPageIndex}&keyword=&order=pubdate&jsonp=jsonp";
             var html = HttpUtil.GetHttpRequestJsonResult(getApi, RunningConfig);
             if (html == null)
             {

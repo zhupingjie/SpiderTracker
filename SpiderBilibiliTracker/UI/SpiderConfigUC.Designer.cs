@@ -56,6 +56,8 @@ namespace SpiderTracker.UI
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ReadPageSize = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.GatherThreadCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartPageIndex)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxReadPageCount)).BeginInit();
@@ -65,6 +67,7 @@ namespace SpiderTracker.UI
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ReadPageSize)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -158,7 +161,7 @@ namespace SpiderTracker.UI
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(9, 88);
+            this.label3.Location = new System.Drawing.Point(9, 90);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(80, 17);
             this.label3.TabIndex = 4;
@@ -374,6 +377,8 @@ namespace SpiderTracker.UI
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.ReadPageSize);
+            this.panel4.Controls.Add(this.label4);
             this.panel4.Controls.Add(this.panel6);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Controls.Add(this.GatherThreadCount);
@@ -407,6 +412,34 @@ namespace SpiderTracker.UI
             this.label7.TabIndex = 0;
             this.label7.Text = "基本选项";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label4.Location = new System.Drawing.Point(9, 121);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 17);
+            this.label4.TabIndex = 46;
+            this.label4.Text = "每页采集数量";
+            // 
+            // ReadPageSize
+            // 
+            this.ReadPageSize.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ReadPageSize.Location = new System.Drawing.Point(120, 119);
+            this.ReadPageSize.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.ReadPageSize.Name = "ReadPageSize";
+            this.ReadPageSize.Size = new System.Drawing.Size(103, 23);
+            this.ReadPageSize.TabIndex = 47;
+            this.ReadPageSize.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
             // SpiderConfigUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -431,6 +464,7 @@ namespace SpiderTracker.UI
             this.panel4.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ReadPageSize)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -464,5 +498,7 @@ namespace SpiderTracker.UI
         private System.Windows.Forms.CheckBox IgnoreReadDownStatus;
         private System.Windows.Forms.CheckBox GatherStatusWithNoSource;
         private System.Windows.Forms.CheckBox GatherStatusUpdateLocalSource;
+        private System.Windows.Forms.NumericUpDown ReadPageSize;
+        private System.Windows.Forms.Label label4;
     }
 }

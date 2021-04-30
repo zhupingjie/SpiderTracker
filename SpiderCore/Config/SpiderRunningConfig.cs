@@ -54,6 +54,12 @@ namespace SpiderCore.Config
         public int MaxReadPageCount { get; set; } = 3;
 
         /// <summary>
+        /// 每页数量
+        /// </summary>
+        [OptionAttribute]
+        public int ReadPageSize { get; set; } = 10;
+
+        /// <summary>
         /// 读取最小图数
         /// </summary>
         [OptionAttribute]
