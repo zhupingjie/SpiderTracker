@@ -18,6 +18,11 @@ namespace SpiderCore.Util
             return "https://www.bilibili.com";
         }
 
+        public static string GetBilibiliUserHost()
+        {
+            return "https://space.bilibili.com";
+        }
+
         public static string GetSinaUserUrl(string userId)
         {
             return $"{GetSinaHost()}/u/{userId}";
@@ -26,6 +31,11 @@ namespace SpiderCore.Util
         public static string GetSinaUserStatusUrl(string status)
         {
             return $"{SinaUrlUtil.GetSinaHost()}/status/{status}";
+        }
+
+        public static string GetBilibiliUserUrl(string userId)
+        {
+            return $"{GetBilibiliUserHost()}/{userId}";
         }
 
         public static string GetBilibiliUserStatusUrl(string status)

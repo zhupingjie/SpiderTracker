@@ -392,10 +392,10 @@ namespace SpiderCore.Repository
             }
         }
 
-        public void StoreSinaStatus(SpiderRunningConfig runningConfig, BilibiliUser user, BilibiliUserStatusVlist status, int getSourceCount, bool ignore)
+        public void StoreSinaStatus(SpiderRunningConfig runningConfig, SinaUser user,  BilibiliUserStatusVlist status, int getSourceCount, bool ignore)
         {
             var sinaStatus = new SinaStatus();
-            sinaStatus.uid = user.mid;
+            sinaStatus.uid = user.uid;
             sinaStatus.bid = status.bvid;
             sinaStatus.mid = status.aid;
             sinaStatus.mtype = 1;

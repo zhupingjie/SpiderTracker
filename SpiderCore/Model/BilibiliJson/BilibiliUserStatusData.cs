@@ -10,5 +10,6 @@ namespace SpiderCore.Model.MWeiboJson
     {
         public int code { get; set; }
         public BilibiliUserStatusList list { get; set; }
+        public BilibiliUserStatusPage page { get; set; }
     }
 }

@@ -231,7 +231,11 @@ namespace SpiderCore.Service
                     SpiderStarted();
                     StartAutoGatherByUser();
                 }
-
+                else if(option.GatherType == GatherTypeEnum.GahterStatus)
+                {
+                    SpiderStarted();
+                    StartAutoGatherByStatus(option.StatusIds, option.StartUrl);
+                }
                 SpiderComplete();
             });
         }
@@ -399,11 +403,11 @@ namespace SpiderCore.Service
                     var readStatusImageCount = 0;
                     if (RunningConfig.GatherStatusWithNoSource)
                     {
-                        //readStatusImageCount = GatherSinaStatusByUserStatus(runningCache, user.uid);
+                        readStatusImageCount = GatherSinaStatusByUserStatus(runningCache, user.uid);
                     }
                     else if (RunningConfig.GatherStatusUpdateLocalSource)
                     {
-                        //readStatusImageCount = GatherSinaSourceByUserStatus(runningCache, user.uid);
+                        readStatusImageCount = GatherSinaSourceByUserStatus(runningCache, user.uid);
                     }
                     else
                     {
@@ -420,6 +424,33 @@ namespace SpiderCore.Service
                 }
             }
         }
+
+        void StartAutoGatherByStatus(IList<string> statusIds, string userId)
+        {
+            var threads = new List<Task>();
+            var task = Task.Factory.StartNew(() =>
+            {
+               
+                var user = Repository.GetUser(userId);
+                if(user == null)
+                {
+                    ShowGatherStatus($"用户【{userId}】不存在.");
+                    return;
+                }
+                ShowGatherStatus($"准备读取用户【{userId}】的视频数据...");
+
+                var tempRuningCache = new SpiderRunningCache(GatherWebEnum.Sina, RunningConfig.Category, RunningConfig.Site, userId);
+                int readStatusImageCount = 0;
+                foreach (var status in statusIds)
+                {
+                    readStatusImageCount += GatherSinaStatusByStatusUrl(tempRuningCache, user, status);
+                }
+                ShowGatherStatus($"采集完成,共采集资源【{readStatusImageCount}】.");
+            });
+            threads.Add(task);
+            Task.WaitAll(threads.ToArray());
+        }
+
 
         #endregion
 
@@ -452,7 +483,7 @@ namespace SpiderCore.Service
                 if (suc)
                 {
                     ShowGatherStatus($"开始采集用户【{userId}】视频【{status.bid}】...");
-                    readStatusImageCount = GatherSinaStatusByStatusUrl(runningCache, status.bid);
+                    readStatusImageCount = GatherSinaStatusByStatusUrl(runningCache, sinaUser, status.bid);
                     readUserImageCount += readStatusImageCount;
 
                     if (readStatusImageCount > 0)
@@ -551,76 +582,6 @@ namespace SpiderCore.Service
             }
             int readStatusImageCount = 0;
             var sinaStatuses = Repository.GetUserStatuses(userId);
-            var imageFiles = PathUtil.GetStoreUserThumbnailImageFiles(runningCache.Category, userId);
-            if (imageFiles.Length > 0)
-            {
-                var hasBids = sinaStatuses.Where(c => c.mtype == 0).Select(c => c.bid).ToArray();
-                var localStatuses = imageFiles.Select(c => new FileInfo(c).Name.Split('_')[0]).GroupBy(c => c).Select(c => new { bid = c.Key, qty = c.Count() }).ToArray();
-                var bids = localStatuses.Select(c => c.bid).ToArray();
-                var extStatuses = sinaStatuses.Where(c => bids.Contains(c.bid)).ToArray();
-                if (RunningConfig.IgnoreReadGetStatus)
-                {
-                    extStatuses = extStatuses.Where(c => c.gets > 0).ToArray();
-                }
-                if (RunningConfig.IgnoreReadArchiveStatus)
-                {
-                    extStatuses = extStatuses.Where(c => c.upload > 0).ToArray();
-                }
-                foreach (var status in extStatuses)
-                {
-                    var suc = CheckUserStatusGather(runningCache, sinaUser, status);
-                    if (suc)
-                    {
-                        var localStatus = localStatuses.FirstOrDefault(c => c.bid == status.bid);
-                        status.gets = localStatus.qty;
-                        Repository.UpdateSinaStatus(status, new string[] { "gets" });
-                        ShowGatherStatus($"用户【{userId}】微博【{status.bid}】已更新采集数量.");
-
-                        GatherStatusComplete(userId, localStatus.qty);
-                    }
-
-                    if (StopSpiderWork)
-                    {
-                        ShowGatherStatus($"中止采集用户视频数据...");
-                        break;
-                    }
-                    if (CheckUserCanceled(userId))
-                    {
-                        ShowGatherStatus($"取消采集用户视频数据...");
-                        break;
-                    }
-
-                    Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
-                }
-                var notExtBids = bids.Where(c => !hasBids.Contains(c)).ToArray();
-                var notExtLoaclStatuses = localStatuses.Where(c => notExtBids.Contains(c.bid)).ToArray();
-                foreach (var localStatus in notExtLoaclStatuses)
-                {
-                    ShowGatherStatus($"开始采集用户【{userId}】微博【{localStatus.bid}】...");
-                    readStatusImageCount += GatherSinaStatusByStatusUrl(runningCache, localStatus.bid);
-
-                    var extStatus = Repository.GetUserStatus(localStatus.bid);
-                    if (extStatus != null && extStatus.ignore > 0)
-                    {
-                        PathUtil.DeleteStoreUserImageFiles(runningCache.Category, userId, extStatus.bid, null);
-                        ShowGatherStatus($"用户【{userId}】微博【{extStatus.bid}】已忽略删除.");
-                    }
-
-                    if (StopSpiderWork)
-                    {
-                        ShowGatherStatus($"中止采集用户视频数据...");
-                        break;
-                    }
-                    if (CheckUserCanceled(userId))
-                    {
-                        ShowGatherStatus($"取消采集用户视频数据...");
-                        break;
-                    }
-                    Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
-                }
-
-                Repository.UpdateSinaUserQty(userId);
-            }
             var videoFiles = PathUtil.GetStoreUserVideoFiles(runningCache.Category, userId);
             if (videoFiles.Length > 0)
             {
@@ -666,7 +627,7 @@ namespace SpiderCore.Service
                 foreach (var localStatus in notExtLoaclStatuses)
                 {
                     ShowGatherStatus($"开始采集用户【{userId}】微博【{localStatus.bid}】...");
-                    readStatusImageCount += GatherSinaStatusByStatusUrl(runningCache, localStatus.bid);
+                    readStatusImageCount += GatherSinaStatusByStatusUrl(runningCache, sinaUser, localStatus.bid);
 
                     var extStatus = Repository.GetUserStatus(localStatus.bid);
                     if (extStatus != null && extStatus.ignore > 0)
@@ -730,7 +691,7 @@ namespace SpiderCore.Service
                     break;
                 }
                 bool readPageEmpty = false, stopReadNextPage = false;
-                int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningCache, user, readPageIndex, readPageCount, out readPageEmpty, out stopReadNextPage);
+                int readPageImageCount = GatherSinaStatusByStatusPageUrl(runningCache, sinaUser, user, readPageIndex, readPageCount, out readPageEmpty, out stopReadNextPage);
                 readUserImageCount += readPageImageCount;
                 if (!readPageEmpty)
                 {
@@ -820,14 +781,14 @@ namespace SpiderCore.Service
         /// <param name="readPageIndex"></param>
         /// <param name="readPageCount"></param>
         /// <returns></returns>
-        int GatherSinaStatusByStatusPageUrl(SpiderRunningCache runningCache, BilibiliUser user, int readPageIndex, int readPageCount, out bool readPageEmpty, out bool stopReadNextPage)
+        int GatherSinaStatusByStatusPageUrl(SpiderRunningCache runningCache, SinaUser sinaUser, BilibiliUser user, int readPageIndex, int readPageCount, out bool readPageEmpty, out bool stopReadNextPage)
         {
             readPageEmpty = false;
             stopReadNextPage = false;
             runningCache.CurrentPageIndex = readPageIndex;
 
             ShowGatherStatus($"开始读取用户【{user.mid}】的第【{readPageIndex}】页视频数据...", true);
-            var getApi = $"https://api.bilibili.com/x/space/arc/search?mid={user.mid}&ps=10&tid=0&pn={readPageIndex}&keyword=&order=pubdate&jsonp=jsonp";
+            var getApi = $"https://api.bilibili.com/x/space/arc/search?mid={user.mid}&ps=30&tid=0&pn={readPageIndex}&keyword=&order=pubdate&jsonp=jsonp";
             var html = HttpUtil.GetHttpRequestJsonResult(getApi, RunningConfig);
             if (html == null)
             {
@@ -846,6 +807,11 @@ namespace SpiderCore.Service
                 readPageEmpty = true;
                 return 0;
             }
+            if (result.data.page != null && sinaUser.statuses != result.data.page.count)
+            {
+                sinaUser.statuses = result.data.page.count;
+                Repository.UpdateSinaUser(sinaUser, new string[] { "statuses" });
+            }
             int readPageImageCount = 0;
             foreach (var card in result.data.list.vlist)
             {
@@ -860,7 +826,7 @@ namespace SpiderCore.Service
                     break;
                 }
                 bool ignoreSourceReaded = false;
-                var readStatusImageCount = GatherSinaStatusByStatusOrRetweeted(runningCache, card, user, out ignoreSourceReaded);
+                var readStatusImageCount = GatherSinaStatusByStatusOrRetweeted(runningCache, card, sinaUser, out ignoreSourceReaded);
                 readPageImageCount += readStatusImageCount;
 
                 if (StopSpiderWork)
@@ -890,35 +856,20 @@ namespace SpiderCore.Service
         /// 采集微博详细数据（通过URL）
         /// </summary>
         /// <param name="runningConfig"></param>
-        int GatherSinaStatusByStatusUrl(SpiderRunningCache runningCache, string status)
+        int GatherSinaStatusByStatusUrl(SpiderRunningCache runningCache, SinaUser user, string status)
         {
-            var statusUrl = SinaUrlUtil.GetBilibiliUserStatusUrl(status);
-            var html = HttpUtil.GetHttpRequestJsonResult(statusUrl, RunningConfig);
-            if (html == null)
+            var sinaStatus = Repository.GetUserStatus(status);
+            if(sinaStatus != null)
             {
-                ShowGatherStatus($"获取用户视频列表错误!!!!!!");
-                return 0;
+                bool ignoreSourceReaded = false;
+                return GatherSinaStatusByStatusOrRetweeted(runningCache, new BilibiliUserStatusVlist()
+                {
+                    bvid = status,
+                    aid = sinaStatus.mid,
+                    description = sinaStatus.text
+                }, user, out ignoreSourceReaded) ;
             }
             return 0;
-            //var result = GetBilibiliStatusListResult(html);
-            //if (result == null || result.data == null || result.data.list == null || result.data.list.vlist)
-            //{
-            //    ShowGatherStatus($"解析用户视频列表错误!!!!!!");
-            //    return 0;
-            //}
-            //var user = result.status.user;
-            //if (user == null)
-            //{
-            //    ShowGatherStatus($"视频数据已删除.");
-            //    return 0;
-            //}
-            //if (Repository.CheckUserIgnore(user.id))
-            //{
-            //    ShowGatherStatus($"用户【{user.id}】已忽略采集.");
-            //    return 0;
-            //}
-            //bool ignoreSourceReaded = false;
-            //return GatherSinaStatusByStatusOrRetweeted(runningCache, result.status, result.status.user, out ignoreSourceReaded);
         }
 
         /// <summary>
@@ -928,14 +879,14 @@ namespace SpiderCore.Service
         /// <param name="status"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        int GatherSinaStatusByStatusOrRetweeted(SpiderRunningCache runningCache, BilibiliUserStatusVlist status, BilibiliUser user, out bool ignoreSourceReaded)
+        int GatherSinaStatusByStatusOrRetweeted(SpiderRunningCache runningCache, BilibiliUserStatusVlist status, SinaUser user, out bool ignoreSourceReaded)
         {
             ignoreSourceReaded = false;
             int readStatusImageCount = 0;
             readStatusImageCount = GatherSinaStatusViedoByStatusResult(runningCache, status, user, out ignoreSourceReaded);
             if (readStatusImageCount > 0)
             {
-                GatherStatusComplete(user.mid, readStatusImageCount);
+                GatherStatusComplete(user.uid, readStatusImageCount);
             }
             return readStatusImageCount > 0 ? readStatusImageCount : 0;
         }
@@ -1071,12 +1022,12 @@ namespace SpiderCore.Service
             }
         }
 
-        int GatherSinaStatusViedoByStatusResult(SpiderRunningCache runningCache, BilibiliUserStatusVlist status, BilibiliUser user, out bool ignoreSourceReaded)
+        int GatherSinaStatusViedoByStatusResult(SpiderRunningCache runningCache, BilibiliUserStatusVlist status, SinaUser user, out bool ignoreSourceReaded)
         {
             ignoreSourceReaded = false;
-            if (Repository.CheckUserIgnore(user.mid))
+            if (Repository.CheckUserIgnore(user.uid))
             {
-                ShowGatherStatus($"用户【{user.mid}】已忽略采集.");
+                ShowGatherStatus($"用户【{user.uid}】已忽略采集.");
                 return 0;
             }
             var sinaStatus = Repository.GetUserStatus(status.bvid);
@@ -1108,7 +1059,7 @@ namespace SpiderCore.Service
                 }
                 else
                 {
-                    readCount = PathUtil.GetStoreUserVideoCount(runningCache.Category, user.mid, status.bvid);
+                    readCount = PathUtil.GetStoreUserVideoCount(runningCache.Category, user.uid, status.bvid);
                 }
             }
             if (RunningConfig.IgnoreDownloadSource)
@@ -1144,7 +1095,7 @@ namespace SpiderCore.Service
                     }
                     var video = result.data.dash.video.FirstOrDefault();
                     var audio = result.data.dash.audio.FirstOrDefault();
-                    var succ = DownloadUserStatusVedio(runningCache, user.mid, status.bvid, avUrl, video.baseUrl, audio.baseUrl);
+                    var succ = DownloadUserStatusVedio(runningCache, user.uid, status.bvid, avUrl, video.baseUrl, audio.baseUrl);
                     if (succ)
                     {
                         haveReadVedioCount++;

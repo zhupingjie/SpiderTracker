@@ -926,14 +926,14 @@ namespace SpiderTracker
             var user = GetSelectUser();
             if (user == null) return;
 
-            var url = SinaUrlUtil.GetSinaUserUrl(user.uid);
+            var url = SinaUrlUtil.GetBilibiliUserUrl(user.uid);
             System.Diagnostics.Process.Start(url);
         }
 
         private void btnBrowseStatus_Click(object sender, EventArgs e)
         {
             var bid = GetSelectStatusId();
-            var url = SinaUrlUtil.GetSinaUserStatusUrl(bid);
+            var url = SinaUrlUtil.GetBilibiliUserStatusUrl(bid);
             System.Diagnostics.Process.Start(url);
         }
 
