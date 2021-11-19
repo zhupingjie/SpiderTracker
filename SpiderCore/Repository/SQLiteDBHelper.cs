@@ -24,9 +24,9 @@ namespace SpiderCore.Repository
         private static readonly SQLiteDBHelper instance = new SQLiteDBHelper();
         //private static readonly string dbName = "../../SQliteDB/SpiderDB.db";
         //private static readonly string strConn = $"Data Source={dbName}";
-        public string DBServiceIP { get; set; } = "121.4.29.105";
+        public string DBServiceIP { get; set; } = "49.232.192.220";
         public string DBName { get; set; } = "spider";
-        public string DBUserID { get; set; } = "root";
+        public string DBUserID { get; set; } = "sa";
         public string DBPwd { get; set; } = "sa!123456";
         public int DBPort { get; set; } = 3306;
 
