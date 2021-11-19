@@ -189,7 +189,7 @@ namespace SpiderCore.Config
         /// </summary>
         public int GatherUserMinStatuses { get; set; } = 10;
 
-        public string DefaultUploadServerIP { get; set; } = "121.4.29.105:8088";//"localhost:8080";
+        public string DefaultUploadServerIP { get; set; } = "49.232.192.220:8088";//"localhost:8080";
 
         /// <summary>
         /// 上传图片api
