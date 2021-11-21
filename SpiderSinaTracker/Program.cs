@@ -16,7 +16,7 @@ namespace SpiderTracker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SpiderSinaTrackerForm());
+            Application.Run(new SpiderSinaTrackerForm()); 
         }
     }
 }
