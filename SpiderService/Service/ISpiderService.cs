@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpiderCore.Service
+namespace SpiderService.Service
 {
     public interface ISpiderService
     {

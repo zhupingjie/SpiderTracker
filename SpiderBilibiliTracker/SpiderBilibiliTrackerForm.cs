@@ -17,7 +17,7 @@ using System.Threading;
 using SpiderTracker.UI;
 using System.Reflection;
 using SpiderCore.Config;
-using SpiderCore.Service;
+using SpiderService.Service;
 using SpiderCore.Repository;
 using SpiderDomain.Entity;
 using SpiderCore.Util;

@@ -29,3 +29,5 @@
 /SpiderDomain/obj
 /SpiderService/bin
 /SpiderService/obj
+/SpiderCoreV2/bin/Debug/netstandard2.0
+/SpiderCoreV2/obj
