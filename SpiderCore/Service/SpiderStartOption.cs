@@ -15,7 +15,7 @@ namespace SpiderCore.Service
         {
             get
             {
-                if (!string.IsNullOrEmpty(StartUrl)) return GatherTypeEnum.GatherTemp;
+                if (!string.IsNullOrEmpty(StartUrl) && GatherName != "topic" && GatherName != "super") return GatherTypeEnum.GatherTemp;
 
                 switch (GatherName)
                 {
