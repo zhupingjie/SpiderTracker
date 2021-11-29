@@ -348,9 +348,9 @@ namespace SpiderTracker
             {
                 case "更新":
                     if (this.cbxUserSortAsc.Text == "降序")
-                        users = users.OrderByDescending(c => c.lastdate).ToArray();
+                        users = users.OrderByDescending(c => c.lastpublish).ToArray();
                     else
-                        users = users.OrderBy(c => c.lastdate).ToArray();
+                        users = users.OrderBy(c => c.lastpublish).ToArray();
                     break;
                 case "用户":
                     if (this.cbxUserSortAsc.Text == "降序")
@@ -483,7 +483,7 @@ namespace SpiderTracker
                     subItem.SubItems.Add($"{(item.focus > 0 ? "◉" : "")}");
                     subItem.SubItems.Add($"{(item.lastpage > 0 ? "✔" : "")}");
                     subItem.SubItems.Add($"{item.site}");
-                    subItem.SubItems.Add($"{(item.lastdate.ToString("yyyy/MM/dd HH:mm"))}");
+                    subItem.SubItems.Add($"{(item.lastpublish)}");
                     subItem.Tag = item;
                     this.lstUser.Items.Add(subItem);
                 }

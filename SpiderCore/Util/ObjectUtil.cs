@@ -10,6 +10,15 @@ namespace SpiderCore.Util
 {
     public class ObjectUtil
     {
+        public static string StampToDateTime(string timeStamp)
+        {
+            DateTime dateTimeStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            long lTime = long.Parse(timeStamp + "0000000");
+            TimeSpan toNow = new TimeSpan(lTime);
+
+            return dateTimeStart.Add(toNow).ToString("yyyy/MM/dd HH:mm");
+        }
+
         public static string GetCreateTimeString(string create)
         {
             var time = GetCreateTime(create);

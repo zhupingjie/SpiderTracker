@@ -415,7 +415,7 @@ namespace SpiderCore.Repository
             sinaStatus.gets = getSourceCount;
             sinaStatus.site = runningConfig.Site;
             sinaStatus.ignore = ignore ? 1 : 0;
-            sinaStatus.createtime = ObjectUtil.GetCreateTimeString(status.created);
+            sinaStatus.createtime = ObjectUtil.StampToDateTime(status.created);
             var extSinaStatus = GetUserStatus(status.bvid);
             if (extSinaStatus == null)
             {
@@ -428,6 +428,12 @@ namespace SpiderCore.Repository
                 extSinaStatus.ignore = ignore ? 1 : 0;
                 extSinaStatus.createtime = ObjectUtil.GetCreateTimeString(status.created);
                 UpdateSinaStatus(extSinaStatus, new string[] { "ignore",  "createtime" });
+            }
+
+            if (string.IsNullOrEmpty(user.lastpublish) || user.lastpublish.CompareTo(sinaStatus.createtime) < 0)
+            {
+                user.lastpublish = sinaStatus.createtime;
+                UpdateSinaUser(user, new string[] { "lastpublish" });
             }
         }
 
