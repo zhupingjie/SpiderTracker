@@ -37,5 +37,7 @@ namespace SpiderDomain.Entity
         public int lastpage { get; set; }
 
         public string site { get; set; }
+
+        public string lastpublish { get; set; }
     }
 }

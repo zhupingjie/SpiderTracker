@@ -10,7 +10,14 @@ namespace SpiderCore.Util
 {
     public class ObjectUtil
     {
-        public static string GetCreateTime(string create)
+        public static string GetCreateTimeString(string create)
+        {
+            var time = GetCreateTime(create);
+            if (!time.HasValue) return null;
+            return time.Value.ToString("yyyy/MM/dd HH:mm");
+        }
+
+        public static DateTime? GetCreateTime(string create)
         {
             //Sun Oct 07 20:10:48 +0800 2018
             var mons = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
@@ -26,9 +33,8 @@ namespace SpiderCore.Util
             var strTime = $"{arrs[5]}-{Array.IndexOf(mons, arrs[1]) + 1}-{arrs[2]} {arrs[3]}";
             DateTime time = DateTime.Now;
             if (!DateTime.TryParse(strTime, out time)) return null;
-            return time.ToString("yyyy/MM/dd HH:mm");
+            return time;
         }
-
 
 
         public static void SetPropertyValue(object obj, PropertyInfo propertyInfo, object propertyValue)

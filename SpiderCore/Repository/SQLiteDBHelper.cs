@@ -70,6 +70,7 @@ namespace SpiderCore.Repository
             columns.Add(new SQLiteColumn("ignores", "int"));
             columns.Add(new SQLiteColumn("readpage", "int"));
             columns.Add(new SQLiteColumn("lastpage", "int"));
+            columns.Add(new SQLiteColumn("lastpublish", "datetime"));
             columns.Add(new SQLiteColumn("lastdate", "datetime"));
             CreateTable("sina_user", columns.ToArray());
 

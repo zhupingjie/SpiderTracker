@@ -345,7 +345,7 @@ namespace SpiderCore.Repository
             sinaStatus.retuid = retweet.user != null ? retweet.user.id : "Unauthorization";
             sinaStatus.retbid = retweet.bid;
             sinaStatus.site = runningConfig.Site;
-            sinaStatus.createtime = ObjectUtil.GetCreateTime(status.created_at);
+            sinaStatus.createtime = ObjectUtil.GetCreateTimeString(status.created_at);
             var extSinaStatus = GetUserStatus(status.bid);
             if (extSinaStatus == null)
             {
@@ -356,7 +356,7 @@ namespace SpiderCore.Repository
                 sinaStatus.retweeted = 1;
                 sinaStatus.retuid = retweet.user != null ? retweet.user.id : "Unauthorization";
                 sinaStatus.retbid = retweet.bid;
-                extSinaStatus.createtime = ObjectUtil.GetCreateTime(status.created_at);
+                extSinaStatus.createtime = ObjectUtil.GetCreateTimeString(status.created_at);
                 UpdateSinaStatus(extSinaStatus, new string[] { "retweeted", "retuid", "retbid", "createtime" });
             }
         }
@@ -374,7 +374,7 @@ namespace SpiderCore.Repository
             sinaStatus.gets = getSourceCount;
             sinaStatus.site = runningConfig.Site;
             sinaStatus.ignore = ignore ? 1 : 0;
-            sinaStatus.createtime = ObjectUtil.GetCreateTime(status.created_at);
+            sinaStatus.createtime = ObjectUtil.GetCreateTimeString(status.created_at);
             var extSinaStatus = GetUserStatus(status.bid);
             if (extSinaStatus == null)
             {
@@ -387,8 +387,18 @@ namespace SpiderCore.Repository
                 extSinaStatus.ignore = ignore ? 1 : 0;
                 extSinaStatus.qty = readSourceCount;
                 //extSinaStatus.site = runningConfig.Site;
-                extSinaStatus.createtime = ObjectUtil.GetCreateTime(status.created_at);
+                extSinaStatus.createtime = ObjectUtil.GetCreateTimeString(status.created_at);
                 UpdateSinaStatus(extSinaStatus, new string[] { "ignore", "qty", "gets", "createtime" });
+            }
+
+            var extUser = GetUser(user.id);
+            if(extUser != null)
+            {
+                if (string.IsNullOrEmpty(extUser.lastpublish) || extUser.lastpublish.CompareTo(sinaStatus.createtime) == 0)
+                {
+                    extUser.lastpublish = sinaStatus.createtime;
+                    UpdateSinaUser(extUser, new string[] { "lastpublish" });
+                }
             }
         }
 
@@ -405,7 +415,7 @@ namespace SpiderCore.Repository
             sinaStatus.gets = getSourceCount;
             sinaStatus.site = runningConfig.Site;
             sinaStatus.ignore = ignore ? 1 : 0;
-            sinaStatus.createtime = ObjectUtil.GetCreateTime(status.created);
+            sinaStatus.createtime = ObjectUtil.GetCreateTimeString(status.created);
             var extSinaStatus = GetUserStatus(status.bvid);
             if (extSinaStatus == null)
             {
@@ -416,7 +426,7 @@ namespace SpiderCore.Repository
                 if (!runningConfig.IgnoreDownloadSource) extSinaStatus.gets = getSourceCount;
                 else if (runningConfig.IgnoreDownloadSource && getSourceCount > 0) extSinaStatus.gets = getSourceCount;
                 extSinaStatus.ignore = ignore ? 1 : 0;
-                extSinaStatus.createtime = ObjectUtil.GetCreateTime(status.created);
+                extSinaStatus.createtime = ObjectUtil.GetCreateTimeString(status.created);
                 UpdateSinaStatus(extSinaStatus, new string[] { "ignore",  "createtime" });
             }
         }
