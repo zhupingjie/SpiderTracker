@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpiderDomain", "SpiderDomai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpiderService", "SpiderService\SpiderService.csproj", "{DC70DAD3-07BC-47CA-B614-0F0784F080B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiderCoreV2", "SpiderCoreV2\SpiderCoreV2.csproj", "{C70F1AC9-9845-40C0-940F-7B60E70747E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpiderCoreV2", "SpiderCoreV2\SpiderCoreV2.csproj", "{C70F1AC9-9845-40C0-940F-7B60E70747E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
