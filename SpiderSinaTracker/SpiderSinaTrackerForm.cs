@@ -19,7 +19,7 @@ using System.Reflection;
 using SpiderCore.Config;
 using SpiderCore.Service;
 using SpiderCore.Repository;
-using SpiderCore.Entity;
+using SpiderDomain.Entity;
 using SpiderCore.Util;
 
 namespace SpiderTracker

@@ -1,6 +1,6 @@
 ﻿using Jurassic.Library;
 using SpiderCore.Config;
-using SpiderCore.Entity;
+using SpiderDomain.Entity;
 using SpiderCore.Model.BilibiliJson;
 using SpiderCore.Model.MWeiboJson;
 using SpiderCore.Repository;

@@ -1,5 +1,5 @@
 ﻿using SpiderCore.Config;
-using SpiderCore.Entity;
+using SpiderDomain.Entity;
 using SpiderCore.Model;
 using SpiderCore.Model.MWeiboJson;
 using System;

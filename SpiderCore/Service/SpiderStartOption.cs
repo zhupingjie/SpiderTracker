@@ -1,5 +1,5 @@
 ﻿using SpiderCore.Config;
-using SpiderCore.Entity;
+using SpiderDomain.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

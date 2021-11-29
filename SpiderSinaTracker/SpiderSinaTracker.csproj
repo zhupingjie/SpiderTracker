@@ -286,6 +286,10 @@
       <Project>{B5FFD47D-5A28-45CA-A2BA-287DCF2912C8}</Project>
       <Name>SpiderCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SpiderDomain\SpiderDomain.csproj">
+      <Project>{cb808102-c8a3-43de-88b2-fdc69ca74e62}</Project>
+      <Name>SpiderDomain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

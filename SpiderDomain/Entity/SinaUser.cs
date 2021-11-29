@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SpiderDomain.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpiderCore.Entity
+namespace SpiderDomain.Entity
 {
     public class SinaUser : BaseEntity
     {

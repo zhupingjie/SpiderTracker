@@ -11,7 +11,7 @@ using System.Threading;
 using SpiderCore.Model;
 using System.Collections.Specialized;
 using SpiderCore.Util;
-using SpiderCore.Entity;
+using SpiderDomain.Entity;
 using SpiderCore.Config;
 using SpiderCore.Repository;
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpiderCore.Entity
+namespace SpiderDomain.Data
 {
     public interface IEntity
     {

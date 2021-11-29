@@ -1,4 +1,4 @@
-﻿using SpiderCore.Entity;
+﻿using SpiderDomain.Entity;
 using SpiderCore.Service;
 using System;
 using System.Collections.Generic;

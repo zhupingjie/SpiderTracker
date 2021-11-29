@@ -79,9 +79,6 @@
     <Compile Include="Config\SpiderRunningCache.cs" />
     <Compile Include="Config\SpiderRunningConfig.cs" />
     <Compile Include="Config\SpiderRunningTask.cs" />
-    <Compile Include="Entity\BaseEntity.cs" />
-    <Compile Include="Entity\IEntity.cs" />
-    <Compile Include="Entity\SinaAction.cs" />
     <Compile Include="Model\APIResult.cs" />
     <Compile Include="Model\BilibiliJson\BilibiliUser.cs" />
     <Compile Include="Model\BilibiliJson\BilibiliUserLiveroom.cs" />
@@ -125,10 +122,6 @@
     <Compile Include="Model\MWeiboJson\MWeiboUserData.cs" />
     <Compile Include="Model\MWeiboJson\MWeiboUserResult.cs" />
     <Compile Include="Repository\SinaRepository.cs" />
-    <Compile Include="Entity\SinaSource.cs" />
-    <Compile Include="Entity\SinaStatus.cs" />
-    <Compile Include="Entity\SinaTopic.cs" />
-    <Compile Include="Entity\SinaUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\SQLiteColumn.cs" />
     <Compile Include="Repository\SQLiteDBHelper.cs" />
@@ -148,6 +141,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SpiderDomain\SpiderDomain.csproj">
+      <Project>{cb808102-c8a3-43de-88b2-fdc69ca74e62}</Project>
+      <Name>SpiderDomain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

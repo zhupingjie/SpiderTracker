@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using MySqlConnector;
-using SpiderCore.Entity;
+using SpiderDomain.Entity;
 using SpiderCore.Util;
+using SpiderDomain.Data;
 
 namespace SpiderCore.Repository
 {

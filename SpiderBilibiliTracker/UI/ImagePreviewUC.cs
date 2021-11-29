@@ -1,5 +1,5 @@
 ﻿using SpiderCore.Config;
-using SpiderCore.Entity;
+using SpiderDomain.Entity;
 using SpiderCore.Repository;
 using SpiderCore.Util;
 using System;
