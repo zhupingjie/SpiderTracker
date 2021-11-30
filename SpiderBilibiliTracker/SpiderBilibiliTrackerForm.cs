@@ -27,7 +27,7 @@ namespace SpiderTracker
     public partial class SpiderBilibiliTrackerForm : Form
     {
         BilibiliSpiderService BilibiliSpiderService { get; set; }
-        SpiderRunningConfig RunningConfig { get; set; } = new SpiderRunningConfig();
+        RunningConfig RunningConfig { get; set; } = new RunningConfig();
         public SpiderBilibiliTrackerForm()
         {
             InitializeComponent();
@@ -192,7 +192,7 @@ namespace SpiderTracker
             }));
         }
 
-        private void WeiboSpiderService_OnSpiderStarted(SpiderRunningTask runningTask)
+        private void WeiboSpiderService_OnSpiderStarted(RunningTask runningTask)
         {
             ActiveLoggerCtl();
 
@@ -730,7 +730,7 @@ namespace SpiderTracker
                 this.txtStartUrl.Text = (String)iData.GetData(DataFormats.Text);
             }
         }
-        private void SpiderConfigUC1_OnRefreshConfig(SpiderRunningConfig spiderRunninConfig)
+        private void SpiderConfigUC1_OnRefreshConfig(RunningConfig spiderRunninConfig)
         {
             this.RunningConfig = this.spiderConfigUC1.GetRunningConfig();
         }
@@ -1593,7 +1593,7 @@ namespace SpiderTracker
             this.spiderConfigUC1.Initialize(this.RunningConfig);
         }
 
-        SpiderRunningConfig GetSpiderRunningConfig()
+        RunningConfig GetSpiderRunningConfig()
         {
             this.RunningConfig = this.spiderConfigUC1.GetRunningConfig();
             this.RunningConfig.Category = this.cbxCategory.Text.Trim();

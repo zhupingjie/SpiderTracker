@@ -42,15 +42,17 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(94, 109);
+            this.panel1.Size = new System.Drawing.Size(110, 154);
             this.panel1.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(23, 9);
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(27, 13);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 31);
             this.label1.TabIndex = 0;
@@ -61,23 +63,25 @@
             this.cbxCategory.BackColor = System.Drawing.SystemColors.Control;
             this.cbxCategory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cbxCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbxCategory.Font = new System.Drawing.Font("微软雅黑", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxCategory.Font = new System.Drawing.Font("微软雅黑", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxCategory.FormattingEnabled = true;
             this.cbxCategory.ItemHeight = 41;
             this.cbxCategory.Items.AddRange(new object[] {
             ""});
-            this.cbxCategory.Location = new System.Drawing.Point(94, 0);
+            this.cbxCategory.Location = new System.Drawing.Point(110, 0);
+            this.cbxCategory.Margin = new System.Windows.Forms.Padding(4);
             this.cbxCategory.Name = "cbxCategory";
-            this.cbxCategory.Size = new System.Drawing.Size(170, 49);
+            this.cbxCategory.Size = new System.Drawing.Size(198, 49);
             this.cbxCategory.TabIndex = 5;
             this.cbxCategory.Text = "cosplay";
             // 
             // btnOK
             // 
-            this.btnOK.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnOK.Location = new System.Drawing.Point(96, 60);
+            this.btnOK.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnOK.Location = new System.Drawing.Point(112, 85);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 37);
+            this.btnOK.Size = new System.Drawing.Size(88, 52);
             this.btnOK.TabIndex = 6;
             this.btnOK.Text = "确定";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -85,10 +89,11 @@
             // 
             // btnClose
             // 
-            this.btnClose.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnClose.Location = new System.Drawing.Point(177, 60);
+            this.btnClose.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnClose.Location = new System.Drawing.Point(206, 85);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(4);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 37);
+            this.btnClose.Size = new System.Drawing.Size(88, 52);
             this.btnClose.TabIndex = 7;
             this.btnClose.Text = "取消";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -96,14 +101,15 @@
             // 
             // ChangeUserCategoryForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(264, 109);
+            this.ClientSize = new System.Drawing.Size(308, 154);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.cbxCategory);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ChangeUserCategoryForm";
             this.Text = "ChangeUserCategoryForm";
             this.Load += new System.EventHandler(this.ChangeUserCategoryForm_Load);

@@ -1,7 +1,9 @@
 ﻿using SpiderCore.Config;
+using SpiderCore.Repository;
 using SpiderCore.Util;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,17 +42,58 @@ namespace SpiderService.Service
         /// <summary>
         /// 环境变量
         /// </summary>
-        SpiderRunningConfig RC = new SpiderRunningConfig();
+        RunningConfig RC = new RunningConfig();
 
+        SinaRepository Repository = new SinaRepository();
 
+        MWeiboSpiderService SpiderService = new MWeiboSpiderService();
+
+        List<string> Categorys = new List<string>();
+
+        int RunCategoryIndex = 0;
         #endregion
 
         #region 服务启动&停止
         public void Start()
         {
-            this.LoadConfigData();
+            this.Initation();
 
+            this.LoadConfigData();
+            
             this.GatherData();
+        }
+
+        public void Initation()
+        {
+            SpiderService.OnGatherUserComplete += SpiderService_OnGatherUserComplete;
+            SpiderService.OnSpiderComplete += SpiderService_OnSpiderComplete;
+            SpiderService.OnSpiderStarted += SpiderService_OnSpiderStarted;
+
+            this.Categorys.AddRange(Repository.GetGroupNames(GatherWebEnum.Sina));
+            this.RunCategoryIndex = 0;
+        }
+
+
+        void SpiderService_OnSpiderStarted(RunningTask runningTask)
+        {
+            this.ActionLog($"采集[{runningTask.DoUsers.Count}]用户最新发布时间开始");
+        }
+
+        void SpiderService_OnSpiderComplete(string category)
+        {
+            this.ActionLog($"采集[{category}]用户最新发布时间完成");
+            this.RunCategoryIndex++;
+            if(this.RunCategoryIndex >= Categorys.Count)
+            {
+                Thread.Sleep(RC.GatherUserNewPublishTimeInterval * 1000);
+                this.RunCategoryIndex = 0;
+            }
+            this.GatherData();
+        }
+
+        void SpiderService_OnGatherUserComplete(SpiderDomain.Entity.SinaUser user, int readImageQty)
+        {
+            this.ActionLog($"采集[{user.category}]用户[{user.uid}]最新发布时间:{user.lastpublish}");
         }
 
         public void Stop()
@@ -79,34 +122,58 @@ namespace SpiderService.Service
                     {
                         LogUtil.Error($"LoadGlobalConfig Error:{ex.Message}");
                     }
-                    //Thread.Sleep(RC.LoadGlobalConfigInterval * 1000);
+                    Thread.Sleep(RC.LoadGlobalConfigInterval * 1000);
                 }
             }, CancellationTokenSource.Token);
         }
 
         void GatherData()
         {
-            //采集价格数据
-            Task.Factory.StartNew(() =>
+            try
             {
-                Thread.Sleep(2000);
-                while (true)
+                string category = null;
+                if (RunCategoryIndex < Categorys.Count)
                 {
-                    this.ActionLog("采集今日股价数据...");
-                    try
-                    {
-                        //StockGatherService.GatherPriceData((message) =>
-                        //{
-                        //    this.ActionLog(message);
-                        //});
-                    }
-                    catch (Exception ex)
-                    {
-                        LogUtil.Error($"GatherPriceData Error:{ex.Message}");
-                    }
-                    //Thread.Sleep(RC.GatherStockPriceInterval * 1000);
+                    category = Categorys[RunCategoryIndex];
                 }
-            }, CancellationTokenSource.Token);
+                else if (Categorys.Count > 0)
+                {
+                    category = Categorys[0];
+                }
+                if (!string.IsNullOrEmpty(category))
+                {
+                    this.ActionLog($"采集[{category}]用户最新发布时间...");
+
+                    GatherUserNewPublishTime(category);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogUtil.Error(ex, $"GatherData异常:{ex.Message}");
+            }
+        }
+
+        void GatherUserNewPublishTime(string category)
+        {
+            try
+            {
+                var runningConfig = RC.Clone();
+                runningConfig.Category = category;
+                runningConfig.Site = "app";
+                runningConfig.ReadAllOfUser = true;
+                runningConfig.IgnoreDownloadSource = true;
+                runningConfig.IgnoreReadGetStatus = false;
+
+                var startOption = new SpiderStartOption()
+                {
+                    GatherName = "user",
+                };
+                SpiderService.StartSpider(runningConfig, startOption);
+            }
+            catch(Exception ex)
+            {
+                LogUtil.Error($"GatherUserNewPublishTime Error:{ex.Message}");
+            }
         }
 
         #endregion

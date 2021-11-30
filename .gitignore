@@ -31,3 +31,8 @@
 /SpiderService/obj
 /SpiderCoreV2/bin/Debug/netstandard2.0
 /SpiderCoreV2/obj
+/SpiderCoreV2/bin/Release/netstandard2.0
+/SpiderSinaTrackerV2/bin/Debug/netcoreapp3.1
+/SpiderSinaTrackerV2/obj
+/SpiderServiceApp/bin/Debug/netcoreapp3.1
+/SpiderServiceApp/obj

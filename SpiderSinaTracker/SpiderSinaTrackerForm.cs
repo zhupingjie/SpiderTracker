@@ -1,33 +1,26 @@
-﻿using System;
+﻿using SpiderCore.Config;
+using SpiderCore.Repository;
+using SpiderCore.Util;
+using SpiderDomain.Entity;
+using SpiderService.Service;
+using SpiderTracker.UI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Web;
-using System.Net;
-using System.IO;
-using System.IO.Compression;
-using System.Collections.Specialized;
-using System.Text.RegularExpressions;
-using System.Threading;
-using SpiderTracker.UI;
-using System.Reflection;
-using SpiderCore.Config;
-using SpiderService.Service;
-using SpiderCore.Repository;
-using SpiderDomain.Entity;
-using SpiderCore.Util;
 
 namespace SpiderTracker
 {
     public partial class SpiderSinaTrackerForm : Form
     {
         MWeiboSpiderService SinaSpiderService { get; set; }
-        SpiderRunningConfig RunningConfig { get; set; } = new SpiderRunningConfig();
+        RunningConfig RunningConfig { get; set; } = new RunningConfig();
         public SpiderSinaTrackerForm()
         {
             InitializeComponent();
@@ -46,8 +39,6 @@ namespace SpiderTracker
         /// <param name="e"></param>
         private void SpiderTrackerForm_Load(object sender, EventArgs e)
         {
-            SQLiteDBHelper.Instance.InitSpiderDB();
-
             InitSpiderRunningConfig();
 
             this.RunningConfig = GetSpiderRunningConfig();
@@ -192,7 +183,7 @@ namespace SpiderTracker
             }));
         }
 
-        private void WeiboSpiderService_OnSpiderStarted(SpiderRunningTask runningTask)
+        private void WeiboSpiderService_OnSpiderStarted(RunningTask runningTask)
         {
             ActiveLoggerCtl();
 
@@ -214,7 +205,7 @@ namespace SpiderTracker
 
             InvokeControl(this.btnAppendUser, new Action(() =>
             {
-                if(runningTask.GatherType == GatherTypeEnum.GatherUser)
+                if (runningTask.GatherType == GatherTypeEnum.GatherUser)
                 {
                     this.btnAppendUser.Text = "追加采集";
                     this.btnAppendUser.Enabled = true;
@@ -256,7 +247,7 @@ namespace SpiderTracker
             }));
         }
 
-        private void WeiboSpiderService_OnSpiderComplete()
+        private void WeiboSpiderService_OnSpiderComplete(string category)
         {
             InvokeControl(this.cbxCategory, new Action(() =>
             {
@@ -562,9 +553,9 @@ namespace SpiderTracker
             int.TryParse(this.cbxStatusSortIndex.Text, out pageIndex);
             var pageCount = 0;
             int.TryParse(this.cbxStatusSortPage.Text, out pageCount);
-            if (pageCount == 0) 
+            if (pageCount == 0)
                 return status.ToArray();
-            else 
+            else
                 return status.Skip((pageIndex - 1) * pageCount).Take(pageCount).ToArray();
         }
         void LoadCacheUserStatusList(SinaUser user, bool reload)
@@ -582,7 +573,7 @@ namespace SpiderTracker
                 var videoFiles = PathUtil.GetStoreUserVideoFiles(RunningConfig.Category, user.uid);
 
                 this.lstArc.BeginUpdate();
-                if(reload) this.lstArc.Items.Clear();
+                if (reload) this.lstArc.Items.Clear();
                 var localImg = 0;
                 foreach (var item in showStatus)
                 {
@@ -619,7 +610,7 @@ namespace SpiderTracker
                     subItem.SubItems.Add($"{item.upload}");
                     subItem.SubItems.Add($"{item.site}");
                     subItem.SubItems.Add($"{item.createtime}");
-                    this.lstArc.Items.Add(subItem);                    
+                    this.lstArc.Items.Add(subItem);
                 }
                 this.lstArc.EndUpdate();
                 this.lblStatusBid.Text = $"微博:{sinaStatus.Count}";
@@ -730,7 +721,7 @@ namespace SpiderTracker
                 this.txtStartUrl.Text = (String)iData.GetData(DataFormats.Text);
             }
         }
-        private void SpiderConfigUC1_OnRefreshConfig(SpiderRunningConfig spiderRunninConfig)
+        private void SpiderConfigUC1_OnRefreshConfig(RunningConfig spiderRunninConfig)
         {
             this.RunningConfig = this.spiderConfigUC1.GetRunningConfig();
         }
@@ -834,7 +825,7 @@ namespace SpiderTracker
             this.lblStatusBid.Text = status.bid;
 
             if (RunningConfig.PreviewImageNow == 1)
-            {   
+            {
                 if (status.mtype == 0)
                 {
                     ActiveImageCtl();
@@ -851,7 +842,7 @@ namespace SpiderTracker
                     var file = PathUtil.GetStoreUserVideoFile(RunningConfig.Category, user.uid, status.bid);
                     if (File.Exists(file))
                     {
-                        this.vedioPlayerUC1.ShowVideo(file);
+                        //this.vedioPlayerUC1.ShowVideo(file);
                     }
                 }
             }
@@ -884,7 +875,7 @@ namespace SpiderTracker
         private void cbxSelect_Leave(object sender, EventArgs e)
         {
             var selectItem = this.cbxSelect.SelectedItem;
-            if(selectItem != null)
+            if (selectItem != null)
             {
                 var topic = selectItem as SinaTopic;
                 var startUrl = topic.containerid;
@@ -901,7 +892,7 @@ namespace SpiderTracker
                 if (selectItem == null) return;
 
                 var topic = selectItem as SinaTopic;
-                System.Diagnostics.Process.Start(topic.profile);
+                CmdUtil.RunCmd(topic.profile);
 
                 this.chkBweTopic.Checked = false;
             }
@@ -921,20 +912,32 @@ namespace SpiderTracker
             }
         }
 
+        private void chkServiceConfig_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkServiceConfig.Checked)
+            {
+                var frm = new ServiceConfigForm();
+                frm.StartPosition = FormStartPosition.CenterParent;
+                frm.ShowDialog();
+
+                this.chkServiceConfig.Checked = false;
+            }
+        }
+
         private void btnBrowseUser_Click(object sender, EventArgs e)
         {
             var user = GetSelectUser();
             if (user == null) return;
 
             var url = SinaUrlUtil.GetSinaUserUrl(user.uid);
-            System.Diagnostics.Process.Start(url);
+            CmdUtil.RunCmd(url);
         }
 
         private void btnBrowseStatus_Click(object sender, EventArgs e)
         {
             var bid = GetSelectStatusId();
             var url = SinaUrlUtil.GetSinaUserStatusUrl(bid);
-            System.Diagnostics.Process.Start(url);
+            CmdUtil.RunCmd(url);
         }
 
         private void btnOpenStatus_Click(object sender, EventArgs e)
@@ -947,12 +950,12 @@ namespace SpiderTracker
                 var path = PathUtil.GetStoreUserPath(RunningConfig.Category, user.uid);
                 if (Directory.Exists(path))
                 {
-                    System.Diagnostics.Process.Start(path);
+                    CmdUtil.RunCmd(path);
                 }
                 else
                 {
                     path = PathUtil.BaseDirectory;
-                    System.Diagnostics.Process.Start(path);
+                    CmdUtil.RunCmd(path);
                 }
             }
         }
@@ -991,7 +994,7 @@ namespace SpiderTracker
             if (user == null) return;
 
             var url = SinaUrlUtil.GetSinaUserFollowerUrl(user.uid);
-            System.Diagnostics.Process.Start(url);
+            CmdUtil.RunCmd(url);
         }
 
         private void btnArchiveStatus_Click(object sender, EventArgs e)
@@ -1015,7 +1018,7 @@ namespace SpiderTracker
                         rep.MakeUploadAction(RunningConfig.Category, item.bid, files, false);
                     }
                 }
-                else if(item.mtype == 1)
+                else if (item.mtype == 1)
                 {
                     //var file = PathUtil.GetStoreUserVideoFile(RunningConfig.Category, item.uid, item.bid);
                     //if (File.Exists(file))
@@ -1032,7 +1035,7 @@ namespace SpiderTracker
         private void btnFoucsUser_Click(object sender, EventArgs e)
         {
             var user = GetSelectUser();
-           if(user == null) return;
+            if (user == null) return;
 
             if (MessageBox.Show("确认关注当前用户?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
@@ -1070,7 +1073,7 @@ namespace SpiderTracker
                     LoadCacheUserList(true);
                 });
             }
-            else if(user.Length > 0)
+            else if (user.Length > 0)
             {
                 Task.Factory.StartNew(() =>
                 {
@@ -1272,7 +1275,7 @@ namespace SpiderTracker
 
         private void btnCancelUser_Click(object sender, EventArgs e)
         {
-            if(SinaSpiderService.IsSpiderStarted)
+            if (SinaSpiderService.IsSpiderStarted)
             {
                 if (this.lstRunstate.SelectedItems.Count == 0) return;
 
@@ -1295,7 +1298,7 @@ namespace SpiderTracker
             if (status == null) return;
 
             var url = HttpUtil.GetSinaSoureImageUrl(RunningConfig.DefaultUploadServerIP, RunningConfig.Category, status.bid, false);
-            System.Diagnostics.Process.Start(url);
+            CmdUtil.RunCmd(url);
         }
 
         void ChangeSelect()
@@ -1332,7 +1335,7 @@ namespace SpiderTracker
             rep.MakeIgnoreUserAction(RunningConfig.Category, user.uid);
             if (this.lstUser.Items.Count == 0) return;
 
-            this.vedioPlayerUC1.CloseVideo();
+            //this.vedioPlayerUC1.CloseVideo();
 
             var listItem = this.lstUser.FindItemWithText(user.uid);
             if (listItem != null)
@@ -1360,7 +1363,7 @@ namespace SpiderTracker
 
             var frm = new ChangeUserCategoryForm();
             frm.StartPosition = FormStartPosition.CenterParent;
-            if(frm.ShowDialog() == DialogResult.OK)
+            if (frm.ShowDialog() == DialogResult.OK)
             {
                 var rep = new SinaRepository();
                 var suc = rep.ChangeUserCategory(user.uid, frm.ChangeCategory);
@@ -1415,9 +1418,9 @@ namespace SpiderTracker
             foreach (var item in status)
             {
                 rep.MakeIgnoreStatusAction(RunningConfig.Category, item.bid);
-                if(item.mtype == 2)
+                if (item.mtype == 2)
                 {
-                    this.vedioPlayerUC1.CloseVideo();
+                    //this.vedioPlayerUC1.CloseVideo();
                 }
                 if (this.lstArc.Items.Count > 0)
                 {
@@ -1469,7 +1472,7 @@ namespace SpiderTracker
             return obj as SinaStatus;
         }
 
-       string GetSelectStatusId()
+        string GetSelectStatusId()
         {
             if (this.lstArc.SelectedItems == null || this.lstArc.SelectedItems.Count == 0) return string.Empty;
 
@@ -1480,7 +1483,7 @@ namespace SpiderTracker
             if (this.lstArc.SelectedItems == null || this.lstArc.SelectedItems.Count == 0) return new SinaStatus[] { };
 
             var ids = new List<SinaStatus>();
-            foreach(ListViewItem item in this.lstArc.SelectedItems)
+            foreach (ListViewItem item in this.lstArc.SelectedItems)
             {
                 if (item.Tag == null) continue;
                 ids.Add(item.Tag as SinaStatus);
@@ -1519,7 +1522,7 @@ namespace SpiderTracker
         void DownSelectStatus()
         {
             var index = 0;
-            if(this.lstArc.SelectedItems.Count == 0)
+            if (this.lstArc.SelectedItems.Count == 0)
             {
                 index = -1;
             }
@@ -1529,12 +1532,12 @@ namespace SpiderTracker
 
                 this.lstArc.Items[index].Selected = false;
             }
-            if(index < this.lstArc.Items.Count - 1)
+            if (index < this.lstArc.Items.Count - 1)
             {
                 index += 1;
                 this.lstArc.Items[index].Selected = true;
             }
-            else if(this.lstArc.Items.Count > 0)
+            else if (this.lstArc.Items.Count > 0)
             {
                 this.lstArc.Items[this.lstArc.Items.Count - 1].Selected = true;
             }
@@ -1592,7 +1595,7 @@ namespace SpiderTracker
             this.spiderConfigUC1.Initialize(this.RunningConfig);
         }
 
-        SpiderRunningConfig GetSpiderRunningConfig()
+        RunningConfig GetSpiderRunningConfig()
         {
             this.RunningConfig = this.spiderConfigUC1.GetRunningConfig();
             this.RunningConfig.Category = this.cbxCategory.Text.Trim();
@@ -1668,7 +1671,7 @@ namespace SpiderTracker
         /// <param name="enabled"></param>
         void LockImageCtl(bool enabled)
         {
-            if(enabled == false)
+            if (enabled == false)
             {
                 ActiveLoggerCtl();
             }

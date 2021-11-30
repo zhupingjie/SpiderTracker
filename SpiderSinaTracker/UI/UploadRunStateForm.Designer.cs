@@ -30,14 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UploadRunStateForm));
             this.lstUpload = new System.Windows.Forms.ListView();
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
             // lstUpload
@@ -53,13 +53,14 @@
             this.columnHeader4,
             this.columnHeader6});
             this.lstUpload.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstUpload.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstUpload.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstUpload.FullRowSelect = true;
             this.lstUpload.GridLines = true;
             this.lstUpload.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lstUpload.HideSelection = false;
             this.lstUpload.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstUpload.Location = new System.Drawing.Point(0, 0);
+            this.lstUpload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.lstUpload.Name = "lstUpload";
             this.lstUpload.Size = new System.Drawing.Size(748, 554);
             this.lstUpload.TabIndex = 18;
@@ -81,6 +82,11 @@
             this.columnHeader3.Text = "用户";
             this.columnHeader3.Width = 100;
             // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "微博";
+            this.columnHeader8.Width = 100;
+            // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "图片";
@@ -101,18 +107,14 @@
             this.columnHeader6.Text = "处理状态";
             this.columnHeader6.Width = 100;
             // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "微博";
-            this.columnHeader8.Width = 100;
-            // 
             // UploadRunStateForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(748, 554);
             this.Controls.Add(this.lstUpload);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "UploadRunStateForm";
             this.Text = "上传运行日志";
             this.Load += new System.EventHandler(this.UploadRunStateForm_Load);

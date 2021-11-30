@@ -11,7 +11,7 @@ namespace SpiderService.Service
     {
         bool IsSpiderStarted { get; set; }
 
-        void StartSpider(SpiderRunningConfig runninConfig, SpiderStartOption option);
+        void StartSpider(RunningConfig runninConfig, SpiderStartOption option);
 
         void StopSpider();
     }

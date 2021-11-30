@@ -3,14 +3,14 @@
     partial class SpiderSinaTrackerForm
     {
         /// <summary>
-        /// 必需的设计器变量。
+        ///  Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// 清理所有正在使用的资源。
+        ///  Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,11 +20,11 @@
             base.Dispose(disposing);
         }
 
-        #region Windows 窗体设计器生成的代码
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// 设计器支持所需的方法 - 不要修改
-        /// 使用代码编辑器修改此方法的内容。
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -43,21 +43,21 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel15 = new System.Windows.Forms.Panel();
             this.lstUser = new System.Windows.Forms.ListView();
-            this.columnUID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnTAL = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnFind = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnGet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnUpload = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnIgnore = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnOrigin = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnRet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnFollow = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnReadPage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnLove = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnLastPage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnUID = new System.Windows.Forms.ColumnHeader();
+            this.columnName = new System.Windows.Forms.ColumnHeader();
+            this.columnTAL = new System.Windows.Forms.ColumnHeader();
+            this.columnFind = new System.Windows.Forms.ColumnHeader();
+            this.columnGet = new System.Windows.Forms.ColumnHeader();
+            this.columnUpload = new System.Windows.Forms.ColumnHeader();
+            this.columnIgnore = new System.Windows.Forms.ColumnHeader();
+            this.columnOrigin = new System.Windows.Forms.ColumnHeader();
+            this.columnRet = new System.Windows.Forms.ColumnHeader();
+            this.columnFollow = new System.Windows.Forms.ColumnHeader();
+            this.columnReadPage = new System.Windows.Forms.ColumnHeader();
+            this.columnLove = new System.Windows.Forms.ColumnHeader();
+            this.columnLastPage = new System.Windows.Forms.ColumnHeader();
+            this.columnSite = new System.Windows.Forms.ColumnHeader();
+            this.columnTime = new System.Windows.Forms.ColumnHeader();
             this.panel24 = new System.Windows.Forms.Panel();
             this.panel25 = new System.Windows.Forms.Panel();
             this.cbxUserSortAsc = new System.Windows.Forms.ComboBox();
@@ -67,13 +67,13 @@
             this.cbxUserSortIndex = new System.Windows.Forms.ComboBox();
             this.panel9 = new System.Windows.Forms.Panel();
             this.lstArc = new System.Windows.Forms.ListView();
-            this.colBid = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colQty = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colGets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colLoc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colMrk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colBid = new System.Windows.Forms.ColumnHeader();
+            this.colQty = new System.Windows.Forms.ColumnHeader();
+            this.colGets = new System.Windows.Forms.ColumnHeader();
+            this.colLoc = new System.Windows.Forms.ColumnHeader();
+            this.colMrk = new System.Windows.Forms.ColumnHeader();
+            this.colSite = new System.Windows.Forms.ColumnHeader();
+            this.colTime = new System.Windows.Forms.ColumnHeader();
             this.panel20 = new System.Windows.Forms.Panel();
             this.panel22 = new System.Windows.Forms.Panel();
             this.cbxStatusSortAsc = new System.Windows.Forms.ComboBox();
@@ -106,7 +106,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.chkUploadWeb = new System.Windows.Forms.CheckBox();
             this.chkBweTopic = new System.Windows.Forms.CheckBox();
-            this.btnBack1 = new System.Windows.Forms.CheckBox();
+            this.chkServiceConfig = new System.Windows.Forms.CheckBox();
             this.btnBackTask = new System.Windows.Forms.CheckBox();
             this.chkShowWinBkg = new System.Windows.Forms.CheckBox();
             this.chkShowSource = new System.Windows.Forms.CheckBox();
@@ -122,17 +122,16 @@
             this.btnCancelUser = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tbpVideo = new System.Windows.Forms.TabPage();
-            this.vedioPlayerUC1 = new SpiderTracker.UI.VedioPlayerUC();
             this.tbpReview = new System.Windows.Forms.TabPage();
             this.panel27 = new System.Windows.Forms.Panel();
             this.imagePreviewUC1 = new SpiderTracker.UI.ImagePreviewUC();
             this.tbpGatherLog = new System.Windows.Forms.TabPage();
             this.lstRunstate = new System.Windows.Forms.ListView();
-            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader10 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader11 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader12 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader13 = new System.Windows.Forms.ColumnHeader();
             this.panel18 = new System.Windows.Forms.Panel();
             this.lstLog = new System.Windows.Forms.ListBox();
             this.panel19 = new System.Windows.Forms.Panel();
@@ -163,7 +162,6 @@
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel23.SuspendLayout();
-            this.tbpVideo.SuspendLayout();
             this.tbpReview.SuspendLayout();
             this.panel27.SuspendLayout();
             this.tbpGatherLog.SuspendLayout();
@@ -197,7 +195,7 @@
             this.txtStartUrl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtStartUrl.DetectUrls = false;
             this.txtStartUrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtStartUrl.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtStartUrl.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtStartUrl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtStartUrl.Location = new System.Drawing.Point(313, 0);
             this.txtStartUrl.Name = "txtStartUrl";
@@ -211,7 +209,7 @@
             this.cbxCategory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.cbxCategory.Dock = System.Windows.Forms.DockStyle.Left;
             this.cbxCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbxCategory.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxCategory.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxCategory.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.cbxCategory.FormattingEnabled = true;
             this.cbxCategory.ItemHeight = 31;
@@ -240,7 +238,7 @@
             this.cbxSelect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cbxSelect.Enabled = false;
             this.cbxSelect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbxSelect.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxSelect.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxSelect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.cbxSelect.FormattingEnabled = true;
             this.cbxSelect.ItemHeight = 31;
@@ -257,7 +255,7 @@
             this.cbxSite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.cbxSite.Dock = System.Windows.Forms.DockStyle.Left;
             this.cbxSite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbxSite.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxSite.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxSite.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.cbxSite.FormattingEnabled = true;
             this.cbxSite.ItemHeight = 31;
@@ -276,7 +274,7 @@
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.btnSearch.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnSearch.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnSearch.ForeColor = System.Drawing.Color.White;
             this.btnSearch.Location = new System.Drawing.Point(4, 28);
             this.btnSearch.Name = "btnSearch";
@@ -345,7 +343,7 @@
             this.columnSite,
             this.columnTime});
             this.lstUser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstUser.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstUser.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstUser.FullRowSelect = true;
             this.lstUser.GridLines = true;
             this.lstUser.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -461,7 +459,7 @@
             // 
             this.cbxUserSortAsc.BackColor = System.Drawing.Color.White;
             this.cbxUserSortAsc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbxUserSortAsc.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxUserSortAsc.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxUserSortAsc.FormattingEnabled = true;
             this.cbxUserSortAsc.Items.AddRange(new object[] {
             "升序",
@@ -477,7 +475,7 @@
             // 
             this.cbxUserSort.BackColor = System.Drawing.Color.White;
             this.cbxUserSort.Dock = System.Windows.Forms.DockStyle.Left;
-            this.cbxUserSort.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxUserSort.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxUserSort.FormattingEnabled = true;
             this.cbxUserSort.Items.AddRange(new object[] {
             "更新",
@@ -507,7 +505,7 @@
             // 
             this.cbxUserSortPage.BackColor = System.Drawing.Color.White;
             this.cbxUserSortPage.Dock = System.Windows.Forms.DockStyle.Right;
-            this.cbxUserSortPage.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxUserSortPage.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxUserSortPage.FormattingEnabled = true;
             this.cbxUserSortPage.Items.AddRange(new object[] {
             "0",
@@ -528,7 +526,7 @@
             // 
             this.txtUserFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtUserFilter.Dock = System.Windows.Forms.DockStyle.Left;
-            this.txtUserFilter.Font = new System.Drawing.Font("微软雅黑", 9.25F);
+            this.txtUserFilter.Font = new System.Drawing.Font("微软雅黑", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtUserFilter.Location = new System.Drawing.Point(0, 0);
             this.txtUserFilter.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.txtUserFilter.Name = "txtUserFilter";
@@ -541,7 +539,7 @@
             // 
             this.cbxUserSortIndex.BackColor = System.Drawing.Color.White;
             this.cbxUserSortIndex.Dock = System.Windows.Forms.DockStyle.Right;
-            this.cbxUserSortIndex.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxUserSortIndex.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxUserSortIndex.FormattingEnabled = true;
             this.cbxUserSortIndex.Items.AddRange(new object[] {
             "1",
@@ -584,7 +582,7 @@
             this.colSite,
             this.colTime});
             this.lstArc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstArc.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstArc.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstArc.FullRowSelect = true;
             this.lstArc.GridLines = true;
             this.lstArc.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -660,7 +658,7 @@
             // 
             this.cbxStatusSortAsc.BackColor = System.Drawing.Color.White;
             this.cbxStatusSortAsc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbxStatusSortAsc.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxStatusSortAsc.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxStatusSortAsc.FormattingEnabled = true;
             this.cbxStatusSortAsc.Items.AddRange(new object[] {
             "升序",
@@ -676,7 +674,7 @@
             // 
             this.cbxStatusSortPage.BackColor = System.Drawing.Color.White;
             this.cbxStatusSortPage.Dock = System.Windows.Forms.DockStyle.Right;
-            this.cbxStatusSortPage.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxStatusSortPage.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxStatusSortPage.FormattingEnabled = true;
             this.cbxStatusSortPage.Items.AddRange(new object[] {
             "0",
@@ -697,7 +695,7 @@
             // 
             this.cbxStatusSort.BackColor = System.Drawing.Color.White;
             this.cbxStatusSort.Dock = System.Windows.Forms.DockStyle.Left;
-            this.cbxStatusSort.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxStatusSort.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxStatusSort.FormattingEnabled = true;
             this.cbxStatusSort.Items.AddRange(new object[] {
             "更新",
@@ -718,7 +716,7 @@
             // 
             this.txtStatusFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtStatusFilter.Dock = System.Windows.Forms.DockStyle.Left;
-            this.txtStatusFilter.Font = new System.Drawing.Font("微软雅黑", 9.25F);
+            this.txtStatusFilter.Font = new System.Drawing.Font("微软雅黑", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtStatusFilter.Location = new System.Drawing.Point(0, 0);
             this.txtStatusFilter.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.txtStatusFilter.Name = "txtStatusFilter";
@@ -731,7 +729,7 @@
             // 
             this.cbxStatusSortIndex.BackColor = System.Drawing.Color.White;
             this.cbxStatusSortIndex.Dock = System.Windows.Forms.DockStyle.Right;
-            this.cbxStatusSortIndex.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxStatusSortIndex.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxStatusSortIndex.FormattingEnabled = true;
             this.cbxStatusSortIndex.Items.AddRange(new object[] {
             "1",
@@ -779,7 +777,7 @@
             // btnGetStatusByBid
             // 
             this.btnGetStatusByBid.BackColor = System.Drawing.SystemColors.Control;
-            this.btnGetStatusByBid.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnGetStatusByBid.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnGetStatusByBid.Location = new System.Drawing.Point(0, 2);
             this.btnGetStatusByBid.Name = "btnGetStatusByBid";
             this.btnGetStatusByBid.Size = new System.Drawing.Size(35, 20);
@@ -791,7 +789,7 @@
             // btnArchiveStatus
             // 
             this.btnArchiveStatus.BackColor = System.Drawing.SystemColors.Control;
-            this.btnArchiveStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnArchiveStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnArchiveStatus.Location = new System.Drawing.Point(68, 2);
             this.btnArchiveStatus.Name = "btnArchiveStatus";
             this.btnArchiveStatus.Size = new System.Drawing.Size(35, 20);
@@ -803,7 +801,7 @@
             // btnBrowseStatus
             // 
             this.btnBrowseStatus.BackColor = System.Drawing.SystemColors.Control;
-            this.btnBrowseStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBrowseStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnBrowseStatus.Location = new System.Drawing.Point(133, 2);
             this.btnBrowseStatus.Name = "btnBrowseStatus";
             this.btnBrowseStatus.Size = new System.Drawing.Size(35, 20);
@@ -815,7 +813,7 @@
             // btnOpenStatus
             // 
             this.btnOpenStatus.BackColor = System.Drawing.SystemColors.Control;
-            this.btnOpenStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnOpenStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnOpenStatus.Location = new System.Drawing.Point(101, 2);
             this.btnOpenStatus.Name = "btnOpenStatus";
             this.btnOpenStatus.Size = new System.Drawing.Size(35, 20);
@@ -827,7 +825,7 @@
             // btnIgnoreStatus
             // 
             this.btnIgnoreStatus.BackColor = System.Drawing.SystemColors.Control;
-            this.btnIgnoreStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnIgnoreStatus.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnIgnoreStatus.Location = new System.Drawing.Point(34, 2);
             this.btnIgnoreStatus.Name = "btnIgnoreStatus";
             this.btnIgnoreStatus.Size = new System.Drawing.Size(35, 20);
@@ -839,7 +837,7 @@
             // lblStatusBid
             // 
             this.lblStatusBid.AutoSize = true;
-            this.lblStatusBid.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblStatusBid.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblStatusBid.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.lblStatusBid.Location = new System.Drawing.Point(0, 4);
             this.lblStatusBid.Name = "lblStatusBid";
@@ -862,7 +860,7 @@
             // lblUserUid
             // 
             this.lblUserUid.AutoSize = true;
-            this.lblUserUid.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblUserUid.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblUserUid.ForeColor = System.Drawing.Color.White;
             this.lblUserUid.Location = new System.Drawing.Point(3, 5);
             this.lblUserUid.Name = "lblUserUid";
@@ -887,7 +885,7 @@
             // btnIgnoreUser
             // 
             this.btnIgnoreUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnIgnoreUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnIgnoreUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnIgnoreUser.Location = new System.Drawing.Point(3, 3);
             this.btnIgnoreUser.Name = "btnIgnoreUser";
             this.btnIgnoreUser.Size = new System.Drawing.Size(35, 20);
@@ -899,7 +897,7 @@
             // btnChange
             // 
             this.btnChange.BackColor = System.Drawing.SystemColors.Control;
-            this.btnChange.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnChange.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnChange.Location = new System.Drawing.Point(37, 3);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(35, 20);
@@ -911,7 +909,7 @@
             // btnFocusUser
             // 
             this.btnFocusUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnFocusUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnFocusUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnFocusUser.Location = new System.Drawing.Point(70, 3);
             this.btnFocusUser.Name = "btnFocusUser";
             this.btnFocusUser.Size = new System.Drawing.Size(35, 20);
@@ -923,7 +921,7 @@
             // btnBrowseUser
             // 
             this.btnBrowseUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnBrowseUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBrowseUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnBrowseUser.Location = new System.Drawing.Point(134, 3);
             this.btnBrowseUser.Name = "btnBrowseUser";
             this.btnBrowseUser.Size = new System.Drawing.Size(35, 20);
@@ -935,7 +933,7 @@
             // btnFollwerUser
             // 
             this.btnFollwerUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnFollwerUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnFollwerUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnFollwerUser.Location = new System.Drawing.Point(103, 3);
             this.btnFollwerUser.Name = "btnFollwerUser";
             this.btnFollwerUser.Size = new System.Drawing.Size(35, 20);
@@ -982,7 +980,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label11.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label11.ForeColor = System.Drawing.Color.White;
             this.label11.Location = new System.Drawing.Point(5, 4);
             this.label11.Name = "label11";
@@ -995,6 +993,7 @@
             this.spiderConfigUC1.AutoScroll = true;
             this.spiderConfigUC1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
+            this.spiderConfigUC1.Margin = new System.Windows.Forms.Padding(4);
             this.spiderConfigUC1.Name = "spiderConfigUC1";
             this.spiderConfigUC1.Size = new System.Drawing.Size(249, 391);
             this.spiderConfigUC1.TabIndex = 19;
@@ -1013,7 +1012,7 @@
             // 
             this.panel2.Controls.Add(this.chkUploadWeb);
             this.panel2.Controls.Add(this.chkBweTopic);
-            this.panel2.Controls.Add(this.btnBack1);
+            this.panel2.Controls.Add(this.chkServiceConfig);
             this.panel2.Controls.Add(this.btnBackTask);
             this.panel2.Controls.Add(this.chkShowWinBkg);
             this.panel2.Controls.Add(this.chkShowSource);
@@ -1026,7 +1025,7 @@
             // chkUploadWeb
             // 
             this.chkUploadWeb.AutoSize = true;
-            this.chkUploadWeb.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkUploadWeb.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.chkUploadWeb.Location = new System.Drawing.Point(13, 59);
             this.chkUploadWeb.Name = "chkUploadWeb";
             this.chkUploadWeb.Size = new System.Drawing.Size(99, 21);
@@ -1038,7 +1037,7 @@
             // chkBweTopic
             // 
             this.chkBweTopic.AutoSize = true;
-            this.chkBweTopic.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkBweTopic.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.chkBweTopic.Location = new System.Drawing.Point(123, 6);
             this.chkBweTopic.Name = "chkBweTopic";
             this.chkBweTopic.Size = new System.Drawing.Size(99, 21);
@@ -1047,21 +1046,22 @@
             this.chkBweTopic.UseVisualStyleBackColor = true;
             this.chkBweTopic.CheckedChanged += new System.EventHandler(this.chkBweTopic_CheckedChanged);
             // 
-            // btnBack1
+            // chkServiceConfig
             // 
-            this.btnBack1.AutoSize = true;
-            this.btnBack1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBack1.Location = new System.Drawing.Point(123, 59);
-            this.btnBack1.Name = "btnBack1";
-            this.btnBack1.Size = new System.Drawing.Size(36, 21);
-            this.btnBack1.TabIndex = 24;
-            this.btnBack1.Text = "...";
-            this.btnBack1.UseVisualStyleBackColor = true;
+            this.chkServiceConfig.AutoSize = true;
+            this.chkServiceConfig.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.chkServiceConfig.Location = new System.Drawing.Point(123, 59);
+            this.chkServiceConfig.Name = "chkServiceConfig";
+            this.chkServiceConfig.Size = new System.Drawing.Size(99, 21);
+            this.chkServiceConfig.TabIndex = 24;
+            this.chkServiceConfig.Text = "显示服务设置";
+            this.chkServiceConfig.UseVisualStyleBackColor = true;
+            this.chkServiceConfig.CheckedChanged += new System.EventHandler(this.chkServiceConfig_CheckedChanged);
             // 
             // btnBackTask
             // 
             this.btnBackTask.AutoSize = true;
-            this.btnBackTask.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBackTask.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnBackTask.Location = new System.Drawing.Point(123, 33);
             this.btnBackTask.Name = "btnBackTask";
             this.btnBackTask.Size = new System.Drawing.Size(99, 21);
@@ -1073,7 +1073,7 @@
             // chkShowWinBkg
             // 
             this.chkShowWinBkg.AutoSize = true;
-            this.chkShowWinBkg.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkShowWinBkg.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.chkShowWinBkg.Location = new System.Drawing.Point(13, 33);
             this.chkShowWinBkg.Name = "chkShowWinBkg";
             this.chkShowWinBkg.Size = new System.Drawing.Size(99, 21);
@@ -1087,7 +1087,7 @@
             this.chkShowSource.AutoSize = true;
             this.chkShowSource.Checked = true;
             this.chkShowSource.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowSource.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkShowSource.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.chkShowSource.Location = new System.Drawing.Point(13, 6);
             this.chkShowSource.Name = "chkShowSource";
             this.chkShowSource.Size = new System.Drawing.Size(99, 21);
@@ -1110,7 +1110,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(5, 5);
             this.label1.Name = "label1";
@@ -1133,7 +1133,7 @@
             // 
             this.btnAppendUser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnAppendUser.Enabled = false;
-            this.btnAppendUser.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnAppendUser.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnAppendUser.ForeColor = System.Drawing.Color.White;
             this.btnAppendUser.Location = new System.Drawing.Point(129, 28);
             this.btnAppendUser.Name = "btnAppendUser";
@@ -1156,7 +1156,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label15.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.label15.Location = new System.Drawing.Point(4, 4);
             this.label15.Name = "label15";
@@ -1167,7 +1167,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label10.ForeColor = System.Drawing.Color.White;
             this.label10.Location = new System.Drawing.Point(6, 4);
             this.label10.Name = "label10";
@@ -1199,7 +1199,7 @@
             // btnCancelUser
             // 
             this.btnCancelUser.BackColor = System.Drawing.SystemColors.Control;
-            this.btnCancelUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnCancelUser.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCancelUser.Location = new System.Drawing.Point(0, 2);
             this.btnCancelUser.Name = "btnCancelUser";
             this.btnCancelUser.Size = new System.Drawing.Size(56, 20);
@@ -1217,22 +1217,10 @@
             // 
             // tbpVideo
             // 
-            this.tbpVideo.Controls.Add(this.vedioPlayerUC1);
             this.tbpVideo.Location = new System.Drawing.Point(4, 4);
             this.tbpVideo.Name = "tbpVideo";
             this.tbpVideo.Size = new System.Drawing.Size(670, 544);
             this.tbpVideo.TabIndex = 2;
-            this.tbpVideo.Text = "视频预览";
-            this.tbpVideo.UseVisualStyleBackColor = true;
-            // 
-            // vedioPlayerUC1
-            // 
-            this.vedioPlayerUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vedioPlayerUC1.Location = new System.Drawing.Point(0, 0);
-            this.vedioPlayerUC1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.vedioPlayerUC1.Name = "vedioPlayerUC1";
-            this.vedioPlayerUC1.Size = new System.Drawing.Size(670, 544);
-            this.vedioPlayerUC1.TabIndex = 0;
             // 
             // tbpReview
             // 
@@ -1289,7 +1277,7 @@
             this.columnHeader12,
             this.columnHeader13});
             this.lstRunstate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstRunstate.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstRunstate.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstRunstate.FullRowSelect = true;
             this.lstRunstate.GridLines = true;
             this.lstRunstate.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -1345,7 +1333,7 @@
             this.lstLog.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lstLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lstLog.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lstLog.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstLog.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstLog.FormattingEnabled = true;
             this.lstLog.ItemHeight = 17;
             this.lstLog.Items.AddRange(new object[] {
@@ -1371,7 +1359,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.label6.Location = new System.Drawing.Point(3, 5);
             this.label6.Name = "label6";
@@ -1386,7 +1374,7 @@
             this.tabControl1.Controls.Add(this.tbpReview);
             this.tabControl1.Controls.Add(this.tbpVideo);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tabControl1.Location = new System.Drawing.Point(313, 67);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Multiline = true;
@@ -1448,7 +1436,6 @@
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
             this.panel23.ResumeLayout(false);
-            this.tbpVideo.ResumeLayout(false);
             this.tbpReview.ResumeLayout(false);
             this.panel27.ResumeLayout(false);
             this.tbpGatherLog.ResumeLayout(false);
@@ -1463,13 +1450,14 @@
 
         #endregion
 
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ToolStripStatusLabel tplStatus;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RichTextBox txtStartUrl;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.ToolStripStatusLabel tplStatus;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Label lblStatusBid;
@@ -1498,7 +1486,6 @@
         private System.Windows.Forms.Button btnOpenStatus;
         private System.Windows.Forms.Button btnFollwerUser;
         private System.Windows.Forms.Button btnArchiveStatus;
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.Button btnFocusUser;
         private System.Windows.Forms.ListView lstUser;
         private System.Windows.Forms.ColumnHeader columnUID;
@@ -1544,9 +1531,9 @@
         private System.Windows.Forms.ColumnHeader colGets;
         private System.Windows.Forms.ColumnHeader columnTime;
         private System.Windows.Forms.TabPage tbpVideo;
-        private UI.VedioPlayerUC vedioPlayerUC1;
         private System.Windows.Forms.TabPage tbpReview;
-        private UI.ImagePreviewUC imagePreviewUC1;
+        private SpiderTracker.UI.ImagePreviewUC imagePreviewUC1;
+        private SpiderTracker.UI.SpiderConfigUC spiderConfigUC1;
         private System.Windows.Forms.TabPage tbpGatherLog;
         private System.Windows.Forms.ListView lstRunstate;
         private System.Windows.Forms.ColumnHeader columnHeader10;
@@ -1562,15 +1549,13 @@
         private System.Windows.Forms.Panel panel26;
         private System.Windows.Forms.ComboBox cbxSelect;
         private System.Windows.Forms.ColumnHeader columnSite;
-        private UI.SpiderConfigUC spiderConfigUC1;
         private System.Windows.Forms.Panel panel27;
         private System.Windows.Forms.ColumnHeader columnUpload;
         private System.Windows.Forms.CheckBox chkShowSource;
         private System.Windows.Forms.CheckBox chkShowWinBkg;
         private System.Windows.Forms.CheckBox chkBweTopic;
-        private System.Windows.Forms.CheckBox btnBack1;
+        private System.Windows.Forms.CheckBox chkServiceConfig;
         private System.Windows.Forms.CheckBox btnBackTask;
         private System.Windows.Forms.CheckBox chkUploadWeb;
     }
 }
-

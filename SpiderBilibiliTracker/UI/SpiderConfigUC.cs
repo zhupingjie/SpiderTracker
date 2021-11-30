@@ -15,7 +15,7 @@ namespace SpiderTracker.UI
 {
     public partial class SpiderConfigUC : UserControl
     {
-        private SpiderRunningConfig _runningConfig;
+        private RunningConfig _runningConfig;
         public SpiderConfigUC()
         {
             InitializeComponent();
@@ -57,11 +57,11 @@ namespace SpiderTracker.UI
             RefreshConfig(_runningConfig);
         }
 
-        public delegate void RefreshConfigEventHander(SpiderRunningConfig spiderRunninConfig);
+        public delegate void RefreshConfigEventHander(RunningConfig spiderRunninConfig);
 
         public event RefreshConfigEventHander OnRefreshConfig;
 
-        public void RefreshConfig(SpiderRunningConfig spiderRunninConfig)
+        public void RefreshConfig(RunningConfig spiderRunninConfig)
         {
             OnRefreshConfig?.Invoke(spiderRunninConfig);
         }
@@ -70,7 +70,7 @@ namespace SpiderTracker.UI
         /// TODO:初始化后变量值丢掉
         /// </summary>
         /// <param name="runningConfig"></param>
-        public void Initialize(SpiderRunningConfig runningConfig)
+        public void Initialize(RunningConfig runningConfig)
         {
             _runningConfig = runningConfig.Clone();
 
@@ -98,7 +98,7 @@ namespace SpiderTracker.UI
             }
         }
 
-        public SpiderRunningConfig GetRunningConfig()
+        public RunningConfig GetRunningConfig()
         {
             var configs = GetConfigFields();
             foreach(var config in configs)
@@ -125,7 +125,7 @@ namespace SpiderTracker.UI
         PropertyInfo[] GetConfigFields()
         {
             var configs = new List<PropertyInfo>();
-            var props = typeof(SpiderRunningConfig).GetProperties();
+            var props = typeof(RunningConfig).GetProperties();
             foreach (var prop in props)
             {
                 if (prop.GetCustomAttributes(typeof(OptionAttribute), true).Length == 0) continue;

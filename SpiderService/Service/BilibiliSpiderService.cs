@@ -79,7 +79,7 @@ namespace SpiderService.Service
         }
 
 
-        public delegate void SpiderStartedEventHander(SpiderRunningTask runningTask);
+        public delegate void SpiderStartedEventHander(RunningTask runningTask);
 
         public event SpiderStartedEventHander OnSpiderStarted;
 
@@ -99,10 +99,10 @@ namespace SpiderService.Service
 
         public void SpiderComplete()
         {
-            if (RunningConfig.GatherCompleteShutdown && !StopSpiderWork)
-            {
-                PathUtil.Shutdown();
-            }
+            //if (RunningConfig.GatherCompleteShutdown && !StopSpiderWork)
+            //{
+            //    PathUtil.Shutdown();
+            //}
             IsSpiderStarted = false;
             OnSpiderComplete?.Invoke();
         }
@@ -189,9 +189,9 @@ namespace SpiderService.Service
         /// </summary>
         public SinaRepository Repository { get; set; }
 
-        public SpiderRunningConfig RunningConfig { get; set; }
+        public RunningConfig RunningConfig { get; set; }
 
-        public SpiderRunningTask RunningTask { get; set; }
+        public RunningTask RunningTask { get; set; }
 
         #endregion
 
@@ -200,15 +200,15 @@ namespace SpiderService.Service
         {
             Repository = new SinaRepository();
 
-            RunningConfig = new SpiderRunningConfig();
-            RunningTask = new SpiderRunningTask();
+            RunningConfig = new RunningConfig();
+            RunningTask = new RunningTask();
         }
 
         #endregion
 
         #region 开始&结束&追加&取消采集
 
-        public void StartSpider(SpiderRunningConfig runningConfig, SpiderStartOption option)
+        public void StartSpider(RunningConfig runningConfig, SpiderStartOption option)
         {
             this.RunningConfig = runningConfig;
 
@@ -404,7 +404,7 @@ namespace SpiderService.Service
 
                 if (!CheckUserCanceled(user.uid))
                 {
-                    var runningCache = new SpiderRunningCache(GatherWebEnum.Bilibili, RunningConfig.Category, RunningConfig.Site, user.uid);
+                    var runningCache = new RunningCache(GatherWebEnum.Bilibili, RunningConfig.Category, RunningConfig.Site, user.uid);
                     var readStatusImageCount = 0;
                     if (RunningConfig.GatherStatusWithNoSource)
                     {
@@ -443,7 +443,7 @@ namespace SpiderService.Service
                 }
                 ShowGatherStatus($"准备读取用户【{userId}】的视频数据...");
 
-                var tempRuningCache = new SpiderRunningCache(GatherWebEnum.Sina, RunningConfig.Category, RunningConfig.Site, userId);
+                var tempRuningCache = new RunningCache(GatherWebEnum.Sina, RunningConfig.Category, RunningConfig.Site, userId);
                 int readStatusImageCount = 0;
                 foreach (var status in statusIds)
                 {
@@ -471,7 +471,7 @@ namespace SpiderService.Service
                     return;
                 }
 
-                var tempRuningCache = new SpiderRunningCache(GatherWebEnum.Bilibili, RunningConfig.Category, RunningConfig.Site, null);
+                var tempRuningCache = new RunningCache(GatherWebEnum.Bilibili, RunningConfig.Category, RunningConfig.Site, null);
                 int readStatusImageCount = GatherSinaStatusByStatusUrl(tempRuningCache, status);
                 ShowGatherStatus($"采集完成,共采集资源【{readStatusImageCount}】.");
             });
@@ -488,7 +488,7 @@ namespace SpiderService.Service
         /// <param name="runningCache"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        int GatherSinaStatusByUserStatus(SpiderRunningCache runningCache, string userId)
+        int GatherSinaStatusByUserStatus(RunningCache runningCache, string userId)
         {
             var sinaUser = Repository.GetUser(userId);
             if (sinaUser == null)
@@ -532,7 +532,7 @@ namespace SpiderService.Service
             return readStatusImageCount;
         }
 
-        bool CheckUserStatusGather(SpiderRunningCache runningCache, SinaUser user, SinaStatus status)
+        bool CheckUserStatusGather(RunningCache runningCache, SinaUser user, SinaStatus status)
         {
             if (RunningConfig.IgnoreDownloadSource)
             {
@@ -593,7 +593,7 @@ namespace SpiderService.Service
             return true;
         }
 
-        int GatherSinaSourceByUserStatus(SpiderRunningCache runningCache, string userId)
+        int GatherSinaSourceByUserStatus(RunningCache runningCache, string userId)
         {
             var sinaUser = Repository.GetUser(userId);
             if (sinaUser == null)
@@ -682,7 +682,7 @@ namespace SpiderService.Service
         /// 直接读取用户数据
         /// </summary>
         /// <param name="runningConfig"></param>
-        int GatherSinaStatusByUserUrl(SpiderRunningCache runningCache, string userId)
+        int GatherSinaStatusByUserUrl(RunningCache runningCache, string userId)
         {
             var user = GatherSinaUserByUserUrl(runningCache, userId);
             if (user == null) return 0;
@@ -768,7 +768,7 @@ namespace SpiderService.Service
             return readUserImageCount;
         }
 
-        BilibiliUser GatherSinaUserByUserUrl(SpiderRunningCache runningCache, string userId)
+        BilibiliUser GatherSinaUserByUserUrl(RunningCache runningCache, string userId)
         {
             ShowGatherStatus($"开始读取用户【{userId}】的基本信息...", true);
             var getApi = $"https://api.bilibili.com/x/space/acc/info?mid={userId}&jsonp=jsonp";
@@ -808,7 +808,7 @@ namespace SpiderService.Service
         /// <param name="readPageIndex"></param>
         /// <param name="readPageCount"></param>
         /// <returns></returns>
-        int GatherSinaStatusByStatusPageUrl(SpiderRunningCache runningCache, SinaUser sinaUser, BilibiliUser user, int readPageIndex, int readPageSize, int readPageCount, out bool readPageEmpty, out bool stopReadNextPage)
+        int GatherSinaStatusByStatusPageUrl(RunningCache runningCache, SinaUser sinaUser, BilibiliUser user, int readPageIndex, int readPageSize, int readPageCount, out bool readPageEmpty, out bool stopReadNextPage)
         {
             readPageEmpty = false;
             stopReadNextPage = false;
@@ -883,7 +883,7 @@ namespace SpiderService.Service
         /// 采集微博详细数据
         /// </summary>
         /// <param name="runningConfig"></param>
-        int GatherSinaStatusByStatusUrl(SpiderRunningCache runningCache, string status)
+        int GatherSinaStatusByStatusUrl(RunningCache runningCache, string status)
         {
             return GatherSinaStatusByUserStatus(runningCache, null, status);
         }
@@ -892,7 +892,7 @@ namespace SpiderService.Service
         /// 采集微博详细数据
         /// </summary>
         /// <param name="runningConfig"></param>
-        int GatherSinaStatusByUserStatus(SpiderRunningCache runningCache, SinaUser user, string status)
+        int GatherSinaStatusByUserStatus(RunningCache runningCache, SinaUser user, string status)
         {
             var statusUrl = SinaUrlUtil.GetBilibiliUserStatusUrl(status);
             var html = HttpUtil.GetHttpRequestHtmlResult(statusUrl, true, RunningConfig);
@@ -937,7 +937,7 @@ namespace SpiderService.Service
         /// <param name="status"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        int GatherSinaStatusByStatusResult(SpiderRunningCache runningCache, BilibiliUserStatusVlist status, SinaUser user, out bool ignoreSourceReaded)
+        int GatherSinaStatusByStatusResult(RunningCache runningCache, BilibiliUserStatusVlist status, SinaUser user, out bool ignoreSourceReaded)
         {
             ignoreSourceReaded = false;
             int readStatusImageCount = 0;
@@ -958,7 +958,7 @@ namespace SpiderService.Service
         /// -1:忽略
         /// 0:未采集到有效图片,需忽略
         /// </returns>
-        int GatherSinaStatusPicsByStatusResult(SpiderRunningCache runningCache, MWeiboStatus status, out bool ignoreSourceReaded)
+        int GatherSinaStatusPicsByStatusResult(RunningCache runningCache, MWeiboStatus status, out bool ignoreSourceReaded)
         {
             ignoreSourceReaded = false;
 
@@ -1080,7 +1080,7 @@ namespace SpiderService.Service
             }
         }
 
-        int GatherSinaStatusViedoByStatusResult(SpiderRunningCache runningCache, BilibiliUserStatusVlist status, SinaUser user, out bool ignoreSourceReaded)
+        int GatherSinaStatusViedoByStatusResult(RunningCache runningCache, BilibiliUserStatusVlist status, SinaUser user, out bool ignoreSourceReaded)
         {
             ignoreSourceReaded = false;
             if (Repository.CheckUserIgnore(user.uid))
@@ -1296,7 +1296,7 @@ namespace SpiderService.Service
                         var result = engine.Evaluate("(function() { " + js + "; return __INITIAL_STATE__; })()");
                         var json = JSONObject.Stringify(engine, result);
 
-                        var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<BilibiliUserStateResult>(json) as BilibiliUserStateResult;
+                        var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<BilibiliUserStateResult>($"{json}") as BilibiliUserStateResult;
                         return jsonResult;
                     }
                 }
@@ -1328,7 +1328,7 @@ namespace SpiderService.Service
                         var result = engine.Evaluate("(function() { " + js + "; return __playinfo__; })()") ;
                         var json = JSONObject.Stringify(engine, result);
 
-                        var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<BilibiliUserViedoResult>(json) as BilibiliUserViedoResult;
+                        var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<BilibiliUserViedoResult>($"{json}") as BilibiliUserViedoResult;
                         return jsonResult;
                     }
                 }
@@ -1360,7 +1360,7 @@ namespace SpiderService.Service
                         var result = engine.Evaluate("(function() { " + js + " return $render_data; })()");
                         var json = JSONObject.Stringify(engine, result);
 
-                        var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboStatusResult>(json) as MWeiboStatusResult;
+                        var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MWeiboStatusResult>($"{json}") as MWeiboStatusResult;
                         return jsonResult;
                     }
                 }
@@ -1413,7 +1413,7 @@ namespace SpiderService.Service
         /// <param name="dto"></param>
         /// <param name="cookie"></param>
         /// <returns></returns>
-        bool DownloadUserStatusImage(SpiderRunningCache runningCache, string userId, string arcId, string imgUrl, int readImageIndex, out int errType)
+        bool DownloadUserStatusImage(RunningCache runningCache, string userId, string arcId, string imgUrl, int readImageIndex, out int errType)
         {
             errType = 0;
 
@@ -1528,7 +1528,7 @@ namespace SpiderService.Service
         /// <param name="dto"></param>
         /// <param name="cookie"></param>
         /// <returns></returns>
-        bool DownloadUserStatusVedio(SpiderRunningCache runningCache, string userId, string arcId, string statusUrl, string videoUrl, string audioUrl)
+        bool DownloadUserStatusVedio(RunningCache runningCache, string userId, string arcId, string statusUrl, string videoUrl, string audioUrl)
         {
             if (!Repository.ExistsSinaSource(userId, arcId, statusUrl))
             {

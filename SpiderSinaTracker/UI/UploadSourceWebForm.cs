@@ -15,11 +15,11 @@ namespace SpiderTracker.UI
 {
     public partial class UploadSourceWebForm : Form
     {
-        SpiderRunningConfig RunningConfig;
+        RunningConfig RunningConfig;
         string ShowStatus;
         string ShowName;
         bool ShowThumb;
-        public UploadSourceWebForm(SpiderRunningConfig runningConfig, string status, string filename, bool thumb)
+        public UploadSourceWebForm(RunningConfig runningConfig, string status, string filename, bool thumb)
         {
             InitializeComponent();
 

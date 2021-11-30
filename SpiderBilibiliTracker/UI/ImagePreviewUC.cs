@@ -24,7 +24,7 @@ namespace SpiderTracker.UI
         List<Panel> imageCtls = new List<Panel>();
         List<FileInfo> cacheImageFiles = new List<FileInfo>();
         string imageCtrlName = "imageCtl";
-        SpiderRunningConfig RunningConfig;
+        RunningConfig RunningConfig;
         SinaStatus SinaStatus;
         List<SinaSource> SinaSources;
         Thread showImageThread = null;
@@ -57,7 +57,7 @@ namespace SpiderTracker.UI
             this.pnlImagePanel.Dock = DockStyle.Fill;
         }
 
-        public void ShowImages(FileInfo[] imageFiles, SpiderRunningConfig runningConfig, SinaStatus sinaStatus, List<SinaSource> sources)
+        public void ShowImages(FileInfo[] imageFiles, RunningConfig runningConfig, SinaStatus sinaStatus, List<SinaSource> sources)
         {
             if (!couldLoadImageTask) return;
 
