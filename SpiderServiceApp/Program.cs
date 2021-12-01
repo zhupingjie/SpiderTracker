@@ -1,6 +1,7 @@
 ﻿using SpiderCore.Util;
 using SpiderService.Service;
 using System;
+using System.ServiceProcess;
 
 namespace SpiderServiceApp
 {

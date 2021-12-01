@@ -59,8 +59,6 @@ namespace SpiderService.Service
         public void Start()
         {
             this.Initation();
-
-            this.LoadConfigData();
             
             this.GatherData();
         }
@@ -109,26 +107,6 @@ namespace SpiderService.Service
 
         #region 启动事件
 
-        void LoadConfigData()
-        {
-            Task.Factory.StartNew(() =>
-            {
-                while (true)
-                {
-                    this.ActionLog("加载全局配置数据...");
-                    try
-                    {
-                        ConfigService.LoadConfig(RC);
-                    }
-                    catch (Exception ex)
-                    {
-                        LogUtil.Error($"LoadGlobalConfig Error:{ex.Message}");
-                    }
-                    Thread.Sleep(RC.LoadGlobalConfigInterval * 1000);
-                }
-            }, CancellationTokenSource.Token);
-        }
-
         void GatherData()
         {
             try
@@ -159,7 +137,7 @@ namespace SpiderService.Service
         {
             try
             {
-                Thread.Sleep(5000);
+                ConfigService.LoadConfig(RC);
 
                 var runningConfig = RC.Clone();
                 runningConfig.Category = category;
