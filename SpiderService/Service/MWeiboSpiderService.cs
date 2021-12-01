@@ -807,6 +807,7 @@ namespace SpiderService.Service
                     if (RunningConfig.GatherUserNewPublishTime)
                     {
                         ShowGatherStatus($"采集最新发布时间...");
+                        Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
                         break;
                     }
                 }
@@ -948,6 +949,7 @@ namespace SpiderService.Service
                     if (RunningConfig.GatherUserNewPublishTime)
                     {
                         ShowGatherStatus($"采集最新发布时间...");
+                        Thread.Sleep(RunningConfig.ReadFreeWaitMilSecond);
                         break;
                     }
 
