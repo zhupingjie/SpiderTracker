@@ -50,6 +50,8 @@ namespace SpiderService.Service
 
         List<string> Categorys = new List<string>();
 
+        SpiderConfigSerivce ConfigService = new SpiderConfigSerivce();
+
         int RunCategoryIndex = 0;
         #endregion
 
@@ -76,12 +78,12 @@ namespace SpiderService.Service
 
         void SpiderService_OnSpiderStarted(RunningTask runningTask)
         {
-            this.ActionLog($"采集[{runningTask.DoUsers.Count}]用户最新发布时间开始");
+            this.ActionLog($"采集[{runningTask.DoUsers.Count}]用户最新数据开始");
         }
 
         void SpiderService_OnSpiderComplete(string category)
         {
-            this.ActionLog($"采集[{category}]用户最新发布时间完成");
+            this.ActionLog($"采集[{category}]用户最新数据完成");
             this.RunCategoryIndex++;
             if(this.RunCategoryIndex >= Categorys.Count)
             {
@@ -93,7 +95,7 @@ namespace SpiderService.Service
 
         void SpiderService_OnGatherUserComplete(SpiderDomain.Entity.SinaUser user, int readImageQty)
         {
-            this.ActionLog($"采集[{user.category}]用户[{user.uid}]最新发布时间:{user.lastpublish}");
+            this.ActionLog($"采集[{user.category}]用户[{user.uid}]数据OK");
         }
 
         public void Stop()
@@ -116,7 +118,7 @@ namespace SpiderService.Service
                     this.ActionLog("加载全局配置数据...");
                     try
                     {
-                        //StockConfigService.LoadGlobalConfig(RC);
+                        ConfigService.LoadConfig(RC);
                     }
                     catch (Exception ex)
                     {
@@ -142,9 +144,9 @@ namespace SpiderService.Service
                 }
                 if (!string.IsNullOrEmpty(category))
                 {
-                    this.ActionLog($"采集[{category}]用户最新发布时间...");
+                    this.ActionLog($"采集[{category}]用户最新数据...");
 
-                    GatherUserNewPublishTime(category);
+                    GatherUserData(category);
                 }
             }
             catch (Exception ex)
@@ -153,16 +155,15 @@ namespace SpiderService.Service
             }
         }
 
-        void GatherUserNewPublishTime(string category)
+        void GatherUserData(string category)
         {
             try
             {
+                Thread.Sleep(5000);
+
                 var runningConfig = RC.Clone();
                 runningConfig.Category = category;
                 runningConfig.Site = "app";
-                runningConfig.ReadAllOfUser = true;
-                runningConfig.IgnoreDownloadSource = true;
-                runningConfig.IgnoreReadGetStatus = false;
 
                 var startOption = new SpiderStartOption()
                 {
@@ -172,7 +173,7 @@ namespace SpiderService.Service
             }
             catch(Exception ex)
             {
-                LogUtil.Error($"GatherUserNewPublishTime Error:{ex.Message}");
+                LogUtil.Error($"GatherUserData Error:{ex.Message}");
             }
         }
 

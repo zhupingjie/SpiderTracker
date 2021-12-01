@@ -44,7 +44,25 @@ namespace SpiderCore.Util
             if (!DateTime.TryParse(strTime, out time)) return null;
             return time;
         }
+        public static PropertyInfo[] GetPropertyInfos(object obj)
+        {
+            if (obj == null) return null;
+            return obj.GetType().GetProperties();
+        }
 
+        public static PropertyInfo GetPropertyInfo(object obj, string propertyName)
+        {
+            if (obj == null) return null;
+            return obj.GetType().GetProperties().FirstOrDefault(c => c.Name.ToUpper() == propertyName.ToUpper());
+        }
+        public static void SetPropertyValue(object obj, string propertyName, object propertyValue)
+        {
+            var propertyInfo = GetPropertyInfo(obj, propertyName);
+            if (propertyInfo != null && propertyInfo.CanWrite)
+            {
+                propertyInfo.SetValue(obj, propertyValue);
+            }
+        }
 
         public static void SetPropertyValue(object obj, PropertyInfo propertyInfo, object propertyValue)
         {
@@ -63,5 +81,83 @@ namespace SpiderCore.Util
             var converter = TypeDescriptor.GetConverter(typeof(T));
             return (T)converter.ConvertTo(value, typeof(T));
         }
+        public static object ToValue(object value, Type type)
+        {
+            try
+            {
+                if (value == null) return null;
+                var val = $"{value}".Trim();
+
+                if (value == null && type.IsGenericType) return Activator.CreateInstance(type);
+                if (value == null) return null;
+                if (type == value.GetType()) return value;
+                if (type.IsEnum)
+                {
+                    if (value is string)
+                        return Enum.Parse(type, value as string);
+                    else
+                        return Enum.ToObject(type, value);
+                }
+                if (!type.IsInterface && type.IsGenericType)
+                {
+                    Type innerType = type.GetGenericArguments()[0];
+                    object innerValue = ToValue(value, innerType);
+                    return Activator.CreateInstance(type, new object[] { innerValue });
+                }
+                if (value is string && type == typeof(Guid)) return new Guid(value as string);
+                if (value is string && type == typeof(Version)) return new Version(value as string);
+                if (!(value is IConvertible)) return value;
+                return Convert.ChangeType(value, type);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static Dictionary<string, object> GetPropertyValues(object obj, bool setKeyWithDesc = false)
+        {
+            var result = new Dictionary<string, object>();
+            var propertyInfos = obj.GetType().GetProperties();
+            foreach (var propertyInfo in propertyInfos)
+            {
+                if (propertyInfo.GetMethod.IsStatic) continue;
+
+                var key = propertyInfo.Name;
+                if (setKeyWithDesc)
+                {
+                    var descAttrs = propertyInfo.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                    if (descAttrs.Count() > 0)
+                    {
+                        key = (descAttrs.FirstOrDefault() as DescriptionAttribute).Description;
+                    }
+                }
+
+                if (!result.ContainsKey(key))
+                {
+                    var value = propertyInfo.GetValue(obj);
+                    if (propertyInfo.PropertyType.IsEnum || (IsNullableType(propertyInfo.PropertyType) && GetNullableType(propertyInfo.PropertyType).IsEnum))
+                    {
+                        result.Add(key, (int)value);
+                    }
+                    else
+                    {
+                        result.Add(key, value);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static bool IsNullableType(Type theType)
+        {
+            return Nullable.GetUnderlyingType(theType) != null;
+        }
+
+        public static Type GetNullableType(Type theType)
+        {
+            return Nullable.GetUnderlyingType(theType);
+        }
+
     }
 }

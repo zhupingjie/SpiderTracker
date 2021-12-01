@@ -30,6 +30,10 @@ namespace SpiderCore.Repository
         {
             return DBHelper.CreateEntity(user, "sina_user");
         }
+        public bool CreateSinaConfig(GlobalConfigEntity config)
+        {
+            return DBHelper.CreateEntity(config, "sina_config");
+        }
 
         public bool CreateSinaTopic(SinaTopic super)
         {
@@ -59,7 +63,10 @@ namespace SpiderCore.Repository
         {
             return DBHelper.UpdateEntity(status, "sina_status", "bid", status.bid, columns);
         }
-
+        public bool UpdateSinaConfig(GlobalConfigEntity config)
+        {
+            return DBHelper.UpdateEntity(config, "sina_config", "id", $"{config.id}", new string[] { "Value"});
+        }
         public bool UpdateSinaStatuses(string uid, string col, object value)
         {
             return DBHelper.UpdateEntitys("sina_status", $"`uid`='{uid}'", col, value);
@@ -148,6 +155,10 @@ namespace SpiderCore.Repository
             return DBHelper.GetGroupStrings("sina_user", "category", $"web={(int)gatherWeb}").ToArray();
         }
 
+        public List<GlobalConfigEntity> GetConfigs()
+        {
+            return DBHelper.GetEntitys<GlobalConfigEntity>("sina_config", $"Name<>''");
+        }
         public List<SinaUser> GetUsers(string category, GatherWebEnum gatherWeb)
         {
             return DBHelper.GetEntitys<SinaUser>("sina_user", $"`category`='{category}' and web={(int)gatherWeb} and `ignore`=0");
