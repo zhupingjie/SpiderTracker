@@ -308,7 +308,7 @@ namespace SpiderCore.Config
 
         public int LoadGlobalConfigInterval { get; set; } = 300;
 
-        public int GatherUserNewPublishTimeInterval { get; set; } = 5 * 30;
+        public int GatherUserNewPublishTimeInterval { get; set; } = 30 * 60;
 
         #endregion
     }
