@@ -55,8 +55,8 @@
             this.columnFollow = new System.Windows.Forms.ColumnHeader();
             this.columnReadPage = new System.Windows.Forms.ColumnHeader();
             this.columnLove = new System.Windows.Forms.ColumnHeader();
-            this.columnLastPage = new System.Windows.Forms.ColumnHeader();
             this.columnSite = new System.Windows.Forms.ColumnHeader();
+            this.columnLastDate = new System.Windows.Forms.ColumnHeader();
             this.columnTime = new System.Windows.Forms.ColumnHeader();
             this.panel24 = new System.Windows.Forms.Panel();
             this.panel25 = new System.Windows.Forms.Panel();
@@ -339,8 +339,8 @@
             this.columnFollow,
             this.columnReadPage,
             this.columnLove,
-            this.columnLastPage,
             this.columnSite,
+            this.columnLastDate,
             this.columnTime});
             this.lstUser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstUser.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -418,19 +418,19 @@
             this.columnLove.Text = "点赞";
             this.columnLove.Width = 40;
             // 
-            // columnLastPage
-            // 
-            this.columnLastPage.Text = "末页";
-            this.columnLastPage.Width = 50;
-            // 
             // columnSite
             // 
             this.columnSite.Text = "来源";
             this.columnSite.Width = 50;
             // 
+            // columnLastDate
+            // 
+            this.columnLastDate.Text = "更新";
+            this.columnLastDate.Width = 120;
+            // 
             // columnTime
             // 
-            this.columnTime.Text = "更新";
+            this.columnTime.Text = "发布";
             this.columnTime.Width = 120;
             // 
             // panel24
@@ -478,6 +478,7 @@
             this.cbxUserSort.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxUserSort.FormattingEnabled = true;
             this.cbxUserSort.Items.AddRange(new object[] {
+            "发布",
             "更新",
             "用户",
             "名称",
@@ -491,14 +492,13 @@
             "关注",
             "页码",
             "点赞",
-            "末页",
             "来源"});
             this.cbxUserSort.Location = new System.Drawing.Point(0, 0);
             this.cbxUserSort.Margin = new System.Windows.Forms.Padding(0);
             this.cbxUserSort.Name = "cbxUserSort";
             this.cbxUserSort.Size = new System.Drawing.Size(42, 24);
             this.cbxUserSort.TabIndex = 0;
-            this.cbxUserSort.Text = "更新";
+            this.cbxUserSort.Text = "发布";
             this.cbxUserSort.SelectedIndexChanged += new System.EventHandler(this.cbxUserSort_SelectedIndexChanged);
             // 
             // cbxUserSortPage
@@ -1523,7 +1523,7 @@
         private System.Windows.Forms.Button btnChange;
         private System.Windows.Forms.Panel panel23;
         private System.Windows.Forms.Button btnCancelUser;
-        private System.Windows.Forms.ColumnHeader columnLastPage;
+        private System.Windows.Forms.ColumnHeader columnLastDate;
         private System.Windows.Forms.ComboBox cbxUserSortIndex;
         private System.Windows.Forms.ComboBox cbxStatusSortIndex;
         private System.Windows.Forms.ColumnHeader columnReadPage;

@@ -337,11 +337,17 @@ namespace SpiderTracker
         {
             switch (this.cbxUserSort.Text)
             {
-                case "更新":
+                case "发布":
                     if (this.cbxUserSortAsc.Text == "降序")
                         users = users.OrderByDescending(c => c.lastpublish).ToArray();
                     else
                         users = users.OrderBy(c => c.lastpublish).ToArray();
+                    break;
+                case "更新":
+                    if (this.cbxUserSortAsc.Text == "降序")
+                        users = users.OrderByDescending(c => c.lastdate).ToArray();
+                    else
+                        users = users.OrderBy(c => c.lastdate).ToArray();
                     break;
                 case "用户":
                     if (this.cbxUserSortAsc.Text == "降序")
@@ -415,12 +421,6 @@ namespace SpiderTracker
                     else
                         users = users.OrderBy(c => c.readpage).ToArray();
                     break;
-                case "末页":
-                    if (this.cbxUserSortAsc.Text == "降序")
-                        users = users.OrderByDescending(c => c.lastpage).ToArray();
-                    else
-                        users = users.OrderBy(c => c.lastpage).ToArray();
-                    break;
                 case "来源":
                     if (this.cbxUserSortAsc.Text == "降序")
                         users = users.OrderByDescending(c => c.site).ToArray();
@@ -472,8 +472,8 @@ namespace SpiderTracker
                     subItem.SubItems.Add($"{item.follows}");
                     subItem.SubItems.Add($"{item.readpage}");
                     subItem.SubItems.Add($"{(item.focus > 0 ? "◉" : "")}");
-                    subItem.SubItems.Add($"{(item.lastpage > 0 ? "✔" : "")}");
                     subItem.SubItems.Add($"{item.site}");
+                    subItem.SubItems.Add($"{item.lastdate.ToString("yyyy/MM/dd HH:mm")}");
                     subItem.SubItems.Add($"{item.lastpublish}");
                     subItem.Tag = item;
                     this.lstUser.Items.Add(subItem);
