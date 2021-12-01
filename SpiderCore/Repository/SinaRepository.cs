@@ -394,7 +394,7 @@ namespace SpiderCore.Repository
             var extUser = GetUser(user.id);
             if(extUser != null)
             {
-                if (string.IsNullOrEmpty(extUser.lastpublish) || extUser.lastpublish.CompareTo(sinaStatus.createtime) == 0)
+                if (string.IsNullOrEmpty(extUser.lastpublish) || extUser.lastpublish.CompareTo(sinaStatus.createtime) < 0)
                 {
                     extUser.lastpublish = sinaStatus.createtime;
                     UpdateSinaUser(extUser, new string[] { "lastpublish" });
