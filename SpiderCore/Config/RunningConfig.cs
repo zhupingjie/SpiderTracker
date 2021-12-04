@@ -306,9 +306,7 @@ namespace SpiderCore.Config
         #region 服务配置
 
 
-        public int LoadGlobalConfigInterval { get; set; } = 300;
-
-        public int GatherUserNewPublishTimeInterval { get; set; } = 30 * 60;
+        public int GatherUserDataServiceInterval { get; set; } = 3 * 60;
 
         #endregion
     }

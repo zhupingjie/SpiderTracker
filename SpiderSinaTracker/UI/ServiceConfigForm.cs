@@ -56,6 +56,23 @@ namespace SpiderTracker.UI
                     Repository.UpdateSinaConfig(config);
                 }
             }
+
+            var intervalConfig = configs.FirstOrDefault(c => c.Name == this.GatherUserDataServiceInterval.Name);
+            if (intervalConfig == null)
+            {
+                intervalConfig = new GlobalConfigEntity()
+                {
+                    Name = this.GatherUserDataServiceInterval.Name,
+                    Value = $"{this.GatherUserDataServiceInterval.Value}"
+                };
+                Repository.CreateSinaConfig(intervalConfig);
+            }
+            else
+            {
+                intervalConfig.Value = $"{this.GatherUserDataServiceInterval.Value}";
+                Repository.UpdateSinaConfig(intervalConfig);
+            }
+
             this.Close();
         }
 

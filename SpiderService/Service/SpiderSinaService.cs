@@ -69,6 +69,7 @@ namespace SpiderService.Service
             SpiderService.OnSpiderComplete += SpiderService_OnSpiderComplete;
             SpiderService.OnSpiderStarted += SpiderService_OnSpiderStarted;
 
+            this.Categorys.Clear();
             this.Categorys.AddRange(Repository.GetGroupNames(GatherWebEnum.Sina));
             this.RunCategoryIndex = 0;
         }
@@ -85,7 +86,7 @@ namespace SpiderService.Service
             this.RunCategoryIndex++;
             if(this.RunCategoryIndex >= Categorys.Count)
             {
-                Thread.Sleep(RC.GatherUserNewPublishTimeInterval * 1000);
+                Thread.Sleep(RC.GatherUserDataServiceInterval * 1000);
                 this.RunCategoryIndex = 0;
             }
             this.GatherData();
@@ -111,6 +112,11 @@ namespace SpiderService.Service
         {
             try
             {
+                this.ConfigService.LoadConfig(RC);
+
+                this.Categorys.Clear();
+                this.Categorys.AddRange(Repository.GetGroupNames(GatherWebEnum.Sina));
+
                 string category = null;
                 if (RunCategoryIndex < Categorys.Count)
                 {
@@ -137,8 +143,6 @@ namespace SpiderService.Service
         {
             try
             {
-                ConfigService.LoadConfig(RC);
-
                 var runningConfig = RC.Clone();
                 runningConfig.Category = category;
                 runningConfig.Site = "app";
