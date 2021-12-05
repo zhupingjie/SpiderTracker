@@ -58,6 +58,14 @@ namespace SpiderTracker.UI
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.GatherUserDataServiceInterval = new System.Windows.Forms.NumericUpDown();
+            this.lblGatherUserDataServiceInterval = new System.Windows.Forms.Label();
+            this.GatherUserDataSort = new System.Windows.Forms.ComboBox();
+            this.GatherUserDataSortAsc = new System.Windows.Forms.ComboBox();
+            this.lblGatherUserDataSort = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.GatherThreadCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartPageIndex)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxReadPageCount)).BeginInit();
@@ -68,6 +76,9 @@ namespace SpiderTracker.UI
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.panel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GatherUserDataServiceInterval)).BeginInit();
+            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -320,6 +331,7 @@ namespace SpiderTracker.UI
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.panel7);
             this.panel1.Controls.Add(this.IgnoreDownloadSource);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.IgnoreReadGetStatus);
@@ -331,7 +343,7 @@ namespace SpiderTracker.UI
             this.panel1.Location = new System.Drawing.Point(0, 260);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(248, 113);
+            this.panel1.Size = new System.Drawing.Size(248, 215);
             this.panel1.TabIndex = 44;
             // 
             // panel2
@@ -470,6 +482,133 @@ namespace SpiderTracker.UI
             this.label7.TabIndex = 0;
             this.label7.Text = "基本选项";
             // 
+            // panel8
+            // 
+            this.panel8.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.panel8.Controls.Add(this.label8);
+            this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel8.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.panel8.Location = new System.Drawing.Point(0, 0);
+            this.panel8.Margin = new System.Windows.Forms.Padding(4);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(248, 24);
+            this.panel8.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(4, 6);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(56, 17);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "其它选项";
+            // 
+            // GatherUserDataServiceInterval
+            // 
+            this.GatherUserDataServiceInterval.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.GatherUserDataServiceInterval.Location = new System.Drawing.Point(121, 36);
+            this.GatherUserDataServiceInterval.Margin = new System.Windows.Forms.Padding(4);
+            this.GatherUserDataServiceInterval.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.GatherUserDataServiceInterval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.GatherUserDataServiceInterval.Name = "GatherUserDataServiceInterval";
+            this.GatherUserDataServiceInterval.Size = new System.Drawing.Size(99, 23);
+            this.GatherUserDataServiceInterval.TabIndex = 8;
+            this.GatherUserDataServiceInterval.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.GatherUserDataServiceInterval.ValueChanged += new System.EventHandler(this.GatherUserDataServiceInterval_ValueChanged);
+            // 
+            // lblGatherUserDataServiceInterval
+            // 
+            this.lblGatherUserDataServiceInterval.AutoSize = true;
+            this.lblGatherUserDataServiceInterval.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblGatherUserDataServiceInterval.Location = new System.Drawing.Point(14, 38);
+            this.lblGatherUserDataServiceInterval.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblGatherUserDataServiceInterval.Name = "lblGatherUserDataServiceInterval";
+            this.lblGatherUserDataServiceInterval.Size = new System.Drawing.Size(100, 17);
+            this.lblGatherUserDataServiceInterval.TabIndex = 7;
+            this.lblGatherUserDataServiceInterval.Text = "运行周期时间(分)";
+            // 
+            // GatherUserDataSort
+            // 
+            this.GatherUserDataSort.BackColor = System.Drawing.Color.White;
+            this.GatherUserDataSort.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.GatherUserDataSort.FormattingEnabled = true;
+            this.GatherUserDataSort.Items.AddRange(new object[] {
+            "发布",
+            "更新",
+            "用户",
+            "名称",
+            "微博",
+            "读取",
+            "采集",
+            "上传",
+            "忽略",
+            "原创",
+            "转发",
+            "关注",
+            "页码",
+            "点赞",
+            "来源"});
+            this.GatherUserDataSort.Location = new System.Drawing.Point(121, 66);
+            this.GatherUserDataSort.Margin = new System.Windows.Forms.Padding(0);
+            this.GatherUserDataSort.Name = "GatherUserDataSort";
+            this.GatherUserDataSort.Size = new System.Drawing.Size(51, 24);
+            this.GatherUserDataSort.TabIndex = 9;
+            this.GatherUserDataSort.Text = "发布";
+            this.GatherUserDataSort.SelectedIndexChanged += new System.EventHandler(this.GatherUserDataSort_SelectedIndexChanged);
+            // 
+            // GatherUserDataSortAsc
+            // 
+            this.GatherUserDataSortAsc.BackColor = System.Drawing.Color.White;
+            this.GatherUserDataSortAsc.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.GatherUserDataSortAsc.FormattingEnabled = true;
+            this.GatherUserDataSortAsc.Items.AddRange(new object[] {
+            "升序",
+            "降序"});
+            this.GatherUserDataSortAsc.Location = new System.Drawing.Point(175, 66);
+            this.GatherUserDataSortAsc.Name = "GatherUserDataSortAsc";
+            this.GatherUserDataSortAsc.Size = new System.Drawing.Size(45, 24);
+            this.GatherUserDataSortAsc.TabIndex = 10;
+            this.GatherUserDataSortAsc.Text = "降序";
+            this.GatherUserDataSortAsc.SelectedIndexChanged += new System.EventHandler(this.GatherUserDataSortAsc_SelectedIndexChanged);
+            // 
+            // lblGatherUserDataSort
+            // 
+            this.lblGatherUserDataSort.AutoSize = true;
+            this.lblGatherUserDataSort.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblGatherUserDataSort.Location = new System.Drawing.Point(14, 68);
+            this.lblGatherUserDataSort.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblGatherUserDataSort.Name = "lblGatherUserDataSort";
+            this.lblGatherUserDataSort.Size = new System.Drawing.Size(92, 17);
+            this.lblGatherUserDataSort.TabIndex = 11;
+            this.lblGatherUserDataSort.Text = "采集用户优先级";
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.lblGatherUserDataSort);
+            this.panel7.Controls.Add(this.GatherUserDataSortAsc);
+            this.panel7.Controls.Add(this.GatherUserDataSort);
+            this.panel7.Controls.Add(this.lblGatherUserDataServiceInterval);
+            this.panel7.Controls.Add(this.GatherUserDataServiceInterval);
+            this.panel7.Controls.Add(this.panel8);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel7.Location = new System.Drawing.Point(0, 117);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(248, 98);
+            this.panel7.TabIndex = 46;
+            // 
             // SpiderConfigUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -479,7 +618,7 @@ namespace SpiderTracker.UI
             this.Controls.Add(this.panel1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SpiderConfigUC";
-            this.Size = new System.Drawing.Size(248, 373);
+            this.Size = new System.Drawing.Size(248, 475);
             ((System.ComponentModel.ISupportInitialize)(this.GatherThreadCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartPageIndex)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxReadPageCount)).EndInit();
@@ -496,6 +635,11 @@ namespace SpiderTracker.UI
             this.panel4.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GatherUserDataServiceInterval)).EndInit();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -531,5 +675,13 @@ namespace SpiderTracker.UI
         private System.Windows.Forms.CheckBox IgnoreReadDownStatus;
         private System.Windows.Forms.CheckBox GatherStatusWithNoSource;
         private System.Windows.Forms.CheckBox GatherStatusUpdateLocalSource;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Label lblGatherUserDataSort;
+        private System.Windows.Forms.ComboBox GatherUserDataSortAsc;
+        private System.Windows.Forms.ComboBox GatherUserDataSort;
+        private System.Windows.Forms.Label lblGatherUserDataServiceInterval;
+        private System.Windows.Forms.NumericUpDown GatherUserDataServiceInterval;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Label label8;
     }
 }

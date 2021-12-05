@@ -306,10 +306,13 @@ namespace SpiderCore.Config
         #region 服务配置
 
 
+        [OptionAttribute]
         public int GatherUserDataServiceInterval { get; set; } = 3 * 60;
 
+        [OptionAttribute]
         public string GatherUserDataSort { get; set; } = "更新";
 
+        [OptionAttribute]
         public string GatherUserDataSortAsc { get; set; } = "降序";
 
         #endregion

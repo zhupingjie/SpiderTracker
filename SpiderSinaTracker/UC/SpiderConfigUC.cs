@@ -36,10 +36,22 @@ namespace SpiderTracker.UI
                 }
                 else if (config.PropertyType.Equals(typeof(string)))
                 {
-                    (findCtl as TextBox).TextChanged += SpiderConfigUC_TextChanged;
+                    if (findCtl is ComboBox)
+                    {
+                        (findCtl as ComboBox).SelectedValueChanged += SpiderConfigUC_SelectedValueChanged;
+                    }
+                    else if (findCtl is TextBox)
+                    {
+                        (findCtl as TextBox).TextChanged += SpiderConfigUC_TextChanged;
+                    }
                 }
 
             }
+        }
+
+        private void SpiderConfigUC_SelectedValueChanged(object sender, EventArgs e)
+        {
+            RefreshConfig(_runningConfig);
         }
 
         private void SpiderConfigUC_TextChanged(object sender, EventArgs e)
@@ -93,7 +105,14 @@ namespace SpiderTracker.UI
                 }
                 else if (config.PropertyType.Equals(typeof(string)))
                 {
-                    (findCtl as TextBox).Text = $"{objValue}";
+                    if (findCtl is ComboBox)
+                    {
+                        (findCtl as ComboBox).Text = $"{objValue}";
+                    }
+                    else if (findCtl is TextBox)
+                    {
+                        (findCtl as TextBox).Text = $"{objValue}";
+                    }
                 }
             }
         }
@@ -116,7 +135,15 @@ namespace SpiderTracker.UI
                 }
                 else if (config.PropertyType.Equals(typeof(string)))
                 {
-                    ObjectUtil.SetPropertyValue(_runningConfig, config, (findCtl as TextBox).Text);
+                    if (findCtl is ComboBox)
+                    {
+                        ObjectUtil.SetPropertyValue(_runningConfig, config, (findCtl as ComboBox).Text);
+                    }
+                    else if (findCtl is TextBox)
+                    {
+                        ObjectUtil.SetPropertyValue(_runningConfig, config, (findCtl as TextBox).Text);
+                    }
+                    
                 }
             }
             return _runningConfig;
@@ -181,6 +208,21 @@ namespace SpiderTracker.UI
         }
 
         private void IgnoreReadGetStatus_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GatherUserDataServiceInterval_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GatherUserDataSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GatherUserDataSortAsc_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

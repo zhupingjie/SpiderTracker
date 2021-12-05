@@ -289,7 +289,7 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tplStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 619);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 707);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1264, 22);
             this.statusStrip1.TabIndex = 6;
@@ -310,7 +310,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 41);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(313, 578);
+            this.panel3.Size = new System.Drawing.Size(313, 666);
             this.panel3.TabIndex = 7;
             // 
             // panel15
@@ -320,7 +320,7 @@
             this.panel15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel15.Location = new System.Drawing.Point(0, 25);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(311, 318);
+            this.panel15.Size = new System.Drawing.Size(311, 406);
             this.panel15.TabIndex = 8;
             // 
             // lstUser
@@ -351,7 +351,7 @@
             this.lstUser.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstUser.Location = new System.Drawing.Point(0, 24);
             this.lstUser.Name = "lstUser";
-            this.lstUser.Size = new System.Drawing.Size(311, 294);
+            this.lstUser.Size = new System.Drawing.Size(311, 382);
             this.lstUser.TabIndex = 9;
             this.lstUser.UseCompatibleStateImageBehavior = false;
             this.lstUser.View = System.Windows.Forms.View.Details;
@@ -565,7 +565,7 @@
             this.panel9.Controls.Add(this.panel20);
             this.panel9.Controls.Add(this.panel8);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel9.Location = new System.Drawing.Point(0, 343);
+            this.panel9.Location = new System.Drawing.Point(0, 431);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(311, 233);
             this.panel9.TabIndex = 7;
@@ -952,7 +952,7 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel10.Location = new System.Drawing.Point(1013, 41);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(251, 578);
+            this.panel10.Size = new System.Drawing.Size(251, 666);
             this.panel10.TabIndex = 11;
             // 
             // panel5
@@ -963,7 +963,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(0, 112);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(249, 391);
+            this.panel5.Size = new System.Drawing.Size(249, 479);
             this.panel5.TabIndex = 18;
             // 
             // panel16
@@ -995,7 +995,7 @@
             this.spiderConfigUC1.Location = new System.Drawing.Point(0, 0);
             this.spiderConfigUC1.Margin = new System.Windows.Forms.Padding(4);
             this.spiderConfigUC1.Name = "spiderConfigUC1";
-            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 391);
+            this.spiderConfigUC1.Size = new System.Drawing.Size(249, 479);
             this.spiderConfigUC1.TabIndex = 19;
             // 
             // panel17
@@ -1124,7 +1124,7 @@
             this.panel14.Controls.Add(this.btnSearch);
             this.panel14.Controls.Add(this.panel11);
             this.panel14.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel14.Location = new System.Drawing.Point(0, 503);
+            this.panel14.Location = new System.Drawing.Point(0, 591);
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(249, 73);
             this.panel14.TabIndex = 16;
@@ -1219,7 +1219,7 @@
             // 
             this.tbpVideo.Location = new System.Drawing.Point(4, 4);
             this.tbpVideo.Name = "tbpVideo";
-            this.tbpVideo.Size = new System.Drawing.Size(670, 544);
+            this.tbpVideo.Size = new System.Drawing.Size(670, 636);
             this.tbpVideo.TabIndex = 2;
             // 
             // tbpReview
@@ -1230,7 +1230,7 @@
             this.tbpReview.Location = new System.Drawing.Point(4, 4);
             this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
             this.tbpReview.Name = "tbpReview";
-            this.tbpReview.Size = new System.Drawing.Size(670, 544);
+            this.tbpReview.Size = new System.Drawing.Size(670, 636);
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
             // 
@@ -1241,7 +1241,7 @@
             this.panel27.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel27.Location = new System.Drawing.Point(0, 0);
             this.panel27.Name = "panel27";
-            this.panel27.Size = new System.Drawing.Size(670, 544);
+            this.panel27.Size = new System.Drawing.Size(670, 636);
             this.panel27.TabIndex = 1;
             // 
             // imagePreviewUC1
@@ -1252,7 +1252,7 @@
             this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
             this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
             this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(670, 544);
+            this.imagePreviewUC1.Size = new System.Drawing.Size(670, 636);
             this.imagePreviewUC1.TabIndex = 0;
             // 
             // tbpGatherLog
@@ -1263,7 +1263,7 @@
             this.tbpGatherLog.Location = new System.Drawing.Point(4, 4);
             this.tbpGatherLog.Margin = new System.Windows.Forms.Padding(0);
             this.tbpGatherLog.Name = "tbpGatherLog";
-            this.tbpGatherLog.Size = new System.Drawing.Size(670, 544);
+            this.tbpGatherLog.Size = new System.Drawing.Size(670, 632);
             this.tbpGatherLog.TabIndex = 0;
             this.tbpGatherLog.Text = "运行日志";
             // 
@@ -1285,7 +1285,7 @@
             this.lstRunstate.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.lstRunstate.Location = new System.Drawing.Point(0, 0);
             this.lstRunstate.Name = "lstRunstate";
-            this.lstRunstate.Size = new System.Drawing.Size(670, 316);
+            this.lstRunstate.Size = new System.Drawing.Size(670, 404);
             this.lstRunstate.TabIndex = 16;
             this.lstRunstate.UseCompatibleStateImageBehavior = false;
             this.lstRunstate.View = System.Windows.Forms.View.Details;
@@ -1322,7 +1322,7 @@
             this.panel18.Controls.Add(this.lstLog);
             this.panel18.Controls.Add(this.panel19);
             this.panel18.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel18.Location = new System.Drawing.Point(0, 316);
+            this.panel18.Location = new System.Drawing.Point(0, 404);
             this.panel18.Margin = new System.Windows.Forms.Padding(0);
             this.panel18.Name = "panel18";
             this.panel18.Size = new System.Drawing.Size(670, 228);
@@ -1381,13 +1381,13 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(700, 552);
+            this.tabControl1.Size = new System.Drawing.Size(700, 640);
             this.tabControl1.TabIndex = 17;
             // 
             // SpiderSinaTrackerForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1264, 641);
+            this.ClientSize = new System.Drawing.Size(1264, 729);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel12);
             this.Controls.Add(this.panel10);
