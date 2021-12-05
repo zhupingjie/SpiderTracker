@@ -37,6 +37,9 @@
             this.GatherUserDataServiceInterval = new System.Windows.Forms.NumericUpDown();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
+            this.GatherUserDataSortAsc = new System.Windows.Forms.ComboBox();
+            this.GatherUserDataSort = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GatherUserDataServiceInterval)).BeginInit();
@@ -48,7 +51,7 @@
             this.panel1.Controls.Add(this.btnClose);
             this.panel1.Controls.Add(this.btnSave);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 437);
+            this.panel1.Location = new System.Drawing.Point(0, 464);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(240, 56);
             this.panel1.TabIndex = 1;
@@ -84,13 +87,16 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.GatherUserDataSortAsc);
+            this.panel2.Controls.Add(this.GatherUserDataSort);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.GatherUserDataServiceInterval);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 368);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(240, 69);
+            this.panel2.Size = new System.Drawing.Size(240, 96);
             this.panel2.TabIndex = 3;
             // 
             // label1
@@ -148,11 +154,64 @@
             this.label6.TabIndex = 1;
             this.label6.Text = "服务选项";
             // 
+            // GatherUserDataSortAsc
+            // 
+            this.GatherUserDataSortAsc.BackColor = System.Drawing.Color.White;
+            this.GatherUserDataSortAsc.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.GatherUserDataSortAsc.FormattingEnabled = true;
+            this.GatherUserDataSortAsc.Items.AddRange(new object[] {
+            "升序",
+            "降序"});
+            this.GatherUserDataSortAsc.Location = new System.Drawing.Point(173, 61);
+            this.GatherUserDataSortAsc.Name = "GatherUserDataSortAsc";
+            this.GatherUserDataSortAsc.Size = new System.Drawing.Size(45, 24);
+            this.GatherUserDataSortAsc.TabIndex = 5;
+            this.GatherUserDataSortAsc.Text = "降序";
+            // 
+            // GatherUserDataSort
+            // 
+            this.GatherUserDataSort.BackColor = System.Drawing.Color.White;
+            this.GatherUserDataSort.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.GatherUserDataSort.FormattingEnabled = true;
+            this.GatherUserDataSort.Items.AddRange(new object[] {
+            "发布",
+            "更新",
+            "用户",
+            "名称",
+            "微博",
+            "读取",
+            "采集",
+            "上传",
+            "忽略",
+            "原创",
+            "转发",
+            "关注",
+            "页码",
+            "点赞",
+            "来源"});
+            this.GatherUserDataSort.Location = new System.Drawing.Point(119, 61);
+            this.GatherUserDataSort.Margin = new System.Windows.Forms.Padding(0);
+            this.GatherUserDataSort.Name = "GatherUserDataSort";
+            this.GatherUserDataSort.Size = new System.Drawing.Size(51, 24);
+            this.GatherUserDataSort.TabIndex = 4;
+            this.GatherUserDataSort.Text = "发布";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(12, 63);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(92, 17);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "采集用户优先级";
+            // 
             // ServiceConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(240, 493);
+            this.ClientSize = new System.Drawing.Size(240, 520);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.spiderConfiguc1);
             this.Controls.Add(this.panel1);
@@ -180,5 +239,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown GatherUserDataServiceInterval;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox GatherUserDataSortAsc;
+        private System.Windows.Forms.ComboBox GatherUserDataSort;
     }
 }

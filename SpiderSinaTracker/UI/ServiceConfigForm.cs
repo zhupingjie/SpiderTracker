@@ -30,6 +30,9 @@ namespace SpiderTracker.UI
             var service = new SpiderConfigSerivce();
             service.LoadConfig(RunningConfig);
             this.spiderConfiguc1.Initialize(RunningConfig);
+            this.GatherUserDataServiceInterval.Value = RunningConfig.GatherUserDataServiceInterval;
+            this.GatherUserDataSort.Text = RunningConfig.GatherUserDataSort;
+            this.GatherUserDataSortAsc.Text = RunningConfig.GatherUserDataSortAsc;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -70,6 +73,36 @@ namespace SpiderTracker.UI
             else
             {
                 intervalConfig.Value = $"{this.GatherUserDataServiceInterval.Value}";
+                Repository.UpdateSinaConfig(intervalConfig);
+            }
+            var sortConfig = configs.FirstOrDefault(c => c.Name == this.GatherUserDataSort.Name);
+            if (sortConfig == null)
+            {
+                sortConfig = new GlobalConfigEntity()
+                {
+                    Name = this.GatherUserDataSort.Name,
+                    Value = $"{this.GatherUserDataSort.Text}"
+                };
+                Repository.CreateSinaConfig(sortConfig);
+            }
+            else
+            {
+                sortConfig.Value = $"{this.GatherUserDataSort.Text}";
+                Repository.UpdateSinaConfig(sortConfig);
+            }
+            var sortAscConfig = configs.FirstOrDefault(c => c.Name == this.GatherUserDataSortAsc.Name);
+            if (sortAscConfig == null)
+            {
+                sortAscConfig = new GlobalConfigEntity()
+                {
+                    Name = this.GatherUserDataSortAsc.Name,
+                    Value = $"{this.GatherUserDataSortAsc.Text}"
+                };
+                Repository.CreateSinaConfig(sortAscConfig);
+            }
+            else
+            {
+                sortAscConfig.Value = $"{this.GatherUserDataSortAsc.Text}";
                 Repository.UpdateSinaConfig(intervalConfig);
             }
 

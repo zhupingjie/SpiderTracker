@@ -269,7 +269,8 @@ namespace SpiderService.Service
             if (RunningConfig.ReadAllOfUser)
             {
                 readUsers = Repository.GetUsers(RunningConfig.Category, GatherWebEnum.Sina);
-                foreach (var user in readUsers.OrderBy(c => c.lastdate).ToArray())
+                readUsers = SortGatherUser(readUsers);
+                foreach (var user in readUsers)
                 {
                     RunningTask.AddUser(user);
                 }
@@ -277,7 +278,8 @@ namespace SpiderService.Service
             else if (RunningConfig.ReadUserOfMyFocus)
             {
                 readUsers = Repository.GetFocusUsers(RunningConfig.Category, GatherWebEnum.Sina);
-                foreach (var user in readUsers.OrderByDescending(c => c.focus).ThenByDescending(c => c.lastdate).ToArray())
+                readUsers = SortGatherUser(readUsers);
+                foreach (var user in readUsers)
                 {
                     RunningTask.AddUser(user);
                 }
@@ -307,13 +309,111 @@ namespace SpiderService.Service
                 {
                     focusUser = FilterReadUser(focusUser, RunningConfig.ReadUserNameLike);
                 }
-                foreach (var user in focusUser.OrderBy(c => c.lastdate).ToArray())
+                focusUser = SortGatherUser(focusUser);
+                foreach (var user in focusUser)
                 {
                     RunningTask.AddUser(user);
                 }
             }
         }
 
+        List<SinaUser> SortGatherUser(List<SinaUser> users)
+        {
+            switch (RunningConfig.GatherUserDataSort)
+            {
+                case "发布":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.lastpublish).ToList();
+                    else
+                        users = users.OrderBy(c => c.lastpublish).ToList();
+                    break;
+                case "更新":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.lastdate).ToList();
+                    else
+                        users = users.OrderBy(c => c.lastdate).ToList();
+                    break;
+                case "用户":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.uid).ToList();
+                    else
+                        users = users.OrderBy(c => c.uid).ToList();
+                    break;
+                case "名称":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.name).ToList();
+                    else
+                        users = users.OrderBy(c => c.name).ToList();
+                    break;
+                case "微博":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.statuses).ToList();
+                    else
+                        users = users.OrderBy(c => c.statuses).ToList();
+                    break;
+                case "读取":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.finds).ToList();
+                    else
+                        users = users.OrderBy(c => c.finds).ToList();
+                    break;
+                case "原创":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.originals).ToList();
+                    else
+                        users = users.OrderBy(c => c.originals).ToList();
+                    break;
+                case "转发":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.retweets).ToList();
+                    else
+                        users = users.OrderBy(c => c.retweets).ToList();
+                    break;
+                case "采集":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.gets).ToList();
+                    else
+                        users = users.OrderBy(c => c.gets).ToList();
+                    break;
+                case "上传":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.uploads).ToList();
+                    else
+                        users = users.OrderBy(c => c.uploads).ToList();
+                    break;
+                case "忽略":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.ignores).ToList();
+                    else
+                        users = users.OrderBy(c => c.ignores).ToList();
+                    break;
+                case "关注":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.follows).ToList();
+                    else
+                        users = users.OrderBy(c => c.follows).ToList();
+                    break;
+                case "点赞":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.focus).ToList();
+                    else
+                        users = users.OrderBy(c => c.focus).ToList();
+                    break;
+                case "页码":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.readpage).ToList();
+                    else
+                        users = users.OrderBy(c => c.readpage).ToList();
+                    break;
+                case "来源":
+                    if (RunningConfig.GatherUserDataSortAsc == "降序")
+                        users = users.OrderByDescending(c => c.site).ToList();
+                    else
+                        users = users.OrderBy(c => c.site).ToList();
+                    break;
+            }
+            return users;
+        }
 
         List<SinaUser> FilterReadUser(IList<SinaUser> users, string filter)
         {

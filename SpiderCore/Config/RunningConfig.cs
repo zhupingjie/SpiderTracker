@@ -308,6 +308,10 @@ namespace SpiderCore.Config
 
         public int GatherUserDataServiceInterval { get; set; } = 3 * 60;
 
+        public string GatherUserDataSort { get; set; } = "更新";
+
+        public string GatherUserDataSortAsc { get; set; } = "降序";
+
         #endregion
     }
 

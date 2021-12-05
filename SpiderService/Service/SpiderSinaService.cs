@@ -68,12 +68,17 @@ namespace SpiderService.Service
             SpiderService.OnGatherUserComplete += SpiderService_OnGatherUserComplete;
             SpiderService.OnSpiderComplete += SpiderService_OnSpiderComplete;
             SpiderService.OnSpiderStarted += SpiderService_OnSpiderStarted;
+            SpiderService.OnShowGatherStatus += SpiderService_OnShowGatherStatus;
 
             this.Categorys.Clear();
             this.Categorys.AddRange(Repository.GetGroupNames(GatherWebEnum.Sina));
             this.RunCategoryIndex = 0;
         }
 
+        private void SpiderService_OnShowGatherStatus(string msg, bool bLog = false, Exception ex = null)
+        {
+            this.ActionLog(msg);
+        }
 
         void SpiderService_OnSpiderStarted(RunningTask runningTask)
         {
@@ -113,7 +118,7 @@ namespace SpiderService.Service
             try
             {
                 this.ConfigService.LoadConfig(RC);
-
+                
                 this.Categorys.Clear();
                 this.Categorys.AddRange(Repository.GetGroupNames(GatherWebEnum.Sina));
 
@@ -149,9 +154,11 @@ namespace SpiderService.Service
 
                 var startOption = new SpiderStartOption()
                 {
-                    GatherName = "user",
+                    GatherName = "user"
                 };
                 SpiderService.StartSpider(runningConfig, startOption);
+
+                LogUtil.Debug(Newtonsoft.Json.JsonConvert.SerializeObject(runningConfig));
             }
             catch(Exception ex)
             {
