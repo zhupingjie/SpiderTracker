@@ -77,7 +77,7 @@ namespace SpiderService.Service
 
         private void SpiderService_OnShowGatherStatus(string msg, bool bLog = false, Exception ex = null)
         {
-            this.ActionLog(msg);
+            if (bLog) this.ActionLog(msg);
         }
 
         void SpiderService_OnSpiderStarted(RunningTask runningTask)
