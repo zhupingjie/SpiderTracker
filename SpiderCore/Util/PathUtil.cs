@@ -14,7 +14,15 @@ namespace SpiderCore.Util
         {
             get
             {
-                return Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName, "cache");
+                var baseDir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+                if (baseDir.Name.Contains("netcoreapp"))
+                {
+                    return Path.Combine(baseDir.Parent.Parent.Parent.FullName, "cache");
+                }
+                else
+                {
+                    return Path.Combine(baseDir.FullName, "cache");
+                }
             }
         }
 
