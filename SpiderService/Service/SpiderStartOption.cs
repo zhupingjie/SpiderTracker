@@ -15,8 +15,6 @@ namespace SpiderService.Service
         {
             get
             {
-                if (!string.IsNullOrEmpty(StartUrl) && GatherName != "topic" && GatherName != "super") return GatherTypeEnum.GatherTemp;
-
                 switch (GatherName)
                 {
                     case "user":
@@ -30,7 +28,7 @@ namespace SpiderService.Service
                     case "video":
                         return GatherTypeEnum.GatherVideo;
                     default:
-                        return GatherTypeEnum.GatherUser;
+                        return GatherTypeEnum.GatherTemp;
                 }
             }
         }

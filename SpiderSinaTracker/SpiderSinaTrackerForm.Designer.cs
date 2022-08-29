@@ -260,15 +260,14 @@
             this.cbxSite.FormattingEnabled = true;
             this.cbxSite.ItemHeight = 31;
             this.cbxSite.Items.AddRange(new object[] {
-            "user",
-            "status",
+            "temp",
             "topic",
             "super"});
             this.cbxSite.Location = new System.Drawing.Point(0, 0);
             this.cbxSite.Name = "cbxSite";
             this.cbxSite.Size = new System.Drawing.Size(95, 39);
             this.cbxSite.TabIndex = 4;
-            this.cbxSite.Text = "user";
+            this.cbxSite.Text = "temp";
             this.cbxSite.Leave += new System.EventHandler(this.cbxSite_Leave);
             // 
             // btnSearch
@@ -1219,7 +1218,7 @@
             // 
             this.tbpVideo.Location = new System.Drawing.Point(4, 4);
             this.tbpVideo.Name = "tbpVideo";
-            this.tbpVideo.Size = new System.Drawing.Size(670, 636);
+            this.tbpVideo.Size = new System.Drawing.Size(670, 632);
             this.tbpVideo.TabIndex = 2;
             // 
             // tbpReview
@@ -1230,7 +1229,7 @@
             this.tbpReview.Location = new System.Drawing.Point(4, 4);
             this.tbpReview.Margin = new System.Windows.Forms.Padding(0);
             this.tbpReview.Name = "tbpReview";
-            this.tbpReview.Size = new System.Drawing.Size(670, 636);
+            this.tbpReview.Size = new System.Drawing.Size(670, 632);
             this.tbpReview.TabIndex = 1;
             this.tbpReview.Text = "图集预览";
             // 
@@ -1241,7 +1240,7 @@
             this.panel27.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel27.Location = new System.Drawing.Point(0, 0);
             this.panel27.Name = "panel27";
-            this.panel27.Size = new System.Drawing.Size(670, 636);
+            this.panel27.Size = new System.Drawing.Size(670, 632);
             this.panel27.TabIndex = 1;
             // 
             // imagePreviewUC1
@@ -1252,7 +1251,7 @@
             this.imagePreviewUC1.Location = new System.Drawing.Point(0, 0);
             this.imagePreviewUC1.Margin = new System.Windows.Forms.Padding(0);
             this.imagePreviewUC1.Name = "imagePreviewUC1";
-            this.imagePreviewUC1.Size = new System.Drawing.Size(670, 636);
+            this.imagePreviewUC1.Size = new System.Drawing.Size(670, 632);
             this.imagePreviewUC1.TabIndex = 0;
             // 
             // tbpGatherLog

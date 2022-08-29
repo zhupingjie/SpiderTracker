@@ -240,10 +240,15 @@ namespace SpiderService.Service
                     SpiderStarted();
                     StartAutoGatherByTopic(option.StartUrl);
                 }
-                else
+                else if(option.GatherType == GatherTypeEnum.GatherSuper)
                 {
                     SpiderStarted();
                     StartAutoGatherBySuper(option.StartUrl);
+                }
+                else
+                {
+                    SpiderStarted();
+                    StartAutoGatherByStatus(option.StartUrl);
                 }
 
                 SpiderComplete(runningConfig.Category);
@@ -462,6 +467,28 @@ namespace SpiderService.Service
                     OnGatherAppendUser?.Invoke(user);
                 }
             }
+        }
+
+        void StartAutoGatherByStatus(string startUrl)
+        {
+            var threads = new List<Task>();
+            var task = Task.Factory.StartNew(() =>
+            {
+                var (user, status) = SinaUrlUtil.GetSinaUserStatusByStartUrl(startUrl);
+                if (string.IsNullOrEmpty(status))
+                {
+                    ShowGatherStatus($"采集地址非微博网址...");
+                    return;
+                }
+
+                ShowGatherStatus($"准备读取用户【{user}】的微博【{status}】数据...");
+
+                var tempRuningCache = new RunningCache(GatherWebEnum.Sina, RunningConfig.Category, RunningConfig.Site, user);
+                int readStatusImageCount = GatherSinaStatusByStatusUrl(tempRuningCache, status);
+                ShowGatherStatus($"采集完成,共采集资源【{readStatusImageCount}】.");
+            });
+            threads.Add(task);
+            Task.WaitAll(threads.ToArray());
         }
 
         void StartAutoGatherByStatus(IList<string> statusIds, string userId)
@@ -1093,6 +1120,10 @@ namespace SpiderService.Service
             {
                 ShowGatherStatus($"用户【{user.id}】已忽略采集.");
                 return 0;
+            }
+            if (!Repository.ExistsSinaUser(user.id))
+            {
+                Repository.StoreSinaUser(RunningConfig, runningCache, user);
             }
             bool ignoreSourceReaded = false;
             return GatherSinaStatusByStatusOrRetweeted(runningCache, result.status, result.status.user, out ignoreSourceReaded);

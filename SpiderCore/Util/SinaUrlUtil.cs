@@ -118,5 +118,14 @@ namespace SpiderCore.Util
             var arr = startUrl.Split(new string[] { "/u/" }, StringSplitOptions.None);
             return arr[arr.Length - 1];
         }
+
+        public static (string, string) GetSinaUserStatusByStartUrl(string startUrl)
+        {
+            var url = startUrl.Split("?", StringSplitOptions.RemoveEmptyEntries)[0];
+            if (url.Contains("weibo.com/")) url = url.Split("weibo.com/", StringSplitOptions.RemoveEmptyEntries)[1];
+            var strs = url.Split("/", StringSplitOptions.RemoveEmptyEntries);
+            if (strs.Length == 2) return (strs[0], strs[1]);
+            return (string.Empty, string.Empty);
+        }
     }
 }
