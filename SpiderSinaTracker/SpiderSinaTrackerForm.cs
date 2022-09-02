@@ -720,6 +720,8 @@ namespace SpiderTracker
             {
                 this.cbxSite.Text = "temp";
                 this.txtStartUrl.Text = (String)iData.GetData(DataFormats.Text);
+
+                this.RunningConfig = GetSpiderRunningConfig();
             }
         }
         private void SpiderConfigUC1_OnRefreshConfig(RunningConfig spiderRunninConfig)
@@ -809,6 +811,8 @@ namespace SpiderTracker
             this.lblUserUid.Text = user.uid;
             this.cbxSite.Text = "user";
             //this.cbxStatusSortIndex.Text = $"1";
+
+            this.RunningConfig = GetSpiderRunningConfig();
 
             Task.Factory.StartNew(() =>
             {
