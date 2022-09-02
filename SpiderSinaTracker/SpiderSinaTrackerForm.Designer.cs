@@ -260,6 +260,7 @@
             this.cbxSite.FormattingEnabled = true;
             this.cbxSite.ItemHeight = 31;
             this.cbxSite.Items.AddRange(new object[] {
+            "user",
             "temp",
             "topic",
             "super"});
@@ -267,7 +268,7 @@
             this.cbxSite.Name = "cbxSite";
             this.cbxSite.Size = new System.Drawing.Size(95, 39);
             this.cbxSite.TabIndex = 4;
-            this.cbxSite.Text = "temp";
+            this.cbxSite.Text = "user";
             this.cbxSite.Leave += new System.EventHandler(this.cbxSite_Leave);
             // 
             // btnSearch

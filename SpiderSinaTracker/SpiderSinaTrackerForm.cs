@@ -718,6 +718,7 @@ namespace SpiderTracker
             IDataObject iData = Clipboard.GetDataObject();
             if (iData.GetDataPresent(DataFormats.Text) || iData.GetDataPresent(DataFormats.OemText))
             {
+                this.cbxSite.Text = "temp";
                 this.txtStartUrl.Text = (String)iData.GetData(DataFormats.Text);
             }
         }
