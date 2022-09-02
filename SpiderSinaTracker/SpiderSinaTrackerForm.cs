@@ -807,6 +807,7 @@ namespace SpiderTracker
 
             //this.txtStartUrl.Text = user.uid;
             this.lblUserUid.Text = user.uid;
+            this.cbxSite.Text = "user";
             //this.cbxStatusSortIndex.Text = $"1";
 
             Task.Factory.StartNew(() =>
