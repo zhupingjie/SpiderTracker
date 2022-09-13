@@ -941,8 +941,9 @@ namespace SpiderTracker
 
         private void btnBrowseStatus_Click(object sender, EventArgs e)
         {
+            var user = GetSelectUserId();
             var bid = GetSelectStatusId();
-            var url = SinaUrlUtil.GetSinaUserStatusUrl(bid);
+            var url = SinaUrlUtil.GetSinaUserStatusUrl(user, bid);
             CmdUtil.RunCmd(url);
         }
 

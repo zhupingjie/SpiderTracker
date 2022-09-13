@@ -8,11 +8,14 @@ namespace SpiderCore.Util
 {
     public class SinaUrlUtil
     {
-        public static string GetSinaHost()
+        public static string GetSinaMWebHost()
         {
             return "https://m.weibo.cn";
         }
-
+        public static string GetSinaWebHost()
+        {
+            return "https://weibo.com";
+        }
         public static string GetBilibiliHost()
         {
             return "https://www.bilibili.com";
@@ -25,12 +28,16 @@ namespace SpiderCore.Util
 
         public static string GetSinaUserUrl(string userId)
         {
-            return $"{GetSinaHost()}/u/{userId}";
+            return $"{GetSinaWebHost()}/u/{userId}";
         }
 
         public static string GetSinaUserStatusUrl(string status)
         {
-            return $"{SinaUrlUtil.GetSinaHost()}/status/{status}";
+            return $"{SinaUrlUtil.GetSinaMWebHost()}/status/{status}";
+        }
+        public static string GetSinaUserStatusUrl(string user, string status)
+        {
+            return $"{SinaUrlUtil.GetSinaWebHost()}/{user}/{status}";
         }
 
         public static string GetBilibiliUserUrl(string userId)
@@ -64,27 +71,27 @@ namespace SpiderCore.Util
 
         public static string GetSinaUserTopicUrl(string topic, int page = 0)
         {
-            return $"{SinaUrlUtil.GetSinaHost()}/api/container/getIndex?containerid=231522type=61%26t=20%26q=%23{topic}%23&page={page}";
+            return $"{SinaUrlUtil.GetSinaMWebHost()}/api/container/getIndex?containerid=231522type=61%26t=20%26q=%23{topic}%23&page={page}";
         }
 
         public static string GetSinaUserSuperUrl(string containerid, int page = 0)
         {
-            return $"{SinaUrlUtil.GetSinaHost()}/api/container/getIndex?containerid={containerid}_-_sort_time&page={page}";
+            return $"{SinaUrlUtil.GetSinaMWebHost()}/api/container/getIndex?containerid={containerid}_-_sort_time&page={page}";
         }
 
         public static string GetSinaUserTopicWebUrl(string topic)
         {
-            return $"{SinaUrlUtil.GetSinaHost()}/search?containerid=231522type=61%26t=20%26q=%23{topic}%23";
+            return $"{SinaUrlUtil.GetSinaMWebHost()}/search?containerid=231522type=61%26t=20%26q=%23{topic}%23";
         }
 
         public static string GetSinaUserSuperWebUrl(string containerid)
         {
-            return $"{SinaUrlUtil.GetSinaHost()}/p/index?containerid={containerid}";
+            return $"{SinaUrlUtil.GetSinaMWebHost()}/p/index?containerid={containerid}";
         }
 
         public static string GetSinaUserFollowerUrl(string uid)
         {
-            return $"{SinaUrlUtil.GetSinaHost()}/p/index?containerid=231051_-_followers_-_{uid}_-_1042015%253AtagCategory_039&luicode=10000011&lfid=107603{uid}";
+            return $"{SinaUrlUtil.GetSinaMWebHost()}/p/index?containerid=231051_-_followers_-_{uid}_-_1042015%253AtagCategory_039&luicode=10000011&lfid=107603{uid}";
         }
 
 
@@ -97,11 +104,11 @@ namespace SpiderCore.Util
         {
             //0 = https://m.weibo.cn/u/5436956791
             //1 = https://m.weibo.cn/status/GdgGz4zda
-            if (url.StartsWith($"{SinaUrlUtil.GetSinaHost()}/u"))
+            if (url.StartsWith($"{SinaUrlUtil.GetSinaMWebHost()}/u"))
             {
                 return SinaUrlEnum.UserUrl;
             }
-            else if (url.StartsWith($"{SinaUrlUtil.GetSinaHost()}/status"))
+            else if (url.StartsWith($"{SinaUrlUtil.GetSinaMWebHost()}/status"))
             {
                 return SinaUrlEnum.StatusUrl;
             }
